@@ -36,7 +36,50 @@ go get -u github.com/pascaldekloe/goe
 
 ### Running examples
 
-_(to be updated)_
+#### Exchanging Heartbeat
+
+Small examples of Heartbeat client and server is available under [examples/heartheat](./examples/heartheat/).
+Client sends HeartbeatRequest and server respond with HeartbeatResponse.
+
+1. run server first,
+
+By default server listens on loopback. It can be specified explicitly by `-s` flag.
+
+```shell-session
+go-pfcp/examples/heartbeat/hb-server$ go run main.go
+2019/12/22 20:03:31 waiting for messages to come on: 127.0.0.2:8805
+```
+
+2. then run client,
+
+By default client sends Heartbeat to loopback. It can be specified explicitly by `-s` flag.
+It exits after printing timestamp in Heartbeat Response from server.
+
+```shell-session
+go-pfcp/examples/heartbeat/hb-client$ go run main.go
+2019/12/22 20:03:36 sent Heartbeat Request to: 127.0.0.2:8805
+2019/12/22 20:03:36 got Heartbeat Response with TS: 2019-12-22 20:03:36 +0900 JST, from: 127.0.0.2:8805
+go-pfcp/examples/heartbeat/hb-client$
+go-pfcp/examples/heartbeat/hb-client$ go run main.go
+2019/12/22 20:03:40 sent Heartbeat Request to: 127.0.0.2:8805
+2019/12/22 20:03:40 got Heartbeat Response with TS: 2019-12-22 20:03:40 +0900 JST, from: 127.0.0.2:8805
+```
+
+3. and see the outcome on server
+
+It starts listening again after responding to client.
+
+```shell-session
+go-pfcp/examples/heartbeat/hb-server$ go run main.go
+2019/12/22 20:03:31 waiting for messages to come on: 127.0.0.2:8805
+2019/12/22 20:03:36 got Heartbeat Request with TS: 2019-12-22 20:03:36 +0900 JST, from: 127.0.0.1:47305
+2019/12/22 20:03:36 sent Heartbeat Response to: 127.0.0.1:47305
+2019/12/22 20:03:36 waiting for messages to come on: 127.0.0.2:8805
+2019/12/22 20:03:40 got Heartbeat Request with TS: 2019-12-22 20:03:40 +0900 JST, from: 127.0.0.1:55395
+2019/12/22 20:03:40 sent Heartbeat Response to: 127.0.0.1:55395
+2019/12/22 20:03:40 waiting for messages to come on: 127.0.0.2:8805
+^Csignal: interrupt
+```
 
 ## Supported Features
 
