@@ -163,6 +163,18 @@ func TestIEs(t *testing.T) {
 			ie.NewApplyAction(0x04),
 			[]byte{0x00, 0x2c, 0x00, 0x01, 0x04},
 		}, {
+			"DownlinkDataServiceInformation/HasPPI",
+			ie.NewDownlinkDataServiceInformation(true, false, 0xff, 0),
+			[]byte{0x00, 0x2d, 0x00, 0x02, 0x01, 0xff},
+		}, {
+			"DownlinkDataServiceInformation/HasQFI",
+			ie.NewDownlinkDataServiceInformation(false, true, 0, 0xff),
+			[]byte{0x00, 0x2d, 0x00, 0x02, 0x02, 0xff},
+		}, {
+			"DownlinkDataServiceInformation/HasALL",
+			ie.NewDownlinkDataServiceInformation(true, true, 0xff, 0xff),
+			[]byte{0x00, 0x2d, 0x00, 0x03, 0x03, 0xff, 0xff},
+		}, {
 			"RecoveryTimeStamp",
 			ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
 			[]byte{0x00, 0x60, 0x00, 0x04, 0xdf, 0xd5, 0x2c, 0x00},
