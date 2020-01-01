@@ -151,6 +151,102 @@ func TestIEs(t *testing.T) {
 			ie.NewDestinationInterface(ie.DstInterfaceAccess),
 			[]byte{0x00, 0x2a, 0x00, 0x01, 0x00},
 		}, {
+			"UPFunctionFeatures/Normal",
+			ie.NewUPFunctionFeatures(0x01, 0x02),
+			[]byte{0x00, 0x2b, 0x00, 0x02, 0x01, 0x02},
+		}, {
+			"UPFunctionFeatures/HasAdditional",
+			ie.NewUPFunctionFeatures(0x01, 0x02, 0x03, 0x04),
+			[]byte{0x00, 0x2b, 0x00, 0x04, 0x01, 0x02, 0x03, 0x04},
+		}, {
+			"ApplyAction",
+			ie.NewApplyAction(0x04),
+			[]byte{0x00, 0x2c, 0x00, 0x01, 0x04},
+		}, {
+			"DownlinkDataServiceInformation/HasPPI",
+			ie.NewDownlinkDataServiceInformation(true, false, 0xff, 0),
+			[]byte{0x00, 0x2d, 0x00, 0x02, 0x01, 0xff},
+		}, {
+			"DownlinkDataServiceInformation/HasQFI",
+			ie.NewDownlinkDataServiceInformation(false, true, 0, 0xff),
+			[]byte{0x00, 0x2d, 0x00, 0x02, 0x02, 0xff},
+		}, {
+			"DownlinkDataServiceInformation/HasALL",
+			ie.NewDownlinkDataServiceInformation(true, true, 0xff, 0xff),
+			[]byte{0x00, 0x2d, 0x00, 0x03, 0x03, 0xff, 0xff},
+		}, {
+			"DownlinkDataNotificationDelay",
+			ie.NewDownlinkDataNotificationDelay(100 * time.Millisecond),
+			[]byte{0x00, 0x2e, 0x00, 0x01, 0x02},
+		}, {
+			"DLBufferingDuration/20hr",
+			ie.NewDLBufferingDuration(20 * time.Hour),
+			[]byte{0x00, 0x2f, 0x00, 0x01, 0x82},
+		}, {
+			"DLBufferingDuration/30sec",
+			ie.NewDLBufferingDuration(30 * time.Second),
+			[]byte{0x00, 0x2f, 0x00, 0x01, 0x0f},
+		}, {
+			"DLBufferingDuration/15min",
+			ie.NewDLBufferingDuration(15 * time.Minute),
+			[]byte{0x00, 0x2f, 0x00, 0x01, 0x2f},
+		}, {
+			"DLBufferingSuggestedPacketCount/uint8",
+			ie.NewDLBufferingSuggestedPacketCount(0xff),
+			[]byte{0x00, 0x30, 0x00, 0x01, 0xff},
+		}, {
+			"DLBufferingSuggestedPacketCount/uint16",
+			ie.NewDLBufferingSuggestedPacketCount(0xffff),
+			[]byte{0x00, 0x30, 0x00, 0x02, 0xff, 0xff},
+		}, {
+			"SxSMReqFlags",
+			ie.NewSxSMReqFlags(0x03),
+			[]byte{0x00, 0x31, 0x00, 0x01, 0x03},
+		}, {
+			"SxSRRspFlags",
+			ie.NewSxSRRspFlags(0x01),
+			[]byte{0x00, 0x32, 0x00, 0x01, 0x01},
+		}, {
+			"SequenceNumber",
+			ie.NewSequenceNumber(0xffffffff),
+			[]byte{0x00, 0x34, 0x00, 0x04, 0xff, 0xff, 0xff, 0xff},
+		}, {
+			"Metric",
+			ie.NewMetric(0x01),
+			[]byte{0x00, 0x35, 0x00, 0x01, 0x01},
+		}, {
+			"Timer/20hr",
+			ie.NewTimer(20 * time.Hour),
+			[]byte{0x00, 0x37, 0x00, 0x01, 0x82},
+		}, {
+			"Timer/30sec",
+			ie.NewTimer(30 * time.Second),
+			[]byte{0x00, 0x37, 0x00, 0x01, 0x0f},
+		}, {
+			"Timer/15min",
+			ie.NewTimer(15 * time.Minute),
+			[]byte{0x00, 0x37, 0x00, 0x01, 0x2f},
+		}, {
+			"PacketDetectionRuleID",
+			ie.NewPacketDetectionRuleID(0xffff),
+			[]byte{0x00, 0x38, 0x00, 0x02, 0xff, 0xff},
+		}, {
+			"FSEID/SEID/IPv4", // TODO: add other forms
+			ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil, nil),
+			[]byte{0x00, 0x39, 0x00, 0x0d, 0x02, 0x11, 0x11, 0x11, 0x11, 0x22, 0x22, 0x22, 0x22, 0x7f, 0x00, 0x00, 0x01},
+		}, {
+			"GracefulReleasePeriod/20hr",
+			ie.NewGracefulReleasePeriod(20 * time.Hour),
+			[]byte{0x00, 0x70, 0x00, 0x01, 0x82},
+		}, {
+			"GracefulReleasePeriod/30sec",
+			ie.NewGracefulReleasePeriod(30 * time.Second),
+			[]byte{0x00, 0x70, 0x00, 0x01, 0x0f},
+		}, {
+			"GracefulReleasePeriod/15min",
+			ie.NewGracefulReleasePeriod(15 * time.Minute),
+			[]byte{0x00, 0x70, 0x00, 0x01, 0x2f},
+		}, {
 			"RecoveryTimeStamp",
 			ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
 			[]byte{0x00, 0x60, 0x00, 0x04, 0xdf, 0xd5, 0x2c, 0x00},
