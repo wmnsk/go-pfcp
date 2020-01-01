@@ -168,21 +168,21 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 40           | Offending IE                                          | Yes        |
 | 41           | Forwarding Policy                                     | Yes        |
 | 42           | Destination Interface                                 | Yes        |
-| 43           | UP Function Features                                  |            |
-| 44           | Apply Action                                          |            |
-| 45           | Downlink Data Service Information                     |            |
-| 46           | Downlink Data Notification Delay                      |            |
-| 47           | DL Buffering Duration                                 |            |
-| 48           | DL Buffering Suggested Packet Count                   |            |
-| 49           | SxSMReq-Flags                                         |            |
-| 50           | SxSRRsp-Flags                                         |            |
+| 43           | UP Function Features                                  | Yes        |
+| 44           | Apply Action                                          | Yes        |
+| 45           | Downlink Data Service Information                     | Yes        |
+| 46           | Downlink Data Notification Delay                      | Yes        |
+| 47           | DL Buffering Duration                                 | Yes        |
+| 48           | DL Buffering Suggested Packet Count                   | Yes        |
+| 49           | SxSMReq-Flags                                         | Yes        |
+| 50           | SxSRRsp-Flags                                         | Yes        |
 | 51           | Load Control Information                              |            |
-| 52           | Sequence Number                                       |            |
-| 53           | Metric                                                |            |
+| 52           | Sequence Number                                       | Yes        |
+| 53           | Metric                                                | Yes        |
 | 54           | Overload Control Information                          |            |
-| 55           | Timer                                                 |            |
-| 56           | Packet Detection Rule ID                              |            |
-| 57           | F-SEID                                                |            |
+| 55           | Timer                                                 | Yes        |
+| 56           | Packet Detection Rule ID                              | Yes        |
+| 57           | F-SEID                                                | Yes        |
 | 58           | Application ID's PFDs                                 |            |
 | 59           | PFD context                                           |            |
 | 60           | Node ID                                               |            |
@@ -237,7 +237,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 109          | QER ID                                                |            |
 | 110          | OCI Flags                                             |            |
 | 111          | Sx Association Release Request                        |            |
-| 112          | Graceful Release Period                               |            |
+| 112          | Graceful Release Period                               | Yes        |
 | 113          | PDN Type                                              |            |
 | 114          | Failed Rule ID                                        |            |
 | 115          | Time Quota Mechanism                                  |            |
