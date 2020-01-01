@@ -1,7 +1,7 @@
 /*
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -22,7 +22,7 @@ func (i *IE) CreatePDR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -43,7 +43,7 @@ func (i *IE) PDI() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -64,7 +64,7 @@ func (i *IE) CreateFAR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -85,7 +85,7 @@ func (i *IE) ForwardingParameters() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -106,7 +106,7 @@ func (i *IE) DuplicatingParameters() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -127,7 +127,7 @@ func (i *IE) CreateURR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -148,7 +148,7 @@ func (i *IE) CreateQER() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -169,7 +169,7 @@ func (i *IE) CreatedPDR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -190,7 +190,7 @@ func (i *IE) UpdatePDR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -211,7 +211,7 @@ func (i *IE) UpdateFAR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -232,7 +232,7 @@ func (i *IE) UpdateForwardingParameters() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -253,7 +253,7 @@ func (i *IE) UpdateBARForSxSessionReportResponse() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -274,7 +274,7 @@ func (i *IE) UpdateURR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -295,7 +295,7 @@ func (i *IE) UpdateQER() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -316,7 +316,7 @@ func (i *IE) RemovePDR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -337,7 +337,7 @@ func (i *IE) RemoveFAR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -358,7 +358,7 @@ func (i *IE) RemoveURR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -381,28 +381,9 @@ func (i *IE) RemoveQER() (XXX, error) {
 
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
-// Use of this source code is governed by a MIT-style license that can be
-// found in the LICENSE file.
-
-package ie
-
-// NewForwardingPolicy creates a new ForwardingPolicy IE.
-func NewForwardingPolicy() *IE {
-	return New()
-}
-
-// ForwardingPolicy returns ForwardingPolicy in XXX if the type of IE matches.
-func (i *IE) ForwardingPolicy() (XXX, error) {
-	if i.Type != ForwardingPolicy {
-		return XXX, &InvalidTypeError{Type: i.Type}
-	}
-
-	return XXX, nil
-}
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -423,7 +404,7 @@ func (i *IE) DestinationInterface() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -444,7 +425,7 @@ func (i *IE) UPFunctionFeatures() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -465,7 +446,7 @@ func (i *IE) ApplyAction() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -486,7 +467,7 @@ func (i *IE) DownlinkDataServiceInformation() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -507,7 +488,7 @@ func (i *IE) DownlinkDataNotificationDelay() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -528,7 +509,7 @@ func (i *IE) DLBufferingDuration() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -549,7 +530,7 @@ func (i *IE) DLBufferingSuggestedPacketCount() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -570,7 +551,7 @@ func (i *IE) SxSMReqFlags() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -591,7 +572,7 @@ func (i *IE) SxSRRspFlags() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -612,7 +593,7 @@ func (i *IE) LoadControlInformation() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -633,7 +614,7 @@ func (i *IE) SequenceNumber() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -654,7 +635,7 @@ func (i *IE) Metric() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -675,7 +656,7 @@ func (i *IE) OverloadControlInformation() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -696,7 +677,7 @@ func (i *IE) Timer() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -717,7 +698,7 @@ func (i *IE) PacketDetectionRuleID() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -738,7 +719,7 @@ func (i *IE) FSEID() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -759,7 +740,7 @@ func (i *IE) ApplicationIDsPFDs() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -780,7 +761,7 @@ func (i *IE) PFDcontext() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -801,7 +782,7 @@ func (i *IE) NodeID() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -822,7 +803,7 @@ func (i *IE) PFDcontents() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -843,7 +824,7 @@ func (i *IE) MeasurementMethod() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -864,7 +845,7 @@ func (i *IE) UsageReportTrigger() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -885,7 +866,7 @@ func (i *IE) MeasurementPeriod() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -906,7 +887,7 @@ func (i *IE) FQCSID() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -927,7 +908,7 @@ func (i *IE) VolumeMeasurement() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -948,7 +929,7 @@ func (i *IE) DurationMeasurement() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -969,7 +950,7 @@ func (i *IE) ApplicationDetectionInformation() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -990,7 +971,7 @@ func (i *IE) TimeOfFirstPacket() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1011,7 +992,7 @@ func (i *IE) TimeOfLastPacket() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1032,7 +1013,7 @@ func (i *IE) QuotaHoldingTime() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1053,7 +1034,7 @@ func (i *IE) DroppedDLTrafficThreshold() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1074,7 +1055,7 @@ func (i *IE) VolumeQuota() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1095,7 +1076,7 @@ func (i *IE) TimeQuota() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1116,7 +1097,7 @@ func (i *IE) StartTime() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1137,7 +1118,7 @@ func (i *IE) EndTime() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1158,7 +1139,7 @@ func (i *IE) QueryURR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1179,7 +1160,7 @@ func (i *IE) UsageReportInSessionModificationResponse() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1200,7 +1181,7 @@ func (i *IE) UsageReportSessionDeletionResponse() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1221,7 +1202,7 @@ func (i *IE) UsageReportSessionReportRequest() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1242,7 +1223,7 @@ func (i *IE) URRID() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1263,7 +1244,7 @@ func (i *IE) LinkedURRID() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1284,7 +1265,7 @@ func (i *IE) DownlinkDataReport() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1305,7 +1286,7 @@ func (i *IE) OuterHeaderCreation() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1326,7 +1307,7 @@ func (i *IE) CreateBAR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1347,7 +1328,7 @@ func (i *IE) UpdateBARForSessionModificationRequest() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1368,7 +1349,7 @@ func (i *IE) RemoveBAR() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1389,7 +1370,7 @@ func (i *IE) BARID() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1410,7 +1391,7 @@ func (i *IE) CPFunctionFeatures() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1431,7 +1412,7 @@ func (i *IE) UsageInformation() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1452,7 +1433,7 @@ func (i *IE) ApplicationInstanceID() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1473,7 +1454,7 @@ func (i *IE) FlowInformation() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1494,7 +1475,7 @@ func (i *IE) UEIPAddress() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1515,7 +1496,7 @@ func (i *IE) PacketRate() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1536,7 +1517,7 @@ func (i *IE) OuterHeaderRemoval() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1557,7 +1538,7 @@ func (i *IE) RecoveryTimeStamp() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1578,7 +1559,7 @@ func (i *IE) DLFlowLevelMarking() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1599,7 +1580,7 @@ func (i *IE) HeaderEnrichment() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1620,7 +1601,7 @@ func (i *IE) ErrorIndicationReport() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1641,7 +1622,7 @@ func (i *IE) MeasurementInformation() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1662,7 +1643,7 @@ func (i *IE) NodeReportType() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1683,7 +1664,7 @@ func (i *IE) UserPlanePathFailureReport() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1704,7 +1685,7 @@ func (i *IE) RemoteGTPUPeer() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1725,7 +1706,7 @@ func (i *IE) URSEQN() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1746,7 +1727,7 @@ func (i *IE) UpdateDuplicatingParameters() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1767,7 +1748,7 @@ func (i *IE) ActivatePredefinedRules() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1788,7 +1769,7 @@ func (i *IE) DeactivatePredefinedRules() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1809,7 +1790,7 @@ func (i *IE) FARID() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1830,7 +1811,7 @@ func (i *IE) QERID() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1851,7 +1832,7 @@ func (i *IE) OCIFlags() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -1872,7 +1853,7 @@ func (i *IE) SxAssociationReleaseRequest() (XXX, error) {
 }
 
 
-// Copyright 2019 go-pfcp authors. All rights reserved.
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
