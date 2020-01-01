@@ -20,7 +20,7 @@ func (i *IE) SxSMReqFlags() ([]byte, error) {
 
 // HasDROBU reports whether up function features has DROBU bit.
 func (i *IE) HasDROBU() bool {
-	if i.Type != SxSMReqFlags {
+	if i.Type != SxSMReqFlags && i.Type != SxSRRspFlags {
 		return false
 	}
 	if len(i.Payload) < 1 {
