@@ -191,6 +191,14 @@ func TestIEs(t *testing.T) {
 			ie.NewDLBufferingDuration(15 * time.Minute),
 			[]byte{0x00, 0x2f, 0x00, 0x01, 0x2f},
 		}, {
+			"DLBufferingSuggestedPacketCount/uint8",
+			ie.NewDLBufferingSuggestedPacketCount(0xff),
+			[]byte{0x00, 0x30, 0x00, 0x01, 0xff},
+		}, {
+			"DLBufferingSuggestedPacketCount/uint16",
+			ie.NewDLBufferingSuggestedPacketCount(0xffff),
+			[]byte{0x00, 0x30, 0x00, 0x02, 0xff, 0xff},
+		}, {
 			"Timer/20hr",
 			ie.NewTimer(20 * time.Hour),
 			[]byte{0x00, 0x37, 0x00, 0x01, 0x82},
