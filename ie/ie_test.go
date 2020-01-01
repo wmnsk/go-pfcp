@@ -175,6 +175,10 @@ func TestIEs(t *testing.T) {
 			ie.NewDownlinkDataServiceInformation(true, true, 0xff, 0xff),
 			[]byte{0x00, 0x2d, 0x00, 0x03, 0x03, 0xff, 0xff},
 		}, {
+			"DownlinkDataNotificationDelay",
+			ie.NewDownlinkDataNotificationDelay(100 * time.Millisecond),
+			[]byte{0x00, 0x2e, 0x00, 0x01, 0x02},
+		}, {
 			"RecoveryTimeStamp",
 			ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
 			[]byte{0x00, 0x60, 0x00, 0x04, 0xdf, 0xd5, 0x2c, 0x00},
