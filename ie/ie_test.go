@@ -179,6 +179,18 @@ func TestIEs(t *testing.T) {
 			ie.NewDownlinkDataNotificationDelay(100 * time.Millisecond),
 			[]byte{0x00, 0x2e, 0x00, 0x01, 0x02},
 		}, {
+			"DLBufferingDuration/20hr",
+			ie.NewDLBufferingDuration(20 * time.Hour),
+			[]byte{0x00, 0x2f, 0x00, 0x01, 0x82},
+		}, {
+			"DLBufferingDuration/30sec",
+			ie.NewDLBufferingDuration(30 * time.Second),
+			[]byte{0x00, 0x2f, 0x00, 0x01, 0x0f},
+		}, {
+			"DLBufferingDuration/15min",
+			ie.NewDLBufferingDuration(15 * time.Minute),
+			[]byte{0x00, 0x2f, 0x00, 0x01, 0x2f},
+		}, {
 			"RecoveryTimeStamp",
 			ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
 			[]byte{0x00, 0x60, 0x00, 0x04, 0xdf, 0xd5, 0x2c, 0x00},
