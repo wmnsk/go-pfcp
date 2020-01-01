@@ -227,6 +227,10 @@ func TestIEs(t *testing.T) {
 			ie.NewTimer(15 * time.Minute),
 			[]byte{0x00, 0x37, 0x00, 0x01, 0x2f},
 		}, {
+			"PacketDetectionRuleID",
+			ie.NewPacketDetectionRuleID(0xffff),
+			[]byte{0x00, 0x38, 0x00, 0x02, 0xff, 0xff},
+		}, {
 			"GracefulReleasePeriod/20hr",
 			ie.NewGracefulReleasePeriod(20 * time.Hour),
 			[]byte{0x00, 0x70, 0x00, 0x01, 0x82},
