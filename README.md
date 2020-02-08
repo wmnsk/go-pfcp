@@ -185,29 +185,29 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 57           | F-SEID                                                | Yes        |
 | 58           | Application ID's PFDs                                 |            |
 | 59           | PFD context                                           |            |
-| 60           | Node ID                                               |            |
+| 60           | Node ID                                               | Yes        |
 | 61           | PFD contents                                          |            |
-| 62           | Measurement Method                                    |            |
+| 62           | Measurement Method                                    | Yes        |
 | 63           | Usage Report Trigger                                  |            |
-| 64           | Measurement Period                                    |            |
+| 64           | Measurement Period                                    | Yes        |
 | 65           | FQ-CSID                                               |            |
-| 66           | Volume Measurement                                    |            |
+| 66           | Volume Measurement                                    | Yes        |
 | 67           | Duration Measurement                                  |            |
 | 68           | Application Detection Information                     |            |
-| 69           | Time of First Packet                                  |            |
-| 70           | Time of Last Packet                                   |            |
-| 71           | Quota Holding Time                                    |            |
+| 69           | Time of First Packet                                  | Yes        |
+| 70           | Time of Last Packet                                   | Yes        |
+| 71           | Quota Holding Time                                    | Yes        |
 | 72           | Dropped DL Traffic Threshold                          |            |
 | 73           | Volume Quota                                          |            |
 | 74           | Time Quota                                            |            |
-| 75           | Start Time                                            |            |
-| 76           | End Time                                              |            |
+| 75           | Start Time                                            | Yes        |
+| 76           | End Time                                              | Yes        |
 | 77           | Query URR                                             |            |
 | 78           | Usage Report (in Session Modification Response)       |            |
 | 79           | Usage Report (Session Deletion Response)              |            |
 | 80           | Usage Report (Session Report Request)                 |            |
-| 81           | URR ID                                                |            |
-| 82           | Linked URR ID                                         |            |
+| 81           | URR ID                                                | Yes        |
+| 82           | Linked URR ID                                         | Yes        |
 | 83           | Downlink Data Report                                  |            |
 | 84           | Outer Header Creation                                 |            |
 | 85           | Create BAR                                            |            |

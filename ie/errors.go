@@ -29,3 +29,13 @@ type InvalidTypeError struct {
 func (e *InvalidTypeError) Error() string {
 	return fmt.Sprintf("got invalid type: %d", e.Type)
 }
+
+// InvalidNodeIDError indicates the NodeID value is invalid.
+type InvalidNodeIDError struct {
+	ID uint8
+}
+
+// Error returns message with the invalid NodeID given.
+func (e *InvalidNodeIDError) Error() string {
+	return fmt.Sprintf("got invalid NodeID: %d", e.ID)
+}
