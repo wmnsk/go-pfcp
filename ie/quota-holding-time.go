@@ -10,16 +10,16 @@ import (
 	"time"
 )
 
-// NewDurationMeasurement creates a new DurationMeasurement IE.
+// NewQuotaHoldingTime creates a new QuotaHoldingTime IE.
 //
 // The period should be within the range of uint32, otherwise it overflows.
-func NewDurationMeasurement(duration time.Duration) *IE {
-	return newUint32ValIE(DurationMeasurement, uint32(duration.Seconds()))
+func NewQuotaHoldingTime(duration time.Duration) *IE {
+	return newUint32ValIE(QuotaHoldingTime, uint32(duration.Seconds()))
 }
 
-// DurationMeasurement returns DurationMeasurement in time.Duration if the type of IE matches.
-func (i *IE) DurationMeasurement() (time.Duration, error) {
-	if i.Type != DurationMeasurement {
+// QuotaHoldingTime returns QuotaHoldingTime in time.Duration if the type of IE matches.
+func (i *IE) QuotaHoldingTime() (time.Duration, error) {
+	if i.Type != QuotaHoldingTime {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
 	if len(i.Payload) < 4 {
