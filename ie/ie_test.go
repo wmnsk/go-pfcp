@@ -263,6 +263,10 @@ func TestIEs(t *testing.T) {
 			ie.NewQuotaHoldingTime(10 * time.Second),
 			[]byte{0x00, 0x47, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},
 		}, {
+			"StartTime",
+			ie.NewStartTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
+			[]byte{0x00, 0x4b, 0x00, 0x04, 0xdf, 0xd5, 0x2c, 0x00},
+		}, {
 			"GracefulReleasePeriod/20hr",
 			ie.NewGracefulReleasePeriod(20 * time.Hour),
 			[]byte{0x00, 0x70, 0x00, 0x01, 0x82},
