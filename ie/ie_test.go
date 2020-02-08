@@ -247,9 +247,9 @@ func TestIEs(t *testing.T) {
 			ie.NewMeasurementMethod(1, 1, 1),
 			[]byte{0x00, 0x3e, 0x00, 0x01, 0x07},
 		}, {
-			"MeasurementPeriod",
-			ie.NewMeasurementPeriod(10 * time.Second),
-			[]byte{0x00, 0x40, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},
+			"DurationMeasurement",
+			ie.NewDurationMeasurement(10 * time.Second),
+			[]byte{0x00, 0x43, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},
 		}, {
 			"GracefulReleasePeriod/20hr",
 			ie.NewGracefulReleasePeriod(20 * time.Hour),
