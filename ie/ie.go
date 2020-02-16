@@ -71,9 +71,9 @@ const (
 	PacketDetectionRuleID                           uint16 = 56
 	FSEID                                           uint16 = 57
 	ApplicationIDsPFDs                              uint16 = 58
-	PFDcontext                                      uint16 = 59
+	PFDContext                                      uint16 = 59
 	NodeID                                          uint16 = 60
-	PFDcontents                                     uint16 = 61
+	PFDContents                                     uint16 = 61
 	MeasurementMethod                               uint16 = 62
 	UsageReportTrigger                              uint16 = 63
 	MeasurementPeriod                               uint16 = 64
