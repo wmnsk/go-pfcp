@@ -15,12 +15,27 @@ func NewMetric(metric uint8) *IE {
 
 // Metric returns Metric in uint8 if the type of IE matches.
 func (i *IE) Metric() (uint8, error) {
-	if i.Type != Metric {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
+
 	if len(i.Payload) < 1 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0], nil
+	switch i.Type {
+	case Metric:
+		return i.Payload[0], nil
+	case LoadControlInformation:
+		ies, err := i.LoadControlInformation()
+		if err != nil {
+			return 0, err
+		}
+
+		for _, e := range ies {
+			if e.Type == Metric {
+				return e.Metric()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }
