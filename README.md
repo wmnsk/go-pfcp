@@ -148,7 +148,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 20           | Source Interface                                      | Yes        |
 | 21           | F-TEID                                                | Yes        |
 | 22           | Network Instance                                      | Yes        |
-| 23           | SDF Filter                                            |            |
+| 23           | SDF Filter                                            | Yes        |
 | 24           | Application ID                                        | Yes        |
 | 25           | Gate Status                                           | Yes        |
 | 26           | MBR                                                   | Yes        |
@@ -176,17 +176,17 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 48           | DL Buffering Suggested Packet Count                   | Yes        |
 | 49           | SxSMReq-Flags                                         | Yes        |
 | 50           | SxSRRsp-Flags                                         | Yes        |
-| 51           | Load Control Information                              |            |
+| 51           | Load Control Information                              | Yes        |
 | 52           | Sequence Number                                       | Yes        |
 | 53           | Metric                                                | Yes        |
 | 54           | Overload Control Information                          |            |
 | 55           | Timer                                                 | Yes        |
 | 56           | Packet Detection Rule ID                              | Yes        |
 | 57           | F-SEID                                                | Yes        |
-| 58           | Application ID's PFDs                                 |            |
-| 59           | PFD context                                           |            |
+| 58           | Application ID's PFDs                                 | Yes        |
+| 59           | PFD context                                           | Yes        |
 | 60           | Node ID                                               | Yes        |
-| 61           | PFD contents                                          |            |
+| 61           | PFD contents                                          | Yes        |
 | 62           | Measurement Method                                    | Yes        |
 | 63           | Usage Report Trigger                                  |            |
 | 64           | Measurement Period                                    | Yes        |
