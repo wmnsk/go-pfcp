@@ -70,9 +70,9 @@ const (
 	PacketDetectionRuleID                           uint16 = 56
 	FSEID                                           uint16 = 57
 	ApplicationIDsPFDs                              uint16 = 58
-	PFDcontext                                      uint16 = 59
+	PFDContext                                      uint16 = 59
 	NodeID                                          uint16 = 60
-	PFDcontents                                     uint16 = 61
+	PFDContents                                     uint16 = 61
 	MeasurementMethod                               uint16 = 62
 	UsageReportTrigger                              uint16 = 63
 	MeasurementPeriod                               uint16 = 64
@@ -266,16 +266,14 @@ func (i *IE) UnmarshalBinary(b []byte) error {
 		return nil
 	}
 
-	i.Payload = b[offset:]
+	i.Payload = b[offset : offset+int(i.Length)]
 
 	if i.IsGrouped() {
-		for _, ie := range i.ChildIEs {
-			if err := ie.MarshalTo(b[offset:]); err != nil {
-				return err
-			}
-			offset += ie.MarshalLen()
+		var err error
+		i.ChildIEs, err = ParseMultiIEs(i.Payload)
+		if err != nil {
+			return err
 		}
-		return nil
 	}
 
 	return nil
@@ -345,12 +343,6 @@ func (i *IE) SetLength() {
 		l += 2
 	}
 
-	if i.IsGrouped() {
-		for _, ie := range i.ChildIEs {
-			l += ie.MarshalLen()
-		}
-		i.Length = uint16(l)
-	}
 	i.Length = uint16(l + len(i.Payload))
 }
 
@@ -366,7 +358,7 @@ func (i *IE) IsVendorSpecific() bool {
 var grouped = []uint16{
 	// TODO: fill here with all the type of IEs that may be grouped.
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
-	85, 86, 87,
+	51, 58, 59, 85, 86, 87,
 }
 
 // IsGrouped reports whether an IE is grouped type or not.

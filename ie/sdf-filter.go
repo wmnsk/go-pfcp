@@ -4,12 +4,25 @@
 
 package ie
 
+import (
+	"encoding/binary"
+	"io"
+)
+
 // NewSDFFilter creates a new SDFFilter IE.
-func NewSDFFilter() *IE {
-	return New(SDFFilter, []byte{})
+func NewSDFFilter(fd, ttc, spi, fl string, fid uint32) *IE {
+	f := NewSDFFilterFields(fd, ttc, spi, fl, fid)
+	b, err := f.Marshal()
+	if err != nil {
+		return nil
+	}
+
+	return New(SDFFilter, b)
 }
 
 // SDFFilter returns SDFFilter in structured format if the type of IE matches.
+//
+// This IE has a complex payload that costs much when parsing.
 func (i *IE) SDFFilter() (*SDFFilterFields, error) {
 	if i.Type != SDFFilter {
 		return nil, &InvalidTypeError{Type: i.Type}
@@ -23,21 +36,46 @@ func (i *IE) SDFFilter() (*SDFFilterFields, error) {
 }
 
 // SDFFilterFields represents a fields contained in SDFFilter IE.
-//
-// DO NOT USE THIS: This IE is not fully implemented yet.
 type SDFFilterFields struct {
 	Flags                  uint8
 	FDLength               uint16
 	FlowDescription        string
-	ToSTrafficClass        uint16
-	SecurityParameterIndex uint32
-	FlowLabel              uint32 // 3 octets
+	ToSTrafficClass        string // 2 octets
+	SecurityParameterIndex string // 4 octets
+	FlowLabel              string // 3 octets
 	SDFFilterID            uint32
 }
 
 // NewSDFFilterFields creates a new NewSDFFilterFields.
-func NewSDFFilterFields() *SDFFilterFields {
-	return &SDFFilterFields{}
+func NewSDFFilterFields(fd, ttc, spi, fl string, fid uint32) *SDFFilterFields {
+	f := &SDFFilterFields{}
+	if fd != "" {
+		f.FlowDescription = fd
+		f.FDLength = uint16(len([]byte(fd)))
+		f.SetFDFlag()
+	}
+
+	if ttc != "" {
+		f.ToSTrafficClass = ttc
+		f.SetTTCFlag()
+	}
+
+	if spi != "" {
+		f.SecurityParameterIndex = spi
+		f.SetSPIFlag()
+	}
+
+	if fl != "" {
+		f.FlowLabel = fl
+		f.SetFLFlag()
+	}
+
+	if fid != 0 {
+		f.SDFFilterID = fid
+		f.SetBIDFlag()
+	}
+
+	return f
 }
 
 // HasBID reports whether CHID flag is set.
@@ -102,12 +140,52 @@ func ParseSDFFilterFields(b []byte) (*SDFFilterFields, error) {
 // UnmarshalBinary parses b into IE.
 func (f *SDFFilterFields) UnmarshalBinary(b []byte) error {
 	l := len(b)
-	if l < 2 {
-		return ErrTooShortToParse
+	if l < 3 {
+		return io.ErrUnexpectedEOF
 	}
 
 	f.Flags = b[0]
-	//offset := 1
+	offset := 2 // 2nd octet is spare
+
+	if f.HasFD() {
+		if len(b[offset:]) < 3 {
+			return io.ErrUnexpectedEOF
+		}
+		f.FDLength = binary.BigEndian.Uint16(b[offset : offset+2])
+		f.FlowDescription = string(b[offset+2 : offset+2+int(f.FDLength)])
+		offset += 2 + int(f.FDLength)
+	}
+
+	if f.HasTTC() {
+		if len(b[offset:]) < 2 {
+			return io.ErrUnexpectedEOF
+		}
+		f.ToSTrafficClass = string(b[offset : offset+2])
+		offset += 2
+	}
+
+	if f.HasSPI() {
+		if len(b[offset:]) < 4 {
+			return io.ErrUnexpectedEOF
+		}
+		f.SecurityParameterIndex = string(b[offset : offset+4])
+		offset += 4
+	}
+
+	if f.HasFL() {
+		if len(b[offset:]) < 3 {
+			return io.ErrUnexpectedEOF
+		}
+		f.FlowLabel = string(b[offset : offset+3])
+		offset += 3
+	}
+
+	if f.HasBID() {
+		if len(b[offset:]) < 4 {
+			return io.ErrUnexpectedEOF
+		}
+		f.SDFFilterID = binary.BigEndian.Uint32(b[offset : offset+4])
+	}
 
 	return nil
 }
@@ -125,16 +203,63 @@ func (f *SDFFilterFields) Marshal() ([]byte, error) {
 func (f *SDFFilterFields) MarshalTo(b []byte) error {
 	l := len(b)
 	if l < 1 {
-		return ErrTooShortToParse
+		return io.ErrUnexpectedEOF
 	}
 
 	b[0] = f.Flags
-	//offset := 1
+	offset := 2 // 2nd octet is spare
+
+	if f.HasFD() {
+		binary.BigEndian.PutUint16(b[offset:offset+2], f.FDLength)
+		copy(b[offset+2:offset+2+int(f.FDLength)], []byte(f.FlowDescription))
+		offset += 2 + int(f.FDLength)
+	}
+
+	if f.HasTTC() {
+		copy(b[offset:offset+2], []byte(f.ToSTrafficClass))
+		offset += 2
+	}
+
+	if f.HasSPI() {
+		copy(b[offset:offset+4], []byte(f.SecurityParameterIndex))
+		offset += 4
+	}
+
+	if f.HasFL() {
+		copy(b[offset:offset+3], []byte(f.FlowLabel))
+		offset += 3
+	}
+
+	if f.HasBID() {
+		binary.BigEndian.PutUint32(b[offset:offset+4], f.SDFFilterID)
+	}
 
 	return nil
 }
 
 // MarshalLen returns field length in integer.
 func (f *SDFFilterFields) MarshalLen() int {
-	return 0
+	l := 2 // Flag + Spare
+
+	if f.HasFD() {
+		l += 2 + int(f.FDLength)
+	}
+
+	if f.HasTTC() {
+		l += 2
+	}
+
+	if f.HasSPI() {
+		l += 4
+	}
+
+	if f.HasFL() {
+		l += 3
+	}
+
+	if f.HasBID() {
+		l += 4
+	}
+
+	return l
 }

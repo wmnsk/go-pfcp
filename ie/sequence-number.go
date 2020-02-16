@@ -16,12 +16,27 @@ func NewSequenceNumber(seq uint32) *IE {
 
 // SequenceNumber returns SequenceNumber in uint32 if the type of IE matches.
 func (i *IE) SequenceNumber() (uint32, error) {
-	if i.Type != SequenceNumber {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	switch i.Type {
+	case SequenceNumber:
+		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case LoadControlInformation:
+		ies, err := i.LoadControlInformation()
+		if err != nil {
+			return 0, err
+		}
+
+		for _, e := range ies {
+			if e.Type == SequenceNumber {
+				return e.SequenceNumber()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
+
 }
