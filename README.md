@@ -188,11 +188,11 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 60           | Node ID                                               | Yes        |
 | 61           | PFD contents                                          | Yes        |
 | 62           | Measurement Method                                    | Yes        |
-| 63           | Usage Report Trigger                                  |            |
+| 63           | Usage Report Trigger                                  | Yes        |
 | 64           | Measurement Period                                    | Yes        |
-| 65           | FQ-CSID                                               |            |
+| 65           | FQ-CSID                                               | Yes        |
 | 66           | Volume Measurement                                    | Yes        |
-| 67           | Duration Measurement                                  |            |
+| 67           | Duration Measurement                                  | Yes        |
 | 68           | Application Detection Information                     |            |
 | 69           | Time of First Packet                                  | Yes        |
 | 70           | Time of Last Packet                                   | Yes        |

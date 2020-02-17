@@ -28,154 +28,232 @@ func (i *IE) ReportingTriggers() (uint16, error) {
 
 // HasLIUSA reports whether reporting trigger has LIUSA bit.
 func (i *IE) HasLIUSA() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	switch i.Type {
+	case ReportingTriggers:
+		if len(i.Payload) < 1 {
+			return false
+		}
+
+		u8 := uint8(i.Payload[0])
+		return has8thBit(u8)
+	case UsageReportTrigger:
+		if len(i.Payload) < 2 {
+			return false
+		}
+		u8 := uint8(i.Payload[1])
+		return has3rdBit(u8)
+	default:
 		return false
 	}
-
-	u8 := uint8(v >> 8)
-	return has8thBit(u8)
 }
 
 // HasDROTH reports whether reporting trigger has DROTH bit.
 func (i *IE) HasDROTH() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 1 {
 		return false
 	}
 
-	u8 := uint8(v >> 8)
-	return has7thBit(u8)
+	switch i.Type {
+	case ReportingTriggers, UsageReportTrigger:
+		u8 := uint8(i.Payload[0])
+		return has7thBit(u8)
+	default:
+		return false
+	}
 }
 
 // HasSTOPT reports whether reporting trigger has STOPT bit.
 func (i *IE) HasSTOPT() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 1 {
 		return false
 	}
 
-	u8 := uint8(v >> 8)
-	return has6thBit(u8)
+	switch i.Type {
+	case ReportingTriggers, UsageReportTrigger:
+		u8 := uint8(i.Payload[0])
+		return has6thBit(u8)
+	default:
+		return false
+	}
 }
 
 // HasSTART reports whether reporting trigger has START bit.
 func (i *IE) HasSTART() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 1 {
 		return false
 	}
 
-	u8 := uint8(v >> 8)
-	return has5thBit(u8)
+	switch i.Type {
+	case ReportingTriggers, UsageReportTrigger:
+		u8 := uint8(i.Payload[0])
+		return has5thBit(u8)
+	default:
+		return false
+	}
 }
 
 // HasQUHTI reports whether reporting trigger has QUHTI bit.
 func (i *IE) HasQUHTI() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 1 {
 		return false
 	}
 
-	u8 := uint8(v >> 8)
-	return has4thBit(u8)
+	switch i.Type {
+	case ReportingTriggers, UsageReportTrigger:
+		u8 := uint8(i.Payload[0])
+		return has4thBit(u8)
+	default:
+		return false
+	}
 }
 
 // HasTIMTH reports whether reporting trigger has TIMTH bit.
 func (i *IE) HasTIMTH() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 1 {
 		return false
 	}
 
-	u8 := uint8(v >> 8)
-	return has3rdBit(u8)
+	switch i.Type {
+	case ReportingTriggers, UsageReportTrigger:
+		u8 := uint8(i.Payload[0])
+		return has3rdBit(u8)
+	default:
+		return false
+	}
 }
 
 // HasVOLTH reports whether reporting trigger has VOLTH bit.
 func (i *IE) HasVOLTH() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 1 {
 		return false
 	}
 
-	u8 := uint8(v >> 8)
-	return has2ndBit(u8)
+	switch i.Type {
+	case ReportingTriggers, UsageReportTrigger:
+		u8 := uint8(i.Payload[0])
+		return has2ndBit(u8)
+	default:
+		return false
+	}
 }
 
 // HasPERIO reports whether reporting trigger has PERIO bit.
 func (i *IE) HasPERIO() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 1 {
 		return false
 	}
 
-	u8 := uint8(v >> 8)
-	return has1stBit(u8)
+	switch i.Type {
+	case ReportingTriggers, UsageReportTrigger:
+		u8 := uint8(i.Payload[0])
+		return has1stBit(u8)
+	default:
+		return false
+	}
 }
 
 // HasEVEQU reports whether reporting trigger has EVEQU bit.
 func (i *IE) HasEVEQU() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	switch i.Type {
+	case ReportingTriggers:
+		if len(i.Payload) < 2 {
+			return false
+		}
+
+		u8 := uint8(i.Payload[1])
+		return has6thBit(u8)
+	case UsageReportTrigger:
+		if len(i.Payload) < 3 {
+			return false
+		}
+
+		u8 := uint8(i.Payload[2])
+		return has1stBit(u8)
+	default:
 		return false
 	}
-
-	u8 := uint8(v & 0xff)
-	return has6thBit(u8)
 }
 
 // HasEVETH reports whether reporting trigger has EVETH bit.
 func (i *IE) HasEVETH() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 2 {
 		return false
 	}
 
-	u8 := uint8(v & 0xff)
-	return has5thBit(u8)
+	switch i.Type {
+	case ReportingTriggers:
+		u8 := uint8(i.Payload[1])
+		return has5thBit(u8)
+	case UsageReportTrigger:
+		u8 := uint8(i.Payload[1])
+		return has8thBit(u8)
+	default:
+		return false
+	}
 }
 
 // HasMACAR reports whether reporting trigger has MACAR bit.
 func (i *IE) HasMACAR() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 2 {
 		return false
 	}
 
-	u8 := uint8(v & 0xff)
-	return has4thBit(u8)
+	switch i.Type {
+	case ReportingTriggers:
+		u8 := uint8(i.Payload[1])
+		return has4thBit(u8)
+	case UsageReportTrigger:
+		u8 := uint8(i.Payload[1])
+		return has7thBit(u8)
+	default:
+		return false
+	}
 }
 
 // HasENVCL reports whether reporting trigger has ENVCL bit.
 func (i *IE) HasENVCL() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 2 {
 		return false
 	}
 
-	u8 := uint8(v & 0xff)
-	return has3rdBit(u8)
+	switch i.Type {
+	case ReportingTriggers:
+		u8 := uint8(i.Payload[1])
+		return has3rdBit(u8)
+	case UsageReportTrigger:
+		u8 := uint8(i.Payload[1])
+		return has6thBit(u8)
+	default:
+		return false
+	}
 }
 
 // HasTIMQU reports whether reporting trigger has TIMQU bit.
 func (i *IE) HasTIMQU() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 2 {
 		return false
 	}
 
-	u8 := uint8(v & 0xff)
-	return has2ndBit(u8)
+	switch i.Type {
+	case ReportingTriggers, UsageReportTrigger:
+		u8 := uint8(i.Payload[1])
+		return has2ndBit(u8)
+	default:
+		return false
+	}
 }
 
 // HasVOLQU reports whether reporting trigger has VOLQU bit.
 func (i *IE) HasVOLQU() bool {
-	v, err := i.ReportingTriggers()
-	if err != nil {
+	if len(i.Payload) < 2 {
 		return false
 	}
 
-	u8 := uint8(v & 0xff)
-	return has1stBit(u8)
+	switch i.Type {
+	case ReportingTriggers, UsageReportTrigger:
+		u8 := uint8(i.Payload[1])
+		return has1stBit(u8)
+	default:
+		return false
+	}
 }
