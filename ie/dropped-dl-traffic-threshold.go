@@ -45,8 +45,8 @@ func (i *IE) DroppedDLTrafficThreshold() (uint8, error) {
 	return i.Payload[0], nil
 }
 
-// HasDLPA reports whether DroppedDLTrafficThreshold IE has DLPA bit.
-func (i *IE) HasDLPA() bool {
+// HasDLBY reports whether DroppedDLTrafficThreshold IE has DLBY bit.
+func (i *IE) HasDLBY() bool {
 	v, err := i.DroppedDLTrafficThreshold()
 	if err != nil {
 		return false
@@ -55,8 +55,8 @@ func (i *IE) HasDLPA() bool {
 	return has2ndBit(v)
 }
 
-// HasDLBY reports whether DroppedDLTrafficThreshold IE has DLBY bit.
-func (i *IE) HasDLBY() bool {
+// HasDLPA reports whether DroppedDLTrafficThreshold IE has DLPA bit.
+func (i *IE) HasDLPA() bool {
 	v, err := i.DroppedDLTrafficThreshold()
 	if err != nil {
 		return false
