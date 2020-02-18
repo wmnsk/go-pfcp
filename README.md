@@ -197,9 +197,9 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 69           | Time of First Packet                                  | Yes        |
 | 70           | Time of Last Packet                                   | Yes        |
 | 71           | Quota Holding Time                                    | Yes        |
-| 72           | Dropped DL Traffic Threshold                          |            |
-| 73           | Volume Quota                                          |            |
-| 74           | Time Quota                                            |            |
+| 72           | Dropped DL Traffic Threshold                          | Yes        |
+| 73           | Volume Quota                                          | Yes        |
+| 74           | Time Quota                                            | Yes        |
 | 75           | Start Time                                            | Yes        |
 | 76           | End Time                                              | Yes        |
 | 77           | Query URR                                             |            |
