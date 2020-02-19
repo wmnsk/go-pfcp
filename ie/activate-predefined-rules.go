@@ -5,8 +5,8 @@
 package ie
 
 // NewActivatePredefinedRules creates a new ActivatePredefinedRules IE.
-func NewActivatePredefinedRules(id string) *IE {
-	return newStringIE(ActivatePredefinedRules, id)
+func NewActivatePredefinedRules(name string) *IE {
+	return newStringIE(ActivatePredefinedRules, name)
 }
 
 // ActivatePredefinedRules returns ActivatePredefinedRules in string if the type of IE matches.
