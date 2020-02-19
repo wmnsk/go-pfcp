@@ -18,6 +18,8 @@ var (
 	ErrIENotFound  = errors.New("could not find the specified IE in a grouped IE")
 
 	ErrMalformed = errors.New("malformed IE")
+
+	ErrElementNotFound = errors.New("element not found")
 )
 
 // InvalidTypeError indicates the type of IE is invalid.
