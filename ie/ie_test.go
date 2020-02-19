@@ -437,6 +437,10 @@ func TestIEs(t *testing.T) {
 			"RecoveryTimeStamp",
 			ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
 			[]byte{0x00, 0x60, 0x00, 0x04, 0xdf, 0xd5, 0x2c, 0x00},
+		}, {
+			"ActivatePredefinedRules",
+			ie.NewActivatePredefinedRules("go-pfcp"),
+			[]byte{0x00, 0x6a, 0x00, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70},
 		},
 	}
 
