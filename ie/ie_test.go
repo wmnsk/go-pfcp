@@ -410,6 +410,10 @@ func TestIEs(t *testing.T) {
 			ie.NewCPFunctionFeatures(0x3f),
 			[]byte{0x00, 0x59, 0x00, 0x01, 0x3f},
 		}, {
+			"UsageInformation",
+			ie.NewUsageInformation(1, 1, 1, 1),
+			[]byte{0x00, 0x5a, 0x00, 0x01, 0x0f},
+		}, {
 			"GracefulReleasePeriod/20hr",
 			ie.NewGracefulReleasePeriod(20 * time.Hour),
 			[]byte{0x00, 0x70, 0x00, 0x01, 0x82},
