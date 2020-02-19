@@ -450,6 +450,10 @@ func TestIEs(t *testing.T) {
 			ie.NewOCIFlags(0x01),
 			[]byte{0x00, 0x6e, 0x00, 0x01, 0x01},
 		}, {
+			"SxAssociationReleaseRequest",
+			ie.NewSxAssociationReleaseRequest(1, 1),
+			[]byte{0x00, 0x6f, 0x00, 0x01, 0x03},
+		}, {
 			"GracefulReleasePeriod/20hr",
 			ie.NewGracefulReleasePeriod(20 * time.Hour),
 			[]byte{0x00, 0x70, 0x00, 0x01, 0x82},
