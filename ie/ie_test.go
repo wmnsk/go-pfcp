@@ -422,18 +422,6 @@ func TestIEs(t *testing.T) {
 			ie.NewFlowInformation(ie.FlowDirectionDownlink, "go-pfcp"),
 			[]byte{0x00, 0x5c, 0x00, 0x0a, 0x01, 0x00, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70},
 		}, {
-			"GracefulReleasePeriod/20hr",
-			ie.NewGracefulReleasePeriod(20 * time.Hour),
-			[]byte{0x00, 0x70, 0x00, 0x01, 0x82},
-		}, {
-			"GracefulReleasePeriod/30sec",
-			ie.NewGracefulReleasePeriod(30 * time.Second),
-			[]byte{0x00, 0x70, 0x00, 0x01, 0x0f},
-		}, {
-			"GracefulReleasePeriod/15min",
-			ie.NewGracefulReleasePeriod(15 * time.Minute),
-			[]byte{0x00, 0x70, 0x00, 0x01, 0x2f},
-		}, {
 			"RecoveryTimeStamp",
 			ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
 			[]byte{0x00, 0x60, 0x00, 0x04, 0xdf, 0xd5, 0x2c, 0x00},
@@ -453,6 +441,22 @@ func TestIEs(t *testing.T) {
 			"FARID",
 			ie.NewFARID(0xffffffff),
 			[]byte{0x00, 0x6c, 0x00, 0x04, 0xff, 0xff, 0xff, 0xff},
+		}, {
+			"GracefulReleasePeriod/20hr",
+			ie.NewGracefulReleasePeriod(20 * time.Hour),
+			[]byte{0x00, 0x70, 0x00, 0x01, 0x82},
+		}, {
+			"GracefulReleasePeriod/30sec",
+			ie.NewGracefulReleasePeriod(30 * time.Second),
+			[]byte{0x00, 0x70, 0x00, 0x01, 0x0f},
+		}, {
+			"GracefulReleasePeriod/15min",
+			ie.NewGracefulReleasePeriod(15 * time.Minute),
+			[]byte{0x00, 0x70, 0x00, 0x01, 0x2f},
+		}, {
+			"PDNType",
+			ie.NewPDNType(ie.PDNTypeIPv4),
+			[]byte{0x00, 0x71, 0x00, 0x01, 0x01},
 		},
 	}
 
