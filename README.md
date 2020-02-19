@@ -209,19 +209,19 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 81           | URR ID                                                | Yes        |
 | 82           | Linked URR ID                                         | Yes        |
 | 83           | Downlink Data Report                                  |            |
-| 84           | Outer Header Creation                                 |            |
+| 84           | Outer Header Creation                                 | Yes        |
 | 85           | Create BAR                                            |            |
 | 86           | Update BAR (Session Modification Request)             |            |
 | 87           | Remove BAR                                            |            |
-| 88           | BAR ID                                                |            |
-| 89           | CP Function Features                                  |            |
-| 90           | Usage Information                                     |            |
-| 91           | Application Instance ID                               |            |
-| 92           | Flow Information                                      |            |
+| 88           | BAR ID                                                | Yes        |
+| 89           | CP Function Features                                  | Yes        |
+| 90           | Usage Information                                     | Yes        |
+| 91           | Application Instance ID                               | Yes        |
+| 92           | Flow Information                                      | Yes        |
 | 93           | UE IP Address                                         |            |
 | 94           | Packet Rate                                           |            |
 | 95           | Outer Header Removal                                  |            |
-| 96           | Recovery Time Stamp                                   |            |
+| 96           | Recovery Time Stamp                                   | Yes        |
 | 97           | DL Flow Level Marking                                 |            |
 | 98           | Header Enrichment                                     |            |
 | 99           | Error Indication Report                               |            |
@@ -229,16 +229,16 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 101          | Node Report Type                                      |            |
 | 102          | User Plane Path Failure Report                        |            |
 | 103          | Remote GTP-U Peer                                     |            |
-| 104          | UR-SEQN                                               |            |
+| 104          | UR-SEQN                                               | Yes        |
 | 105          | Update Duplicating Parameters                         |            |
-| 106          | Activate Predefined Rules                             |            |
-| 107          | Deactivate Predefined Rules                           |            |
-| 108          | FAR ID                                                |            |
-| 109          | QER ID                                                |            |
-| 110          | OCI Flags                                             |            |
-| 111          | Sx Association Release Request                        |            |
+| 106          | Activate Predefined Rules                             | Yes        |
+| 107          | Deactivate Predefined Rules                           | Yes        |
+| 108          | FAR ID                                                | Yes        |
+| 109          | QER ID                                                | Yes        |
+| 110          | OCI Flags                                             | Yes        |
+| 111          | Sx Association Release Request                        | Yes        |
 | 112          | Graceful Release Period                               | Yes        |
-| 113          | PDN Type                                              |            |
+| 113          | PDN Type                                              | Yes        |
 | 114          | Failed Rule ID                                        |            |
 | 115          | Time Quota Mechanism                                  |            |
 | 116          | User Plane IP Resource Information                    |            |
