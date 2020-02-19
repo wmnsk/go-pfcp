@@ -35,7 +35,7 @@ func (i *IE) UPFunctionFeatures() ([]byte, error) {
 	return i.Payload, nil
 }
 
-// HasBUCP reports whether up function features has BUCP bit.
+// HasBUCP reports whether an IE has BUCP bit.
 func (i *IE) HasBUCP() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -47,7 +47,7 @@ func (i *IE) HasBUCP() bool {
 	return has1stBit(i.Payload[0])
 }
 
-// HasDDND reports whether up function features has DDND bit.
+// HasDDND reports whether an IE has DDND bit.
 func (i *IE) HasDDND() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -59,7 +59,7 @@ func (i *IE) HasDDND() bool {
 	return has2ndBit(i.Payload[0])
 }
 
-// HasDLBD reports whether up function features has DLBD bit.
+// HasDLBD reports whether an IE has DLBD bit.
 func (i *IE) HasDLBD() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -71,7 +71,7 @@ func (i *IE) HasDLBD() bool {
 	return has3rdBit(i.Payload[0])
 }
 
-// HasTRST reports whether up function features has TRST bit.
+// HasTRST reports whether an IE has TRST bit.
 func (i *IE) HasTRST() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -83,7 +83,7 @@ func (i *IE) HasTRST() bool {
 	return has4thBit(i.Payload[0])
 }
 
-// HasFTUP reports whether up function features has FTUP bit.
+// HasFTUP reports whether an IE has FTUP bit.
 func (i *IE) HasFTUP() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -95,7 +95,7 @@ func (i *IE) HasFTUP() bool {
 	return has5thBit(i.Payload[0])
 }
 
-// HasPFDM reports whether up function features has PFDM bit.
+// HasPFDM reports whether an IE has PFDM bit.
 func (i *IE) HasPFDM() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -107,7 +107,7 @@ func (i *IE) HasPFDM() bool {
 	return has6thBit(i.Payload[0])
 }
 
-// HasHEEU reports whether up function features has HEEU bit.
+// HasHEEU reports whether an IE has HEEU bit.
 func (i *IE) HasHEEU() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -119,7 +119,7 @@ func (i *IE) HasHEEU() bool {
 	return has7thBit(i.Payload[0])
 }
 
-// HasTREU reports whether up function features has TREU bit.
+// HasTREU reports whether an IE has TREU bit.
 func (i *IE) HasTREU() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -131,7 +131,7 @@ func (i *IE) HasTREU() bool {
 	return has8thBit(i.Payload[0])
 }
 
-// HasEMPU reports whether up function features has EMPU bit.
+// HasEMPU reports whether an IE has EMPU bit.
 func (i *IE) HasEMPU() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -143,7 +143,7 @@ func (i *IE) HasEMPU() bool {
 	return has1stBit(i.Payload[1])
 }
 
-// HasPDIU reports whether up function features has PDIU bit.
+// HasPDIU reports whether an IE has PDIU bit.
 func (i *IE) HasPDIU() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -155,7 +155,7 @@ func (i *IE) HasPDIU() bool {
 	return has2ndBit(i.Payload[1])
 }
 
-// HasUDBC reports whether up function features has UDBC bit.
+// HasUDBC reports whether an IE has UDBC bit.
 func (i *IE) HasUDBC() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -167,7 +167,7 @@ func (i *IE) HasUDBC() bool {
 	return has3rdBit(i.Payload[1])
 }
 
-// HasQUOAC reports whether up function features has QUOAC bit.
+// HasQUOAC reports whether an IE has QUOAC bit.
 func (i *IE) HasQUOAC() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -179,7 +179,7 @@ func (i *IE) HasQUOAC() bool {
 	return has4thBit(i.Payload[1])
 }
 
-// HasTRACE reports whether up function features has TRACE bit.
+// HasTRACE reports whether an IE has TRACE bit.
 func (i *IE) HasTRACE() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -191,7 +191,7 @@ func (i *IE) HasTRACE() bool {
 	return has5thBit(i.Payload[1])
 }
 
-// HasFRRT reports whether up function features has FRRT bit.
+// HasFRRT reports whether an IE has FRRT bit.
 func (i *IE) HasFRRT() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -203,7 +203,7 @@ func (i *IE) HasFRRT() bool {
 	return has6thBit(i.Payload[1])
 }
 
-// HasPFDE reports whether up function features has PFDE bit.
+// HasPFDE reports whether an IE has PFDE bit.
 func (i *IE) HasPFDE() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -215,19 +215,27 @@ func (i *IE) HasPFDE() bool {
 	return has7thBit(i.Payload[1])
 }
 
-// HasEPFAR reports whether up function features has EPFAR bit.
+// HasEPFAR reports whether an IE has EPFAR bit.
 func (i *IE) HasEPFAR() bool {
-	if i.Type != UPFunctionFeatures {
-		return false
-	}
-	if len(i.Payload) < 2 {
-		return false
-	}
+	switch i.Type {
+	case UPFunctionFeatures:
+		if len(i.Payload) < 2 {
+			return false
+		}
 
-	return has8thBit(i.Payload[1])
+		return has8thBit(i.Payload[1])
+	case CPFunctionFeatures:
+		if len(i.Payload) < 1 {
+			return false
+		}
+
+		return has3rdBit(i.Payload[0])
+	default:
+		return false
+	}
 }
 
-// HasDPDRA reports whether up function features has DPDRA  bit.
+// HasDPDRA reports whether an IE has DPDRA  bit.
 func (i *IE) HasDPDRA() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -239,7 +247,7 @@ func (i *IE) HasDPDRA() bool {
 	return has1stBit(i.Payload[2])
 }
 
-// HasADPDP reports whether up function features has ADPDP  bit.
+// HasADPDP reports whether an IE has ADPDP  bit.
 func (i *IE) HasADPDP() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -251,7 +259,7 @@ func (i *IE) HasADPDP() bool {
 	return has2ndBit(i.Payload[2])
 }
 
-// HasUEIP reports whether up function features has UEIP  bit.
+// HasUEIP reports whether an IE has UEIP  bit.
 func (i *IE) HasUEIP() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -263,19 +271,27 @@ func (i *IE) HasUEIP() bool {
 	return has3rdBit(i.Payload[2])
 }
 
-// HasSSET reports whether up function features has SSET  bit.
+// HasSSET reports whether an IE has SSET  bit.
 func (i *IE) HasSSET() bool {
-	if i.Type != UPFunctionFeatures {
-		return false
-	}
-	if len(i.Payload) < 3 {
-		return false
-	}
+	switch i.Type {
+	case UPFunctionFeatures:
+		if len(i.Payload) < 3 {
+			return false
+		}
 
-	return has4thBit(i.Payload[2])
+		return has4thBit(i.Payload[2])
+	case CPFunctionFeatures:
+		if len(i.Payload) < 1 {
+			return false
+		}
+
+		return has4thBit(i.Payload[0])
+	default:
+		return false
+	}
 }
 
-// HasMNOP reports whether up function features has MNOP  bit.
+// HasMNOP reports whether an IE has MNOP  bit.
 func (i *IE) HasMNOP() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -287,7 +303,7 @@ func (i *IE) HasMNOP() bool {
 	return has5thBit(i.Payload[2])
 }
 
-// HasMTE reports whether up function features has MTE  bit.
+// HasMTE reports whether an IE has MTE  bit.
 func (i *IE) HasMTE() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -299,19 +315,27 @@ func (i *IE) HasMTE() bool {
 	return has6thBit(i.Payload[2])
 }
 
-// HasBUNDL reports whether up function features has BUNDL  bit.
+// HasBUNDL reports whether an IE has BUNDL  bit.
 func (i *IE) HasBUNDL() bool {
-	if i.Type != UPFunctionFeatures {
-		return false
-	}
-	if len(i.Payload) < 3 {
-		return false
-	}
+	switch i.Type {
+	case UPFunctionFeatures:
+		if len(i.Payload) < 3 {
+			return false
+		}
 
-	return has7thBit(i.Payload[2])
+		return has7thBit(i.Payload[2])
+	case CPFunctionFeatures:
+		if len(i.Payload) < 1 {
+			return false
+		}
+
+		return has5thBit(i.Payload[0])
+	default:
+		return false
+	}
 }
 
-// HasGCOM reports whether up function features has GCOM  bit.
+// HasGCOM reports whether an IE has GCOM  bit.
 func (i *IE) HasGCOM() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -323,19 +347,27 @@ func (i *IE) HasGCOM() bool {
 	return has8thBit(i.Payload[2])
 }
 
-// HasMPAS reports whether up function features has MPAS bit.
+// HasMPAS reports whether an IE has MPAS bit.
 func (i *IE) HasMPAS() bool {
-	if i.Type != UPFunctionFeatures {
-		return false
-	}
-	if len(i.Payload) < 4 {
-		return false
-	}
+	switch i.Type {
+	case UPFunctionFeatures:
+		if len(i.Payload) < 4 {
+			return false
+		}
 
-	return has1stBit(i.Payload[3])
+		return has1stBit(i.Payload[3])
+	case CPFunctionFeatures:
+		if len(i.Payload) < 1 {
+			return false
+		}
+
+		return has6thBit(i.Payload[0])
+	default:
+		return false
+	}
 }
 
-// HasRTTL reports whether up function features has RTTL bit.
+// HasRTTL reports whether an IE has RTTL bit.
 func (i *IE) HasRTTL() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
@@ -347,7 +379,7 @@ func (i *IE) HasRTTL() bool {
 	return has2ndBit(i.Payload[3])
 }
 
-// HasVTIME reports whether up function features has VTIME bit.
+// HasVTIME reports whether an IE has VTIME bit.
 func (i *IE) HasVTIME() bool {
 	if i.Type != UPFunctionFeatures {
 		return false
