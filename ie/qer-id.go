@@ -9,14 +9,14 @@ import (
 	"io"
 )
 
-// NewFARID creates a new FARID IE.
-func NewFARID(id uint32) *IE {
-	return newUint32ValIE(FARID, id)
+// NewQERID creates a new QERID IE.
+func NewQERID(id uint32) *IE {
+	return newUint32ValIE(QERID, id)
 }
 
-// FARID returns FARID in uint32 if the type of IE matches.
-func (i *IE) FARID() (uint32, error) {
-	if i.Type != FARID {
+// QERID returns QERID in uint32 if the type of IE matches.
+func (i *IE) QERID() (uint32, error) {
+	if i.Type != QERID {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
 	if len(i.Payload) < 4 {
