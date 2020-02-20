@@ -218,12 +218,12 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 90           | Usage Information                                     | Yes        |
 | 91           | Application Instance ID                               | Yes        |
 | 92           | Flow Information                                      | Yes        |
-| 93           | UE IP Address                                         |            |
-| 94           | Packet Rate                                           |            |
-| 95           | Outer Header Removal                                  |            |
+| 93           | UE IP Address                                         | Yes        |
+| 94           | Packet Rate                                           | Yes        |
+| 95           | Outer Header Removal                                  | Yes        |
 | 96           | Recovery Time Stamp                                   | Yes        |
-| 97           | DL Flow Level Marking                                 |            |
-| 98           | Header Enrichment                                     |            |
+| 97           | DL Flow Level Marking                                 | Yes        |
+| 98           | Header Enrichment                                     | Yes        |
 | 99           | Error Indication Report                               |            |
 | 100          | Measurement Information                               |            |
 | 101          | Node Report Type                                      |            |
