@@ -21,13 +21,17 @@ func NewOuterHeaderCreation(flags uint16, teid uint32, v4, v6 string, port uint1
 	return New(OuterHeaderCreation, b)
 }
 
-// OuterHeaderCreation returns OuterHeaderCreation in []byte if the type of IE matches.
-func (i *IE) OuterHeaderCreation() ([]byte, error) {
+// OuterHeaderCreation returns OuterHeaderCreation in *OuterHeaderCreationFields if the type of IE matches.
+func (i *IE) OuterHeaderCreation() (*OuterHeaderCreationFields, error) {
 	if i.Type != OuterHeaderCreation {
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
 
-	return i.Payload, nil
+	f, err := ParseOuterHeaderCreationFields(i.Payload)
+	if err != nil {
+		return nil, err
+	}
+	return f, nil
 }
 
 // HasTEID reports whether OuterHeaderCreation IE has DLVOL bit.
@@ -44,26 +48,42 @@ func (i *IE) HasTEID() bool {
 
 // HasIPv4 reports whether OuterHeaderCreation IE has DLVOL bit.
 func (i *IE) HasIPv4() bool {
-	if i.Type != OuterHeaderCreation {
-		return false
-	}
-	if len(i.Payload) < 1 {
-		return false
-	}
+	switch i.Type {
+	case OuterHeaderCreation:
+		if len(i.Payload) < 1 {
+			return false
+		}
 
-	return has1stBit(i.Payload[0]) || has3rdBit(i.Payload[0]) || has5thBit(i.Payload[0])
+		return has1stBit(i.Payload[0]) || has3rdBit(i.Payload[0]) || has5thBit(i.Payload[0])
+	case UEIPAddress:
+		if len(i.Payload) < 1 {
+			return false
+		}
+
+		return has2ndBit(i.Payload[0]) && !has5thBit(i.Payload[0])
+	default:
+		return false
+	}
 }
 
 // HasIPv6 reports whether OuterHeaderCreation IE has DLVOL bit.
 func (i *IE) HasIPv6() bool {
-	if i.Type != OuterHeaderCreation {
-		return false
-	}
-	if len(i.Payload) < 1 {
-		return false
-	}
+	switch i.Type {
+	case OuterHeaderCreation:
+		if len(i.Payload) < 1 {
+			return false
+		}
 
-	return has2ndBit(i.Payload[0]) || has4thBit(i.Payload[0]) || has6thBit(i.Payload[0])
+		return has2ndBit(i.Payload[0]) || has4thBit(i.Payload[0]) || has6thBit(i.Payload[0])
+	case UEIPAddress:
+		if len(i.Payload) < 1 {
+			return false
+		}
+
+		return has1stBit(i.Payload[0]) && !has5thBit(i.Payload[0])
+	default:
+		return false
+	}
 }
 
 // HasCTag reports whether OuterHeaderCreation IE has DLVOL bit.
