@@ -26,7 +26,7 @@ func (i *IE) ReportingTriggers() (uint16, error) {
 	return binary.BigEndian.Uint16(i.Payload[0:2]), nil
 }
 
-// HasLIUSA reports whether reporting trigger has LIUSA bit.
+// HasLIUSA reports whether an IE has LIUSA bit.
 func (i *IE) HasLIUSA() bool {
 	switch i.Type {
 	case ReportingTriggers:
@@ -47,7 +47,7 @@ func (i *IE) HasLIUSA() bool {
 	}
 }
 
-// HasDROTH reports whether reporting trigger has DROTH bit.
+// HasDROTH reports whether an IE has DROTH bit.
 func (i *IE) HasDROTH() bool {
 	if len(i.Payload) < 1 {
 		return false
@@ -62,7 +62,7 @@ func (i *IE) HasDROTH() bool {
 	}
 }
 
-// HasSTOPT reports whether reporting trigger has STOPT bit.
+// HasSTOPT reports whether an IE has STOPT bit.
 func (i *IE) HasSTOPT() bool {
 	if len(i.Payload) < 1 {
 		return false
@@ -77,7 +77,7 @@ func (i *IE) HasSTOPT() bool {
 	}
 }
 
-// HasSTART reports whether reporting trigger has START bit.
+// HasSTART reports whether an IE has START bit.
 func (i *IE) HasSTART() bool {
 	if len(i.Payload) < 1 {
 		return false
@@ -92,7 +92,7 @@ func (i *IE) HasSTART() bool {
 	}
 }
 
-// HasQUHTI reports whether reporting trigger has QUHTI bit.
+// HasQUHTI reports whether an IE has QUHTI bit.
 func (i *IE) HasQUHTI() bool {
 	if len(i.Payload) < 1 {
 		return false
@@ -107,7 +107,7 @@ func (i *IE) HasQUHTI() bool {
 	}
 }
 
-// HasTIMTH reports whether reporting trigger has TIMTH bit.
+// HasTIMTH reports whether an IE has TIMTH bit.
 func (i *IE) HasTIMTH() bool {
 	if len(i.Payload) < 1 {
 		return false
@@ -122,7 +122,7 @@ func (i *IE) HasTIMTH() bool {
 	}
 }
 
-// HasVOLTH reports whether reporting trigger has VOLTH bit.
+// HasVOLTH reports whether an IE has VOLTH bit.
 func (i *IE) HasVOLTH() bool {
 	if len(i.Payload) < 1 {
 		return false
@@ -137,7 +137,7 @@ func (i *IE) HasVOLTH() bool {
 	}
 }
 
-// HasPERIO reports whether reporting trigger has PERIO bit.
+// HasPERIO reports whether an IE has PERIO bit.
 func (i *IE) HasPERIO() bool {
 	if len(i.Payload) < 1 {
 		return false
@@ -152,7 +152,7 @@ func (i *IE) HasPERIO() bool {
 	}
 }
 
-// HasEVEQU reports whether reporting trigger has EVEQU bit.
+// HasEVEQU reports whether an IE has EVEQU bit.
 func (i *IE) HasEVEQU() bool {
 	switch i.Type {
 	case ReportingTriggers:
@@ -174,7 +174,7 @@ func (i *IE) HasEVEQU() bool {
 	}
 }
 
-// HasEVETH reports whether reporting trigger has EVETH bit.
+// HasEVETH reports whether an IE has EVETH bit.
 func (i *IE) HasEVETH() bool {
 	if len(i.Payload) < 2 {
 		return false
@@ -192,7 +192,7 @@ func (i *IE) HasEVETH() bool {
 	}
 }
 
-// HasMACAR reports whether reporting trigger has MACAR bit.
+// HasMACAR reports whether an IE has MACAR bit.
 func (i *IE) HasMACAR() bool {
 	if len(i.Payload) < 2 {
 		return false
@@ -210,7 +210,7 @@ func (i *IE) HasMACAR() bool {
 	}
 }
 
-// HasENVCL reports whether reporting trigger has ENVCL bit.
+// HasENVCL reports whether an IE has ENVCL bit.
 func (i *IE) HasENVCL() bool {
 	if len(i.Payload) < 2 {
 		return false
@@ -228,7 +228,7 @@ func (i *IE) HasENVCL() bool {
 	}
 }
 
-// HasTIMQU reports whether reporting trigger has TIMQU bit.
+// HasTIMQU reports whether an IE has TIMQU bit.
 func (i *IE) HasTIMQU() bool {
 	if len(i.Payload) < 2 {
 		return false
@@ -243,7 +243,7 @@ func (i *IE) HasTIMQU() bool {
 	}
 }
 
-// HasVOLQU reports whether reporting trigger has VOLQU bit.
+// HasVOLQU reports whether an IE has VOLQU bit.
 func (i *IE) HasVOLQU() bool {
 	if len(i.Payload) < 2 {
 		return false

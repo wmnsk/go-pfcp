@@ -25,7 +25,7 @@ func (i *IE) MeasurementInformation() (uint8, error) {
 	return i.Payload[0], nil
 }
 
-// HasISTM reports whether reporting trigger has ISTM bit.
+// HasISTM reports whether an IE has ISTM bit.
 func (i *IE) HasISTM() bool {
 	if i.Type != MeasurementInformation {
 		return false
@@ -37,7 +37,7 @@ func (i *IE) HasISTM() bool {
 	return has4thBit(i.Payload[0])
 }
 
-// HasRADI reports whether reporting trigger has RADI bit.
+// HasRADI reports whether an IE has RADI bit.
 func (i *IE) HasRADI() bool {
 	if i.Type != MeasurementInformation {
 		return false
@@ -49,7 +49,7 @@ func (i *IE) HasRADI() bool {
 	return has3rdBit(i.Payload[0])
 }
 
-// HasINAM reports whether reporting trigger has INAM bit.
+// HasINAM reports whether an IE has INAM bit.
 func (i *IE) HasINAM() bool {
 	if i.Type != MeasurementInformation {
 		return false
@@ -61,7 +61,7 @@ func (i *IE) HasINAM() bool {
 	return has2ndBit(i.Payload[0])
 }
 
-// HasMBQE reports whether reporting trigger has MBQE bit.
+// HasMBQE reports whether an IE has MBQE bit.
 func (i *IE) HasMBQE() bool {
 	if i.Type != MeasurementInformation {
 		return false
