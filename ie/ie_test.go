@@ -587,6 +587,10 @@ func TestIEs(t *testing.T) {
 			"EthernetInactivityTimer",
 			ie.NewEthernetInactivityTimer(10 * time.Second),
 			[]byte{0x00, 0x92, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},
+		}, {
+			"SubsequentEventQuota",
+			ie.NewSubsequentEventQuota(0xffffffff),
+			[]byte{0x00, 0x96, 0x00, 0x04, 0xff, 0xff, 0xff, 0xff},
 		},
 	}
 
