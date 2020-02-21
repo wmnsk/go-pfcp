@@ -575,6 +575,10 @@ func TestIEs(t *testing.T) {
 			"EthernetFilterProperties",
 			ie.NewEthernetFilterProperties(0x01),
 			[]byte{0x00, 0x8b, 0x00, 0x01, 0x01},
+		}, {
+			"SuggestedBufferingPacketsCount",
+			ie.NewSuggestedBufferingPacketsCount(0x01),
+			[]byte{0x00, 0x8c, 0x00, 0x01, 0x01},
 		},
 	}
 
