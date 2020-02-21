@@ -563,6 +563,10 @@ func TestIEs(t *testing.T) {
 			"Ethertype",
 			ie.NewEthertype(0xffff),
 			[]byte{0x00, 0x88, 0x00, 0x02, 0xff, 0xff},
+		}, {
+			"Proxying",
+			ie.NewProxying(1, 1),
+			[]byte{0x00, 0x89, 0x00, 0x01, 0x03},
 		},
 	}
 
