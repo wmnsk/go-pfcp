@@ -539,6 +539,10 @@ func TestIEs(t *testing.T) {
 			"SubsequentTimeQuota",
 			ie.NewSubsequentTimeQuota(10 * time.Second),
 			[]byte{0x00, 0x7a, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},
+		}, {
+			"RQI",
+			ie.NewRQI(0x01),
+			[]byte{0x00, 0x7b, 0x00, 0x01, 0x01},
 		},
 	}
 
