@@ -579,6 +579,10 @@ func TestIEs(t *testing.T) {
 			"SuggestedBufferingPacketsCount",
 			ie.NewSuggestedBufferingPacketsCount(0x01),
 			[]byte{0x00, 0x8c, 0x00, 0x01, 0x01},
+		}, {
+			"EthernetPDUSessionInformation",
+			ie.NewEthernetPDUSessionInformation(0x01),
+			[]byte{0x00, 0x8e, 0x00, 0x01, 0x01},
 		},
 	}
 
