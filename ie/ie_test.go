@@ -583,6 +583,10 @@ func TestIEs(t *testing.T) {
 			"EthernetPDUSessionInformation",
 			ie.NewEthernetPDUSessionInformation(0x01),
 			[]byte{0x00, 0x8e, 0x00, 0x01, 0x01},
+		}, {
+			"EthernetInactivityTimer",
+			ie.NewEthernetInactivityTimer(10 * time.Second),
+			[]byte{0x00, 0x92, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},
 		},
 	}
 
