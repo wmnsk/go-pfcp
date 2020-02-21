@@ -225,10 +225,10 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 97           | DL Flow Level Marking                                 | Yes        |
 | 98           | Header Enrichment                                     | Yes        |
 | 99           | Error Indication Report                               |            |
-| 100          | Measurement Information                               |            |
-| 101          | Node Report Type                                      |            |
+| 100          | Measurement Information                               | Yes        |
+| 101          | Node Report Type                                      | Yes        |
 | 102          | User Plane Path Failure Report                        |            |
-| 103          | Remote GTP-U Peer                                     |            |
+| 103          | Remote GTP-U Peer                                     | Yes        |
 | 104          | UR-SEQN                                               | Yes        |
 | 105          | Update Duplicating Parameters                         |            |
 | 106          | Activate Predefined Rules                             | Yes        |
@@ -242,41 +242,41 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 114          | Failed Rule ID                                        |            |
 | 115          | Time Quota Mechanism                                  |            |
 | 116          | User Plane IP Resource Information                    |            |
-| 117          | User Plane Inactivity Timer                           |            |
+| 117          | User Plane Inactivity Timer                           | Yes        |
 | 118          | Aggregated URRs                                       |            |
-| 119          | Multiplier                                            |            |
-| 120          | Aggregated URR ID                                     |            |
-| 121          | Subsequent Volume Quota                               |            |
-| 122          | Subsequent Time Quota                                 |            |
-| 123          | RQI                                                   |            |
-| 124          | QFI                                                   |            |
-| 125          | Query URR Reference                                   |            |
-| 126          | Additional Usage Reports Information                  |            |
+| 119          | Multiplier                                            | Yes        |
+| 120          | Aggregated URR ID                                     | Yes        |
+| 121          | Subsequent Volume Quota                               | Yes        |
+| 122          | Subsequent Time Quota                                 | Yes        |
+| 123          | RQI                                                   | Yes        |
+| 124          | QFI                                                   | Yes        |
+| 125          | Query URR Reference                                   | Yes        |
+| 126          | Additional Usage Reports Information                  | Yes        |
 | 127          | Create Traffic Endpoint                               |            |
 | 128          | Created Traffic Endpoint                              |            |
 | 129          | Update Traffic Endpoint                               |            |
 | 130          | Remove Traffic Endpoint                               |            |
-| 131          | Traffic Endpoint ID                                   |            |
+| 131          | Traffic Endpoint ID                                   | Yes        |
 | 132          | Ethernet Packet Filter                                |            |
 | 133          | MAC address                                           |            |
 | 134          | C-TAG                                                 |            |
 | 135          | S-TAG                                                 |            |
-| 136          | Ethertype                                             |            |
-| 137          | Proxying                                              |            |
-| 138          | Ethernet Filter ID                                    |            |
-| 139          | Ethernet Filter Properties                            |            |
-| 140          | Suggested Buffering Packets Count                     |            |
+| 136          | Ethertype                                             | Yes        |
+| 137          | Proxying                                              | Yes        |
+| 138          | Ethernet Filter ID                                    | Yes        |
+| 139          | Ethernet Filter Properties                            | Yes        |
+| 140          | Suggested Buffering Packets Count                     | Yes        |
 | 141          | User ID                                               |            |
-| 142          | Ethernet PDU Session Information                      |            |
+| 142          | Ethernet PDU Session Information                      | Yes        |
 | 143          | Ethernet Traffic Information                          |            |
 | 144          | MAC Addresses Detected                                |            |
 | 145          | MAC Addresses Removed                                 |            |
-| 146          | Ethernet Inactivity Timer                             |            |
+| 146          | Ethernet Inactivity Timer                             | Yes        |
 | 147          | Additional Monitoring Time                            |            |
 | 148          | Event Quota                                           |            |
 | 149          | Event Threshold                                       |            |
-| 150          | Subsequent Event Quota                                |            |
-| 151          | Subsequent Event Threshold                            |            |
+| 150          | Subsequent Event Quota                                | Yes        |
+| 151          | Subsequent Event Threshold                            | Yes        |
 | 152          | Trace Information                                     |            |
 | 153          | Framed-Route                                          |            |
 | 154          | Framed-Routing                                        |            |
