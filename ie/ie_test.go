@@ -559,6 +559,10 @@ func TestIEs(t *testing.T) {
 			"TrafficEndpointID",
 			ie.NewTrafficEndpointID(0x01),
 			[]byte{0x00, 0x83, 0x00, 0x01, 0x01},
+		}, {
+			"Ethertype",
+			ie.NewEthertype(0xffff),
+			[]byte{0x00, 0x88, 0x00, 0x02, 0xff, 0xff},
 		},
 	}
 
