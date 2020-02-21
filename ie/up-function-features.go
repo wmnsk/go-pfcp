@@ -293,14 +293,22 @@ func (i *IE) HasSSET() bool {
 
 // HasMNOP reports whether an IE has MNOP  bit.
 func (i *IE) HasMNOP() bool {
-	if i.Type != UPFunctionFeatures {
-		return false
-	}
-	if len(i.Payload) < 3 {
-		return false
-	}
+	switch i.Type {
+	case UPFunctionFeatures:
+		if len(i.Payload) < 3 {
+			return false
+		}
 
-	return has5thBit(i.Payload[2])
+		return has5thBit(i.Payload[2])
+	case MeasurementInformation:
+		if len(i.Payload) < 1 {
+			return false
+		}
+
+		return has5thBit(i.Payload[0])
+	default:
+		return false
+	}
 }
 
 // HasMTE reports whether an IE has MTE  bit.
