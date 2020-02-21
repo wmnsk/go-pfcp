@@ -551,6 +551,10 @@ func TestIEs(t *testing.T) {
 			"QueryURRReference",
 			ie.NewQueryURRReference(0xffffffff),
 			[]byte{0x00, 0x7d, 0x00, 0x04, 0xff, 0xff, 0xff, 0xff},
+		}, {
+			"AdditionalUsageReportsInformation",
+			ie.NewAdditionalUsageReportsInformation(0x00ff),
+			[]byte{0x00, 0x7e, 0x00, 0x02, 0x80, 0xff},
 		},
 	}
 
