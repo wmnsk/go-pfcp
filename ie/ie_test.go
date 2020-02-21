@@ -555,6 +555,10 @@ func TestIEs(t *testing.T) {
 			"AdditionalUsageReportsInformation",
 			ie.NewAdditionalUsageReportsInformation(0x00ff),
 			[]byte{0x00, 0x7e, 0x00, 0x02, 0x80, 0xff},
+		}, {
+			"TrafficEndpointID",
+			ie.NewTrafficEndpointID(0x01),
+			[]byte{0x00, 0x83, 0x00, 0x01, 0x01},
 		},
 	}
 
