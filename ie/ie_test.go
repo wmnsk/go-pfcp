@@ -571,6 +571,10 @@ func TestIEs(t *testing.T) {
 			"EthernetFilterID",
 			ie.NewEthernetFilterID(0xffffffff),
 			[]byte{0x00, 0x8a, 0x00, 0x04, 0xff, 0xff, 0xff, 0xff},
+		}, {
+			"EthernetFilterProperties",
+			ie.NewEthernetFilterProperties(0x01),
+			[]byte{0x00, 0x8b, 0x00, 0x01, 0x01},
 		},
 	}
 

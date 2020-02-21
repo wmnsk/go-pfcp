@@ -18,7 +18,7 @@ func (i *IE) RQI() ([]byte, error) {
 	return i.Payload, nil
 }
 
-// HasRQI reports whether up function features has RQI bit.
+// HasRQI reports whether an IE has RQI bit.
 func (i *IE) HasRQI() bool {
 	if i.Type != RQI {
 		return false
