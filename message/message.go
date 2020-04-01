@@ -62,6 +62,10 @@ func Parse(b []byte) (Message, error) {
 		m = &HeartbeatRequest{}
 	case MsgTypeHeartbeatResponse:
 		m = &HeartbeatResponse{}
+	case MsgTypeAssociationSetupResponse:
+		m = &AssociationSetupResponse{}
+	case MsgTypeAssociationSetupRequest:
+		m = &AssociationSetupRequest{}
 	default:
 		m = &Generic{}
 	}
