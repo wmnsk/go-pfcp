@@ -45,7 +45,7 @@ func main() {
 			continue
 		}
 
-		ts, err := acreq.RecoveryTimeStamp.RecoveryTimeStamp()
+		ts, err := acreq.NodeID.NodeID()
 		if err != nil {
 			log.Printf("got Association Setup Request with invalid TS: %s, from: %s", err, addr)
 			continue

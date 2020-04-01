@@ -65,7 +65,7 @@ func main() {
 		}
 
 		waiting = false
-		ts, err := acres.RecoveryTimeStamp.RecoveryTimeStamp()
+		ts, err := acres.NodeID.NodeID()
 		if err != nil {
 			log.Printf("got Association Setup  Response with invalid TS: %s, from: %s", err, addr)
 			break

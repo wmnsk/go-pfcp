@@ -5,30 +5,20 @@ import "github.com/wmnsk/go-pfcp/ie"
 // AssociationSetupRequest is a AssociationSetupRequest formed PFCP Header and its IEs above.
 type AssociationSetupRequest struct {
 	*Header
-	NodeID                          *ie.IE
-	RecoveryTimeStamp               *ie.IE
-	UPFunctionFeatures              *ie.IE
-	CPFunctionFeatures              *ie.IE
-	UserPlaneIPResourceInformation  *ie.IE
-	AlternativeSMFIPAddress         *ie.IE
-	SMFSetID                        *ie.IE
-	PFCPSessionRetentionInformation *ie.IE
-	UEIPAddressPoolInformation      *ie.IE
-	GTPUPathQoSControlInformation   *ie.IE
-	ClockDriftControlInformation    *ie.IE
+	NodeID *ie.IE
+	IEs    []*ie.IE
 }
 
 // NewAssociationSetupRequest creates a new AssociationSetupRequest.
-func NewAssociationSetupRequest(nid *ie.IE, ts *ie.IE, up *ie.IE) *AssociationSetupRequest {
+func NewAssociationSetupRequest(nid *ie.IE, IEs ...*ie.IE) *AssociationSetupRequest {
 	m := &AssociationSetupRequest{
 		Header: NewHeader(
 			1, 0, 0, 0,
 			MsgTypeAssociationSetupRequest, 0, 0, 0,
 			nil,
 		),
-		NodeID:             nid,
-		RecoveryTimeStamp:  ts,
-		UPFunctionFeatures: up,
+		NodeID: nid,
+		IEs:    IEs,
 	}
 	m.SetLength()
 
@@ -60,18 +50,14 @@ func (m *AssociationSetupRequest) MarshalTo(b []byte) error {
 		offset += i.MarshalLen()
 	}
 
-	if i := m.RecoveryTimeStamp; i != nil {
-		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
+	for _, ie := range m.IEs {
+		if ie == nil {
+			continue
+		}
+		if err := ie.MarshalTo(m.Header.Payload[offset:]); err != nil {
 			return err
 		}
-		offset += i.MarshalLen()
-	}
-
-	if i := m.UPFunctionFeatures; i != nil {
-		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
-			return err
-		}
-		offset += i.MarshalLen()
+		offset += ie.MarshalLen()
 	}
 
 	m.Header.SetLength()
@@ -105,12 +91,10 @@ func (m *AssociationSetupRequest) UnmarshalBinary(b []byte) error {
 
 	for _, i := range ies {
 		switch i.Type {
-		case ie.RecoveryTimeStamp:
-			m.RecoveryTimeStamp = i
-		case ie.UPFunctionFeatures:
-			m.UPFunctionFeatures = i
 		case ie.NodeID:
 			m.NodeID = i
+		default:
+			m.IEs = append(m.IEs, i)
 		}
 	}
 
@@ -125,12 +109,11 @@ func (m *AssociationSetupRequest) MarshalLen() int {
 		l += i.MarshalLen()
 	}
 
-	if i := m.RecoveryTimeStamp; i != nil {
-		l += i.MarshalLen()
-	}
-
-	if i := m.UPFunctionFeatures; i != nil {
-		l += i.MarshalLen()
+	for _, ie := range m.IEs {
+		if ie == nil {
+			continue
+		}
+		l += ie.MarshalLen()
 	}
 
 	return l
@@ -144,12 +127,8 @@ func (m *AssociationSetupRequest) SetLength() {
 		l += i.MarshalLen()
 	}
 
-	if i := m.RecoveryTimeStamp; i != nil {
-		l += i.MarshalLen()
-	}
-
-	if i := m.UPFunctionFeatures; i != nil {
-		l += i.MarshalLen()
+	for _, ie := range m.IEs {
+		l += ie.MarshalLen()
 	}
 	m.Header.Length = uint16(l)
 }

@@ -5,31 +5,20 @@ import "github.com/wmnsk/go-pfcp/ie"
 // AssociationSetupResponse is a AssociationSetupResponse formed PFCP Header and its IEs above.
 type AssociationSetupResponse struct {
 	*Header
-	NodeID                         *ie.IE
-	Cause                          *ie.IE
-	RecoveryTimeStamp              *ie.IE
-	UPFunctionFeatures             *ie.IE
-	CPFunctionFeatures             *ie.IE
-	UserPlaneIPResourceInformation *ie.IE
-	AlternativeSMFIPAddress        *ie.IE
-	PFCPPASPRspFlags               *ie.IE
-	UEIPAddressPoolInformation     *ie.IE
-	GTPUPathQoSControlInformation  *ie.IE
-	ClockDriftControlInformation   *ie.IE
+	NodeID *ie.IE
+	IEs    []*ie.IE
 }
 
 // NewAssociationSetupResponse creates a new AssociationSetupResponse.
-func NewAssociationSetupResponse(nid *ie.IE, cause *ie.IE, ts *ie.IE, cp *ie.IE) *AssociationSetupResponse {
+func NewAssociationSetupResponse(nid *ie.IE, ies ...*ie.IE) *AssociationSetupResponse {
 	m := &AssociationSetupResponse{
 		Header: NewHeader(
 			1, 0, 0, 0,
 			MsgTypeAssociationSetupResponse, 0, 0, 0,
 			nil,
 		),
-		NodeID:             nid,
-		Cause:              cause,
-		RecoveryTimeStamp:  ts,
-		CPFunctionFeatures: cp,
+		NodeID: nid,
+		IEs:    ies,
 	}
 	m.SetLength()
 
@@ -61,25 +50,14 @@ func (m *AssociationSetupResponse) MarshalTo(b []byte) error {
 		offset += i.MarshalLen()
 	}
 
-	if i := m.Cause; i != nil {
-		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
+	for _, ie := range m.IEs {
+		if ie == nil {
+			continue
+		}
+		if err := ie.MarshalTo(m.Header.Payload[offset:]); err != nil {
 			return err
 		}
-		offset += i.MarshalLen()
-	}
-
-	if i := m.RecoveryTimeStamp; i != nil {
-		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
-			return err
-		}
-		offset += i.MarshalLen()
-	}
-
-	if i := m.CPFunctionFeatures; i != nil {
-		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
-			return err
-		}
-		offset += i.MarshalLen()
+		offset += ie.MarshalLen()
 	}
 
 	m.Header.SetLength()
@@ -113,14 +91,10 @@ func (m *AssociationSetupResponse) UnmarshalBinary(b []byte) error {
 
 	for _, i := range ies {
 		switch i.Type {
-		case ie.RecoveryTimeStamp:
-			m.RecoveryTimeStamp = i
-		case ie.CPFunctionFeatures:
-			m.CPFunctionFeatures = i
 		case ie.NodeID:
 			m.NodeID = i
-		case ie.Cause:
-			m.Cause = i
+		default:
+			m.IEs = append(m.IEs, i)
 		}
 	}
 
@@ -135,16 +109,11 @@ func (m *AssociationSetupResponse) MarshalLen() int {
 		l += i.MarshalLen()
 	}
 
-	if i := m.Cause; i != nil {
-		l += i.MarshalLen()
-	}
-
-	if i := m.RecoveryTimeStamp; i != nil {
-		l += i.MarshalLen()
-	}
-
-	if i := m.CPFunctionFeatures; i != nil {
-		l += i.MarshalLen()
+	for _, ie := range m.IEs {
+		if ie == nil {
+			continue
+		}
+		l += ie.MarshalLen()
 	}
 
 	return l
@@ -158,16 +127,8 @@ func (m *AssociationSetupResponse) SetLength() {
 		l += i.MarshalLen()
 	}
 
-	if i := m.Cause; i != nil {
-		l += i.MarshalLen()
-	}
-
-	if i := m.RecoveryTimeStamp; i != nil {
-		l += i.MarshalLen()
-	}
-
-	if i := m.CPFunctionFeatures; i != nil {
-		l += i.MarshalLen()
+	for _, ie := range m.IEs {
+		l += ie.MarshalLen()
 	}
 	m.Header.Length = uint16(l)
 }
