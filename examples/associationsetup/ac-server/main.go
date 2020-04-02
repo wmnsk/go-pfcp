@@ -71,6 +71,6 @@ func main() {
 		if _, err := conn.WriteTo(acres, addr); err != nil {
 			log.Fatal(err)
 		}
-		log.Printf("sent Association Setup  Response to: %s", addr)
+		log.Printf("sent Association Setup Response to: %s", addr)
 	}
 }

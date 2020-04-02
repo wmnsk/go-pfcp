@@ -139,7 +139,7 @@ func (m *AssociationSetupResponse) SetLength() {
 
 // MessageTypeName returns the name of protocol.
 func (m *AssociationSetupResponse) MessageTypeName() string {
-	return "PFCP Association Setup Response"
+	return "Association Setup Response"
 }
 
 // SEID returns the SEID in uint64.
