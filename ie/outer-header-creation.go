@@ -146,29 +146,32 @@ type OuterHeaderCreationFields struct {
 }
 
 func NewOuterHeaderCreationFields(flags uint16, teid uint32, v4, v6 string, port uint16, ctag, stag uint32) *OuterHeaderCreationFields {
-	f := &OuterHeaderCreationFields{Flags: flags}
 
-	if has1stBit(uint8(flags&0xff)) || has2ndBit(uint8(flags&0xff)) {
+	f := &OuterHeaderCreationFields{
+		Flags: flags,
+	}
+
+	if flags == 0x0100 || flags == 0x0200 {
 		f.TEID = teid
 	}
 
-	if has1stBit(uint8(flags&0xff)) || has3rdBit(uint8(flags&0xff)) || has5thBit(uint8(flags&0xff)) {
+	if flags == 0x0100 || flags == 0x0400 || flags == 0x1000 {
 		f.IPv4Address = net.ParseIP(v4).To4()
 	}
 
-	if has2ndBit(uint8(flags&0xff)) || has4thBit(uint8(flags&0xff)) || has6thBit(uint8(flags&0xff)) {
+	if flags == 0x0200 || flags == 0x0800 || flags == 0x2000 {
 		f.IPv6Address = net.ParseIP(v6).To16()
 	}
 
-	if has3rdBit(uint8(flags&0xff)) || has4thBit(uint8(flags&0xff)) {
+	if flags == 0x0400 || flags == 0x0800 {
 		f.PortNumber = port
 	}
 
-	if has7thBit(uint8(flags & 0xff)) {
+	if flags == 0x4000 {
 		f.CTag = ctag
 	}
 
-	if has8thBit(uint8(flags & 0xff)) {
+	if flags == 0x8000 {
 		f.STag = stag
 	}
 
@@ -194,7 +197,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 	f.Flags = binary.BigEndian.Uint16(b[0:2])
 	offset := 3
 
-	if has1stBit(uint8(f.Flags&0xff)) || has2ndBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0100 || f.Flags == 0x0200 {
 		if l < offset+4 {
 			return io.ErrUnexpectedEOF
 		}
@@ -202,7 +205,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		offset += 4
 	}
 
-	if has1stBit(uint8(f.Flags&0xff)) || has3rdBit(uint8(f.Flags&0xff)) || has5thBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0100 || f.Flags == 0x0400 || f.Flags == 0x1000 {
 		if l < offset+4 {
 			return io.ErrUnexpectedEOF
 		}
@@ -210,7 +213,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		offset += 4
 	}
 
-	if has2ndBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) || has6thBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0200 || f.Flags == 0x0800 || f.Flags == 0x2000 {
 		if l < offset+16 {
 			return io.ErrUnexpectedEOF
 		}
@@ -218,7 +221,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		offset += 16
 	}
 
-	if has3rdBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0400 || f.Flags == 0x0800 {
 		if l < offset+2 {
 			return io.ErrUnexpectedEOF
 		}
@@ -226,7 +229,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		offset += 2
 	}
 
-	if has7thBit(uint8(f.Flags & 0xff)) {
+	if f.Flags == 0x4000 {
 		if l < offset+3 {
 			return io.ErrUnexpectedEOF
 		}
@@ -234,7 +237,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		offset += 3
 	}
 
-	if has8thBit(uint8(f.Flags & 0xff)) {
+	if f.Flags == 0x8000 {
 		if l < offset+3 {
 			return io.ErrUnexpectedEOF
 		}
@@ -263,33 +266,33 @@ func (f *OuterHeaderCreationFields) MarshalTo(b []byte) error {
 	binary.BigEndian.PutUint16(b[0:2], f.Flags)
 	offset := 2
 
-	if has1stBit(uint8(f.Flags&0xff)) || has2ndBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0100 || f.Flags == 0x0200 {
 		binary.BigEndian.PutUint32(b[offset:offset+4], f.TEID)
 		offset += 4
 	}
 
-	if has1stBit(uint8(f.Flags&0xff)) || has3rdBit(uint8(f.Flags&0xff)) || has5thBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0100 || f.Flags == 0x0400 || f.Flags == 0x1000 {
 		copy(b[offset:offset+4], f.IPv4Address)
 		offset += 4
 	}
 
-	if has2ndBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) || has6thBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0200 || f.Flags == 0x0800 || f.Flags == 0x2000 {
 		copy(b[offset:offset+16], f.IPv6Address)
 		offset += 16
 	}
 
-	if has3rdBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0400 || f.Flags == 0x0800 {
 		binary.BigEndian.PutUint16(b[offset:offset+2], f.PortNumber)
 	}
 
-	if has7thBit(uint8(f.Flags & 0xff)) {
+	if f.Flags == 0x4000 {
 		p := make([]byte, 4)
 		binary.BigEndian.PutUint32(p, f.CTag)
 		copy(b[offset:offset+3], p[1:4])
 		offset += 3
 	}
 
-	if has8thBit(uint8(f.Flags & 0xff)) {
+	if f.Flags == 0x8000 {
 		p := make([]byte, 4)
 		binary.BigEndian.PutUint32(p, f.STag)
 		copy(b[offset:offset+3], p[1:4])
@@ -301,22 +304,22 @@ func (f *OuterHeaderCreationFields) MarshalTo(b []byte) error {
 // MarshalLen returns field length in integer.
 func (f *OuterHeaderCreationFields) MarshalLen() int {
 	l := 2
-	if has1stBit(uint8(f.Flags&0xff)) || has2ndBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0100 || f.Flags == 0x0200 {
 		l += 4
 	}
-	if has1stBit(uint8(f.Flags&0xff)) || has3rdBit(uint8(f.Flags&0xff)) || has5thBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0100 || f.Flags == 0x0400 || f.Flags == 0x1000 {
 		l += 4
 	}
-	if has2ndBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) || has6thBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0200 || f.Flags == 0x0800 || f.Flags == 0x2000 {
 		l += 16
 	}
-	if has3rdBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) {
+	if f.Flags == 0x0400 || f.Flags == 0x0800 {
 		l += 2
 	}
-	if has7thBit(uint8(f.Flags & 0xff)) {
+	if f.Flags == 0x4000 {
 		l += 3
 	}
-	if has8thBit(uint8(f.Flags & 0xff)) {
+	if f.Flags == 0x8000 {
 		l += 3
 	}
 
