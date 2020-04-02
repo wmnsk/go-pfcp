@@ -1,6 +1,7 @@
 // Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
+
 package message
 
 import "github.com/wmnsk/go-pfcp/ie"
@@ -13,7 +14,7 @@ type AssociationSetupRequest struct {
 }
 
 // NewAssociationSetupRequest creates a new AssociationSetupRequest.
-func NewAssociationSetupRequest(nid *ie.IE, IEs ...*ie.IE) *AssociationSetupRequest {
+func NewAssociationSetupRequest(nid *ie.IE, ies ...*ie.IE) *AssociationSetupRequest {
 	m := &AssociationSetupRequest{
 		Header: NewHeader(
 			1, 0, 0, 0,
@@ -21,7 +22,7 @@ func NewAssociationSetupRequest(nid *ie.IE, IEs ...*ie.IE) *AssociationSetupRequ
 			nil,
 		),
 		NodeID: nid,
-		IEs:    IEs,
+		IEs:    ies,
 	}
 	m.SetLength()
 

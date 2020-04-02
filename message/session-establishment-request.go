@@ -1,3 +1,7 @@
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
+
 package message
 
 import "github.com/wmnsk/go-pfcp/ie"
@@ -10,7 +14,7 @@ type SessionEstablishmentRequset struct {
 }
 
 // NewSessionEstablishmentRequset creates a new SessionEstablishmentRequset.
-func NewSessionEstablishmentRequset(nid *ie.IE, IEs ...*ie.IE) *SessionEstablishmentRequset {
+func NewSessionEstablishmentRequset(nid *ie.IE, ies ...*ie.IE) *SessionEstablishmentRequset {
 	m := &SessionEstablishmentRequset{
 		Header: NewHeader(
 			1, 0, 0, 0,
@@ -18,7 +22,7 @@ func NewSessionEstablishmentRequset(nid *ie.IE, IEs ...*ie.IE) *SessionEstablish
 			nil,
 		),
 		NodeID: nid,
-		IEs:    IEs,
+		IEs:    ies,
 	}
 	m.SetLength()
 
