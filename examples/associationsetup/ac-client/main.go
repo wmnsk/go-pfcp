@@ -1,3 +1,6 @@
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
 package main
 
 import (
@@ -65,11 +68,11 @@ func main() {
 		}
 
 		waiting = false
-		ts, err := acres.NodeID.NodeID()
+		nid, err := acres.NodeID.NodeID()
 		if err != nil {
-			log.Printf("got Association Setup  Response with invalid TS: %s, from: %s", err, addr)
+			log.Printf("got Association Setup  Response with invalid NodeID: %s, from: %s", err, addr)
 			break
 		}
-		log.Printf("got Association Setup  Response with TS: %s, from: %s", ts, addr)
+		log.Printf("got Association Setup  Response with NodeID: %s, from: %s", nid, addr)
 	}
 }

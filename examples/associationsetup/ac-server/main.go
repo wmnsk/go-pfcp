@@ -1,3 +1,7 @@
+// Copyright 2019-2020 go-pfcp authors. All rights reserved.
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
+
 package main
 
 import (
@@ -45,12 +49,12 @@ func main() {
 			continue
 		}
 
-		ts, err := acreq.NodeID.NodeID()
+		nid, err := acreq.NodeID.NodeID()
 		if err != nil {
-			log.Printf("got Association Setup Request with invalid TS: %s, from: %s", err, addr)
+			log.Printf("got Association Setup Request with invalid NodeID: %s, from: %s", err, addr)
 			continue
 		} else {
-			log.Printf("got Association Setup Request with TS: %s, from: %s", ts, addr)
+			log.Printf("got Association Setup Request with NodeID: %s, from: %s", nid, addr)
 		}
 
 		//IE required for encapsulation
