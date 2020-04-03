@@ -1,6 +1,7 @@
 // Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
+
 package main
 
 import (
@@ -70,6 +71,6 @@ func main() {
 		if _, err := conn.WriteTo(acres, addr); err != nil {
 			log.Fatal(err)
 		}
-		log.Printf("sent Association Setup  Response to: %s", addr)
+		log.Printf("sent Association Setup Response to: %s", addr)
 	}
 }

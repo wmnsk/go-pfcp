@@ -2,4 +2,8 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-package message_test
+package ie
+
+func NewPDI(teid uint16, sourceInterface *IE, fteid *IE, ueIpAddress *IE) *IE {
+	return newGroupedIE(PDI, teid, sourceInterface, fteid, ueIpAddress)
+}

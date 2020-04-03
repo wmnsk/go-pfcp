@@ -1,6 +1,7 @@
 // Copyright 2019-2020 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
+
 package main
 
 import (
@@ -41,7 +42,7 @@ func main() {
 	if _, err := conn.Write(acreq); err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("sent AssociationSetup  Request to: %s", raddr)
+	log.Printf("sent AssociationSetup Request to: %s", raddr)
 
 	if err := conn.SetReadDeadline(time.Now().Add(3 * time.Second)); err != nil {
 		log.Fatal(err)
@@ -70,9 +71,9 @@ func main() {
 		waiting = false
 		nid, err := acres.NodeID.NodeID()
 		if err != nil {
-			log.Printf("got Association Setup  Response with invalid NodeID: %s, from: %s", err, addr)
+			log.Printf("got Association Setup Response with invalid NodeID: %s, from: %s", err, addr)
 			break
 		}
-		log.Printf("got Association Setup  Response with NodeID: %s, from: %s", nid, addr)
+		log.Printf("got Association Setup Response with NodeID: %s, from: %s", nid, addr)
 	}
 }
