@@ -8,31 +8,31 @@ import (
 	"github.com/wmnsk/go-pfcp/ie"
 )
 
-// SessionReportResponse is a SessionReportResponse formed PFCP Header and its IEs above.
-type SessionReportResponse struct {
+// SessionSetDeletionResponse is a SessionSetDeletionResponse formed PFCP Header and its IEs above.
+type SessionSetDeletionResponse struct {
 	*Header
-	Cause *ie.IE
-	IEs   []*ie.IE
+	NodeID *ie.IE
+	IEs    []*ie.IE
 }
 
-// NewSessionReportResponse creates a new SessionReportResponse.
-func NewSessionReportResponse(ts *ie.IE, ies ...*ie.IE) *SessionReportResponse {
-	m := &SessionReportResponse{
+// NewSessionSetDeletionResponse creates a new SessionSetDeletionResponse.
+func NewSessionSetDeletionResponse(ts *ie.IE, ies ...*ie.IE) *SessionSetDeletionResponse {
+	m := &SessionSetDeletionResponse{
 		Header: NewHeader(
 			1, 0, 0, 0,
-			MsgTypeSessionReportResponse, 0, 0, 0,
+			MsgTypeSessionSetDeletionResponse, 0, 0, 0,
 			nil,
 		),
-		Cause: ts,
-		IEs:   ies,
+		NodeID: ts,
+		IEs:    ies,
 	}
 	m.SetLength()
 
 	return m
 }
 
-// Marshal returns the byte sequence generated from a SessionReportResponse.
-func (m *SessionReportResponse) Marshal() ([]byte, error) {
+// Marshal returns the byte sequence generated from a SessionSetDeletionResponse.
+func (m *SessionSetDeletionResponse) Marshal() ([]byte, error) {
 	b := make([]byte, m.MarshalLen())
 	if err := m.MarshalTo(b); err != nil {
 		return nil, err
@@ -42,14 +42,14 @@ func (m *SessionReportResponse) Marshal() ([]byte, error) {
 }
 
 // MarshalTo puts the byte sequence in the byte array given as b.
-func (m *SessionReportResponse) MarshalTo(b []byte) error {
+func (m *SessionSetDeletionResponse) MarshalTo(b []byte) error {
 	if m.Header.Payload != nil {
 		m.Header.Payload = nil
 	}
 	m.Header.Payload = make([]byte, m.MarshalLen()-m.Header.MarshalLen())
 
 	offset := 0
-	if i := m.Cause; i != nil {
+	if i := m.NodeID; i != nil {
 		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
 			return err
 		}
@@ -70,17 +70,17 @@ func (m *SessionReportResponse) MarshalTo(b []byte) error {
 	return m.Header.MarshalTo(b)
 }
 
-// ParseSessionReportResponse decodes a given byte sequence as a SessionReportResponse.
-func ParseSessionReportResponse(b []byte) (*SessionReportResponse, error) {
-	m := &SessionReportResponse{}
+// ParseSessionSetDeletionResponse decodes a given byte sequence as a SessionSetDeletionResponse.
+func ParseSessionSetDeletionResponse(b []byte) (*SessionSetDeletionResponse, error) {
+	m := &SessionSetDeletionResponse{}
 	if err := m.UnmarshalBinary(b); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-// UnmarshalBinary decodes a given byte sequence as a SessionReportResponse.
-func (m *SessionReportResponse) UnmarshalBinary(b []byte) error {
+// UnmarshalBinary decodes a given byte sequence as a SessionSetDeletionResponse.
+func (m *SessionSetDeletionResponse) UnmarshalBinary(b []byte) error {
 	var err error
 	m.Header, err = ParseHeader(b)
 	if err != nil {
@@ -97,8 +97,8 @@ func (m *SessionReportResponse) UnmarshalBinary(b []byte) error {
 
 	for _, i := range ies {
 		switch i.Type {
-		case ie.Cause:
-			m.Cause = i
+		case ie.NodeID:
+			m.NodeID = i
 		default:
 			m.IEs = append(m.IEs, i)
 		}
@@ -108,10 +108,10 @@ func (m *SessionReportResponse) UnmarshalBinary(b []byte) error {
 }
 
 // MarshalLen returns the serial length of Data.
-func (m *SessionReportResponse) MarshalLen() int {
+func (m *SessionSetDeletionResponse) MarshalLen() int {
 	l := m.Header.MarshalLen() - len(m.Header.Payload)
 
-	if i := m.Cause; i != nil {
+	if i := m.NodeID; i != nil {
 		l += i.MarshalLen()
 	}
 
@@ -126,10 +126,10 @@ func (m *SessionReportResponse) MarshalLen() int {
 }
 
 // SetLength sets the length in Length field.
-func (m *SessionReportResponse) SetLength() {
+func (m *SessionSetDeletionResponse) SetLength() {
 	l := m.Header.MarshalLen() - len(m.Header.Payload) - 4
 
-	if i := m.Cause; i != nil {
+	if i := m.NodeID; i != nil {
 		l += i.MarshalLen()
 	}
 
@@ -140,11 +140,11 @@ func (m *SessionReportResponse) SetLength() {
 }
 
 // MessageTypeName returns the name of protocol.
-func (m *SessionReportResponse) MessageTypeName() string {
-	return "Session Report Response"
+func (m *SessionSetDeletionResponse) MessageTypeName() string {
+	return "Session SetDeletion Response"
 }
 
 // SEID returns the SEID in uint64.
-func (m *SessionReportResponse) SEID() uint64 {
+func (m *SessionSetDeletionResponse) SEID() uint64 {
 	return m.Header.seid()
 }
