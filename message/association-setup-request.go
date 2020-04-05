@@ -4,7 +4,9 @@
 
 package message
 
-import "github.com/wmnsk/go-pfcp/ie"
+import (
+	"github.com/wmnsk/go-pfcp/ie"
+)
 
 // AssociationSetupRequest is a AssociationSetupRequest formed PFCP Header and its IEs above.
 type AssociationSetupRequest struct {
