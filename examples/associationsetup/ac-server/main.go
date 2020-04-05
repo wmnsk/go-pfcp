@@ -59,7 +59,7 @@ func main() {
 
 		//IE required for encapsulation
 		nodeID := ie.NewNodeID("172.55.55.101", "", "")
-		rets := ie.NewRecoveryTimeStamp(time.Now())
+		rets := ie.NewRecoveryTimeStamp(time.Date(2020, 3, 3, 12, 22, 22, 22, time.Local))
 		cause := ie.NewCause(ie.CauseRequestAccepted)
 		cp := ie.NewCPFunctionFeatures(0x00)
 		// Timestamp shouldn't be the time message is sent in the real deployment but anyway :D
