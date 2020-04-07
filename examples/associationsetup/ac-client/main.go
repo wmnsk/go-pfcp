@@ -31,7 +31,7 @@ func main() {
 	}
 	//IE required for encapsulation
 	nodeID := ie.NewNodeID("172.55.55.102", "", "")
-	ts := ie.NewRecoveryTimeStamp(time.Now())
+	ts := ie.NewRecoveryTimeStamp(time.Date(2020, 3, 3, 12, 22, 22, 22, time.Local))
 	up := ie.NewUPFunctionFeatures(0x10, 0x00)
 
 	acreq, err := message.NewAssociationSetupRequest(nodeID, ts, up).Marshal()

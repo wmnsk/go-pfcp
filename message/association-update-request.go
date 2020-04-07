@@ -8,19 +8,19 @@ import (
 	"github.com/wmnsk/go-pfcp/ie"
 )
 
-// SessionEstablishmentResponse is a SessionEstablishmentResponse formed PFCP Header and its IEs above.
-type SessionEstablishmentResponse struct {
+// AssociationUpdateRequest is a AssociationUpdateRequest formed PFCP Header and its IEs above.
+type AssociationUpdateRequest struct {
 	*Header
 	NodeID *ie.IE
 	IEs    []*ie.IE
 }
 
-// NewSessionEstablishmentResponse creates a new SessionEstablishmentResponse.
-func NewSessionEstablishmentResponse(ts *ie.IE, ies ...*ie.IE) *SessionEstablishmentResponse {
-	m := &SessionEstablishmentResponse{
+// NewAssociationUpdateRequest creates a new AssociationUpdateRequest.
+func NewAssociationUpdateRequest(ts *ie.IE, ies ...*ie.IE) *AssociationUpdateRequest {
+	m := &AssociationUpdateRequest{
 		Header: NewHeader(
 			1, 0, 0, 0,
-			MsgTypeSessionEstablishmentResponse, 0, 0, 0,
+			MsgTypeAssociationUpdateRequest, 0, 0, 0,
 			nil,
 		),
 		NodeID: ts,
@@ -31,8 +31,8 @@ func NewSessionEstablishmentResponse(ts *ie.IE, ies ...*ie.IE) *SessionEstablish
 	return m
 }
 
-// Marshal returns the byte sequence generated from a SessionEstablishmentResponse.
-func (m *SessionEstablishmentResponse) Marshal() ([]byte, error) {
+// Marshal returns the byte sequence generated from a AssociationUpdateRequest.
+func (m *AssociationUpdateRequest) Marshal() ([]byte, error) {
 	b := make([]byte, m.MarshalLen())
 	if err := m.MarshalTo(b); err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func (m *SessionEstablishmentResponse) Marshal() ([]byte, error) {
 }
 
 // MarshalTo puts the byte sequence in the byte array given as b.
-func (m *SessionEstablishmentResponse) MarshalTo(b []byte) error {
+func (m *AssociationUpdateRequest) MarshalTo(b []byte) error {
 	if m.Header.Payload != nil {
 		m.Header.Payload = nil
 	}
@@ -70,17 +70,17 @@ func (m *SessionEstablishmentResponse) MarshalTo(b []byte) error {
 	return m.Header.MarshalTo(b)
 }
 
-// ParseSessionEstablishmentResponse decodes a given byte sequence as a SessionEstablishmentResponse.
-func ParseSessionEstablishmentResponse(b []byte) (*SessionEstablishmentResponse, error) {
-	m := &SessionEstablishmentResponse{}
+// ParseAssociationUpdateRequest decodes a given byte sequence as a AssociationUpdateRequest.
+func ParseAssociationUpdateRequest(b []byte) (*AssociationUpdateRequest, error) {
+	m := &AssociationUpdateRequest{}
 	if err := m.UnmarshalBinary(b); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-// UnmarshalBinary decodes a given byte sequence as a SessionEstablishmentResponse.
-func (m *SessionEstablishmentResponse) UnmarshalBinary(b []byte) error {
+// UnmarshalBinary decodes a given byte sequence as a AssociationUpdateRequest.
+func (m *AssociationUpdateRequest) UnmarshalBinary(b []byte) error {
 	var err error
 	m.Header, err = ParseHeader(b)
 	if err != nil {
@@ -108,7 +108,7 @@ func (m *SessionEstablishmentResponse) UnmarshalBinary(b []byte) error {
 }
 
 // MarshalLen returns the serial length of Data.
-func (m *SessionEstablishmentResponse) MarshalLen() int {
+func (m *AssociationUpdateRequest) MarshalLen() int {
 	l := m.Header.MarshalLen() - len(m.Header.Payload)
 
 	if i := m.NodeID; i != nil {
@@ -126,7 +126,7 @@ func (m *SessionEstablishmentResponse) MarshalLen() int {
 }
 
 // SetLength sets the length in Length field.
-func (m *SessionEstablishmentResponse) SetLength() {
+func (m *AssociationUpdateRequest) SetLength() {
 	l := m.Header.MarshalLen() - len(m.Header.Payload) - 4
 
 	if i := m.NodeID; i != nil {
@@ -140,11 +140,11 @@ func (m *SessionEstablishmentResponse) SetLength() {
 }
 
 // MessageTypeName returns the name of protocol.
-func (m *SessionEstablishmentResponse) MessageTypeName() string {
-	return "Session Establishment Response"
+func (m *AssociationUpdateRequest) MessageTypeName() string {
+	return "Association Update Request"
 }
 
 // SEID returns the SEID in uint64.
-func (m *SessionEstablishmentResponse) SEID() uint64 {
+func (m *AssociationUpdateRequest) SEID() uint64 {
 	return m.Header.seid()
 }

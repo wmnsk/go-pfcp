@@ -8,31 +8,31 @@ import (
 	"github.com/wmnsk/go-pfcp/ie"
 )
 
-// SessionEstablishmentResponse is a SessionEstablishmentResponse formed PFCP Header and its IEs above.
-type SessionEstablishmentResponse struct {
+// SessionDeletionResponse is a SessionDeletionResponse formed PFCP Header and its IEs above.
+type SessionDeletionResponse struct {
 	*Header
-	NodeID *ie.IE
-	IEs    []*ie.IE
+	OffendingIE *ie.IE
+	IEs         []*ie.IE
 }
 
-// NewSessionEstablishmentResponse creates a new SessionEstablishmentResponse.
-func NewSessionEstablishmentResponse(ts *ie.IE, ies ...*ie.IE) *SessionEstablishmentResponse {
-	m := &SessionEstablishmentResponse{
+// NewSessionDeletionResponse creates a new SessionDeletionResponse.
+func NewSessionDeletionResponse(ts *ie.IE, ies ...*ie.IE) *SessionDeletionResponse {
+	m := &SessionDeletionResponse{
 		Header: NewHeader(
 			1, 0, 0, 0,
-			MsgTypeSessionEstablishmentResponse, 0, 0, 0,
+			MsgTypeSessionDeletionResponse, 0, 0, 0,
 			nil,
 		),
-		NodeID: ts,
-		IEs:    ies,
+		OffendingIE: ts,
+		IEs:         ies,
 	}
 	m.SetLength()
 
 	return m
 }
 
-// Marshal returns the byte sequence generated from a SessionEstablishmentResponse.
-func (m *SessionEstablishmentResponse) Marshal() ([]byte, error) {
+// Marshal returns the byte sequence generated from a SessionDeletionResponse.
+func (m *SessionDeletionResponse) Marshal() ([]byte, error) {
 	b := make([]byte, m.MarshalLen())
 	if err := m.MarshalTo(b); err != nil {
 		return nil, err
@@ -42,14 +42,14 @@ func (m *SessionEstablishmentResponse) Marshal() ([]byte, error) {
 }
 
 // MarshalTo puts the byte sequence in the byte array given as b.
-func (m *SessionEstablishmentResponse) MarshalTo(b []byte) error {
+func (m *SessionDeletionResponse) MarshalTo(b []byte) error {
 	if m.Header.Payload != nil {
 		m.Header.Payload = nil
 	}
 	m.Header.Payload = make([]byte, m.MarshalLen()-m.Header.MarshalLen())
 
 	offset := 0
-	if i := m.NodeID; i != nil {
+	if i := m.OffendingIE; i != nil {
 		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
 			return err
 		}
@@ -70,17 +70,17 @@ func (m *SessionEstablishmentResponse) MarshalTo(b []byte) error {
 	return m.Header.MarshalTo(b)
 }
 
-// ParseSessionEstablishmentResponse decodes a given byte sequence as a SessionEstablishmentResponse.
-func ParseSessionEstablishmentResponse(b []byte) (*SessionEstablishmentResponse, error) {
-	m := &SessionEstablishmentResponse{}
+// ParseSessionDeletionResponse decodes a given byte sequence as a SessionDeletionResponse.
+func ParseSessionDeletionResponse(b []byte) (*SessionDeletionResponse, error) {
+	m := &SessionDeletionResponse{}
 	if err := m.UnmarshalBinary(b); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-// UnmarshalBinary decodes a given byte sequence as a SessionEstablishmentResponse.
-func (m *SessionEstablishmentResponse) UnmarshalBinary(b []byte) error {
+// UnmarshalBinary decodes a given byte sequence as a SessionDeletionResponse.
+func (m *SessionDeletionResponse) UnmarshalBinary(b []byte) error {
 	var err error
 	m.Header, err = ParseHeader(b)
 	if err != nil {
@@ -97,8 +97,8 @@ func (m *SessionEstablishmentResponse) UnmarshalBinary(b []byte) error {
 
 	for _, i := range ies {
 		switch i.Type {
-		case ie.NodeID:
-			m.NodeID = i
+		case ie.OffendingIE:
+			m.OffendingIE = i
 		default:
 			m.IEs = append(m.IEs, i)
 		}
@@ -108,10 +108,10 @@ func (m *SessionEstablishmentResponse) UnmarshalBinary(b []byte) error {
 }
 
 // MarshalLen returns the serial length of Data.
-func (m *SessionEstablishmentResponse) MarshalLen() int {
+func (m *SessionDeletionResponse) MarshalLen() int {
 	l := m.Header.MarshalLen() - len(m.Header.Payload)
 
-	if i := m.NodeID; i != nil {
+	if i := m.OffendingIE; i != nil {
 		l += i.MarshalLen()
 	}
 
@@ -126,10 +126,10 @@ func (m *SessionEstablishmentResponse) MarshalLen() int {
 }
 
 // SetLength sets the length in Length field.
-func (m *SessionEstablishmentResponse) SetLength() {
+func (m *SessionDeletionResponse) SetLength() {
 	l := m.Header.MarshalLen() - len(m.Header.Payload) - 4
 
-	if i := m.NodeID; i != nil {
+	if i := m.OffendingIE; i != nil {
 		l += i.MarshalLen()
 	}
 
@@ -140,11 +140,11 @@ func (m *SessionEstablishmentResponse) SetLength() {
 }
 
 // MessageTypeName returns the name of protocol.
-func (m *SessionEstablishmentResponse) MessageTypeName() string {
-	return "Session Establishment Response"
+func (m *SessionDeletionResponse) MessageTypeName() string {
+	return "Session Deletion Response"
 }
 
 // SEID returns the SEID in uint64.
-func (m *SessionEstablishmentResponse) SEID() uint64 {
+func (m *SessionDeletionResponse) SEID() uint64 {
 	return m.Header.seid()
 }
