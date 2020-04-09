@@ -97,8 +97,8 @@ func (m *SessionModificationResponse) UnmarshalBinary(b []byte) error {
 
 	for _, i := range ies {
 		switch i.Type {
-		case ie.PDRID:
-			m.PDRID = i
+		//case ie.PDRID:
+		//	m.PDRID = i
 		default:
 			m.IEs = append(m.IEs, i)
 		}
