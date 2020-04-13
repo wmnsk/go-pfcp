@@ -69,6 +69,7 @@ type RemoteGTPUPeerFields struct {
 	NetworkInstance      *IE
 }
 
+// NewRemoteGTPUPeerFields creates a new RemoteGTPUPeerFields.
 func NewRemoteGTPUPeerFields(flags uint8, v4, v6 string, di, ni *IE) *RemoteGTPUPeerFields {
 	f := &RemoteGTPUPeerFields{Flags: flags}
 

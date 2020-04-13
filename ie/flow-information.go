@@ -9,6 +9,7 @@ import (
 	"io"
 )
 
+// FlowDirection definitions.
 const (
 	FlowDirectionUnspecified   uint8 = 0
 	FlowDirectionDownlink      uint8 = 1

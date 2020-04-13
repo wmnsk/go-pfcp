@@ -145,6 +145,7 @@ type OuterHeaderCreationFields struct {
 	STag        uint32
 }
 
+// NewOuterHeaderCreationFields creates a new OuterHeaderCreationFields.
 func NewOuterHeaderCreationFields(flags uint16, teid uint32, v4, v6 string, port uint16, ctag, stag uint32) *OuterHeaderCreationFields {
 	f := &OuterHeaderCreationFields{Flags: flags}
 

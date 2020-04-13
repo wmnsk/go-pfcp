@@ -75,6 +75,7 @@ type PacketRateFields struct {
 	DownlinkPacketRate uint16
 }
 
+// NewPacketRateFields creates a new PacketRateFields.
 func NewPacketRateFields(flags uint8, ulunit uint8, ulpackets uint16, dlunit uint8, dlpackets uint16) *PacketRateFields {
 	f := &PacketRateFields{Flags: flags}
 

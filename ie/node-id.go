@@ -9,6 +9,7 @@ import (
 	"net"
 )
 
+// NodeID definitions.
 const (
 	NodeIDIPv4Address uint8 = 0
 	NodeIDIPv6Address uint8 = 1

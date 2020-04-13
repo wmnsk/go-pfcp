@@ -2,5 +2,5 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-// Package ies provides encoding/decoding feature of PFCP Information Elements.
+// Package ie provides encoding/decoding feature of PFCP Information Elements.
 package ie

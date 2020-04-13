@@ -47,6 +47,7 @@ type HeaderEnrichmentFields struct {
 	HeaderFieldValue string
 }
 
+// NewHeaderEnrichmentFields creates a new HeaderEnrichmentFields.
 func NewHeaderEnrichmentFields(typ uint8, name, value string) *HeaderEnrichmentFields {
 	return &HeaderEnrichmentFields{
 		HeaderType:       typ,

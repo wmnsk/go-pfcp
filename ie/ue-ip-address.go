@@ -77,6 +77,7 @@ type UEIPAddressFields struct {
 	IPv6Prefix  uint8
 }
 
+// NewUEIPAddressFields creates a new UEIPAddressFields.
 func NewUEIPAddressFields(flags uint8, v4, v6 string, v6d uint8) *UEIPAddressFields {
 	f := &UEIPAddressFields{Flags: flags}
 
