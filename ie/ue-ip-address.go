@@ -187,7 +187,7 @@ func (f *UEIPAddressFields) MarshalLen() int {
 		l += 16
 	}
 	if has4thBit(f.Flags) {
-		l += 1
+		l++
 	}
 
 	return l
