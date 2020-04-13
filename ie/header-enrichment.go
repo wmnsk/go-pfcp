@@ -47,6 +47,7 @@ type HeaderEnrichmentFields struct {
 	HeaderFieldValue string
 }
 
+// NewHeaderEnrichmentFields creates a new HeaderEnrichmentFields.
 func NewHeaderEnrichmentFields(typ uint8, name, value string) *HeaderEnrichmentFields {
 	return &HeaderEnrichmentFields{
 		HeaderType:       typ,
@@ -87,7 +88,7 @@ func (f *HeaderEnrichmentFields) UnmarshalBinary(b []byte) error {
 		return io.ErrUnexpectedEOF
 	}
 	f.ValueLength = b[offset]
-	offset += 1
+	offset++
 
 	if l < offset+int(f.ValueLength) {
 		return io.ErrUnexpectedEOF
@@ -121,7 +122,7 @@ func (f *HeaderEnrichmentFields) MarshalTo(b []byte) error {
 	offset += int(f.NameLength)
 
 	b[offset] = f.ValueLength
-	offset += 1
+	offset++
 
 	copy(b[offset:offset+int(f.ValueLength)], []byte(f.HeaderFieldValue))
 

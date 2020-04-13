@@ -64,6 +64,7 @@ type DLFlowLevelMarkingFields struct {
 	ServiceClassIdentifier uint16
 }
 
+// NewDLFlowLevelMarkingFields creates a new DLFlowLevelMarkingFields.
 func NewDLFlowLevelMarkingFields(flags uint8, ttc, sci uint16) *DLFlowLevelMarkingFields {
 	f := &DLFlowLevelMarkingFields{Flags: flags}
 

@@ -94,23 +94,23 @@ func (f *FTEIDFields) SetChFlag() {
 	f.Flags |= 0x04
 }
 
-// HasIPv4 reports whether IPv4 flag is set.
-func (f *FTEIDFields) HasIPv4() bool {
-	return has2ndBit(f.Flags)
-}
-
-// SetIPv4Flag sets CHID flag in FTEID.
-func (f *FTEIDFields) SetIPv4Flag() {
-	f.Flags |= 0x02
-}
-
 // HasIPv6 reports whether IPv6 flag is set.
 func (f *FTEIDFields) HasIPv6() bool {
-	return has1stBit(f.Flags)
+	return has2ndBit(f.Flags)
 }
 
 // SetIPv6Flag sets CHID flag in FTEID.
 func (f *FTEIDFields) SetIPv6Flag() {
+	f.Flags |= 0x02
+}
+
+// HasIPv4 reports whether IPv4 flag is set.
+func (f *FTEIDFields) HasIPv4() bool {
+	return has1stBit(f.Flags)
+}
+
+// SetIPv4Flag sets CHID flag in FTEID.
+func (f *FTEIDFields) SetIPv4Flag() {
 	f.Flags |= 0x01
 }
 

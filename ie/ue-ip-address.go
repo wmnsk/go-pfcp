@@ -77,6 +77,7 @@ type UEIPAddressFields struct {
 	IPv6Prefix  uint8
 }
 
+// NewUEIPAddressFields creates a new UEIPAddressFields.
 func NewUEIPAddressFields(flags uint8, v4, v6 string, v6d uint8) *UEIPAddressFields {
 	f := &UEIPAddressFields{Flags: flags}
 
@@ -186,7 +187,7 @@ func (f *UEIPAddressFields) MarshalLen() int {
 		l += 16
 	}
 	if has4thBit(f.Flags) {
-		l += 1
+		l++
 	}
 
 	return l
