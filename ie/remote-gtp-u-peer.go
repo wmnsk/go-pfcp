@@ -11,7 +11,7 @@ import (
 )
 
 // NewRemoteGTPUPeer creates a new RemoteGTPUPeer IE.
-func NewRemoteGTPUPeer(flags uint8, v4, v6 string, di, ni *IE) *IE {
+func NewRemoteGTPUPeer(flags uint8, v4, v6 string, di uint8, ni string) *IE {
 	fields := NewRemoteGTPUPeerFields(flags, v4, v6, di, ni)
 	b, err := fields.Marshal()
 	if err != nil {
@@ -64,13 +64,13 @@ type RemoteGTPUPeerFields struct {
 	IPv4Address          net.IP
 	IPv6Address          net.IP
 	DILength             uint16
-	DestinationInterface *IE
+	DestinationInterface uint8
 	NILength             uint16
-	NetworkInstance      *IE
+	NetworkInstance      string
 }
 
 // NewRemoteGTPUPeerFields creates a new RemoteGTPUPeerFields.
-func NewRemoteGTPUPeerFields(flags uint8, v4, v6 string, di, ni *IE) *RemoteGTPUPeerFields {
+func NewRemoteGTPUPeerFields(flags uint8, v4, v6 string, di uint8, ni string) *RemoteGTPUPeerFields {
 	f := &RemoteGTPUPeerFields{Flags: flags}
 
 	if has2ndBit(flags) {
@@ -82,12 +82,12 @@ func NewRemoteGTPUPeerFields(flags uint8, v4, v6 string, di, ni *IE) *RemoteGTPU
 	}
 
 	if has3rdBit(flags) {
-		f.DILength = uint16(di.MarshalLen())
-		f.DestinationInterface = di
+		f.DILength = 1 // DI is half-octet long
+		f.DestinationInterface = di & 0x0f
 	}
 
 	if has4thBit(flags) {
-		f.NILength = uint16(ni.MarshalLen())
+		f.NILength = uint16(len(ni))
 		f.NetworkInstance = ni
 	}
 
@@ -139,10 +139,7 @@ func (f *RemoteGTPUPeerFields) UnmarshalBinary(b []byte) error {
 		if l < offset+int(f.DILength) {
 			return io.ErrUnexpectedEOF
 		}
-		f.DestinationInterface = &IE{}
-		if err := f.DestinationInterface.UnmarshalBinary(b[offset : offset+int(f.DILength)]); err != nil {
-			return err
-		}
+		f.DestinationInterface = b[offset]
 		offset += int(f.DILength)
 	}
 
@@ -156,10 +153,7 @@ func (f *RemoteGTPUPeerFields) UnmarshalBinary(b []byte) error {
 		if l < offset+int(f.NILength) {
 			return io.ErrUnexpectedEOF
 		}
-		f.NetworkInstance = &IE{}
-		if err := f.NetworkInstance.UnmarshalBinary(b[offset : offset+int(f.NILength)]); err != nil {
-			return err
-		}
+		f.NetworkInstance = string(b[offset : offset+int(f.NILength)])
 	}
 
 	return nil
@@ -197,18 +191,14 @@ func (f *RemoteGTPUPeerFields) MarshalTo(b []byte) error {
 	if has3rdBit(f.Flags) {
 		binary.BigEndian.PutUint16(b[offset:offset+2], f.DILength)
 		offset += 2
-		if err := f.DestinationInterface.MarshalTo(b[offset : offset+int(f.DILength)]); err != nil {
-			return err
-		}
+		b[offset] = f.DestinationInterface
 		offset += int(f.DILength)
 	}
 
 	if has4thBit(f.Flags) {
 		binary.BigEndian.PutUint16(b[offset:offset+2], f.NILength)
 		offset += 2
-		if err := f.NetworkInstance.MarshalTo(b[offset : offset+int(f.NILength)]); err != nil {
-			return err
-		}
+		copy(b[offset:offset+int(f.NILength)], []byte(f.NetworkInstance))
 	}
 
 	return nil
