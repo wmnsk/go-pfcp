@@ -11,8 +11,8 @@ import (
 )
 
 // NewOuterHeaderCreation creates a new OuterHeaderCreation IE.
-func NewOuterHeaderCreation(flags uint16, teid uint32, v4, v6 string, port uint16, ctag, stag uint32) *IE {
-	fields := NewOuterHeaderCreationFields(flags, teid, v4, v6, port, ctag, stag)
+func NewOuterHeaderCreation(desc uint16, teid uint32, v4, v6 string, port uint16, ctag, stag uint32) *IE {
+	fields := NewOuterHeaderCreationFields(desc, teid, v4, v6, port, ctag, stag)
 	b, err := fields.Marshal()
 	if err != nil {
 		return nil
@@ -136,40 +136,42 @@ func (i *IE) IsN6() bool {
 
 // OuterHeaderCreationFields represents a fields contained in OuterHeaderCreation IE.
 type OuterHeaderCreationFields struct {
-	Flags       uint16
-	TEID        uint32
-	IPv4Address net.IP
-	IPv6Address net.IP
-	PortNumber  uint16
-	CTag        uint32
-	STag        uint32
+	OuterHeaderCreationDescription uint16
+	TEID                           uint32
+	IPv4Address                    net.IP
+	IPv6Address                    net.IP
+	PortNumber                     uint16
+	CTag                           uint32
+	STag                           uint32
 }
 
 // NewOuterHeaderCreationFields creates a new OuterHeaderCreationFields.
-func NewOuterHeaderCreationFields(flags uint16, teid uint32, v4, v6 string, port uint16, ctag, stag uint32) *OuterHeaderCreationFields {
-	f := &OuterHeaderCreationFields{Flags: flags}
+func NewOuterHeaderCreationFields(desc uint16, teid uint32, v4, v6 string, port uint16, ctag, stag uint32) *OuterHeaderCreationFields {
+	f := &OuterHeaderCreationFields{OuterHeaderCreationDescription: desc}
 
-	if has1stBit(uint8(flags&0xff)) || has2ndBit(uint8(flags&0xff)) {
+	oct5 := uint8((desc & 0xff00) >> 8)
+
+	if has1stBit(oct5) || has2ndBit(oct5) {
 		f.TEID = teid
 	}
 
-	if has1stBit(uint8(flags&0xff)) || has3rdBit(uint8(flags&0xff)) || has5thBit(uint8(flags&0xff)) {
+	if has1stBit(oct5) || has3rdBit(oct5) || has5thBit(oct5) {
 		f.IPv4Address = net.ParseIP(v4).To4()
 	}
 
-	if has2ndBit(uint8(flags&0xff)) || has4thBit(uint8(flags&0xff)) || has6thBit(uint8(flags&0xff)) {
+	if has2ndBit(oct5) || has4thBit(oct5) || has6thBit(oct5) {
 		f.IPv6Address = net.ParseIP(v6).To16()
 	}
 
-	if has3rdBit(uint8(flags&0xff)) || has4thBit(uint8(flags&0xff)) {
+	if has3rdBit(oct5) || has4thBit(oct5) {
 		f.PortNumber = port
 	}
 
-	if has7thBit(uint8(flags & 0xff)) {
+	if has7thBit(oct5) {
 		f.CTag = ctag
 	}
 
-	if has8thBit(uint8(flags & 0xff)) {
+	if has8thBit(oct5) {
 		f.STag = stag
 	}
 
@@ -192,10 +194,11 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		return io.ErrUnexpectedEOF
 	}
 
-	f.Flags = binary.BigEndian.Uint16(b[0:2])
+	f.OuterHeaderCreationDescription = binary.BigEndian.Uint16(b[0:2])
 	offset := 3
 
-	if has1stBit(uint8(f.Flags&0xff)) || has2ndBit(uint8(f.Flags&0xff)) {
+	oct5 := b[0]
+	if has1stBit(oct5) || has2ndBit(oct5) {
 		if l < offset+4 {
 			return io.ErrUnexpectedEOF
 		}
@@ -203,7 +206,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		offset += 4
 	}
 
-	if has1stBit(uint8(f.Flags&0xff)) || has3rdBit(uint8(f.Flags&0xff)) || has5thBit(uint8(f.Flags&0xff)) {
+	if has1stBit(oct5) || has3rdBit(oct5) || has5thBit(oct5) {
 		if l < offset+4 {
 			return io.ErrUnexpectedEOF
 		}
@@ -211,7 +214,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		offset += 4
 	}
 
-	if has2ndBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) || has6thBit(uint8(f.Flags&0xff)) {
+	if has2ndBit(oct5) || has4thBit(oct5) || has6thBit(oct5) {
 		if l < offset+16 {
 			return io.ErrUnexpectedEOF
 		}
@@ -219,7 +222,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		offset += 16
 	}
 
-	if has3rdBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) {
+	if has3rdBit(oct5) || has4thBit(oct5) {
 		if l < offset+2 {
 			return io.ErrUnexpectedEOF
 		}
@@ -227,7 +230,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		offset += 2
 	}
 
-	if has7thBit(uint8(f.Flags & 0xff)) {
+	if has7thBit(uint8(f.OuterHeaderCreationDescription & 0xff)) {
 		if l < offset+3 {
 			return io.ErrUnexpectedEOF
 		}
@@ -235,7 +238,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		offset += 3
 	}
 
-	if has8thBit(uint8(f.Flags & 0xff)) {
+	if has8thBit(uint8(f.OuterHeaderCreationDescription & 0xff)) {
 		if l < offset+3 {
 			return io.ErrUnexpectedEOF
 		}
@@ -261,36 +264,38 @@ func (f *OuterHeaderCreationFields) MarshalTo(b []byte) error {
 		return io.ErrUnexpectedEOF
 	}
 
-	binary.BigEndian.PutUint16(b[0:2], f.Flags)
+	binary.BigEndian.PutUint16(b[0:2], f.OuterHeaderCreationDescription)
 	offset := 2
 
-	if has1stBit(uint8(f.Flags&0xff)) || has2ndBit(uint8(f.Flags&0xff)) {
+	oct5 := uint8((f.OuterHeaderCreationDescription & 0xff00) >> 8)
+
+	if has1stBit(oct5) || has2ndBit(oct5) {
 		binary.BigEndian.PutUint32(b[offset:offset+4], f.TEID)
 		offset += 4
 	}
 
-	if has1stBit(uint8(f.Flags&0xff)) || has3rdBit(uint8(f.Flags&0xff)) || has5thBit(uint8(f.Flags&0xff)) {
+	if has1stBit(oct5) || has3rdBit(oct5) || has5thBit(oct5) {
 		copy(b[offset:offset+4], f.IPv4Address)
 		offset += 4
 	}
 
-	if has2ndBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) || has6thBit(uint8(f.Flags&0xff)) {
+	if has2ndBit(oct5) || has4thBit(oct5) || has6thBit(oct5) {
 		copy(b[offset:offset+16], f.IPv6Address)
 		offset += 16
 	}
 
-	if has3rdBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) {
+	if has3rdBit(oct5) || has4thBit(oct5) {
 		binary.BigEndian.PutUint16(b[offset:offset+2], f.PortNumber)
 	}
 
-	if has7thBit(uint8(f.Flags & 0xff)) {
+	if has7thBit(oct5) {
 		p := make([]byte, 4)
 		binary.BigEndian.PutUint32(p, f.CTag)
 		copy(b[offset:offset+3], p[1:4])
 		offset += 3
 	}
 
-	if has8thBit(uint8(f.Flags & 0xff)) {
+	if has8thBit(oct5) {
 		p := make([]byte, 4)
 		binary.BigEndian.PutUint32(p, f.STag)
 		copy(b[offset:offset+3], p[1:4])
@@ -302,22 +307,24 @@ func (f *OuterHeaderCreationFields) MarshalTo(b []byte) error {
 // MarshalLen returns field length in integer.
 func (f *OuterHeaderCreationFields) MarshalLen() int {
 	l := 2
-	if has1stBit(uint8(f.Flags&0xff)) || has2ndBit(uint8(f.Flags&0xff)) {
+	oct5 := uint8((f.OuterHeaderCreationDescription & 0xff00) >> 8)
+
+	if has1stBit(oct5) || has2ndBit(oct5) {
 		l += 4
 	}
-	if has1stBit(uint8(f.Flags&0xff)) || has3rdBit(uint8(f.Flags&0xff)) || has5thBit(uint8(f.Flags&0xff)) {
+	if has1stBit(oct5) || has3rdBit(oct5) || has5thBit(oct5) {
 		l += 4
 	}
-	if has2ndBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) || has6thBit(uint8(f.Flags&0xff)) {
+	if has2ndBit(oct5) || has4thBit(oct5) || has6thBit(oct5) {
 		l += 16
 	}
-	if has3rdBit(uint8(f.Flags&0xff)) || has4thBit(uint8(f.Flags&0xff)) {
+	if has3rdBit(oct5) || has4thBit(oct5) {
 		l += 2
 	}
-	if has7thBit(uint8(f.Flags & 0xff)) {
+	if has7thBit(oct5) {
 		l += 3
 	}
-	if has8thBit(uint8(f.Flags & 0xff)) {
+	if has8thBit(oct5) {
 		l += 3
 	}
 
