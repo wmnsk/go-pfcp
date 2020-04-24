@@ -67,11 +67,7 @@ func NewRedirectInformationFields(addrType uint8, addrs ...string) *RedirectInfo
 		RedirectServerAddress: addrs[0],
 	}
 
-	// [TS 29.244] 8.2.20 Redirect Information
-	// If the Redirect Address type is set to "IPv4 and IPv6 address", the Redirect
-	// Information IE shall include an IPv4 address and an IPv6 address in the Redirect
-	// Server Address IE and Other Redirect Server Address.
-	if addrType == RedirectAddrIPv4AndIPv6 && len(addrs) >= 2 {
+	if len(addrs) >= 2 {
 		f.OtherServerAddrLength = uint16(len(addrs[1]))
 		f.OtherRedirectServerAddress = addrs[1]
 	}
@@ -106,8 +102,8 @@ func (f *RedirectInformationFields) UnmarshalBinary(b []byte) error {
 	}
 	f.RedirectServerAddress = string(b[offset : offset+int(f.ServerAddrLength)])
 
-	if f.RedirectAddressType == RedirectAddrIPv4AndIPv6 {
-		f.OtherServerAddrLength = binary.BigEndian.Uint16(b[1:3])
+	f.OtherServerAddrLength = binary.BigEndian.Uint16(b[1:3])
+	if f.OtherServerAddrLength != 0 {
 		offset += 2
 
 		if l < offset+int(f.OtherServerAddrLength) {
@@ -148,26 +144,23 @@ func (f *RedirectInformationFields) MarshalTo(b []byte) error {
 	copy(b[offset:offset+int(f.ServerAddrLength)], []byte(f.RedirectServerAddress))
 	offset += int(f.ServerAddrLength)
 
-	if f.RedirectAddressType == RedirectAddrIPv4AndIPv6 && f.OtherRedirectServerAddress != "" {
-		if l < offset+int(f.OtherServerAddrLength) {
-			return io.ErrUnexpectedEOF
-		}
-
+	if f.OtherRedirectServerAddress == "" {
 		binary.BigEndian.PutUint16(b[offset:offset+2], f.OtherServerAddrLength)
-		offset += 2
-
-		copy(b[offset:offset+int(f.OtherServerAddrLength)], []byte(f.OtherRedirectServerAddress))
+		return nil
 	}
+
+	if l < offset+int(f.OtherServerAddrLength) {
+		return io.ErrUnexpectedEOF
+	}
+
+	binary.BigEndian.PutUint16(b[offset:offset+2], f.OtherServerAddrLength)
+	offset += 2
+
+	copy(b[offset:offset+int(f.OtherServerAddrLength)], []byte(f.OtherRedirectServerAddress))
 	return nil
 }
 
 // MarshalLen returns field length in integer.
 func (f *RedirectInformationFields) MarshalLen() int {
-	l := 3 + int(f.ServerAddrLength)
-
-	if f.RedirectAddressType == RedirectAddrIPv4AndIPv6 {
-		l += 2 + int(f.OtherServerAddrLength)
-	}
-
-	return l
+	return 3 + int(f.ServerAddrLength) + 2 + int(f.OtherServerAddrLength)
 }
