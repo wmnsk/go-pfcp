@@ -239,9 +239,9 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 111          | Sx Association Release Request                        | Yes        |
 | 112          | Graceful Release Period                               | Yes        |
 | 113          | PDN Type                                              | Yes        |
-| 114          | Failed Rule ID                                        |            |
-| 115          | Time Quota Mechanism                                  |            |
-| 116          | User Plane IP Resource Information                    |            |
+| 114          | Failed Rule ID                                        | Yes        |
+| 115          | Time Quota Mechanism                                  | Yes        |
+| 116          | User Plane IP Resource Information                    | Yes        |
 | 117          | User Plane Inactivity Timer                           | Yes        |
 | 118          | Aggregated URRs                                       |            |
 | 119          | Multiplier                                            | Yes        |
@@ -266,7 +266,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 138          | Ethernet Filter ID                                    | Yes        |
 | 139          | Ethernet Filter Properties                            | Yes        |
 | 140          | Suggested Buffering Packets Count                     | Yes        |
-| 141          | User ID                                               |            |
+| 141          | User ID                                               | Yes        |
 | 142          | Ethernet PDU Session Information                      | Yes        |
 | 143          | Ethernet Traffic Information                          |            |
 | 144          | MAC Addresses Detected                                |            |
