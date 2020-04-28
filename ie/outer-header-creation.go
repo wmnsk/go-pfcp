@@ -61,6 +61,12 @@ func (i *IE) HasIPv4() bool {
 		}
 
 		return has2ndBit(i.Payload[0]) && !has5thBit(i.Payload[0])
+	case UserPlaneIPResourceInformation:
+		if len(i.Payload) < 1 {
+			return false
+		}
+
+		return has1stBit(i.Payload[0])
 	default:
 		return false
 	}
@@ -81,6 +87,12 @@ func (i *IE) HasIPv6() bool {
 		}
 
 		return has1stBit(i.Payload[0]) && !has5thBit(i.Payload[0])
+	case UserPlaneIPResourceInformation:
+		if len(i.Payload) < 1 {
+			return false
+		}
+
+		return has2ndBit(i.Payload[0])
 	default:
 		return false
 	}
