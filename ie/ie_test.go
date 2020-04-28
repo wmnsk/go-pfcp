@@ -528,6 +528,10 @@ func TestIEs(t *testing.T) {
 			ie.NewPDNType(ie.PDNTypeIPv4),
 			[]byte{0x00, 0x71, 0x00, 0x01, 0x01},
 		}, {
+			"TimeQuotaMechanism",
+			ie.NewTimeQuotaMechanism(ie.BTITCTP, 10*time.Second),
+			[]byte{0x00, 0x73, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x0a},
+		}, {
 			"UserPlaneIPResourceInformation/IPv4/TEIDRange/NI/SI", // TODO: add other types
 			ie.NewUserPlaneIPResourceInformation(0x71, 15, "127.0.0.1", "", "some.instance.example", ie.SrcInterfaceAccess),
 			[]byte{
