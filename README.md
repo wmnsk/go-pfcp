@@ -123,191 +123,268 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 ### Information Elements
 
 
-| IE Type      | Information elements                                  | Supported? |
-|--------------|-------------------------------------------------------|------------|
-| 0            | _(Reserved)_                                          | -          |
-| 1            | Create PDR                                            |            |
-| 2            | PDI                                                   |            |
-| 3            | Create FAR                                            |            |
-| 4            | Forwarding Parameters                                 |            |
-| 5            | Duplicating Parameters                                |            |
-| 6            | Create URR                                            |            |
-| 7            | Create QER                                            |            |
-| 8            | Created PDR                                           |            |
-| 9            | Update PDR                                            |            |
-| 10           | Update FAR                                            |            |
-| 11           | Update Forwarding Parameters                          |            |
-| 12           | Update BAR (Sx Session Report Response)               |            |
-| 13           | Update URR                                            |            |
-| 14           | Update QER                                            |            |
-| 15           | Remove PDR                                            |            |
-| 16           | Remove FAR                                            |            |
-| 17           | Remove URR                                            |            |
-| 18           | Remove QER                                            |            |
-| 19           | Cause                                                 | Yes        |
-| 20           | Source Interface                                      | Yes        |
-| 21           | F-TEID                                                | Yes        |
-| 22           | Network Instance                                      | Yes        |
-| 23           | SDF Filter                                            | Yes        |
-| 24           | Application ID                                        | Yes        |
-| 25           | Gate Status                                           | Yes        |
-| 26           | MBR                                                   | Yes        |
-| 27           | GBR                                                   | Yes        |
-| 28           | QER Correlation ID                                    | Yes        |
-| 29           | Precedence                                            | Yes        |
-| 30           | Transport Level Marking                               | Yes        |
-| 31           | Volume Threshold                                      | Yes        |
-| 32           | Time Threshold                                        | Yes        |
-| 33           | Monitoring Time                                       | Yes        |
-| 34           | Subsequent Volume Threshold                           | Yes        |
-| 35           | Subsequent Time Threshold                             | Yes        |
-| 36           | Inactivity Detection Time                             | Yes        |
-| 37           | Reporting Triggers                                    | Yes        |
-| 38           | Redirect Information                                  | Yes        |
-| 39           | Report Type                                           | Yes        |
-| 40           | Offending IE                                          | Yes        |
-| 41           | Forwarding Policy                                     | Yes        |
-| 42           | Destination Interface                                 | Yes        |
-| 43           | UP Function Features                                  | Yes        |
-| 44           | Apply Action                                          | Yes        |
-| 45           | Downlink Data Service Information                     | Yes        |
-| 46           | Downlink Data Notification Delay                      | Yes        |
-| 47           | DL Buffering Duration                                 | Yes        |
-| 48           | DL Buffering Suggested Packet Count                   | Yes        |
-| 49           | SxSMReq-Flags                                         | Yes        |
-| 50           | SxSRRsp-Flags                                         | Yes        |
-| 51           | Load Control Information                              | Yes        |
-| 52           | Sequence Number                                       | Yes        |
-| 53           | Metric                                                | Yes        |
-| 54           | Overload Control Information                          |            |
-| 55           | Timer                                                 | Yes        |
-| 56           | Packet Detection Rule ID                              | Yes        |
-| 57           | F-SEID                                                | Yes        |
-| 58           | Application ID's PFDs                                 | Yes        |
-| 59           | PFD context                                           | Yes        |
-| 60           | Node ID                                               | Yes        |
-| 61           | PFD contents                                          | Yes        |
-| 62           | Measurement Method                                    | Yes        |
-| 63           | Usage Report Trigger                                  | Yes        |
-| 64           | Measurement Period                                    | Yes        |
-| 65           | FQ-CSID                                               | Yes        |
-| 66           | Volume Measurement                                    | Yes        |
-| 67           | Duration Measurement                                  | Yes        |
-| 68           | Application Detection Information                     |            |
-| 69           | Time of First Packet                                  | Yes        |
-| 70           | Time of Last Packet                                   | Yes        |
-| 71           | Quota Holding Time                                    | Yes        |
-| 72           | Dropped DL Traffic Threshold                          | Yes        |
-| 73           | Volume Quota                                          | Yes        |
-| 74           | Time Quota                                            | Yes        |
-| 75           | Start Time                                            | Yes        |
-| 76           | End Time                                              | Yes        |
-| 77           | Query URR                                             |            |
-| 78           | Usage Report (in Session Modification Response)       |            |
-| 79           | Usage Report (Session Deletion Response)              |            |
-| 80           | Usage Report (Session Report Request)                 |            |
-| 81           | URR ID                                                | Yes        |
-| 82           | Linked URR ID                                         | Yes        |
-| 83           | Downlink Data Report                                  |            |
-| 84           | Outer Header Creation                                 | Yes        |
-| 85           | Create BAR                                            |            |
-| 86           | Update BAR (Session Modification Request)             |            |
-| 87           | Remove BAR                                            |            |
-| 88           | BAR ID                                                | Yes        |
-| 89           | CP Function Features                                  | Yes        |
-| 90           | Usage Information                                     | Yes        |
-| 91           | Application Instance ID                               | Yes        |
-| 92           | Flow Information                                      | Yes        |
-| 93           | UE IP Address                                         | Yes        |
-| 94           | Packet Rate                                           | Yes        |
-| 95           | Outer Header Removal                                  | Yes        |
-| 96           | Recovery Time Stamp                                   | Yes        |
-| 97           | DL Flow Level Marking                                 | Yes        |
-| 98           | Header Enrichment                                     | Yes        |
-| 99           | Error Indication Report                               |            |
-| 100          | Measurement Information                               | Yes        |
-| 101          | Node Report Type                                      | Yes        |
-| 102          | User Plane Path Failure Report                        |            |
-| 103          | Remote GTP-U Peer                                     | Yes        |
-| 104          | UR-SEQN                                               | Yes        |
-| 105          | Update Duplicating Parameters                         |            |
-| 106          | Activate Predefined Rules                             | Yes        |
-| 107          | Deactivate Predefined Rules                           | Yes        |
-| 108          | FAR ID                                                | Yes        |
-| 109          | QER ID                                                | Yes        |
-| 110          | OCI Flags                                             | Yes        |
-| 111          | Sx Association Release Request                        | Yes        |
-| 112          | Graceful Release Period                               | Yes        |
-| 113          | PDN Type                                              | Yes        |
-| 114          | Failed Rule ID                                        | Yes        |
-| 115          | Time Quota Mechanism                                  | Yes        |
-| 116          | User Plane IP Resource Information                    | Yes        |
-| 117          | User Plane Inactivity Timer                           | Yes        |
-| 118          | Aggregated URRs                                       |            |
-| 119          | Multiplier                                            | Yes        |
-| 120          | Aggregated URR ID                                     | Yes        |
-| 121          | Subsequent Volume Quota                               | Yes        |
-| 122          | Subsequent Time Quota                                 | Yes        |
-| 123          | RQI                                                   | Yes        |
-| 124          | QFI                                                   | Yes        |
-| 125          | Query URR Reference                                   | Yes        |
-| 126          | Additional Usage Reports Information                  | Yes        |
-| 127          | Create Traffic Endpoint                               |            |
-| 128          | Created Traffic Endpoint                              |            |
-| 129          | Update Traffic Endpoint                               |            |
-| 130          | Remove Traffic Endpoint                               |            |
-| 131          | Traffic Endpoint ID                                   | Yes        |
-| 132          | Ethernet Packet Filter                                |            |
-| 133          | MAC address                                           |            |
-| 134          | C-TAG                                                 |            |
-| 135          | S-TAG                                                 |            |
-| 136          | Ethertype                                             | Yes        |
-| 137          | Proxying                                              | Yes        |
-| 138          | Ethernet Filter ID                                    | Yes        |
-| 139          | Ethernet Filter Properties                            | Yes        |
-| 140          | Suggested Buffering Packets Count                     | Yes        |
-| 141          | User ID                                               | Yes        |
-| 142          | Ethernet PDU Session Information                      | Yes        |
-| 143          | Ethernet Traffic Information                          |            |
-| 144          | MAC Addresses Detected                                |            |
-| 145          | MAC Addresses Removed                                 |            |
-| 146          | Ethernet Inactivity Timer                             | Yes        |
-| 147          | Additional Monitoring Time                            |            |
-| 148          | Event Quota                                           |            |
-| 149          | Event Threshold                                       |            |
-| 150          | Subsequent Event Quota                                | Yes        |
-| 151          | Subsequent Event Threshold                            | Yes        |
-| 152          | Trace Information                                     |            |
-| 153          | Framed-Route                                          |            |
-| 154          | Framed-Routing                                        |            |
-| 155          | Framed-IPv6-Route                                     |            |
-| 156          | Event Time Stamp                                      |            |
-| 157          | Averaging Window                                      |            |
-| 158          | Paging Policy Indicator                               |            |
-| 159          | APN/DNN                                               |            |
-| 160          | 3GPP Interface Type                                   |            |
-| 161          | PFCPSRReq-Flags                                       |            |
-| 162          | PFCPAUReq-Flags                                       |            |
-| 163          | Activation Time                                       |            |
-| 164          | Deactivation Time                                     |            |
-| 165          | Create MAR                                            |            |
-| 166          | Access Forwarding Action Information 1                |            |
-| 167          | Access Forwarding Action Information 2                |            |
-| 168          | Remove MAR                                            |            |
-| 169          | Update MAR                                            |            |
-| 170          | MAR ID                                                |            |
-| 171          | Steering Functionality                                |            |
-| 172          | Steering Mode                                         |            |
-| 173          | Weight                                                |            |
-| 174          | Priority                                              |            |
-| 175          | Update Access Forwarding Action Information 1         |            |
-| 176          | Update Access Forwarding Action Information 2         |            |
-| 177          | UE IP address Pool Identity                           |            |
-| 178          | Alternative SMF IP Address                            |            |
-| 179          | Packet Replication and Detection Carry-On Information |            |
-| 180          | SMF Set ID                                            |            |
-| 181          | Quota Validity Time                                   |            |
-| 182 to 65535 | _(Spare. For future use.)_                            | -          |
+| IE Type        | Information elements                                                             | Supported? |
+|----------------|----------------------------------------------------------------------------------|------------|
+| 0              | _(Reserved)_                                                                     | -          |
+| 1              | Create PDR                                                                       |            |
+| 2              | PDI                                                                              |            |
+| 3              | Create FAR                                                                       |            |
+| 4              | Forwarding Parameters                                                            |            |
+| 5              | Duplicating Parameters                                                           |            |
+| 6              | Create URR                                                                       |            |
+| 7              | Create QER                                                                       |            |
+| 8              | Created PDR                                                                      |            |
+| 9              | Update PDR                                                                       |            |
+| 10             | Update FAR                                                                       |            |
+| 11             | Update Forwarding Parameters                                                     |            |
+| 12             | Update BAR (Sx Session Report Response)                                          |            |
+| 13             | Update URR                                                                       |            |
+| 14             | Update QER                                                                       |            |
+| 15             | Remove PDR                                                                       |            |
+| 16             | Remove FAR                                                                       |            |
+| 17             | Remove URR                                                                       |            |
+| 18             | Remove QER                                                                       |            |
+| 19             | Cause                                                                            | Yes        |
+| 20             | Source Interface                                                                 | Yes        |
+| 21             | F-TEID                                                                           | Yes        |
+| 22             | Network Instance                                                                 | Yes        |
+| 23             | SDF Filter                                                                       | Yes        |
+| 24             | Application ID                                                                   | Yes        |
+| 25             | Gate Status                                                                      | Yes        |
+| 26             | MBR                                                                              | Yes        |
+| 27             | GBR                                                                              | Yes        |
+| 28             | QER Correlation ID                                                               | Yes        |
+| 29             | Precedence                                                                       | Yes        |
+| 30             | Transport Level Marking                                                          | Yes        |
+| 31             | Volume Threshold                                                                 | Yes        |
+| 32             | Time Threshold                                                                   | Yes        |
+| 33             | Monitoring Time                                                                  | Yes        |
+| 34             | Subsequent Volume Threshold                                                      | Yes        |
+| 35             | Subsequent Time Threshold                                                        | Yes        |
+| 36             | Inactivity Detection Time                                                        | Yes        |
+| 37             | Reporting Triggers                                                               | Yes        |
+| 38             | Redirect Information                                                             | Yes        |
+| 39             | Report Type                                                                      | Yes        |
+| 40             | Offending IE                                                                     | Yes        |
+| 41             | Forwarding Policy                                                                | Yes        |
+| 42             | Destination Interface                                                            | Yes        |
+| 43             | UP Function Features                                                             | Yes        |
+| 44             | Apply Action                                                                     | Yes        |
+| 45             | Downlink Data Service Information                                                | Yes        |
+| 46             | Downlink Data Notification Delay                                                 | Yes        |
+| 47             | DL Buffering Duration                                                            | Yes        |
+| 48             | DL Buffering Suggested Packet Count                                              | Yes        |
+| 49             | SxSMReq-Flags                                                                    | Yes        |
+| 50             | SxSRRsp-Flags                                                                    | Yes        |
+| 51             | Load Control Information                                                         | Yes        |
+| 52             | Sequence Number                                                                  | Yes        |
+| 53             | Metric                                                                           | Yes        |
+| 54             | Overload Control Information                                                     | Yes        |
+| 55             | Timer                                                                            | Yes        |
+| 56             | Packet Detection Rule ID                                                         | Yes        |
+| 57             | F-SEID                                                                           | Yes        |
+| 58             | Application ID's PFDs                                                            | Yes        |
+| 59             | PFD context                                                                      | Yes        |
+| 60             | Node ID                                                                          | Yes        |
+| 61             | PFD contents                                                                     | Yes        |
+| 62             | Measurement Method                                                               | Yes        |
+| 63             | Usage Report Trigger                                                             | Yes        |
+| 64             | Measurement Period                                                               | Yes        |
+| 65             | FQ-CSID                                                                          | Yes        |
+| 66             | Volume Measurement                                                               | Yes        |
+| 67             | Duration Measurement                                                             | Yes        |
+| 68             | Application Detection Information                                                | Yes        |
+| 69             | Time of First Packet                                                             | Yes        |
+| 70             | Time of Last Packet                                                              | Yes        |
+| 71             | Quota Holding Time                                                               | Yes        |
+| 72             | Dropped DL Traffic Threshold                                                     | Yes        |
+| 73             | Volume Quota                                                                     | Yes        |
+| 74             | Time Quota                                                                       | Yes        |
+| 75             | Start Time                                                                       | Yes        |
+| 76             | End Time                                                                         | Yes        |
+| 77             | Query URR                                                                        | Yes        |
+| 78             | Usage Report (in Session Modification Response)                                  |            |
+| 79             | Usage Report (Session Deletion Response)                                         |            |
+| 80             | Usage Report (Session Report Request)                                            |            |
+| 81             | URR ID                                                                           | Yes        |
+| 82             | Linked URR ID                                                                    | Yes        |
+| 83             | Downlink Data Report                                                             |            |
+| 84             | Outer Header Creation                                                            | Yes        |
+| 85             | Create BAR                                                                       |            |
+| 86             | Update BAR (Session Modification Request)                                        |            |
+| 87             | Remove BAR                                                                       | Yes        |
+| 88             | BAR ID                                                                           | Yes        |
+| 89             | CP Function Features                                                             | Yes        |
+| 90             | Usage Information                                                                | Yes        |
+| 91             | Application Instance ID                                                          | Yes        |
+| 92             | Flow Information                                                                 | Yes        |
+| 93             | UE IP Address                                                                    | Yes        |
+| 94             | Packet Rate                                                                      | Yes        |
+| 95             | Outer Header Removal                                                             | Yes        |
+| 96             | Recovery Time Stamp                                                              | Yes        |
+| 97             | DL Flow Level Marking                                                            | Yes        |
+| 98             | Header Enrichment                                                                | Yes        |
+| 99             | Error Indication Report                                                          | Yes        |
+| 100            | Measurement Information                                                          | Yes        |
+| 101            | Node Report Type                                                                 | Yes        |
+| 102            | User Plane Path Failure Report                                                   | Yes        |
+| 103            | Remote GTP-U Peer                                                                | Yes        |
+| 104            | UR-SEQN                                                                          | Yes        |
+| 105            | Update Duplicating Parameters                                                    | Yes        |
+| 106            | Activate Predefined Rules                                                        | Yes        |
+| 107            | Deactivate Predefined Rules                                                      | Yes        |
+| 108            | FAR ID                                                                           | Yes        |
+| 109            | QER ID                                                                           | Yes        |
+| 110            | OCI Flags                                                                        | Yes        |
+| 111            | Sx Association Release Request                                                   | Yes        |
+| 112            | Graceful Release Period                                                          | Yes        |
+| 113            | PDN Type                                                                         | Yes        |
+| 114            | Failed Rule ID                                                                   | Yes        |
+| 115            | Time Quota Mechanism                                                             | Yes        |
+| 116            | User Plane IP Resource Information                                               | Yes        |
+| 117            | User Plane Inactivity Timer                                                      | Yes        |
+| 118            | Aggregated URRs                                                                  | Yes        |
+| 119            | Multiplier                                                                       | Yes        |
+| 120            | Aggregated URR ID                                                                | Yes        |
+| 121            | Subsequent Volume Quota                                                          | Yes        |
+| 122            | Subsequent Time Quota                                                            | Yes        |
+| 123            | RQI                                                                              | Yes        |
+| 124            | QFI                                                                              | Yes        |
+| 125            | Query URR Reference                                                              | Yes        |
+| 126            | Additional Usage Reports Information                                             | Yes        |
+| 127            | Create Traffic Endpoint                                                          |            |
+| 128            | Created Traffic Endpoint                                                         |            |
+| 129            | Update Traffic Endpoint                                                          |            |
+| 130            | Remove Traffic Endpoint                                                          |            |
+| 131            | Traffic Endpoint ID                                                              | Yes        |
+| 132            | Ethernet Packet Filter                                                           |            |
+| 133            | MAC address                                                                      |            |
+| 134            | C-TAG                                                                            |            |
+| 135            | S-TAG                                                                            |            |
+| 136            | Ethertype                                                                        | Yes        |
+| 137            | Proxying                                                                         | Yes        |
+| 138            | Ethernet Filter ID                                                               | Yes        |
+| 139            | Ethernet Filter Properties                                                       | Yes        |
+| 140            | Suggested Buffering Packets Count                                                | Yes        |
+| 141            | User ID                                                                          | Yes        |
+| 142            | Ethernet PDU Session Information                                                 | Yes        |
+| 143            | Ethernet Traffic Information                                                     |            |
+| 144            | MAC Addresses Detected                                                           |            |
+| 145            | MAC Addresses Removed                                                            |            |
+| 146            | Ethernet Inactivity Timer                                                        | Yes        |
+| 147            | Additional Monitoring Time                                                       |            |
+| 148            | Event Quota                                                                      |            |
+| 149            | Event Threshold                                                                  |            |
+| 150            | Subsequent Event Quota                                                           | Yes        |
+| 151            | Subsequent Event Threshold                                                       | Yes        |
+| 152            | Trace Information                                                                |            |
+| 153            | Framed-Route                                                                     |            |
+| 154            | Framed-Routing                                                                   |            |
+| 155            | Framed-IPv6-Route                                                                |            |
+| 156            | Event Time Stamp                                                                 |            |
+| 157            | Averaging Window                                                                 |            |
+| 158            | Paging Policy Indicator                                                          |            |
+| 159            | APN/DNN                                                                          |            |
+| 160            | 3GPP Interface Type                                                              |            |
+| 161            | PFCPSRReq-Flags                                                                  |            |
+| 162            | PFCPAUReq-Flags                                                                  |            |
+| 163            | Activation Time                                                                  |            |
+| 164            | Deactivation Time                                                                |            |
+| 165            | Create MAR                                                                       |            |
+| 166            | Access Forwarding Action Information 1                                           |            |
+| 167            | Access Forwarding Action Information 2                                           |            |
+| 168            | Remove MAR                                                                       |            |
+| 169            | Update MAR                                                                       |            |
+| 170            | MAR ID                                                                           |            |
+| 171            | Steering Functionality                                                           |            |
+| 172            | Steering Mode                                                                    |            |
+| 173            | Weight                                                                           |            |
+| 174            | Priority                                                                         |            |
+| 175            | Update Access Forwarding Action Information 1                                    |            |
+| 176            | Update Access Forwarding Action Information 2                                    |            |
+| 177            | UE IP address Pool Identity                                                      |            |
+| 178            | Alternative SMF IP Address                                                       |            |
+| 179            | Packet Replication and Detection Carry-On Information                            |            |
+| 180            | SMF Set ID                                                                       |            |
+| 181            | Quota Validity Time                                                              |            |
+| 182            | Number of Reports                                                                |            |
+| 183            | PFCP Session Retention Information (within PFCP Association Setup Request)       |            |
+| 184            | PFCPASRsp-Flags                                                                  |            |
+| 185            | CP PFCP Entity IP Address                                                        |            |
+| 186            | PFCPSEReq-Flags                                                                  |            |
+| 187            | User Plane Path Recovery Report                                                  |            |
+| 188            | IP Multicast Addressing Info within PFCP Session Establishment Request           |            |
+| 189            | Join IP Multicast Information IE within Usage Report                             |            |
+| 190            | Leave IP Multicast Information IE within Usage Report                            |            |
+| 191            | IP Multicast Address                                                             |            |
+| 192            | Source IP Address                                                                |            |
+| 193            | Packet Rate Status                                                               |            |
+| 194            | Create Bridge Info for TSC                                                       |            |
+| 195            | Created Bridge Info for TSC                                                      |            |
+| 196            | DS-TT Port Number                                                                |            |
+| 197            | NW-TT Port Number                                                                |            |
+| 198            | TSN Bridge ID                                                                    |            |
+| 199            | Port Management Information for TSC IE within PFCP Session Modification Request  |            |
+| 200            | Port Management Information for TSC IE within PFCP Session Modification Response |            |
+| 201            | Port Management Information for TSC IE within PFCP Session Report Request        |            |
+| 202            | Port Management Information Container                                            |            |
+| 203            | Clock Drift Control Information                                                  |            |
+| 204            | Requested Clock Drift Information                                                |            |
+| 205            | Clock Drift Report                                                               |            |
+| 206            | TSN Time Domain Number                                                           |            |
+| 207            | Time Offset Threshold                                                            |            |
+| 208            | Cumulative rateRatio Threshold                                                   |            |
+| 209            | Time Offset Measurement                                                          |            |
+| 210            | Cumulative rateRatio Measurement                                                 |            |
+| 211            | Remove SRR                                                                       |            |
+| 212            | Create SRR                                                                       |            |
+| 213            | Update SRR                                                                       |            |
+| 214            | Session Report                                                                   |            |
+| 215            | SRR ID                                                                           |            |
+| 216            | Access Availability Control Information                                          |            |
+| 217            | Requested Access Availability Information                                        |            |
+| 218            | Access Availability Report                                                       |            |
+| 219            | Access Availability Information                                                  |            |
+| 220            | Provide ATSSS Control Information                                                |            |
+| 221            | ATSSS Control Parameters                                                         |            |
+| 222            | MPTCP Control Information                                                        |            |
+| 223            | ATSSS-LL Control Information                                                     |            |
+| 224            | PMF Control Information                                                          |            |
+| 225            | MPTCP Parameters                                                                 |            |
+| 226            | ATSSS-LL Parameters                                                              |            |
+| 227            | PMF Parameters                                                                   |            |
+| 228            | MPTCP Address Information                                                        |            |
+| 229            | UE Link-Specific IP Address                                                      |            |
+| 230            | PMF Address Information                                                          |            |
+| 231            | ATSSS-LL Information                                                             |            |
+| 232            | Data Network Access Identifier                                                   |            |
+| 233            | UE IP address Pool Information                                                   |            |
+| 234            | Average Packet Delay                                                             |            |
+| 235            | Minimum Packet Delay                                                             |            |
+| 236            | Maximum Packet Delay                                                             |            |
+| 237            | QoS Report Trigger                                                               |            |
+| 238            | GTP-U Path QoS Control Information                                               |            |
+| 239            | GTP-U Path QoS Report (PFCP Node Report Request)                                 |            |
+| 240            | QoS Information in GTP-U Path QoS Report                                         |            |
+| 241            | GTP-U Path Interface Type                                                        |            |
+| 242            | QoS Monitoring per QoS flow Control Information                                  |            |
+| 243            | Requested QoS Monitoring                                                         |            |
+| 244            | Reporting Frequency                                                              |            |
+| 245            | Packet Delay Thresholds                                                          |            |
+| 246            | Minimum Wait Time                                                                |            |
+| 247            | QoS Monitoring Report                                                            |            |
+| 248            | QoS Monitoring Measurement                                                       |            |
+| 249            | MT-EDT Control Information                                                       |            |
+| 250            | DL Data Packets Size                                                             |            |
+| 251            | QER Control Indications                                                          |            |
+| 252            | Packet Rate Status Report                                                        |            |
+| 253            | NF Instance ID                                                                   |            |
+| 254            | Ethernet Context Information                                                     |            |
+| 255            | Redundant Transmission Parameters                                                |            |
+| 256            | Updated PDR                                                                      |            |
+| 257 to 32767   | Spare. For future use.                                                           |            |
+| 32768 to 65535 | Reserved for vendor specific IEs                                                 |            |
+
 
 ## Disclaimer
 
