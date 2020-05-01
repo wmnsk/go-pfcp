@@ -33,7 +33,7 @@ func (i *IE) UEIPAddress() (*UEIPAddressFields, error) {
 	return f, nil
 }
 
-// HasCH reports whether UEIPAddress IE has DLVOL bit.
+// HasCH reports whether an IE has CH bit.
 func (i *IE) HasCH() bool {
 	if i.Type != UEIPAddress {
 		return false
@@ -45,7 +45,7 @@ func (i *IE) HasCH() bool {
 	return has5thBit(i.Payload[0])
 }
 
-// HasIPv6D reports whether UEIPAddress IE has DLVOL bit.
+// HasIPv6D reports whether an IE has IPv6D bit.
 func (i *IE) HasIPv6D() bool {
 	if i.Type != UEIPAddress {
 		return false
@@ -57,7 +57,7 @@ func (i *IE) HasIPv6D() bool {
 	return has4thBit(i.Payload[0])
 }
 
-// HasSD reports whether UEIPAddress IE has DLVOL bit.
+// HasSD reports whether an IE has SD bit.
 func (i *IE) HasSD() bool {
 	if i.Type != UEIPAddress {
 		return false

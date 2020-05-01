@@ -71,22 +71,22 @@ func NewMACAddressFields(src, dst, upperSrc, upperDst net.HardwareAddr) *MACAddr
 	return f
 }
 
-// HasUDES reports whether CHID flag is set.
+// HasUDES reports whether UDES flag is set.
 func (f *MACAddressFields) HasUDES() bool {
 	return has4thBit(f.Flags)
 }
 
-// SetUDESFlag sets CHID flag in MACAddress.
+// SetUDESFlag sets UDES flag in MACAddress.
 func (f *MACAddressFields) SetUDESFlag() {
 	f.Flags |= 0x08
 }
 
-// HasUSOU reports whether CH flag is set.
+// HasUSOU reports whether USOU flag is set.
 func (f *MACAddressFields) HasUSOU() bool {
 	return has3rdBit(f.Flags)
 }
 
-// SetUSOUFlag sets CH flag in MACAddress.
+// SetUSOUFlag sets USOU flag in MACAddress.
 func (f *MACAddressFields) SetUSOUFlag() {
 	f.Flags |= 0x04
 }
@@ -96,17 +96,17 @@ func (f *MACAddressFields) HasDEST() bool {
 	return has2ndBit(f.Flags)
 }
 
-// SetDESTFlag sets CHID flag in MACAddress.
+// SetDESTFlag sets DEST flag in MACAddress.
 func (f *MACAddressFields) SetDESTFlag() {
 	f.Flags |= 0x02
 }
 
-// HasUDES reports whether SOUR flag is set.
+// HasSOUR reports whether SOUR flag is set.
 func (f *MACAddressFields) HasSOUR() bool {
 	return has1stBit(f.Flags)
 }
 
-// SetSOURFlag sets CHID flag in MACAddress.
+// SetSOURFlag sets SOUR flag in MACAddress.
 func (f *MACAddressFields) SetSOURFlag() {
 	f.Flags |= 0x01
 }

@@ -33,7 +33,7 @@ func (i *IE) DLFlowLevelMarking() (*DLFlowLevelMarkingFields, error) {
 	return f, nil
 }
 
-// HasTTC reports whether DLFlowLevelMarking IE has TTC bit.
+// HasTTC reports whether an IE has TTC bit.
 func (i *IE) HasTTC() bool {
 	if i.Type != DLFlowLevelMarking {
 		return false
@@ -45,7 +45,7 @@ func (i *IE) HasTTC() bool {
 	return has2ndBit(i.Payload[0])
 }
 
-// HasSCI reports whether DLFlowLevelMarking IE has SCI bit.
+// HasSCI reports whether an IE has SCI bit.
 func (i *IE) HasSCI() bool {
 	if i.Type != DLFlowLevelMarking {
 		return false

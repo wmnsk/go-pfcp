@@ -125,52 +125,52 @@ func NewPFDContentsFields(fd, url, dn, cp, dnp string, afd, aurl, adnp []string)
 	return f
 }
 
-// HasADNP reports whether CHID flag is set.
+// HasADNP reports whether ADNP flag is set.
 func (f *PFDContentsFields) HasADNP() bool {
 	return has8thBit(f.Flags)
 }
 
-// SetADNPFlag sets CHID flag in PFDContents.
+// SetADNPFlag sets ADNP flag in PFDContents.
 func (f *PFDContentsFields) SetADNPFlag() {
 	f.Flags |= 0x80
 }
 
-// HasAURL reports whether CHID flag is set.
+// HasAURL reports whether AURL flag is set.
 func (f *PFDContentsFields) HasAURL() bool {
 	return has7thBit(f.Flags)
 }
 
-// SetAURLFlag sets CHID flag in PFDContents.
+// SetAURLFlag sets AURL flag in PFDContents.
 func (f *PFDContentsFields) SetAURLFlag() {
 	f.Flags |= 0x40
 }
 
-// HasAFD reports whether CHID flag is set.
+// HasAFD reports whether AFD flag is set.
 func (f *PFDContentsFields) HasAFD() bool {
 	return has6thBit(f.Flags)
 }
 
-// SetAFDFlag sets CHID flag in PFDContents.
+// SetAFDFlag sets AFD flag in PFDContents.
 func (f *PFDContentsFields) SetAFDFlag() {
 	f.Flags |= 0x20
 }
 
-// HasDNP reports whether CHID flag is set.
+// HasDNP reports whether DNP flag is set.
 func (f *PFDContentsFields) HasDNP() bool {
 	return has5thBit(f.Flags)
 }
 
-// SetDNPFlag sets CHID flag in PFDContents.
+// SetDNPFlag sets DNP flag in PFDContents.
 func (f *PFDContentsFields) SetDNPFlag() {
 	f.Flags |= 0x10
 }
 
-// HasCP reports whether CHID flag is set.
+// HasCP reports whether CP flag is set.
 func (f *PFDContentsFields) HasCP() bool {
 	return has4thBit(f.Flags)
 }
 
-// SetCPFlag sets CHID flag in PFDContents.
+// SetCPFlag sets CP flag in PFDContents.
 func (f *PFDContentsFields) SetCPFlag() {
 	f.Flags |= 0x08
 }

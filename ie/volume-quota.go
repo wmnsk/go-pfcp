@@ -42,7 +42,7 @@ func (i *IE) VolumeQuota() (uint8, error) {
 	return i.Payload[0], nil
 }
 
-// HasDLVOL reports whether VolumeQuota IE has DLVOL bit.
+// HasDLVOL reports whether an IE has DLVOL bit.
 func (i *IE) HasDLVOL() bool {
 	v, err := i.VolumeQuota()
 	if err != nil {
@@ -52,7 +52,7 @@ func (i *IE) HasDLVOL() bool {
 	return has3rdBit(v)
 }
 
-// HasULVOL reports whether VolumeQuota IE has ULVOL bit.
+// HasULVOL reports whether an IE has ULVOL bit.
 func (i *IE) HasULVOL() bool {
 	v, err := i.VolumeQuota()
 	if err != nil {
@@ -62,7 +62,7 @@ func (i *IE) HasULVOL() bool {
 	return has2ndBit(v)
 }
 
-// HasTOVOL reports whether VolumeQuota IE has TOVOL bit.
+// HasTOVOL reports whether an IE has TOVOL bit.
 func (i *IE) HasTOVOL() bool {
 	v, err := i.VolumeQuota()
 	if err != nil {

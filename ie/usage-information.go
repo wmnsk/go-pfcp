@@ -18,7 +18,7 @@ func (i *IE) UsageInformation() (uint8, error) {
 	return i.Payload[0], nil
 }
 
-// HasUBE reports whether UsageInformation IE has UBE bit.
+// HasUBE reports whether and IE has UBE bit.
 func (i *IE) HasUBE() bool {
 	v, err := i.UsageInformation()
 	if err != nil {
@@ -28,7 +28,7 @@ func (i *IE) HasUBE() bool {
 	return has4thBit(v)
 }
 
-// HasUAE reports whether UsageInformation IE has UAE bit.
+// HasUAE reports whether and IE has UAE bit.
 func (i *IE) HasUAE() bool {
 	v, err := i.UsageInformation()
 	if err != nil {
@@ -38,7 +38,7 @@ func (i *IE) HasUAE() bool {
 	return has3rdBit(v)
 }
 
-// HasAFT reports whether UsageInformation IE has AFT bit.
+// HasAFT reports whether and IE has AFT bit.
 func (i *IE) HasAFT() bool {
 	v, err := i.UsageInformation()
 	if err != nil {
@@ -48,7 +48,7 @@ func (i *IE) HasAFT() bool {
 	return has2ndBit(v)
 }
 
-// HasBEF reports whether UsageInformation IE has BEF bit.
+// HasBEF reports whether and IE has BEF bit.
 func (i *IE) HasBEF() bool {
 	v, err := i.UsageInformation()
 	if err != nil {

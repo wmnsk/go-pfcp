@@ -18,7 +18,7 @@ func (i *IE) SxSMReqFlags() ([]byte, error) {
 	return i.Payload, nil
 }
 
-// HasDROBU reports whether up function features has DROBU bit.
+// HasDROBU reports whether an IE has DROBU bit.
 func (i *IE) HasDROBU() bool {
 	if i.Type != SxSMReqFlags && i.Type != SxSRRspFlags {
 		return false
@@ -30,7 +30,7 @@ func (i *IE) HasDROBU() bool {
 	return has1stBit(i.Payload[0])
 }
 
-// HasSNDEM reports whether up function features has SNDEM bit.
+// HasSNDEM reports whether an IE has SNDEM bit.
 func (i *IE) HasSNDEM() bool {
 	if i.Type != SxSMReqFlags {
 		return false
@@ -42,7 +42,7 @@ func (i *IE) HasSNDEM() bool {
 	return has2ndBit(i.Payload[0])
 }
 
-// HasQAURR reports whether up function features has QAURR bit.
+// HasQAURR reports whether an IE has QAURR bit.
 func (i *IE) HasQAURR() bool {
 	if i.Type != SxSMReqFlags {
 		return false

@@ -25,7 +25,7 @@ func (i *IE) UsageReportTrigger() ([]byte, error) {
 	return i.Payload, nil
 }
 
-// HasIMMER reports whether reporting trigger has IMMER bit.
+// HasIMMER reports whether an IE has IMMER bit.
 func (i *IE) HasIMMER() bool {
 	if len(i.Payload) < 1 {
 		return false
@@ -40,7 +40,7 @@ func (i *IE) HasIMMER() bool {
 	}
 }
 
-// HasMONIT reports whether reporting trigger has MONIT bit.
+// HasMONIT reports whether an IE has MONIT bit.
 func (i *IE) HasMONIT() bool {
 	if len(i.Payload) < 2 {
 		return false
@@ -55,7 +55,7 @@ func (i *IE) HasMONIT() bool {
 	}
 }
 
-// HasTERMR reports whether reporting trigger has TERMR bit.
+// HasTERMR reports whether an IE has TERMR bit.
 func (i *IE) HasTERMR() bool {
 	if len(i.Payload) < 2 {
 		return false
