@@ -67,6 +67,18 @@ func (i *IE) HasIPv4() bool {
 		}
 
 		return has1stBit(i.Payload[0])
+	case FSEID:
+		v, err := i.FSEID()
+		if err != nil {
+			return false
+		}
+		return v.HasIPv4()
+	case FTEID:
+		v, err := i.FTEID()
+		if err != nil {
+			return false
+		}
+		return v.HasIPv4()
 	default:
 		return false
 	}
@@ -93,6 +105,18 @@ func (i *IE) HasIPv6() bool {
 		}
 
 		return has2ndBit(i.Payload[0])
+	case FSEID:
+		v, err := i.FSEID()
+		if err != nil {
+			return false
+		}
+		return v.HasIPv6()
+	case FTEID:
+		v, err := i.FTEID()
+		if err != nil {
+			return false
+		}
+		return v.HasIPv6()
 	default:
 		return false
 	}
