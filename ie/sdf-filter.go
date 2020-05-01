@@ -78,32 +78,32 @@ func NewSDFFilterFields(fd, ttc, spi, fl string, fid uint32) *SDFFilterFields {
 	return f
 }
 
-// HasBID reports whether CHID flag is set.
+// HasBID reports whether BID flag is set.
 func (f *SDFFilterFields) HasBID() bool {
 	return has5thBit(f.Flags)
 }
 
-// SetBIDFlag sets CHID flag in SDFFilter.
+// SetBIDFlag sets BID flag in SDFFilter.
 func (f *SDFFilterFields) SetBIDFlag() {
 	f.Flags |= 0x10
 }
 
-// HasFL reports whether CHID flag is set.
+// HasFL reports whether FL flag is set.
 func (f *SDFFilterFields) HasFL() bool {
 	return has4thBit(f.Flags)
 }
 
-// SetFLFlag sets CHID flag in SDFFilter.
+// SetFLFlag sets FL flag in SDFFilter.
 func (f *SDFFilterFields) SetFLFlag() {
 	f.Flags |= 0x08
 }
 
-// HasSPI reports whether CH flag is set.
+// HasSPI reports whether SPI flag is set.
 func (f *SDFFilterFields) HasSPI() bool {
 	return has3rdBit(f.Flags)
 }
 
-// SetSPIFlag sets CH flag in SDFFilter.
+// SetSPIFlag sets SPI flag in SDFFilter.
 func (f *SDFFilterFields) SetSPIFlag() {
 	f.Flags |= 0x04
 }
@@ -113,7 +113,7 @@ func (f *SDFFilterFields) HasTTC() bool {
 	return has2ndBit(f.Flags)
 }
 
-// SetTTCFlag sets CHID flag in SDFFilter.
+// SetTTCFlag sets TTC flag in SDFFilter.
 func (f *SDFFilterFields) SetTTCFlag() {
 	f.Flags |= 0x02
 }
@@ -123,7 +123,7 @@ func (f *SDFFilterFields) HasFD() bool {
 	return has1stBit(f.Flags)
 }
 
-// SetFDFlag sets CHID flag in SDFFilter.
+// SetFDFlag sets FD flag in SDFFilter.
 func (f *SDFFilterFields) SetFDFlag() {
 	f.Flags |= 0x01
 }

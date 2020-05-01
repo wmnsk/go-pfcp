@@ -18,7 +18,7 @@ func (i *IE) ReportType() (uint8, error) {
 	return i.Payload[0], nil
 }
 
-// HasUPIR reports whether ReportType IE has UPIR bit.
+// HasUPIR reports whether an IE has UPIR bit.
 func (i *IE) HasUPIR() bool {
 	v, err := i.ReportType()
 	if err != nil {
@@ -28,7 +28,7 @@ func (i *IE) HasUPIR() bool {
 	return has4thBit(v)
 }
 
-// HasERIR reports whether ReportType IE has ERIR bit.
+// HasERIR reports whether an IE has ERIR bit.
 func (i *IE) HasERIR() bool {
 	v, err := i.ReportType()
 	if err != nil {
@@ -38,7 +38,7 @@ func (i *IE) HasERIR() bool {
 	return has3rdBit(v)
 }
 
-// HasUSAR reports whether ReportType IE has USAR bit.
+// HasUSAR reports whether an IE has USAR bit.
 func (i *IE) HasUSAR() bool {
 	v, err := i.ReportType()
 	if err != nil {
@@ -48,7 +48,7 @@ func (i *IE) HasUSAR() bool {
 	return has2ndBit(v)
 }
 
-// HasDLDR reports whether ReportType IE has DLDR bit.
+// HasDLDR reports whether an IE has DLDR bit.
 func (i *IE) HasDLDR() bool {
 	v, err := i.ReportType()
 	if err != nil {

@@ -18,7 +18,7 @@ func (i *IE) MeasurementMethod() (uint8, error) {
 	return i.Payload[0], nil
 }
 
-// HasEVENT reports whether MeasurementMethod IE has EVENT bit.
+// HasEVENT reports whether an IE has EVENT bit.
 func (i *IE) HasEVENT() bool {
 	v, err := i.MeasurementMethod()
 	if err != nil {
@@ -28,7 +28,7 @@ func (i *IE) HasEVENT() bool {
 	return has3rdBit(v)
 }
 
-// HasVOLUM reports whether MeasurementMethod IE has VOLUM bit.
+// HasVOLUM reports whether an IE has VOLUM bit.
 func (i *IE) HasVOLUM() bool {
 	v, err := i.MeasurementMethod()
 	if err != nil {
@@ -38,7 +38,7 @@ func (i *IE) HasVOLUM() bool {
 	return has2ndBit(v)
 }
 
-// HasDURAT reports whether MeasurementMethod IE has DURAT bit.
+// HasDURAT reports whether an IE has DURAT bit.
 func (i *IE) HasDURAT() bool {
 	v, err := i.MeasurementMethod()
 	if err != nil {

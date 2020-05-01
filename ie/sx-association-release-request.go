@@ -18,7 +18,7 @@ func (i *IE) SxAssociationReleaseRequest() (uint8, error) {
 	return i.Payload[0], nil
 }
 
-// HasURSS reports whether SxAssociationReleaseRequest IE has URSS bit.
+// HasURSS reports whether an IE has URSS bit.
 func (i *IE) HasURSS() bool {
 	v, err := i.SxAssociationReleaseRequest()
 	if err != nil {
@@ -28,7 +28,7 @@ func (i *IE) HasURSS() bool {
 	return has2ndBit(v)
 }
 
-// HasSARR reports whether SxAssociationReleaseRequest IE has SARR bit.
+// HasSARR reports whether an IE has SARR bit.
 func (i *IE) HasSARR() bool {
 	v, err := i.SxAssociationReleaseRequest()
 	if err != nil {

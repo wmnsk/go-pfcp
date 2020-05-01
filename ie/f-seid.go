@@ -99,7 +99,7 @@ func (f *FSEIDFields) HasIPv4() bool {
 	return has2ndBit(f.Flags)
 }
 
-// SetIPv4Flag sets CHID flag in FSEID.
+// SetIPv4Flag sets IPv4 flag in FSEID.
 func (f *FSEIDFields) SetIPv4Flag() {
 	f.Flags |= 0x02
 }
@@ -109,7 +109,7 @@ func (f *FSEIDFields) HasIPv6() bool {
 	return has1stBit(f.Flags)
 }
 
-// SetIPv6Flag sets CHID flag in FSEID.
+// SetIPv6Flag sets IPv6 flag in FSEID.
 func (f *FSEIDFields) SetIPv6Flag() {
 	f.Flags |= 0x01
 }

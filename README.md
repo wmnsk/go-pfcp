@@ -257,10 +257,10 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 129            | Update Traffic Endpoint                                                          |            |
 | 130            | Remove Traffic Endpoint                                                          |            |
 | 131            | Traffic Endpoint ID                                                              | Yes        |
-| 132            | Ethernet Packet Filter                                                           |            |
-| 133            | MAC address                                                                      |            |
-| 134            | C-TAG                                                                            |            |
-| 135            | S-TAG                                                                            |            |
+| 132            | Ethernet Packet Filter                                                           | Yes        |
+| 133            | MAC address                                                                      | Yes        |
+| 134            | C-TAG                                                                            | Yes        |
+| 135            | S-TAG                                                                            | Yes        |
 | 136            | Ethertype                                                                        | Yes        |
 | 137            | Proxying                                                                         | Yes        |
 | 138            | Ethernet Filter ID                                                               | Yes        |

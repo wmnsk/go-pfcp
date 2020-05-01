@@ -32,7 +32,7 @@ func (i *IE) DownlinkDataServiceInformation() ([]byte, error) {
 	return i.Payload, nil
 }
 
-// HasPPI reports whether downlink data service notification has PPI bit.
+// HasPPI reports whether an IE has PPI bit.
 func (i *IE) HasPPI() bool {
 	if i.Type != DownlinkDataServiceInformation {
 		return false
@@ -44,7 +44,7 @@ func (i *IE) HasPPI() bool {
 	return has1stBit(i.Payload[0])
 }
 
-// HasQFI reports whether downlink data service notification has QFI bit.
+// HasQFI reports whether an IE has QFI bit.
 func (i *IE) HasQFI() bool {
 	if i.Type != DownlinkDataServiceInformation {
 		return false

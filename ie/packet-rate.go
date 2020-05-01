@@ -42,7 +42,7 @@ func (i *IE) PacketRate() (*PacketRateFields, error) {
 	return f, nil
 }
 
-// HasDLPR reports whether PacketRate IE has DLPR bit.
+// HasDLPR reports whether an IE has DLPR bit.
 func (i *IE) HasDLPR() bool {
 	if i.Type != PacketRate {
 		return false
@@ -54,7 +54,7 @@ func (i *IE) HasDLPR() bool {
 	return has2ndBit(i.Payload[0])
 }
 
-// HasULPR reports whether PacketRate IE has ULPR bit.
+// HasULPR reports whether an IE has ULPR bit.
 func (i *IE) HasULPR() bool {
 	if i.Type != PacketRate {
 		return false

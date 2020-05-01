@@ -34,7 +34,7 @@ func (i *IE) OuterHeaderCreation() (*OuterHeaderCreationFields, error) {
 	return f, nil
 }
 
-// HasTEID reports whether OuterHeaderCreation IE has DLVOL bit.
+// HasTEID reports whether and IE has TEID bit.
 func (i *IE) HasTEID() bool {
 	if i.Type != OuterHeaderCreation {
 		return false
@@ -46,7 +46,7 @@ func (i *IE) HasTEID() bool {
 	return has1stBit(i.Payload[0]) || has2ndBit(i.Payload[0])
 }
 
-// HasIPv4 reports whether OuterHeaderCreation IE has DLVOL bit.
+// HasIPv4 reports whether and IE has IPv4 bit.
 func (i *IE) HasIPv4() bool {
 	switch i.Type {
 	case OuterHeaderCreation:
@@ -67,12 +67,24 @@ func (i *IE) HasIPv4() bool {
 		}
 
 		return has1stBit(i.Payload[0])
+	case FSEID:
+		v, err := i.FSEID()
+		if err != nil {
+			return false
+		}
+		return v.HasIPv4()
+	case FTEID:
+		v, err := i.FTEID()
+		if err != nil {
+			return false
+		}
+		return v.HasIPv4()
 	default:
 		return false
 	}
 }
 
-// HasIPv6 reports whether OuterHeaderCreation IE has DLVOL bit.
+// HasIPv6 reports whether and IE has IPv6 bit.
 func (i *IE) HasIPv6() bool {
 	switch i.Type {
 	case OuterHeaderCreation:
@@ -93,12 +105,24 @@ func (i *IE) HasIPv6() bool {
 		}
 
 		return has2ndBit(i.Payload[0])
+	case FSEID:
+		v, err := i.FSEID()
+		if err != nil {
+			return false
+		}
+		return v.HasIPv6()
+	case FTEID:
+		v, err := i.FTEID()
+		if err != nil {
+			return false
+		}
+		return v.HasIPv6()
 	default:
 		return false
 	}
 }
 
-// HasCTag reports whether OuterHeaderCreation IE has DLVOL bit.
+// HasCTag reports whether an IE has CTAG bit.
 func (i *IE) HasCTag() bool {
 	if i.Type != OuterHeaderCreation {
 		return false
@@ -110,7 +134,7 @@ func (i *IE) HasCTag() bool {
 	return has7thBit(i.Payload[0])
 }
 
-// HasSTag reports whether OuterHeaderCreation IE has DLVOL bit.
+// HasSTag reports whether an IE has STAG bit.
 func (i *IE) HasSTag() bool {
 	if i.Type != OuterHeaderCreation {
 		return false
@@ -122,7 +146,7 @@ func (i *IE) HasSTag() bool {
 	return has8thBit(i.Payload[0])
 }
 
-// IsN19 reports whether OuterHeaderCreation IE has DLVOL bit.
+// IsN19 reports whether an IE has N19 bit.
 func (i *IE) IsN19() bool {
 	if i.Type != OuterHeaderCreation {
 		return false
@@ -134,7 +158,7 @@ func (i *IE) IsN19() bool {
 	return has1stBit(i.Payload[1])
 }
 
-// IsN6 reports whether OuterHeaderCreation IE has DLVOL bit.
+// IsN6 reports whether an IE has N6 bit.
 func (i *IE) IsN6() bool {
 	if i.Type != OuterHeaderCreation {
 		return false

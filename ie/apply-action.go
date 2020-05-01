@@ -18,7 +18,7 @@ func (i *IE) ApplyAction() ([]byte, error) {
 	return i.Payload, nil
 }
 
-// HasDROP reports whether apply action has DROP bit.
+// HasDROP reports whether an IE has DROP bit.
 func (i *IE) HasDROP() bool {
 	if i.Type != ApplyAction {
 		return false
@@ -30,7 +30,7 @@ func (i *IE) HasDROP() bool {
 	return has1stBit(i.Payload[0])
 }
 
-// HasFORW reports whether apply action has FORW bit.
+// HasFORW reports whether an IE has FORW bit.
 func (i *IE) HasFORW() bool {
 	if i.Type != ApplyAction {
 		return false
@@ -42,7 +42,7 @@ func (i *IE) HasFORW() bool {
 	return has2ndBit(i.Payload[0])
 }
 
-// HasBUFF reports whether apply action has BUFF bit.
+// HasBUFF reports whether an IE has BUFF bit.
 func (i *IE) HasBUFF() bool {
 	if i.Type != ApplyAction {
 		return false
@@ -54,7 +54,7 @@ func (i *IE) HasBUFF() bool {
 	return has3rdBit(i.Payload[0])
 }
 
-// HasNOCP reports whether apply action has NOCP bit.
+// HasNOCP reports whether an IE has NOCP bit.
 func (i *IE) HasNOCP() bool {
 	if i.Type != ApplyAction {
 		return false
@@ -66,7 +66,7 @@ func (i *IE) HasNOCP() bool {
 	return has4thBit(i.Payload[0])
 }
 
-// HasDUPL reports whether apply action has DUPL bit.
+// HasDUPL reports whether an IE has DUPL bit.
 func (i *IE) HasDUPL() bool {
 	if i.Type != ApplyAction {
 		return false
