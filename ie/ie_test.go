@@ -14,6 +14,13 @@ import (
 )
 
 func TestIEs(t *testing.T) {
+	var (
+		mac1, _ = net.ParseMAC("12:34:56:78:90:01")
+		mac2, _ = net.ParseMAC("12:34:56:78:90:02")
+		mac3, _ = net.ParseMAC("12:34:56:78:90:03")
+		mac4, _ = net.ParseMAC("12:34:56:78:90:04")
+	)
+
 	cases := []struct {
 		description string
 		structured  *ie.IE
@@ -698,6 +705,16 @@ func TestIEs(t *testing.T) {
 			"TrafficEndpointID",
 			ie.NewTrafficEndpointID(0x01),
 			[]byte{0x00, 0x83, 0x00, 0x01, 0x01},
+		}, {
+			"MACAddress/All",
+			ie.NewMACAddress(mac1, mac2, mac3, mac4),
+			[]byte{
+				0x00, 0x85, 0x00, 0x19, 0x0f,
+				0x12, 0x34, 0x56, 0x78, 0x90, 0x01,
+				0x12, 0x34, 0x56, 0x78, 0x90, 0x02,
+				0x12, 0x34, 0x56, 0x78, 0x90, 0x03,
+				0x12, 0x34, 0x56, 0x78, 0x90, 0x04,
+			},
 		}, {
 			"Ethertype",
 			ie.NewEthertype(0xffff),
