@@ -5,8 +5,8 @@
 package ie
 
 // NewFramedRoute creates a new FramedRoute IE.
-func NewFramedRoute(route string) *IE {
-	return newStringIE(FramedRoute, route)
+func NewFramedRoute(name string) *IE {
+	return newStringIE(FramedRoute, name)
 }
 
 // FramedRoute returns FramedRoute in string if the type of IE matches.
