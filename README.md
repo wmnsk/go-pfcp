@@ -268,24 +268,24 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 140            | Suggested Buffering Packets Count                                                | Yes        |
 | 141            | User ID                                                                          | Yes        |
 | 142            | Ethernet PDU Session Information                                                 | Yes        |
-| 143            | Ethernet Traffic Information                                                     |            |
-| 144            | MAC Addresses Detected                                                           |            |
-| 145            | MAC Addresses Removed                                                            |            |
+| 143            | Ethernet Traffic Information                                                     | Yes        |
+| 144            | MAC Addresses Detected                                                           | Yes        |
+| 145            | MAC Addresses Removed                                                            | Yes        |
 | 146            | Ethernet Inactivity Timer                                                        | Yes        |
-| 147            | Additional Monitoring Time                                                       |            |
-| 148            | Event Quota                                                                      |            |
-| 149            | Event Threshold                                                                  |            |
+| 147            | Additional Monitoring Time                                                       | Yes        |
+| 148            | Event Quota                                                                      | Yes        |
+| 149            | Event Threshold                                                                  | Yes        |
 | 150            | Subsequent Event Quota                                                           | Yes        |
 | 151            | Subsequent Event Threshold                                                       | Yes        |
 | 152            | Trace Information                                                                |            |
-| 153            | Framed-Route                                                                     |            |
-| 154            | Framed-Routing                                                                   |            |
-| 155            | Framed-IPv6-Route                                                                |            |
-| 156            | Event Time Stamp                                                                 |            |
-| 157            | Averaging Window                                                                 |            |
-| 158            | Paging Policy Indicator                                                          |            |
-| 159            | APN/DNN                                                                          |            |
-| 160            | 3GPP Interface Type                                                              |            |
+| 153            | Framed-Route                                                                     | Yes        |
+| 154            | Framed-Routing                                                                   | Yes        |
+| 155            | Framed-IPv6-Route                                                                | Yes        |
+| 156            | Event Time Stamp                                                                 | Yes        |
+| 157            | Averaging Window                                                                 | Yes        |
+| 158            | Paging Policy Indicator                                                          | Yes        |
+| 159            | APN/DNN                                                                          | Yes        |
+| 160            | 3GPP Interface Type                                                              | Yes        |
 | 161            | PFCPSRReq-Flags                                                                  |            |
 | 162            | PFCPAUReq-Flags                                                                  |            |
 | 163            | Activation Time                                                                  |            |
