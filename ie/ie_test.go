@@ -896,6 +896,10 @@ func TestIEs(t *testing.T) {
 			"EventTimeStamp",
 			ie.NewEventTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
 			[]byte{0x00, 0x9c, 0x00, 0x04, 0xdf, 0xd5, 0x2c, 0x00},
+		}, {
+			"AveragingWindow",
+			ie.NewAveragingWindow(0xffffffff),
+			[]byte{0x00, 0x9d, 0x00, 0x04, 0xff, 0xff, 0xff, 0xff},
 		},
 	}
 
