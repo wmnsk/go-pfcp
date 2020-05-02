@@ -5,8 +5,8 @@
 package ie
 
 // NewPagingPolicyIndicator creates a new PagingPolicyIndicator IE.
-func NewPagingPolicyIndicator(intf uint8) *IE {
-	return newUint8ValIE(PagingPolicyIndicator, intf)
+func NewPagingPolicyIndicator(indicator uint8) *IE {
+	return newUint8ValIE(PagingPolicyIndicator, indicator)
 }
 
 // PagingPolicyIndicator returns PagingPolicyIndicator in uint8 if the type of IE matches.
