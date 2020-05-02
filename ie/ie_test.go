@@ -900,6 +900,10 @@ func TestIEs(t *testing.T) {
 			"AveragingWindow",
 			ie.NewAveragingWindow(0xffffffff),
 			[]byte{0x00, 0x9d, 0x00, 0x04, 0xff, 0xff, 0xff, 0xff},
+		}, {
+			"PagingPolicyIndicator",
+			ie.NewPagingPolicyIndicator(1),
+			[]byte{0x00, 0x9e, 0x00, 0x01, 0x01},
 		},
 	}
 
