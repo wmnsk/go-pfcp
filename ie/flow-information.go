@@ -55,6 +55,9 @@ func (i *IE) FlowInformation() ([]byte, error) {
 func (i *IE) FlowDirection() (uint8, error) {
 	switch i.Type {
 	case FlowInformation:
+		if len(i.Payload) < 1 {
+			return 0, io.ErrUnexpectedEOF
+		}
 		return i.Payload[0] & 0x07, nil
 	case ApplicationDetectionInformation:
 		ies, err := i.ApplicationDetectionInformation()

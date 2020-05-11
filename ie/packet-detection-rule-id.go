@@ -6,6 +6,7 @@ package ie
 
 import (
 	"encoding/binary"
+	"io"
 )
 
 // NewPacketDetectionRuleID creates a new PacketDetectionRuleID IE.
@@ -17,6 +18,9 @@ func NewPacketDetectionRuleID(id uint16) *IE {
 func (i *IE) PacketDetectionRuleID() (uint16, error) {
 	switch i.Type {
 	case PacketDetectionRuleID:
+		if len(i.Payload) < 2 {
+			return 0, io.ErrUnexpectedEOF
+		}
 		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
 	case ApplicationDetectionInformation:
 		ies, err := i.ApplicationDetectionInformation()
