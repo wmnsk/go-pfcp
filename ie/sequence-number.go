@@ -28,10 +28,20 @@ func (i *IE) SequenceNumber() (uint32, error) {
 		if err != nil {
 			return 0, err
 		}
-
-		for _, e := range ies {
-			if e.Type == SequenceNumber {
-				return e.SequenceNumber()
+		for _, x := range ies {
+			if x.Type == SequenceNumber {
+				return x.SequenceNumber()
+			}
+		}
+		return 0, ErrIENotFound
+	case OverloadControlInformation:
+		ies, err := i.OverloadControlInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == SequenceNumber {
+				return x.SequenceNumber()
 			}
 		}
 		return 0, ErrIENotFound

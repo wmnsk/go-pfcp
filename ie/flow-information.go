@@ -32,38 +32,71 @@ func NewFlowInformation(dir uint8, desc string) *IE {
 
 // FlowInformation returns FlowInformation in []byte if the type of IE matches.
 func (i *IE) FlowInformation() ([]byte, error) {
-	if i.Type != FlowInformation {
+	switch i.Type {
+	case FlowInformation:
+		return i.Payload, nil
+	case ApplicationDetectionInformation:
+		ies, err := i.ApplicationDetectionInformation()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == FlowInformation {
+				return x.FlowInformation()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return i.Payload, nil
 }
 
 // FlowDirection returns FlowDirection in uint8 if the type of IE matches.
 func (i *IE) FlowDirection() (uint8, error) {
-	if i.Type != FlowInformation {
+	switch i.Type {
+	case FlowInformation:
+		if len(i.Payload) < 1 {
+			return 0, io.ErrUnexpectedEOF
+		}
+		return i.Payload[0] & 0x07, nil
+	case ApplicationDetectionInformation:
+		ies, err := i.ApplicationDetectionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == FlowInformation {
+				return x.FlowDirection()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
-	return i.Payload[0] & 0x07, nil
 }
 
 // FlowDescription returns FlowDescription in string if the type of IE matches.
 func (i *IE) FlowDescription() (string, error) {
-	if i.Type != FlowInformation {
+	switch i.Type {
+	case FlowInformation:
+		l := binary.BigEndian.Uint16(i.Payload[1:3])
+		if len(i.Payload) < int(l) {
+			return "", io.ErrUnexpectedEOF
+		}
+
+		return string(i.Payload[4:l]), nil
+	case ApplicationDetectionInformation:
+		ies, err := i.ApplicationDetectionInformation()
+		if err != nil {
+			return "", err
+		}
+		for _, x := range ies {
+			if x.Type == FlowInformation {
+				return x.FlowDescription()
+			}
+		}
+		return "", ErrIENotFound
+	default:
 		return "", &InvalidTypeError{Type: i.Type}
 	}
-	if len(i.Payload) < 3 {
-		return "", io.ErrUnexpectedEOF
-	}
-	l := binary.BigEndian.Uint16(i.Payload[1:3])
-
-	if len(i.Payload) < int(l) {
-		return "", io.ErrUnexpectedEOF
-	}
-
-	return string(i.Payload[4:l]), nil
 }

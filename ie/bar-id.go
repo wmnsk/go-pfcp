@@ -15,12 +15,25 @@ func NewBARID(id uint8) *IE {
 
 // BARID returns BARID in uint8 if the type of IE matches.
 func (i *IE) BARID() (uint8, error) {
-	if i.Type != BARID {
+	switch i.Type {
+	case BARID:
+		if len(i.Payload) < 1 {
+			return 0, io.ErrUnexpectedEOF
+		}
+
+		return i.Payload[0], nil
+	case QueryURR:
+		ies, err := i.QueryURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == BARID {
+				return x.BARID()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
-	return i.Payload[0], nil
 }
