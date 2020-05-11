@@ -281,7 +281,9 @@ func TestIEs(t *testing.T) {
 			"ApplicationIDsPFDs",
 			ie.NewApplicationIDsPFDs(
 				ie.NewApplicationID("https://github.com/wmnsk/go-pfcp/"),
-				ie.NewPFDContext(ie.NewPFDContents("aa", "bb", "cc", "dd", "ee", []string{"11", "22"}, []string{"33", "44"}, []string{"55", "66"})),
+				ie.NewPFDContext(
+					ie.NewPFDContents("aa", "bb", "cc", "dd", "ee", []string{"11", "22"}, []string{"33", "44"}, []string{"55", "66"}),
+				),
 			),
 			[]byte{
 				0x00, 0x3a, 0x00, 0x61,
@@ -302,7 +304,9 @@ func TestIEs(t *testing.T) {
 			},
 		}, {
 			"PFDContext",
-			ie.NewPFDContext(ie.NewPFDContents("aa", "bb", "cc", "dd", "ee", []string{"11", "22"}, []string{"33", "44"}, []string{"55", "66"})),
+			ie.NewPFDContext(
+				ie.NewPFDContents("aa", "bb", "cc", "dd", "ee", []string{"11", "22"}, []string{"33", "44"}, []string{"55", "66"}),
+			),
 			[]byte{
 				0x00, 0x3b, 0x00, 0x38,
 				0x00, 0x3d, 0x00, 0x34,

@@ -24,15 +24,38 @@ func NewPFDContents(fd, url, dn, cp, dnp string, afd, aurl, adnp []string) *IE {
 //
 // This IE has a complex payload that costs much when parsing.
 func (i *IE) PFDContents() (*PFDContentsFields, error) {
-	if i.Type != PFDContents {
+	switch i.Type {
+	case PFDContents:
+		s, err := ParsePFDContentsFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+		return s, nil
+	case PFDContext:
+		ies, err := i.PFDContext()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PFDContents {
+				return x.PFDContents()
+			}
+		}
+		return nil, ErrIENotFound
+	case ApplicationIDsPFDs:
+		ies, err := i.ApplicationIDsPFDs()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PFDContext {
+				return x.PFDContents()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	s, err := ParsePFDContentsFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-	return s, nil
 }
 
 // PFDContentsFields represents a fields contained in PFDContents IE.
