@@ -26,8 +26,8 @@ func (i *IE) UEIPAddressPoolIdentity() ([]byte, error) {
 	return i.Payload, nil
 }
 
-// UEIPAddressPoolIdentityIdentifier returns UEIPAddressPoolIdentityIdentifier in string if the type of IE matches.
-func (i *IE) UEIPAddressPoolIdentityIdentifier() (string, error) {
+// UEIPAddressPoolIdentityString returns UEIPAddressPoolIdentityString in string if the type of IE matches.
+func (i *IE) UEIPAddressPoolIdentityString() (string, error) {
 	v, err := i.UEIPAddressPoolIdentity()
 	if err != nil {
 		return "", err
