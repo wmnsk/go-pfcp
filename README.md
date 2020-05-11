@@ -252,10 +252,10 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 124            | QFI                                                                              | Yes        |
 | 125            | Query URR Reference                                                              | Yes        |
 | 126            | Additional Usage Reports Information                                             | Yes        |
-| 127            | Create Traffic Endpoint                                                          |            |
-| 128            | Created Traffic Endpoint                                                         |            |
-| 129            | Update Traffic Endpoint                                                          |            |
-| 130            | Remove Traffic Endpoint                                                          |            |
+| 127            | Create Traffic Endpoint                                                          | Yes        |
+| 128            | Created Traffic Endpoint                                                         | Yes        |
+| 129            | Update Traffic Endpoint                                                          | Yes        |
+| 130            | Remove Traffic Endpoint                                                          | Yes        |
 | 131            | Traffic Endpoint ID                                                              | Yes        |
 | 132            | Ethernet Packet Filter                                                           | Yes        |
 | 133            | MAC address                                                                      | Yes        |
@@ -286,32 +286,32 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 158            | Paging Policy Indicator                                                          | Yes        |
 | 159            | APN/DNN                                                                          | Yes        |
 | 160            | 3GPP Interface Type                                                              | Yes        |
-| 161            | PFCPSRReq-Flags                                                                  |            |
-| 162            | PFCPAUReq-Flags                                                                  |            |
-| 163            | Activation Time                                                                  |            |
-| 164            | Deactivation Time                                                                |            |
+| 161            | PFCPSRReq-Flags                                                                  | Yes        |
+| 162            | PFCPAUReq-Flags                                                                  | Yes        |
+| 163            | Activation Time                                                                  | Yes        |
+| 164            | Deactivation Time                                                                | Yes        |
 | 165            | Create MAR                                                                       |            |
 | 166            | Access Forwarding Action Information 1                                           |            |
 | 167            | Access Forwarding Action Information 2                                           |            |
 | 168            | Remove MAR                                                                       |            |
 | 169            | Update MAR                                                                       |            |
-| 170            | MAR ID                                                                           |            |
-| 171            | Steering Functionality                                                           |            |
-| 172            | Steering Mode                                                                    |            |
-| 173            | Weight                                                                           |            |
-| 174            | Priority                                                                         |            |
+| 170            | MAR ID                                                                           | Yes        |
+| 171            | Steering Functionality                                                           | Yes        |
+| 172            | Steering Mode                                                                    | Yes        |
+| 173            | Weight                                                                           | Yes        |
+| 174            | Priority                                                                         | Yes        |
 | 175            | Update Access Forwarding Action Information 1                                    |            |
 | 176            | Update Access Forwarding Action Information 2                                    |            |
-| 177            | UE IP address Pool Identity                                                      |            |
-| 178            | Alternative SMF IP Address                                                       |            |
-| 179            | Packet Replication and Detection Carry-On Information                            |            |
-| 180            | SMF Set ID                                                                       |            |
-| 181            | Quota Validity Time                                                              |            |
-| 182            | Number of Reports                                                                |            |
+| 177            | UE IP address Pool Identity                                                      | Yes        |
+| 178            | Alternative SMF IP Address                                                       | Yes        |
+| 179            | Packet Replication and Detection Carry-On Information                            | Yes        |
+| 180            | SMF Set ID                                                                       | Yes        |
+| 181            | Quota Validity Time                                                              | Yes        |
+| 182            | Number of Reports                                                                | Yes        |
 | 183            | PFCP Session Retention Information (within PFCP Association Setup Request)       |            |
-| 184            | PFCPASRsp-Flags                                                                  |            |
-| 185            | CP PFCP Entity IP Address                                                        |            |
-| 186            | PFCPSEReq-Flags                                                                  |            |
+| 184            | PFCPASRsp-Flags                                                                  | Yes        |
+| 185            | CP PFCP Entity IP Address                                                        | Yes        |
+| 186            | PFCPSEReq-Flags                                                                  | Yes        |
 | 187            | User Plane Path Recovery Report                                                  |            |
 | 188            | IP Multicast Addressing Info within PFCP Session Establishment Request           |            |
 | 189            | Join IP Multicast Information IE within Usage Report                             |            |
@@ -380,7 +380,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 252            | Packet Rate Status Report                                                        |            |
 | 253            | NF Instance ID                                                                   |            |
 | 254            | Ethernet Context Information                                                     |            |
-| 255            | Redundant Transmission Parameters                                                |            |
+| 255            | Redundant Transmission Parameters                                                | Yes        |
 | 256            | Updated PDR                                                                      |            |
 | 257 to 32767   | Spare. For future use.                                                           |            |
 | 32768 to 65535 | Reserved for vendor specific IEs                                                 |            |
