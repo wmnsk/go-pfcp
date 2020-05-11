@@ -26,6 +26,6 @@ func (i *IE) ApplicationInstanceID() (string, error) {
 		}
 		return "", ErrIENotFound
 	default:
-		return "", ErrInvalidType
+		return "", &InvalidTypeError{Type: i.Type}
 	}
 }

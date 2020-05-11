@@ -37,6 +37,6 @@ func (i *IE) ApplicationID() (string, error) {
 		}
 		return "", ErrIENotFound
 	default:
-		return "", ErrInvalidType
+		return "", &InvalidTypeError{Type: i.Type}
 	}
 }

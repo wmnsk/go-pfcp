@@ -30,6 +30,6 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 		}
 		return 0, ErrIENotFound
 	default:
-		return 0, ErrInvalidType
+		return 0, &InvalidTypeError{Type: i.Type}
 	}
 }

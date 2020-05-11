@@ -47,7 +47,7 @@ func (i *IE) FlowInformation() ([]byte, error) {
 		}
 		return nil, ErrIENotFound
 	default:
-		return nil, ErrInvalidType
+		return nil, &InvalidTypeError{Type: i.Type}
 	}
 }
 
@@ -68,7 +68,7 @@ func (i *IE) FlowDirection() (uint8, error) {
 		}
 		return 0, ErrIENotFound
 	default:
-		return 0, ErrInvalidType
+		return 0, &InvalidTypeError{Type: i.Type}
 	}
 }
 
@@ -94,6 +94,6 @@ func (i *IE) FlowDescription() (string, error) {
 		}
 		return "", ErrIENotFound
 	default:
-		return "", ErrInvalidType
+		return "", &InvalidTypeError{Type: i.Type}
 	}
 }
