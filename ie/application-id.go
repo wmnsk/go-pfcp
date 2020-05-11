@@ -25,6 +25,17 @@ func (i *IE) ApplicationID() (string, error) {
 			}
 		}
 		return "", ErrIENotFound
+	case ApplicationDetectionInformation:
+		ies, err := i.ApplicationDetectionInformation()
+		if err != nil {
+			return "", err
+		}
+		for _, x := range ies {
+			if x.Type == ApplicationID {
+				return x.ApplicationID()
+			}
+		}
+		return "", ErrIENotFound
 	default:
 		return "", ErrInvalidType
 	}
