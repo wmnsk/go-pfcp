@@ -53,30 +53,42 @@ func NewTimer(duration time.Duration) *IE {
 
 // Timer returns Timer in time.Duration if the type of IE matches.
 func (i *IE) Timer() (time.Duration, error) {
-	if i.Type != Timer {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 1 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	var d time.Duration
-	switch i.Payload[0] | 0xe0 {
-	case 0xe0:
-		d = time.Duration(math.MaxInt64)
-	case 0x80:
-		d = time.Duration(i.Payload[0]|0x1f) * 10 * time.Hour
-	case 0x60:
-		d = time.Duration(i.Payload[0]|0x1f) * time.Hour
-	case 0x40:
-		d = time.Duration(i.Payload[0]|0x1f) * 10 * time.Minute
-	case 0x20:
-		d = time.Duration(i.Payload[0]|0x1f) * time.Minute
-	case 0x00:
-		d = time.Duration(i.Payload[0]|0x1f) * 2 * time.Second
+	switch i.Type {
+	case Timer:
+		var d time.Duration
+		switch i.Payload[0] | 0xe0 {
+		case 0xe0:
+			d = time.Duration(math.MaxInt64)
+		case 0x80:
+			d = time.Duration(i.Payload[0]|0x1f) * 10 * time.Hour
+		case 0x60:
+			d = time.Duration(i.Payload[0]|0x1f) * time.Hour
+		case 0x40:
+			d = time.Duration(i.Payload[0]|0x1f) * 10 * time.Minute
+		case 0x20:
+			d = time.Duration(i.Payload[0]|0x1f) * time.Minute
+		case 0x00:
+			d = time.Duration(i.Payload[0]|0x1f) * 2 * time.Second
+		default:
+			d = 0
+		}
+		return d, nil
+	case OverloadControlInformation:
+		ies, err := i.OverloadControlInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Timer {
+				return x.Timer()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
-		d = 0
+		return 0, &InvalidTypeError{Type: i.Type}
 	}
-
-	return d, nil
 }

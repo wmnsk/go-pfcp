@@ -15,12 +15,25 @@ func NewOCIFlags(flags uint8) *IE {
 
 // OCIFlags returns OCIFlags in uint8 if the type of IE matches.
 func (i *IE) OCIFlags() (uint8, error) {
-	if i.Type != OCIFlags {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 1 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0], nil
+	switch i.Type {
+	case OCIFlags:
+		return i.Payload[0], nil
+	case OverloadControlInformation:
+		ies, err := i.OverloadControlInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == OCIFlags {
+				return x.OCIFlags()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

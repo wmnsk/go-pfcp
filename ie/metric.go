@@ -28,10 +28,20 @@ func (i *IE) Metric() (uint8, error) {
 		if err != nil {
 			return 0, err
 		}
-
-		for _, e := range ies {
-			if e.Type == Metric {
-				return e.Metric()
+		for _, x := range ies {
+			if x.Type == Metric {
+				return x.Metric()
+			}
+		}
+		return 0, ErrIENotFound
+	case OverloadControlInformation:
+		ies, err := i.OverloadControlInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Metric {
+				return x.Metric()
 			}
 		}
 		return 0, ErrIENotFound
