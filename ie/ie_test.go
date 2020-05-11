@@ -1022,6 +1022,10 @@ func TestIEs(t *testing.T) {
 			ie.NewMARID(0x1111),
 			[]byte{0x00, 0xaa, 0x00, 0x02, 0x11, 0x11},
 		}, {
+			"SteeringFunctionality",
+			ie.NewSteeringFunctionality(ie.SteeringFunctionalityATSSSLL),
+			[]byte{0x00, 0xab, 0x00, 0x01, 0x00},
+		}, {
 			"RedundantTransmissionParameters/PDI",
 			ie.NewRedundantTransmissionParametersInPDI(
 				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
