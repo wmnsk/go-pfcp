@@ -1002,6 +1002,10 @@ func TestIEs(t *testing.T) {
 			ie.NewTGPPInterfaceType(ie.TGPPInterfaceTypeS1U),
 			[]byte{0x00, 0xa0, 0x00, 0x01, 0x00},
 		}, {
+			"PFCPSRReqFlags",
+			ie.NewPFCPSRReqFlags(0x01),
+			[]byte{0x00, 0xa1, 0x00, 0x01, 0x01},
+		}, {
 			"RedundantTransmissionParameters/PDI",
 			ie.NewRedundantTransmissionParametersInPDI(
 				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
