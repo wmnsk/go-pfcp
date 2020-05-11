@@ -1038,6 +1038,10 @@ func TestIEs(t *testing.T) {
 			ie.NewPriority(ie.PriorityActive),
 			[]byte{0x00, 0xae, 0x00, 0x01, 0x00},
 		}, {
+			"UEIPAddressPoolIdentity",
+			ie.NewUEIPAddressPoolIdentity("go-pfcp"),
+			[]byte{0x00, 0xb1, 0x00, 0x08, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70},
+		}, {
 			"RedundantTransmissionParameters/PDI",
 			ie.NewRedundantTransmissionParametersInPDI(
 				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
