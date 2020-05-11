@@ -1014,6 +1014,10 @@ func TestIEs(t *testing.T) {
 			ie.NewActivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
 			[]byte{0x00, 0xa3, 0x00, 0x04, 0xdf, 0xd5, 0x2c, 0x00},
 		}, {
+			"DeactivationTime",
+			ie.NewDeactivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
+			[]byte{0x00, 0xa4, 0x00, 0x04, 0xdf, 0xd5, 0x2c, 0x00},
+		}, {
 			"RedundantTransmissionParameters/PDI",
 			ie.NewRedundantTransmissionParametersInPDI(
 				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
