@@ -1074,6 +1074,10 @@ func TestIEs(t *testing.T) {
 			ie.NewPFCPASRspFlags(0x01),
 			[]byte{0x00, 0xb8, 0x00, 0x01, 0x01},
 		}, {
+			"PFCPSEReqFlags",
+			ie.NewPFCPSEReqFlags(0x01),
+			[]byte{0x00, 0xba, 0x00, 0x01, 0x01},
+		}, {
 			"RedundantTransmissionParameters/PDI",
 			ie.NewRedundantTransmissionParametersInPDI(
 				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
