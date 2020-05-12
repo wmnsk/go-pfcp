@@ -16,12 +16,25 @@ func NewAggregatedURRID(id uint32) *IE {
 
 // AggregatedURRID returns AggregatedURRID in uint32 if the type of IE matches.
 func (i *IE) AggregatedURRID() (uint32, error) {
-	if i.Type != AggregatedURRID {
+	switch i.Type {
+	case AggregatedURRID:
+		if len(i.Payload) < 4 {
+			return 0, io.ErrUnexpectedEOF
+		}
+
+		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case AggregatedURRs:
+		ies, err := i.AggregatedURRs()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == AggregatedURRID {
+				return x.AggregatedURRID()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
-	return binary.BigEndian.Uint32(i.Payload[0:4]), nil
 }

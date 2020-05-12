@@ -35,14 +35,27 @@ func NewSubsequentVolumeQuota(flags uint8, total, ul, dl uint64) *IE {
 
 // SubsequentVolumeQuota returns SubsequentVolumeQuota in []byte if the type of IE matches.
 func (i *IE) SubsequentVolumeQuota() ([]byte, error) {
-	if i.Type != SubsequentVolumeQuota {
-		return nil, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 1 {
 		return nil, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload, nil
+	switch i.Type {
+	case SubsequentVolumeQuota:
+		return i.Payload, nil
+	case AdditionalMonitoringTime:
+		ies, err := i.AdditionalMonitoringTime()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == SubsequentVolumeQuota {
+				return x.SubsequentVolumeQuota()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
+		return nil, &InvalidTypeError{Type: i.Type}
+	}
 }
 
 // SubsequentVolumeQuotaTotal returns SubsequentVolumeQuotaTotal in uint64 if the type of IE matches.

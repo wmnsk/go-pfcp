@@ -20,33 +20,71 @@ func NewMultiplier(val uint64, exp uint32) *IE {
 
 // Multiplier returns Multiplier in []byte if the type of IE matches.
 func (i *IE) Multiplier() ([]byte, error) {
-	if i.Type != Multiplier {
+	switch i.Type {
+	case Multiplier:
+		return i.Payload, nil
+	case AggregatedURRs:
+		ies, err := i.AggregatedURRs()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == Multiplier {
+				return x.Multiplier()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return i.Payload, nil
 }
 
 // ValueDigits returns ValueDigits in uint64 if the type of IE matches.
 func (i *IE) ValueDigits() (uint64, error) {
-	if i.Type != Multiplier {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 8 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return binary.BigEndian.Uint64(i.Payload[0:8]), nil
+	switch i.Type {
+	case Multiplier:
+		return binary.BigEndian.Uint64(i.Payload[0:8]), nil
+	case AggregatedURRs:
+		ies, err := i.AggregatedURRs()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Multiplier {
+				return x.ValueDigits()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }
 
 // Exponent returns Exponent in uint32 if the type of IE matches.
 func (i *IE) Exponent() (uint32, error) {
-	if i.Type != Multiplier {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 12 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return binary.BigEndian.Uint32(i.Payload[8:12]), nil
+	switch i.Type {
+	case Multiplier:
+		return binary.BigEndian.Uint32(i.Payload[8:12]), nil
+	case AggregatedURRs:
+		ies, err := i.AggregatedURRs()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Multiplier {
+				return x.Exponent()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

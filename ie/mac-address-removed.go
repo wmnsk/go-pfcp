@@ -23,16 +23,28 @@ func NewMACAddressesRemoved(ctag, stag *IE, macs ...net.HardwareAddr) *IE {
 
 // MACAddressesRemoved returns MACAddressesRemoved in structured format if the type of IE matches.
 func (i *IE) MACAddressesRemoved() (*MACAddressesRemovedFields, error) {
-	if i.Type != MACAddressesRemoved {
+	switch i.Type {
+	case MACAddressesRemoved:
+		fields, err := ParseMACAddressesRemovedFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	case EthernetTrafficInformation:
+		ies, err := i.EthernetTrafficInformation()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == MACAddressesRemoved {
+				return x.MACAddressesRemoved()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	fields, err := ParseMACAddressesRemovedFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-
-	return fields, nil
 }
 
 // MACAddressesRemovedFields represents a fields contained in MACAddressesRemoved IE.

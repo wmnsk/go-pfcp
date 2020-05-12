@@ -16,12 +16,26 @@ func NewEthertype(typ uint16) *IE {
 
 // Ethertype returns Ethertype in uint16 if the type of IE matches.
 func (i *IE) Ethertype() (uint16, error) {
-	if i.Type != Ethertype {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 2 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+	switch i.Type {
+	case Ethertype:
+		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+	case EthernetPacketFilter:
+		ies, err := i.EthernetPacketFilter()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Ethertype {
+				return x.Ethertype()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
+
 }

@@ -35,14 +35,27 @@ func NewSubsequentVolumeThreshold(flags uint8, total, ul, dl uint64) *IE {
 
 // SubsequentVolumeThreshold returns SubsequentVolumeThreshold in []byte if the type of IE matches.
 func (i *IE) SubsequentVolumeThreshold() ([]byte, error) {
-	if i.Type != SubsequentVolumeThreshold {
-		return nil, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 1 {
 		return nil, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload, nil
+	switch i.Type {
+	case SubsequentVolumeThreshold:
+		return i.Payload, nil
+	case AdditionalMonitoringTime:
+		ies, err := i.AdditionalMonitoringTime()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == SubsequentVolumeThreshold {
+				return x.SubsequentVolumeThreshold()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
+		return nil, &InvalidTypeError{Type: i.Type}
+	}
 }
 
 // SubsequentVolumeThresholdTotal returns SubsequentVolumeThresholdTotal in uint64 if the type of IE matches.

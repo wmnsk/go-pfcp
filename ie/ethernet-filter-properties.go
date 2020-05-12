@@ -11,21 +11,46 @@ func NewEthernetFilterProperties(props uint8) *IE {
 
 // EthernetFilterProperties returns EthernetFilterProperties in []byte if the type of IE matches.
 func (i *IE) EthernetFilterProperties() ([]byte, error) {
-	if i.Type != EthernetFilterProperties {
+	switch i.Type {
+	case EthernetFilterProperties:
+		return i.Payload, nil
+	case EthernetPacketFilter:
+		ies, err := i.EthernetPacketFilter()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == EthernetFilterProperties {
+				return x.EthernetFilterProperties()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return i.Payload, nil
 }
 
 // HasBIDE reports whether an IE has BIDE bit.
 func (i *IE) HasBIDE() bool {
-	if i.Type != EthernetFilterProperties {
-		return false
-	}
 	if len(i.Payload) < 1 {
 		return false
 	}
 
-	return has1stBit(i.Payload[0])
+	switch i.Type {
+	case EthernetFilterProperties:
+		return has1stBit(i.Payload[0])
+	case EthernetPacketFilter:
+		ies, err := i.EthernetPacketFilter()
+		if err != nil {
+			return false
+		}
+		for _, x := range ies {
+			if x.Type == EthernetFilterProperties {
+				return x.HasBIDE()
+			}
+		}
+		return false
+	default:
+		return false
+	}
 }

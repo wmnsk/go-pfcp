@@ -6,6 +6,7 @@ package ie
 
 import (
 	"encoding/binary"
+	"errors"
 	"io"
 	"net"
 )
@@ -24,16 +25,63 @@ func NewFTEID(teid uint32, v4, v6 net.IP, chid []byte) *IE {
 
 // FTEID returns FTEID in structured format if the type of IE matches.
 func (i *IE) FTEID() (*FTEIDFields, error) {
-	if i.Type != FTEID {
+	switch i.Type {
+	case FTEID:
+		fields, err := ParseFTEIDFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	case ErrorIndicationReport:
+		ies, err := i.ErrorIndicationReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == FTEID {
+				return x.FTEID()
+			}
+		}
+		return nil, ErrIENotFound
+	case CreateTrafficEndpoint:
+		ies, err := i.CreateTrafficEndpoint()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == FTEID {
+				return x.FTEID()
+			}
+		}
+		return nil, ErrIENotFound
+	case CreatedTrafficEndpoint:
+		return nil, errors.New("cannot determine which value to return. Use LocalFTEID or LocalFTEIDN instead")
+	case UpdateTrafficEndpoint:
+		ies, err := i.UpdateTrafficEndpoint()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == FTEID {
+				return x.FTEID()
+			}
+		}
+		return nil, ErrIENotFound
+	case RedundantTransmissionParameters:
+		ies, err := i.RedundantTransmissionParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == FTEID {
+				return x.FTEID()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	fields, err := ParseFTEIDFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-
-	return fields, nil
 }
 
 // FTEIDFields represents a fields contained in FTEID IE.

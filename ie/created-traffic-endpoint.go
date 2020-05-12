@@ -17,3 +17,56 @@ func (i *IE) CreatedTrafficEndpoint() ([]*IE, error) {
 
 	return ParseMultiIEs(i.Payload)
 }
+
+// LocalFTEID returns FTEID that is found first in a grouped IE in structured format
+// if the type of IE matches.
+//
+// This can only be used on the grouped IEs that may have multiple Local F-TEID IEs.
+func (i *IE) LocalFTEID() (*FTEIDFields, error) {
+	switch i.Type {
+	case CreatedTrafficEndpoint:
+		ies, err := i.CreatedTrafficEndpoint()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == FTEID {
+				return x.FTEID()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
+		return nil, &InvalidTypeError{Type: i.Type}
+	}
+}
+
+// LocalFTEIDN returns FTEID that is found Nth in a grouped IE in structured format
+// if the type of IE matches.
+//
+// This can only be used on the grouped IEs that may have multiple Local F-TEID IEs.
+func (i *IE) LocalFTEIDN(n int) (*FTEIDFields, error) {
+	if n < 1 {
+		return nil, ErrIENotFound
+	}
+
+	switch i.Type {
+	case CreatedTrafficEndpoint: // has two F-TEID
+		ies, err := i.CreatedTrafficEndpoint()
+		if err != nil {
+			return nil, err
+		}
+
+		c := 0
+		for _, x := range ies {
+			if x.Type == FTEID {
+				c++
+				if c == n {
+					return x.FTEID()
+				}
+			}
+		}
+		return nil, ErrIENotFound
+	default:
+		return nil, &InvalidTypeError{Type: i.Type}
+	}
+}

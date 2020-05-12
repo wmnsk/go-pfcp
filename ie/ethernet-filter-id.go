@@ -16,12 +16,26 @@ func NewEthernetFilterID(id uint32) *IE {
 
 // EthernetFilterID returns EthernetFilterID in uint32 if the type of IE matches.
 func (i *IE) EthernetFilterID() (uint32, error) {
-	if i.Type != EthernetFilterID {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	switch i.Type {
+	case EthernetFilterID:
+		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case EthernetPacketFilter:
+		ies, err := i.EthernetPacketFilter()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == EthernetFilterID {
+				return x.EthernetFilterID()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
+
 }

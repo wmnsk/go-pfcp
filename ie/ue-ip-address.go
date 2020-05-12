@@ -22,15 +22,50 @@ func NewUEIPAddress(flags uint8, v4, v6 string, v6d uint8) *IE {
 
 // UEIPAddress returns UEIPAddress in *UEIPAddressFields if the type of IE matches.
 func (i *IE) UEIPAddress() (*UEIPAddressFields, error) {
-	if i.Type != UEIPAddress {
+	switch i.Type {
+	case UEIPAddress:
+		fields, err := ParseUEIPAddressFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	case CreateTrafficEndpoint:
+		ies, err := i.CreateTrafficEndpoint()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == UEIPAddress {
+				return x.UEIPAddress()
+			}
+		}
+		return nil, ErrIENotFound
+	case CreatedTrafficEndpoint:
+		ies, err := i.CreatedTrafficEndpoint()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == UEIPAddress {
+				return x.UEIPAddress()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateTrafficEndpoint:
+		ies, err := i.UpdateTrafficEndpoint()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == UEIPAddress {
+				return x.UEIPAddress()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	f, err := ParseUEIPAddressFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-	return f, nil
 }
 
 // HasCH reports whether an IE has CH bit.
