@@ -42,6 +42,18 @@ func (i *IE) CTAG() (*CTAGFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case MACAddressesDetected:
+		x, err := i.MACAddressesDetected()
+		if err != nil {
+			return nil, err
+		}
+		return ParseCTAGFields(x.CTAG)
+	case MACAddressesRemoved:
+		x, err := i.MACAddressesRemoved()
+		if err != nil {
+			return nil, err
+		}
+		return ParseCTAGFields(x.CTAG)
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

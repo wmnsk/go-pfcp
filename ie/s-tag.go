@@ -42,6 +42,18 @@ func (i *IE) STAG() (*STAGFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case MACAddressesDetected:
+		x, err := i.MACAddressesDetected()
+		if err != nil {
+			return nil, err
+		}
+		return ParseSTAGFields(x.STAG)
+	case MACAddressesRemoved:
+		x, err := i.MACAddressesRemoved()
+		if err != nil {
+			return nil, err
+		}
+		return ParseSTAGFields(x.STAG)
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
