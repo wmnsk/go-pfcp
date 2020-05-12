@@ -24,16 +24,28 @@ func NewFTEID(teid uint32, v4, v6 net.IP, chid []byte) *IE {
 
 // FTEID returns FTEID in structured format if the type of IE matches.
 func (i *IE) FTEID() (*FTEIDFields, error) {
-	if i.Type != FTEID {
+	switch i.Type {
+	case FTEID:
+		fields, err := ParseFTEIDFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	case ErrorIndicationReport:
+		ies, err := i.ErrorIndicationReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == FTEID {
+				return x.FTEID()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	fields, err := ParseFTEIDFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-
-	return fields, nil
 }
 
 // FTEIDFields represents a fields contained in FTEID IE.
