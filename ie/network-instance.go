@@ -36,6 +36,17 @@ func (i *IE) NetworkInstance() (string, error) {
 			}
 		}
 		return "", ErrIENotFound
+	case RedundantTransmissionParameters:
+		ies, err := i.RedundantTransmissionParameters()
+		if err != nil {
+			return "", err
+		}
+		for _, x := range ies {
+			if x.Type == NetworkInstance {
+				return x.NetworkInstance()
+			}
+		}
+		return "", ErrIENotFound
 	default:
 		return "", &InvalidTypeError{Type: i.Type}
 	}

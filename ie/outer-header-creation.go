@@ -23,15 +23,27 @@ func NewOuterHeaderCreation(desc uint16, teid uint32, v4, v6 string, port uint16
 
 // OuterHeaderCreation returns OuterHeaderCreation in *OuterHeaderCreationFields if the type of IE matches.
 func (i *IE) OuterHeaderCreation() (*OuterHeaderCreationFields, error) {
-	if i.Type != OuterHeaderCreation {
+	switch i.Type {
+	case OuterHeaderCreation:
+		f, err := ParseOuterHeaderCreationFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+		return f, nil
+	case RedundantTransmissionParameters:
+		ies, err := i.RedundantTransmissionParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == OuterHeaderCreation {
+				return x.OuterHeaderCreation()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	f, err := ParseOuterHeaderCreationFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-	return f, nil
 }
 
 // HasTEID reports whether and IE has TEID bit.
