@@ -23,16 +23,28 @@ func NewMACAddressesDetected(ctag, stag *IE, macs ...net.HardwareAddr) *IE {
 
 // MACAddressesDetected returns MACAddressesDetected in structured format if the type of IE matches.
 func (i *IE) MACAddressesDetected() (*MACAddressesDetectedFields, error) {
-	if i.Type != MACAddressesDetected {
+	switch i.Type {
+	case MACAddressesDetected:
+		fields, err := ParseMACAddressesDetectedFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	case EthernetTrafficInformation:
+		ies, err := i.EthernetTrafficInformation()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == MACAddressesDetected {
+				return x.MACAddressesDetected()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	fields, err := ParseMACAddressesDetectedFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-
-	return fields, nil
 }
 
 // MACAddressesDetectedFields represents a fields contained in MACAddressesDetected IE.
