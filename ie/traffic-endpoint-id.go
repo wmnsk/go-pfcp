@@ -15,12 +15,58 @@ func NewTrafficEndpointID(id uint8) *IE {
 
 // TrafficEndpointID returns TrafficEndpointID in uint8 if the type of IE matches.
 func (i *IE) TrafficEndpointID() (uint8, error) {
-	if i.Type != TrafficEndpointID {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 1 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0], nil
+	switch i.Type {
+	case TrafficEndpointID:
+		return i.Payload[0], nil
+	case CreateTrafficEndpoint:
+		ies, err := i.CreateTrafficEndpoint()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TrafficEndpointID {
+				return x.TrafficEndpointID()
+			}
+		}
+		return 0, ErrIENotFound
+	case CreatedTrafficEndpoint:
+		ies, err := i.CreatedTrafficEndpoint()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TrafficEndpointID {
+				return x.TrafficEndpointID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateTrafficEndpoint:
+		ies, err := i.UpdateTrafficEndpoint()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TrafficEndpointID {
+				return x.TrafficEndpointID()
+			}
+		}
+		return 0, ErrIENotFound
+	case RemoveTrafficEndpoint:
+		ies, err := i.RemoveTrafficEndpoint()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TrafficEndpointID {
+				return x.TrafficEndpointID()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

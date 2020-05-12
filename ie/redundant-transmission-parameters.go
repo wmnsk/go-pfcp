@@ -21,9 +21,32 @@ func NewRedundantTransmissionParametersInFAR(ohc, ni *IE) *IE {
 
 // RedundantTransmissionParameters returns the IEs above RedundantTransmissionParameters if the type of IE matches.
 func (i *IE) RedundantTransmissionParameters() ([]*IE, error) {
-	if i.Type != RedundantTransmissionParameters {
+	switch i.Type {
+	case RedundantTransmissionParameters:
+		return ParseMultiIEs(i.Payload)
+	case CreateTrafficEndpoint:
+		ies, err := i.CreateTrafficEndpoint()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == RedundantTransmissionParameters {
+				return x.RedundantTransmissionParameters()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateTrafficEndpoint:
+		ies, err := i.UpdateTrafficEndpoint()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == RedundantTransmissionParameters {
+				return x.RedundantTransmissionParameters()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return ParseMultiIEs(i.Payload)
 }

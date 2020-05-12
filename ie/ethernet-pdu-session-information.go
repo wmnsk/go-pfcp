@@ -11,11 +11,23 @@ func NewEthernetPDUSessionInformation(info uint8) *IE {
 
 // EthernetPDUSessionInformation returns EthernetPDUSessionInformation in []byte if the type of IE matches.
 func (i *IE) EthernetPDUSessionInformation() ([]byte, error) {
-	if i.Type != EthernetPDUSessionInformation {
+	switch i.Type {
+	case EthernetPDUSessionInformation:
+		return i.Payload, nil
+	case CreateTrafficEndpoint:
+		ies, err := i.CreateTrafficEndpoint()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == EthernetPDUSessionInformation {
+				return x.EthernetPDUSessionInformation()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return i.Payload, nil
 }
 
 // HasETHI reports whether an IE has ETHI bit.

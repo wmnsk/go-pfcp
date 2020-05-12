@@ -67,23 +67,3 @@ func (i *IE) PPI() (uint8, error) {
 
 	return i.Payload[1], nil
 }
-
-// QFI returns QFI in uint8 if the type of IE matches.
-func (i *IE) QFI() (uint8, error) {
-	switch i.Type {
-	case DownlinkDataServiceInformation:
-		if len(i.Payload) < 2 {
-			return 0, io.ErrUnexpectedEOF
-		}
-
-		return i.Payload[2], nil
-	case QFI:
-		if len(i.Payload) < 1 {
-			return 0, io.ErrUnexpectedEOF
-		}
-
-		return i.Payload[0], nil
-	default:
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-}

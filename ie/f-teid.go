@@ -6,6 +6,7 @@ package ie
 
 import (
 	"encoding/binary"
+	"errors"
 	"io"
 	"net"
 )
@@ -34,6 +35,30 @@ func (i *IE) FTEID() (*FTEIDFields, error) {
 		return fields, nil
 	case ErrorIndicationReport:
 		ies, err := i.ErrorIndicationReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == FTEID {
+				return x.FTEID()
+			}
+		}
+		return nil, ErrIENotFound
+	case CreateTrafficEndpoint:
+		ies, err := i.CreateTrafficEndpoint()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == FTEID {
+				return x.FTEID()
+			}
+		}
+		return nil, ErrIENotFound
+	case CreatedTrafficEndpoint:
+		return nil, errors.New("cannot determine which value to return. Use LocalFTEID or LocalFTEIDN instead")
+	case UpdateTrafficEndpoint:
+		ies, err := i.UpdateTrafficEndpoint()
 		if err != nil {
 			return nil, err
 		}
