@@ -23,15 +23,28 @@ func NewRemoteGTPUPeer(flags uint8, v4, v6 string, di uint8, ni string) *IE {
 
 // RemoteGTPUPeer returns RemoteGTPUPeer in *RemoteGTPUPeerFields if the type of IE matches.
 func (i *IE) RemoteGTPUPeer() (*RemoteGTPUPeerFields, error) {
-	if i.Type != RemoteGTPUPeer {
+	switch i.Type {
+	case RemoteGTPUPeer:
+		fields, err := ParseRemoteGTPUPeerFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	case UserPlanePathFailureReport:
+		ies, err := i.UserPlanePathFailureReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == RemoteGTPUPeer {
+				return x.RemoteGTPUPeer()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	f, err := ParseRemoteGTPUPeerFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-	return f, nil
 }
 
 // HasNI reports whether an IE has NI bit.
