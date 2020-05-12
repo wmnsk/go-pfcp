@@ -24,15 +24,28 @@ func NewSDFFilter(fd, ttc, spi, fl string, fid uint32) *IE {
 //
 // This IE has a complex payload that costs much when parsing.
 func (i *IE) SDFFilter() (*SDFFilterFields, error) {
-	if i.Type != SDFFilter {
+	switch i.Type {
+	case SDFFilter:
+		fields, err := ParseSDFFilterFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	case EthernetPacketFilter:
+		ies, err := i.EthernetPacketFilter()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == SDFFilter {
+				return x.SDFFilter()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	s, err := ParseSDFFilterFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-	return s, nil
 }
 
 // SDFFilterFields represents a fields contained in SDFFilter IE.

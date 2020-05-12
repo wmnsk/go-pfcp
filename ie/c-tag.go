@@ -23,16 +23,28 @@ func NewCTAG(flags, pcp, deiFlag uint8, cvid uint16) *IE {
 
 // CTAG returns CTAG in structured format if the type of IE matches.
 func (i *IE) CTAG() (*CTAGFields, error) {
-	if i.Type != CTAG {
+	switch i.Type {
+	case CTAG:
+		fields, err := ParseCTAGFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	case EthernetPacketFilter:
+		ies, err := i.EthernetPacketFilter()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == CTAG {
+				return x.CTAG()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	fields, err := ParseCTAGFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-
-	return fields, nil
 }
 
 // CTAGFields represents a fields contained in CTAG IE.

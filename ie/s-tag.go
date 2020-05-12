@@ -23,16 +23,28 @@ func NewSTAG(flags, pcp, deiFlag uint8, cvid uint16) *IE {
 
 // STAG returns STAG in structured format if the type of IE matches.
 func (i *IE) STAG() (*STAGFields, error) {
-	if i.Type != STAG {
+	switch i.Type {
+	case STAG:
+		fields, err := ParseSTAGFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	case EthernetPacketFilter:
+		ies, err := i.EthernetPacketFilter()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == STAG {
+				return x.STAG()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	fields, err := ParseSTAGFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-
-	return fields, nil
 }
 
 // STAGFields represents a fields contained in STAG IE.

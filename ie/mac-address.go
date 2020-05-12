@@ -23,16 +23,28 @@ func NewMACAddress(src, dst, upperSrc, upperDst net.HardwareAddr) *IE {
 
 // MACAddress returns MACAddress in structured format if the type of IE matches.
 func (i *IE) MACAddress() (*MACAddressFields, error) {
-	if i.Type != MACAddress {
+	switch i.Type {
+	case MACAddress:
+		fields, err := ParseMACAddressFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	case EthernetPacketFilter:
+		ies, err := i.EthernetPacketFilter()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == MACAddress {
+				return x.MACAddress()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	fields, err := ParseMACAddressFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-
-	return fields, nil
 }
 
 // MACAddressFields represents a fields contained in MACAddress IE.
