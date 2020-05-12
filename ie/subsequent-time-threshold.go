@@ -16,12 +16,25 @@ func NewSubsequentTimeThreshold(threshold uint32) *IE {
 
 // SubsequentTimeThreshold returns SubsequentTimeThreshold in uint32 if the type of IE matches.
 func (i *IE) SubsequentTimeThreshold() (uint32, error) {
-	if i.Type != SubsequentTimeThreshold {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
-	return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+
+	switch i.Type {
+	case SubsequentTimeThreshold:
+		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case AdditionalMonitoringTime:
+		ies, err := i.AdditionalMonitoringTime()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == SubsequentTimeThreshold {
+				return x.SubsequentTimeThreshold()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

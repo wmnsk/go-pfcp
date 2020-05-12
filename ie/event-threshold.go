@@ -6,6 +6,7 @@ package ie
 
 import (
 	"encoding/binary"
+	"io"
 )
 
 // NewEventThreshold creates a new EventThreshold IE.
@@ -15,12 +16,25 @@ func NewEventThreshold(quota uint32) *IE {
 
 // EventThreshold returns EventThreshold in uint32 if the type of IE matches.
 func (i *IE) EventThreshold() (uint32, error) {
-	if i.Type != EventThreshold {
-		return 0, &InvalidTypeError{Type: i.Type}
+	if len(i.Payload) < 4 {
+		return 0, io.ErrUnexpectedEOF
 	}
 
-	if len(i.Payload) < 4 {
+	switch i.Type {
+	case EventThreshold:
+		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case AdditionalMonitoringTime:
+		ies, err := i.AdditionalMonitoringTime()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == EventThreshold {
+				return x.EventThreshold()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	return binary.BigEndian.Uint32(i.Payload[0:4]), nil
 }

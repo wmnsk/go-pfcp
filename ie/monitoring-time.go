@@ -18,12 +18,25 @@ func NewMonitoringTime(ts time.Time) *IE {
 
 // MonitoringTime returns MonitoringTime in time.Time if the type of IE matches.
 func (i *IE) MonitoringTime() (time.Time, error) {
-	if i.Type != MonitoringTime {
-		return time.Time{}, &InvalidTypeError{Type: i.Type}
-	}
-
 	if len(i.Payload) < 4 {
 		return time.Time{}, io.ErrUnexpectedEOF
 	}
-	return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+
+	switch i.Type {
+	case MonitoringTime:
+		return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+	case AdditionalMonitoringTime:
+		ies, err := i.AdditionalMonitoringTime()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == MonitoringTime {
+				return x.MonitoringTime()
+			}
+		}
+		return time.Time{}, ErrIENotFound
+	default:
+		return time.Time{}, &InvalidTypeError{Type: i.Type}
+	}
 }
