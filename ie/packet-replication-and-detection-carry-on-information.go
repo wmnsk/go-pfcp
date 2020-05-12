@@ -20,7 +20,7 @@ func (i *IE) PacketReplicationAndDetectionCarryOnInformation() ([]byte, error) {
 
 // HasPRIUEAI reports whether an IE has PRIUEAI bit.
 func (i *IE) HasPRIUEAI() bool {
-	if i.Type != PacketReplicationAndDetectionCarryOnInformation && i.Type != SxSRRspFlags {
+	if i.Type != PacketReplicationAndDetectionCarryOnInformation && i.Type != PFCPSRRspFlags {
 		return false
 	}
 	if len(i.Payload) < 1 {

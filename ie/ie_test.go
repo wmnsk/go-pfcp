@@ -223,12 +223,12 @@ func TestIEs(t *testing.T) {
 			ie.NewDLBufferingSuggestedPacketCount(0xffff),
 			[]byte{0x00, 0x30, 0x00, 0x02, 0xff, 0xff},
 		}, {
-			"SxSMReqFlags",
-			ie.NewSxSMReqFlags(0x03),
+			"PFCPSMReqFlags",
+			ie.NewPFCPSMReqFlags(0x03),
 			[]byte{0x00, 0x31, 0x00, 0x01, 0x03},
 		}, {
-			"SxSRRspFlags",
-			ie.NewSxSRRspFlags(0x01),
+			"PFCPSRRspFlags",
+			ie.NewPFCPSRRspFlags(0x01),
 			[]byte{0x00, 0x32, 0x00, 0x01, 0x01},
 		}, {
 			"LoadControlInformation",
@@ -604,8 +604,8 @@ func TestIEs(t *testing.T) {
 			ie.NewOCIFlags(0x01),
 			[]byte{0x00, 0x6e, 0x00, 0x01, 0x01},
 		}, {
-			"SxAssociationReleaseRequest",
-			ie.NewSxAssociationReleaseRequest(1, 1),
+			"PFCPAssociationReleaseRequest",
+			ie.NewPFCPAssociationReleaseRequest(1, 1),
 			[]byte{0x00, 0x6f, 0x00, 0x01, 0x03},
 		}, {
 			"GracefulReleasePeriod/20hr",

@@ -4,14 +4,14 @@
 
 package ie
 
-// NewSxAssociationReleaseRequest creates a new SxAssociationReleaseRequest IE.
-func NewSxAssociationReleaseRequest(sarr, urss int) *IE {
-	return newUint8ValIE(SxAssociationReleaseRequest, uint8((urss<<1)|(sarr)))
+// NewPFCPAssociationReleaseRequest creates a new PFCPAssociationReleaseRequest IE.
+func NewPFCPAssociationReleaseRequest(sarr, urss int) *IE {
+	return newUint8ValIE(PFCPAssociationReleaseRequest, uint8((urss<<1)|(sarr)))
 }
 
-// SxAssociationReleaseRequest returns SxAssociationReleaseRequest in uint8 if the type of IE matches.
-func (i *IE) SxAssociationReleaseRequest() (uint8, error) {
-	if i.Type != SxAssociationReleaseRequest {
+// PFCPAssociationReleaseRequest returns PFCPAssociationReleaseRequest in uint8 if the type of IE matches.
+func (i *IE) PFCPAssociationReleaseRequest() (uint8, error) {
+	if i.Type != PFCPAssociationReleaseRequest {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
 
@@ -20,7 +20,7 @@ func (i *IE) SxAssociationReleaseRequest() (uint8, error) {
 
 // HasURSS reports whether an IE has URSS bit.
 func (i *IE) HasURSS() bool {
-	v, err := i.SxAssociationReleaseRequest()
+	v, err := i.PFCPAssociationReleaseRequest()
 	if err != nil {
 		return false
 	}
@@ -30,7 +30,7 @@ func (i *IE) HasURSS() bool {
 
 // HasSARR reports whether an IE has SARR bit.
 func (i *IE) HasSARR() bool {
-	v, err := i.SxAssociationReleaseRequest()
+	v, err := i.PFCPAssociationReleaseRequest()
 	if err != nil {
 		return false
 	}

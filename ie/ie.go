@@ -23,7 +23,7 @@ const (
 	UpdatePDR                                                              uint16 = 9
 	UpdateFAR                                                              uint16 = 10
 	UpdateForwardingParameters                                             uint16 = 11
-	UpdateBARForSxSessionReportResponse                                    uint16 = 12
+	UpdateBARForPCFPSessionReportResponse                                  uint16 = 12
 	UpdateURR                                                              uint16 = 13
 	UpdateQER                                                              uint16 = 14
 	RemovePDR                                                              uint16 = 15
@@ -60,8 +60,8 @@ const (
 	DownlinkDataNotificationDelay                                          uint16 = 46
 	DLBufferingDuration                                                    uint16 = 47
 	DLBufferingSuggestedPacketCount                                        uint16 = 48
-	SxSMReqFlags                                                           uint16 = 49
-	SxSRRspFlags                                                           uint16 = 50
+	PFCPSMReqFlags                                                         uint16 = 49
+	PFCPSRRspFlags                                                         uint16 = 50
 	LoadControlInformation                                                 uint16 = 51
 	SequenceNumber                                                         uint16 = 52
 	Metric                                                                 uint16 = 53
@@ -122,7 +122,7 @@ const (
 	FARID                                                                  uint16 = 108
 	QERID                                                                  uint16 = 109
 	OCIFlags                                                               uint16 = 110
-	SxAssociationReleaseRequest                                            uint16 = 111
+	PFCPAssociationReleaseRequest                                          uint16 = 111
 	GracefulReleasePeriod                                                  uint16 = 112
 	PDNType                                                                uint16 = 113
 	FailedRuleID                                                           uint16 = 114
@@ -177,8 +177,8 @@ const (
 	ActivationTime                                                         uint16 = 163
 	DeactivationTime                                                       uint16 = 164
 	CreateMAR                                                              uint16 = 165
-	AccessForwardingActionInformation1                                     uint16 = 166
-	AccessForwardingActionInformation2                                     uint16 = 167
+	TGPPAccessForwardingActionInformation                                  uint16 = 166
+	Non3GPPAccessForwardingActionInformation                               uint16 = 167
 	RemoveMAR                                                              uint16 = 168
 	UpdateMAR                                                              uint16 = 169
 	MARID                                                                  uint16 = 170
@@ -186,8 +186,8 @@ const (
 	SteeringMode                                                           uint16 = 172
 	Weight                                                                 uint16 = 173
 	Priority                                                               uint16 = 174
-	UpdateAccessForwardingActionInformation1                               uint16 = 175
-	UpdateAccessForwardingActionInformation2                               uint16 = 176
+	Update3GPPAccessForwardingActionInformation                            uint16 = 175
+	UpdateNon3GPPAccessForwardingActionInformation                         uint16 = 176
 	UEIPAddressPoolIdentity                                                uint16 = 177
 	AlternativeSMFIPAddress                                                uint16 = 178
 	PacketReplicationAndDetectionCarryOnInformation                        uint16 = 179

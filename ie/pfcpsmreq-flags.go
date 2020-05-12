@@ -4,14 +4,14 @@
 
 package ie
 
-// NewSxSMReqFlags creates a new SxSMReqFlags IE.
-func NewSxSMReqFlags(flag uint8) *IE {
-	return newUint8ValIE(SxSMReqFlags, flag)
+// NewPFCPSMReqFlags creates a new PFCPSMReqFlags IE.
+func NewPFCPSMReqFlags(flag uint8) *IE {
+	return newUint8ValIE(PFCPSMReqFlags, flag)
 }
 
-// SxSMReqFlags returns SxSMReqFlags in []byte if the type of IE matches.
-func (i *IE) SxSMReqFlags() ([]byte, error) {
-	if i.Type != SxSMReqFlags {
+// PFCPSMReqFlags returns PFCPSMReqFlags in []byte if the type of IE matches.
+func (i *IE) PFCPSMReqFlags() ([]byte, error) {
+	if i.Type != PFCPSMReqFlags {
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
 
@@ -20,7 +20,7 @@ func (i *IE) SxSMReqFlags() ([]byte, error) {
 
 // HasDROBU reports whether an IE has DROBU bit.
 func (i *IE) HasDROBU() bool {
-	if i.Type != SxSMReqFlags && i.Type != SxSRRspFlags {
+	if i.Type != PFCPSMReqFlags && i.Type != PFCPSRRspFlags {
 		return false
 	}
 	if len(i.Payload) < 1 {
@@ -32,7 +32,7 @@ func (i *IE) HasDROBU() bool {
 
 // HasSNDEM reports whether an IE has SNDEM bit.
 func (i *IE) HasSNDEM() bool {
-	if i.Type != SxSMReqFlags {
+	if i.Type != PFCPSMReqFlags {
 		return false
 	}
 	if len(i.Payload) < 1 {
@@ -44,7 +44,7 @@ func (i *IE) HasSNDEM() bool {
 
 // HasQAURR reports whether an IE has QAURR bit.
 func (i *IE) HasQAURR() bool {
-	if i.Type != SxSMReqFlags {
+	if i.Type != PFCPSMReqFlags {
 		return false
 	}
 	if len(i.Payload) < 1 {

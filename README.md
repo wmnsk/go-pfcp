@@ -174,8 +174,8 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 46             | Downlink Data Notification Delay                                                 | Yes        |
 | 47             | DL Buffering Duration                                                            | Yes        |
 | 48             | DL Buffering Suggested Packet Count                                              | Yes        |
-| 49             | SxSMReq-Flags                                                                    | Yes        |
-| 50             | SxSRRsp-Flags                                                                    | Yes        |
+| 49             | PFCPSMReq-Flags                                                                  | Yes        |
+| 50             | PFCPSRRsp-Flags                                                                  | Yes        |
 | 51             | Load Control Information                                                         | Yes        |
 | 52             | Sequence Number                                                                  | Yes        |
 | 53             | Metric                                                                           | Yes        |
@@ -236,7 +236,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 108            | FAR ID                                                                           | Yes        |
 | 109            | QER ID                                                                           | Yes        |
 | 110            | OCI Flags                                                                        | Yes        |
-| 111            | Sx Association Release Request                                                   | Yes        |
+| 111            | PFCP Association Release Request                                                 | Yes        |
 | 112            | Graceful Release Period                                                          | Yes        |
 | 113            | PDN Type                                                                         | Yes        |
 | 114            | Failed Rule ID                                                                   | Yes        |
@@ -291,8 +291,8 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 163            | Activation Time                                                                  | Yes        |
 | 164            | Deactivation Time                                                                | Yes        |
 | 165            | Create MAR                                                                       |            |
-| 166            | Access Forwarding Action Information 1                                           |            |
-| 167            | Access Forwarding Action Information 2                                           |            |
+| 166            | 3GPP Access Forwarding Action Information                                        |            |
+| 167            | Non-3GPP Access Forwarding Action Information                                    |            |
 | 168            | Remove MAR                                                                       |            |
 | 169            | Update MAR                                                                       |            |
 | 170            | MAR ID                                                                           | Yes        |
@@ -300,8 +300,8 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 172            | Steering Mode                                                                    | Yes        |
 | 173            | Weight                                                                           | Yes        |
 | 174            | Priority                                                                         | Yes        |
-| 175            | Update Access Forwarding Action Information 1                                    |            |
-| 176            | Update Access Forwarding Action Information 2                                    |            |
+| 175            | Update 3GPP Access Forwarding Action Information                                 |            |
+| 176            | Update Non 3GPP Access Forwarding Action Information                             |            |
 | 177            | UE IP address Pool Identity                                                      | Yes        |
 | 178            | Alternative SMF IP Address                                                       | Yes        |
 | 179            | Packet Replication and Detection Carry-On Information                            | Yes        |
