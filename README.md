@@ -9,13 +9,13 @@ PFCP implementation in Golang.
 
 ## What is PFCP?
 
-PFCP(Packet Forwarding Control Protocol) is a signaling protocol used in mobile networking infrastructure(LTE EPC, 5GC) to realize CUPS architecture(Control and User Plane Separation, not a printing system).
+PFCP(Packet Forwarding Control Protocol) is a signaling protocol used in mobile networking infrastructure(LTE EPC, 5GC) to realize CUPS architecture(Control and User Plane Separation, not a printing system) defined in 3GPP TS29.244.
 
 Looking for GTP implementation in Golang? [go-gtp](https://github.com/wmnsk/go-gtp) would be a good choice for you :P
 
 ## Project Status
 
-This project is still WIP; I'm in the middle of implementing messages and IEs, networking functionalities(like setting up associations) are not available currently.
+This project is still WIP; We're in the middle of implementing basic structures of messages and IEs, networking functionalities(like setting up associations quickly) are not available currently.
 
 ## Getting Started
 
