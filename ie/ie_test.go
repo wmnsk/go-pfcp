@@ -1255,6 +1255,14 @@ func TestIEs(t *testing.T) {
 			ie.NewPFCPSEReqFlags(0x01),
 			[]byte{0x00, 0xba, 0x00, 0x01, 0x01},
 		}, {
+			"MTEDTControlInformation",
+			ie.NewMTEDTControlInformation(1),
+			[]byte{0x00, 0xf9, 0x00, 0x01, 0x01},
+		}, {
+			"DLDataPacketsSize",
+			ie.NewDLDataPacketsSize(0xffff),
+			[]byte{0x00, 0xfa, 0x00, 0x02, 0xff, 0xff},
+		}, {
 			"QERControlIndications",
 			ie.NewQERControlIndications(1, 1, 1),
 			[]byte{0x00, 0xfb, 0x00, 0x01, 0x07},
