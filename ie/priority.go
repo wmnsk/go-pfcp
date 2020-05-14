@@ -51,6 +51,17 @@ func (i *IE) Priority() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdateTGPPAccessForwardingActionInformation:
+		ies, err := i.UpdateTGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Priority {
+				return x.Priority()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
