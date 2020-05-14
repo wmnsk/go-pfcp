@@ -67,6 +67,17 @@ func (i *IE) URRID() (uint32, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdateNonTGPPAccessForwardingActionInformation:
+		ies, err := i.UpdateNonTGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == URRID {
+				return x.URRID()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
