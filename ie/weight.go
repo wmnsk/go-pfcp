@@ -15,12 +15,25 @@ func NewWeight(weight uint8) *IE {
 
 // Weight returns Weight in uint8 if the type of IE matches.
 func (i *IE) Weight() (uint8, error) {
-	if i.Type != Weight {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 1 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0], nil
+	switch i.Type {
+	case Weight:
+		return i.Payload[0], nil
+	case TGPPAccessForwardingActionInformation:
+		ies, err := i.TGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Weight {
+				return x.Weight()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }
