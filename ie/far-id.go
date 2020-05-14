@@ -34,6 +34,17 @@ func (i *IE) FARID() (uint32, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case NonTGPPAccessForwardingActionInformation:
+		ies, err := i.NonTGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == FARID {
+				return x.FARID()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

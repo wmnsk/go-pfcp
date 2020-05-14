@@ -33,6 +33,17 @@ func (i *IE) Weight() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case NonTGPPAccessForwardingActionInformation:
+		ies, err := i.NonTGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Weight {
+				return x.Weight()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

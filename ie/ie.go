@@ -178,7 +178,7 @@ const (
 	DeactivationTime                                                       uint16 = 164
 	CreateMAR                                                              uint16 = 165
 	TGPPAccessForwardingActionInformation                                  uint16 = 166
-	Non3GPPAccessForwardingActionInformation                               uint16 = 167
+	NonTGPPAccessForwardingActionInformation                               uint16 = 167
 	RemoveMAR                                                              uint16 = 168
 	UpdateMAR                                                              uint16 = 169
 	MARID                                                                  uint16 = 170
@@ -186,8 +186,8 @@ const (
 	SteeringMode                                                           uint16 = 172
 	Weight                                                                 uint16 = 173
 	Priority                                                               uint16 = 174
-	Update3GPPAccessForwardingActionInformation                            uint16 = 175
-	UpdateNon3GPPAccessForwardingActionInformation                         uint16 = 176
+	UpdateTGPPAccessForwardingActionInformation                            uint16 = 175
+	UpdateNonTGPPAccessForwardingActionInformation                         uint16 = 176
 	UEIPAddressPoolIdentity                                                uint16 = 177
 	AlternativeSMFIPAddress                                                uint16 = 178
 	PacketReplicationAndDetectionCarryOnInformation                        uint16 = 179
@@ -434,7 +434,7 @@ var grouped = []uint16{
 	// TODO: fill here with all the type of IEs that may be grouped.
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
 	17, 18, 51, 54, 58, 59, 68, 77, 85, 86, 87, 99, 102, 105, 118, 127,
-	128, 129, 130, 132, 143, 147, 166, 255,
+	128, 129, 130, 132, 143, 147, 166, 167, 255,
 }
 
 // IsGrouped reports whether an IE is grouped type or not.
