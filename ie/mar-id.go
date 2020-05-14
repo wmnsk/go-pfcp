@@ -33,6 +33,17 @@ func (i *IE) MARID() (uint16, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case RemoveMAR:
+		ies, err := i.RemoveMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == MARID {
+				return x.MARID()
+			}
+		}
+		return 0, ErrIENotFound
 	case UpdateMAR:
 		ies, err := i.UpdateMAR()
 		if err != nil {
@@ -47,5 +58,4 @@ func (i *IE) MARID() (uint16, error) {
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-
 }
