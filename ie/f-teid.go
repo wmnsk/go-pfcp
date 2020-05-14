@@ -79,6 +79,17 @@ func (i *IE) FTEID() (*FTEIDFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case UpdatedPDR:
+		ies, err := i.UpdatedPDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == FTEID {
+				return x.FTEID()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
