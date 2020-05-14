@@ -290,18 +290,18 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 162            | PFCPAUReq-Flags                                                                  | Yes        |
 | 163            | Activation Time                                                                  | Yes        |
 | 164            | Deactivation Time                                                                | Yes        |
-| 165            | Create MAR                                                                       |            |
-| 166            | 3GPP Access Forwarding Action Information                                        |            |
-| 167            | Non-3GPP Access Forwarding Action Information                                    |            |
-| 168            | Remove MAR                                                                       |            |
-| 169            | Update MAR                                                                       |            |
+| 165            | Create MAR                                                                       | Yes        |
+| 166            | 3GPP Access Forwarding Action Information                                        | Yes        |
+| 167            | Non-3GPP Access Forwarding Action Information                                    | Yes        |
+| 168            | Remove MAR                                                                       | Yes        |
+| 169            | Update MAR                                                                       | Yes        |
 | 170            | MAR ID                                                                           | Yes        |
 | 171            | Steering Functionality                                                           | Yes        |
 | 172            | Steering Mode                                                                    | Yes        |
 | 173            | Weight                                                                           | Yes        |
 | 174            | Priority                                                                         | Yes        |
-| 175            | Update 3GPP Access Forwarding Action Information                                 |            |
-| 176            | Update Non 3GPP Access Forwarding Action Information                             |            |
+| 175            | Update 3GPP Access Forwarding Action Information                                 | Yes        |
+| 176            | Update Non 3GPP Access Forwarding Action Information                             | Yes        |
 | 177            | UE IP address Pool Identity                                                      | Yes        |
 | 178            | Alternative SMF IP Address                                                       | Yes        |
 | 179            | Packet Replication and Detection Carry-On Information                            | Yes        |

@@ -22,12 +22,82 @@ func NewPriority(priority uint8) *IE {
 
 // Priority returns Priority in uint8 if the type of IE matches.
 func (i *IE) Priority() (uint8, error) {
-	if i.Type != Priority {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-	if len(i.Payload) == 0 {
+	if len(i.Payload) < 1 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0], nil
+	switch i.Type {
+	case Priority:
+		return i.Payload[0], nil
+	case CreateMAR:
+		ies, err := i.CreateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			switch x.Type {
+			case TGPPAccessForwardingActionInformation, NonTGPPAccessForwardingActionInformation:
+				return x.Priority()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateMAR:
+		ies, err := i.UpdateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			switch x.Type {
+			case TGPPAccessForwardingActionInformation, NonTGPPAccessForwardingActionInformation:
+				return x.Priority()
+			}
+		}
+		return 0, ErrIENotFound
+	case TGPPAccessForwardingActionInformation:
+		ies, err := i.TGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Priority {
+				return x.Priority()
+			}
+		}
+		return 0, ErrIENotFound
+	case NonTGPPAccessForwardingActionInformation:
+		ies, err := i.NonTGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Priority {
+				return x.Priority()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateTGPPAccessForwardingActionInformation:
+		ies, err := i.UpdateTGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Priority {
+				return x.Priority()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateNonTGPPAccessForwardingActionInformation:
+		ies, err := i.UpdateNonTGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Priority {
+				return x.Priority()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

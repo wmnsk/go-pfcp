@@ -16,12 +16,82 @@ func NewFARID(id uint32) *IE {
 
 // FARID returns FARID in uint32 if the type of IE matches.
 func (i *IE) FARID() (uint32, error) {
-	if i.Type != FARID {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	switch i.Type {
+	case FARID:
+		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case CreateMAR:
+		ies, err := i.CreateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			switch x.Type {
+			case TGPPAccessForwardingActionInformation, NonTGPPAccessForwardingActionInformation:
+				return x.FARID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateMAR:
+		ies, err := i.UpdateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			switch x.Type {
+			case TGPPAccessForwardingActionInformation, NonTGPPAccessForwardingActionInformation:
+				return x.FARID()
+			}
+		}
+		return 0, ErrIENotFound
+	case TGPPAccessForwardingActionInformation:
+		ies, err := i.TGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == FARID {
+				return x.FARID()
+			}
+		}
+		return 0, ErrIENotFound
+	case NonTGPPAccessForwardingActionInformation:
+		ies, err := i.NonTGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == FARID {
+				return x.FARID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateTGPPAccessForwardingActionInformation:
+		ies, err := i.UpdateTGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == FARID {
+				return x.FARID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateNonTGPPAccessForwardingActionInformation:
+		ies, err := i.UpdateNonTGPPAccessForwardingActionInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == FARID {
+				return x.FARID()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

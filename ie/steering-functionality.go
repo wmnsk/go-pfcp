@@ -19,12 +19,36 @@ func NewSteeringFunctionality(sfunc uint8) *IE {
 
 // SteeringFunctionality returns SteeringFunctionality in uint8 if the type of IE matches.
 func (i *IE) SteeringFunctionality() (uint8, error) {
-	if i.Type != SteeringFunctionality {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-	if len(i.Payload) == 0 {
+	if len(i.Payload) < 1 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0], nil
+	switch i.Type {
+	case SteeringFunctionality:
+		return i.Payload[0], nil
+	case CreateMAR:
+		ies, err := i.CreateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == SteeringFunctionality {
+				return x.SteeringFunctionality()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateMAR:
+		ies, err := i.UpdateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == SteeringFunctionality {
+				return x.SteeringFunctionality()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

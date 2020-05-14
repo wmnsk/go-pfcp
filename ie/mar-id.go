@@ -15,12 +15,47 @@ func NewMARID(id uint16) *IE {
 
 // MARID returns MARID in uint16 if the type of IE matches.
 func (i *IE) MARID() (uint16, error) {
-	if i.Type != MARID {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-
 	if len(i.Payload) < 2 {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+
+	switch i.Type {
+	case MARID:
+		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+	case CreateMAR:
+		ies, err := i.CreateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == MARID {
+				return x.MARID()
+			}
+		}
+		return 0, ErrIENotFound
+	case RemoveMAR:
+		ies, err := i.RemoveMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == MARID {
+				return x.MARID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateMAR:
+		ies, err := i.UpdateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == MARID {
+				return x.MARID()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }
