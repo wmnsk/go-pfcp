@@ -371,17 +371,17 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 243            | Requested QoS Monitoring                                                         |            |
 | 244            | Reporting Frequency                                                              |            |
 | 245            | Packet Delay Thresholds                                                          |            |
-| 246            | Minimum Wait Time                                                                |            |
+| 246            | Minimum Wait Time                                                                | Yes        |
 | 247            | QoS Monitoring Report                                                            |            |
 | 248            | QoS Monitoring Measurement                                                       |            |
-| 249            | MT-EDT Control Information                                                       |            |
-| 250            | DL Data Packets Size                                                             |            |
-| 251            | QER Control Indications                                                          |            |
+| 249            | MT-EDT Control Information                                                       | Yes        |
+| 250            | DL Data Packets Size                                                             | Yes        |
+| 251            | QER Control Indications                                                          | Yes        |
 | 252            | Packet Rate Status Report                                                        |            |
-| 253            | NF Instance ID                                                                   |            |
-| 254            | Ethernet Context Information                                                     |            |
+| 253            | NF Instance ID                                                                   | Yes        |
+| 254            | Ethernet Context Information                                                     | Yes        |
 | 255            | Redundant Transmission Parameters                                                | Yes        |
-| 256            | Updated PDR                                                                      |            |
+| 256            | Updated PDR                                                                      | Yes        |
 | 257 to 32767   | Spare. For future use.                                                           |            |
 | 32768 to 65535 | Reserved for vendor specific IEs                                                 |            |
 

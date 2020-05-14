@@ -33,6 +33,17 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdatedPDR:
+		ies, err := i.UpdatedPDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketDetectionRuleID {
+				return x.PacketDetectionRuleID()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

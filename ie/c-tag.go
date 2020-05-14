@@ -54,6 +54,17 @@ func (i *IE) CTAG() (*CTAGFields, error) {
 			return nil, err
 		}
 		return ParseCTAGFields(x.CTAG)
+	case EthernetContextInformation:
+		ies, err := i.EthernetContextInformation()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == MACAddressesDetected {
+				return x.CTAG()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
