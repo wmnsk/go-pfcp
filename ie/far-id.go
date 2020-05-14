@@ -32,7 +32,18 @@ func (i *IE) FARID() (uint32, error) {
 			switch x.Type {
 			case TGPPAccessForwardingActionInformation, NonTGPPAccessForwardingActionInformation:
 				return x.FARID()
-
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateMAR:
+		ies, err := i.UpdateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			switch x.Type {
+			case TGPPAccessForwardingActionInformation, NonTGPPAccessForwardingActionInformation:
+				return x.FARID()
 			}
 		}
 		return 0, ErrIENotFound

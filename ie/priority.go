@@ -41,6 +41,18 @@ func (i *IE) Priority() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdateMAR:
+		ies, err := i.UpdateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			switch x.Type {
+			case TGPPAccessForwardingActionInformation, NonTGPPAccessForwardingActionInformation:
+				return x.Priority()
+			}
+		}
+		return 0, ErrIENotFound
 	case TGPPAccessForwardingActionInformation:
 		ies, err := i.TGPPAccessForwardingActionInformation()
 		if err != nil {

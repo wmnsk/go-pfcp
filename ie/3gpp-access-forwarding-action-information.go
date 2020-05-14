@@ -25,6 +25,17 @@ func (i *IE) TGPPAccessForwardingActionInformation() ([]*IE, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case UpdateMAR:
+		ies, err := i.UpdateMAR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == TGPPAccessForwardingActionInformation {
+				return x.TGPPAccessForwardingActionInformation()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
