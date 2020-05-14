@@ -23,6 +23,18 @@ func (i *IE) URRID() (uint32, error) {
 		}
 
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case CreateMAR:
+		ies, err := i.CreateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			switch x.Type {
+			case TGPPAccessForwardingActionInformation, NonTGPPAccessForwardingActionInformation:
+				return x.URRID()
+			}
+		}
+		return 0, ErrIENotFound
 	case QueryURR:
 		ies, err := i.QueryURR()
 		if err != nil {

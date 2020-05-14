@@ -21,12 +21,25 @@ func NewSteeringMode(mode uint8) *IE {
 
 // SteeringMode returns SteeringMode in uint8 if the type of IE matches.
 func (i *IE) SteeringMode() (uint8, error) {
-	if i.Type != SteeringMode {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-	if len(i.Payload) == 0 {
+	if len(i.Payload) < 1 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0], nil
+	switch i.Type {
+	case SteeringMode:
+		return i.Payload[0], nil
+	case CreateMAR:
+		ies, err := i.CreateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == SteeringMode {
+				return x.SteeringMode()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

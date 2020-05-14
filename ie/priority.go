@@ -29,6 +29,18 @@ func (i *IE) Priority() (uint8, error) {
 	switch i.Type {
 	case Priority:
 		return i.Payload[0], nil
+	case CreateMAR:
+		ies, err := i.CreateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			switch x.Type {
+			case TGPPAccessForwardingActionInformation, NonTGPPAccessForwardingActionInformation:
+				return x.Priority()
+			}
+		}
+		return 0, ErrIENotFound
 	case TGPPAccessForwardingActionInformation:
 		ies, err := i.TGPPAccessForwardingActionInformation()
 		if err != nil {

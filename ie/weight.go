@@ -22,6 +22,18 @@ func (i *IE) Weight() (uint8, error) {
 	switch i.Type {
 	case Weight:
 		return i.Payload[0], nil
+	case CreateMAR:
+		ies, err := i.CreateMAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			switch x.Type {
+			case TGPPAccessForwardingActionInformation, NonTGPPAccessForwardingActionInformation:
+				return x.Weight()
+			}
+		}
+		return 0, ErrIENotFound
 	case TGPPAccessForwardingActionInformation:
 		ies, err := i.TGPPAccessForwardingActionInformation()
 		if err != nil {
