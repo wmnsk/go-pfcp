@@ -54,6 +54,17 @@ func (i *IE) STAG() (*STAGFields, error) {
 			return nil, err
 		}
 		return ParseSTAGFields(x.STAG)
+	case EthernetContextInformation:
+		ies, err := i.EthernetContextInformation()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == MACAddressesDetected {
+				return x.STAG()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

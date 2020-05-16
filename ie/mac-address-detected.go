@@ -42,6 +42,17 @@ func (i *IE) MACAddressesDetected() (*MACAddressesDetectedFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case EthernetContextInformation:
+		ies, err := i.EthernetContextInformation()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == MACAddressesDetected {
+				return x.MACAddressesDetected()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
