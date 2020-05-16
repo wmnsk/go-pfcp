@@ -23,16 +23,28 @@ func NewCPPFCPEntityIPAddress(v4, v6 net.IP) *IE {
 
 // CPPFCPEntityIPAddress returns CPPFCPEntityIPAddress in structured format if the type of IE matches.
 func (i *IE) CPPFCPEntityIPAddress() (*CPPFCPEntityIPAddressFields, error) {
-	if i.Type != CPPFCPEntityIPAddress {
+	switch i.Type {
+	case CPPFCPEntityIPAddress:
+		fields, err := ParseCPPFCPEntityIPAddressFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	case PFCPSessionRetentionInformation:
+		ies, err := i.PFCPSessionRetentionInformation()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == CPPFCPEntityIPAddress {
+				return x.CPPFCPEntityIPAddress()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	fields, err := ParseCPPFCPEntityIPAddressFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-
-	return fields, nil
 }
 
 // CPPFCPEntityIPAddressFields represents a fields contained in CPPFCPEntityIPAddress IE.
