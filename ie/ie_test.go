@@ -1320,6 +1320,22 @@ func TestIEs(t *testing.T) {
 				0x7f, 0x00, 0x00, 0x01, 0x18,
 			},
 		}, {
+			"LeaveIPMulticastInformationIEWithinUsageReport",
+			ie.NewLeaveIPMulticastInformationIEWithinUsageReport(
+				ie.NewIPMulticastAddress(net.ParseIP("127.0.0.1"), nil, net.ParseIP("127.0.0.1"), nil),
+				ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), nil, 24),
+			),
+			[]byte{
+				0x00, 0xbe, 0x00, 0x17,
+				0x00, 0xbf, 0x00, 0x09,
+				0x06,
+				0x7f, 0x00, 0x00, 0x01,
+				0x7f, 0x00, 0x00, 0x01,
+				0x00, 0xc0, 0x00, 0x06,
+				0x06,
+				0x7f, 0x00, 0x00, 0x01, 0x18,
+			},
+		}, {
 			"IPMulticastAddress/Any",
 			ie.NewIPMulticastAddress(nil, nil, nil, nil),
 			[]byte{

@@ -53,19 +53,17 @@ func (i *IE) SourceIPAddress() (*SourceIPAddressFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
-	/*
-		case LeaveIPMulticastInformationIEwithinUsageReport:
-			ies, err := i.LeaveIPMulticastInformationIEwithinUsageReport()
-			if err != nil {
-				return nil, err
+	case LeaveIPMulticastInformationIEWithinUsageReport:
+		ies, err := i.LeaveIPMulticastInformationIEWithinUsageReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == SourceIPAddress {
+				return x.SourceIPAddress()
 			}
-			for _, x := range ies {
-				if x.Type == SourceIPAddress {
-					return x.SourceIPAddress()
-				}
-			}
-			return nil, ErrIENotFound
-	*/
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

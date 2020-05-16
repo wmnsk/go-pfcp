@@ -53,19 +53,17 @@ func (i *IE) IPMulticastAddress() (*IPMulticastAddressFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
-	/*
-		case LeaveIPMulticastInformationIEwithinUsageReport:
-			ies, err := i.LeaveIPMulticastInformationIEwithinUsageReport()
-			if err != nil {
-				return nil, err
+	case LeaveIPMulticastInformationIEWithinUsageReport:
+		ies, err := i.LeaveIPMulticastInformationIEWithinUsageReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == IPMulticastAddress {
+				return x.IPMulticastAddress()
 			}
-			for _, x := range ies {
-				if x.Type == IPMulticastAddress {
-					return x.IPMulticastAddress()
-				}
-			}
-			return nil, ErrIENotFound
-	*/
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
