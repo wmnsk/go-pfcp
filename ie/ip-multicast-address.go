@@ -31,18 +31,18 @@ func (i *IE) IPMulticastAddress() (*IPMulticastAddressFields, error) {
 		}
 
 		return fields, nil
+	case IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest:
+		ies, err := i.IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == IPMulticastAddress {
+				return x.IPMulticastAddress()
+			}
+		}
+		return nil, ErrIENotFound
 	/*
-		case IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest:
-			ies, err := i.IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest()
-			if err != nil {
-				return nil, err
-			}
-			for _, x := range ies {
-				if x.Type == IPMulticastAddress {
-					return x.IPMulticastAddress()
-				}
-			}
-			return nil, ErrIENotFound
 		case JoinIPMulticastInformationIEwithinUsageReport:
 			ies, err := i.JoinIPMulticastInformationIEwithinUsageReport()
 			if err != nil {
