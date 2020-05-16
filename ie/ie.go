@@ -200,8 +200,8 @@ const (
 	PFCPSEReqFlags                                                         uint16 = 186
 	UserPlanePathRecoveryReport                                            uint16 = 187
 	IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest        uint16 = 188
-	JoinIPMulticastInformationIEwithinUsageReport                          uint16 = 189
-	LeaveIPMulticastInformationIEwithinUsageReport                         uint16 = 190
+	JoinIPMulticastInformationIEWithinUsageReport                          uint16 = 189
+	LeaveIPMulticastInformationIEWithinUsageReport                         uint16 = 190
 	IPMulticastAddress                                                     uint16 = 191
 	SourceIPAddress                                                        uint16 = 192
 	PacketRateStatus                                                       uint16 = 193
@@ -210,10 +210,10 @@ const (
 	DSTTPortNumber                                                         uint16 = 196
 	NWTTPortNumber                                                         uint16 = 197
 	TSNBridgeID                                                            uint16 = 198
-	PortManagementInformationforTSCIEwithinPFCPSessionModificationRequest  uint16 = 199
-	PortManagementInformationforTSCIEwithinPFCPSessionModificationResponse uint16 = 200
-	PortManagementInformationforTSCIEwithinPFCPSessionReportRequest        uint16 = 201
-	PortManagementInformationforTSCIEwithinPFCPSessionReportResponse       uint16 = 202
+	PortManagementInformationforTSCIEWithinPFCPSessionModificationRequest  uint16 = 199
+	PortManagementInformationforTSCIEWithinPFCPSessionModificationResponse uint16 = 200
+	PortManagementInformationforTSCIEWithinPFCPSessionReportRequest        uint16 = 201
+	PortManagementInformationforTSCIEWithinPFCPSessionReportResponse       uint16 = 202
 	ClockDritControlInformation                                            uint16 = 203
 	RequestedClockDritInformation                                          uint16 = 204
 	ClockDriftReport                                                       uint16 = 205
@@ -435,7 +435,7 @@ var grouped = []uint16{
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
 	17, 18, 51, 54, 58, 59, 68, 77, 85, 86, 87, 99, 102, 105, 118, 127,
 	128, 129, 130, 132, 143, 147, 165, 166, 167, 168, 169, 175, 176, 183, 187, 188,
-	254, 255, 256,
+	189, 254, 255, 256,
 }
 
 // IsGrouped reports whether an IE is grouped type or not.

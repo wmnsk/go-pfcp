@@ -42,18 +42,18 @@ func (i *IE) IPMulticastAddress() (*IPMulticastAddressFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case JoinIPMulticastInformationIEWithinUsageReport:
+		ies, err := i.JoinIPMulticastInformationIEWithinUsageReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == IPMulticastAddress {
+				return x.IPMulticastAddress()
+			}
+		}
+		return nil, ErrIENotFound
 	/*
-		case JoinIPMulticastInformationIEwithinUsageReport:
-			ies, err := i.JoinIPMulticastInformationIEwithinUsageReport()
-			if err != nil {
-				return nil, err
-			}
-			for _, x := range ies {
-				if x.Type == IPMulticastAddress {
-					return x.IPMulticastAddress()
-				}
-			}
-			return nil, ErrIENotFound
 		case LeaveIPMulticastInformationIEwithinUsageReport:
 			ies, err := i.LeaveIPMulticastInformationIEwithinUsageReport()
 			if err != nil {
