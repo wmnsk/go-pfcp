@@ -137,7 +137,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 9              | Update PDR                                                                       |            |
 | 10             | Update FAR                                                                       |            |
 | 11             | Update Forwarding Parameters                                                     |            |
-| 12             | Update BAR (Sx Session Report Response)                                          |            |
+| 12             | Update BAR (PFCP Session Report Response)                                        |            |
 | 13             | Update URR                                                                       |            |
 | 14             | Update QER                                                                       |            |
 | 15             | Remove PDR                                                                       |            |
@@ -203,7 +203,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 75             | Start Time                                                                       | Yes        |
 | 76             | End Time                                                                         | Yes        |
 | 77             | Query URR                                                                        | Yes        |
-| 78             | Usage Report (in Session Modification Response)                                  |            |
+| 78             | Usage Report (Session Modification Response)                                     |            |
 | 79             | Usage Report (Session Deletion Response)                                         |            |
 | 80             | Usage Report (Session Report Request)                                            |            |
 | 81             | URR ID                                                                           | Yes        |
@@ -277,7 +277,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 149            | Event Threshold                                                                  | Yes        |
 | 150            | Subsequent Event Quota                                                           | Yes        |
 | 151            | Subsequent Event Threshold                                                       | Yes        |
-| 152            | Trace Information                                                                |            |
+| 152            | Trace Information                                                                | Yes        |
 | 153            | Framed-Route                                                                     | Yes        |
 | 154            | Framed-Routing                                                                   | Yes        |
 | 155            | Framed-IPv6-Route                                                                | Yes        |
@@ -308,16 +308,16 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 180            | SMF Set ID                                                                       | Yes        |
 | 181            | Quota Validity Time                                                              | Yes        |
 | 182            | Number of Reports                                                                | Yes        |
-| 183            | PFCP Session Retention Information (within PFCP Association Setup Request)       |            |
+| 183            | PFCP Session Retention Information (within PFCP Association Setup Request)       | Yes        |
 | 184            | PFCPASRsp-Flags                                                                  | Yes        |
 | 185            | CP PFCP Entity IP Address                                                        | Yes        |
 | 186            | PFCPSEReq-Flags                                                                  | Yes        |
-| 187            | User Plane Path Recovery Report                                                  |            |
-| 188            | IP Multicast Addressing Info within PFCP Session Establishment Request           |            |
-| 189            | Join IP Multicast Information IE within Usage Report                             |            |
-| 190            | Leave IP Multicast Information IE within Usage Report                            |            |
-| 191            | IP Multicast Address                                                             |            |
-| 192            | Source IP Address                                                                |            |
+| 187            | User Plane Path Recovery Report                                                  | Yes        |
+| 188            | IP Multicast Addressing Info within PFCP Session Establishment Request           | Yes        |
+| 189            | Join IP Multicast Information IE within Usage Report                             | Yes        |
+| 190            | Leave IP Multicast Information IE within Usage Report                            | Yes        |
+| 191            | IP Multicast Address                                                             | Yes        |
+| 192            | Source IP Address                                                                | Yes        |
 | 193            | Packet Rate Status                                                               |            |
 | 194            | Create Bridge Info for TSC                                                       |            |
 | 195            | Created Bridge Info for TSC                                                      |            |
@@ -382,7 +382,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 254            | Ethernet Context Information                                                     | Yes        |
 | 255            | Redundant Transmission Parameters                                                | Yes        |
 | 256            | Updated PDR                                                                      | Yes        |
-| 257 to 32767   | Spare. For future use.                                                           |            |
+| 257 to 32767   | _(For future use)_                                                               |            |
 | 32768 to 65535 | Reserved for vendor specific IEs                                                 |            |
 
 
