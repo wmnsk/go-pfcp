@@ -1621,6 +1621,10 @@ func TestIEs(t *testing.T) {
 			ie.NewAccessAvailabilityInformation(3, 3),
 			[]byte{0x00, 0xdb, 0x00, 0x01, 0x0f},
 		}, {
+			"MPTCPControlInformation",
+			ie.NewMPTCPControlInformation(1),
+			[]byte{0x00, 0xde, 0x00, 0x01, 0x01},
+		}, {
 			"MinimumWaitTime",
 			ie.NewMinimumWaitTime(10 * time.Second),
 			[]byte{0x00, 0xf6, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},

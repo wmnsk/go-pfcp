@@ -233,7 +233,7 @@ const (
 	AccessAvailabilityInformation                                          uint16 = 219
 	ProvideATSSSControlInformation                                         uint16 = 220
 	ATSSSControlParameters                                                 uint16 = 221
-	MPTCPControlParameters                                                 uint16 = 222
+	MPTCPControlInformation                                                uint16 = 222
 	ATSSSLLControlInformation                                              uint16 = 223
 	PMFControlInformation                                                  uint16 = 224
 	MPTCPParameters                                                        uint16 = 225
