@@ -46,19 +46,17 @@ func (i *IE) TSNBridgeID() (net.HardwareAddr, error) {
 			return net.HardwareAddr(i.Payload[1:7]), nil
 		}
 		return nil, nil
-	/*
-		case CreatedBridgeInfoForTSC:
-			ies, err := i.CreatedBridgeInfoForTSC()
-			if err != nil {
-				return 0, err
+	case CreatedBridgeInfoForTSC:
+		ies, err := i.CreatedBridgeInfoForTSC()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == TSNBridgeID {
+				return x.TSNBridgeID()
 			}
-			for _, x := range ies {
-				if x.Type == TSNBridgeID {
-					return x.TSNBridgeID()
-				}
-			}
-			return 0, ErrIENotFound
-	*/
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
