@@ -14,41 +14,19 @@ func (i *IE) PortManagementInformationContainer() (string, error) {
 	switch i.Type {
 	case PortManagementInformationContainer:
 		return string(i.Payload), nil
-	/*
-		case PortManagementInformationforTSCIEWithinPFCPSessionModificationRequest:
-			ies, err := i.PortManagementInformationforTSCIEWithinPFCPSessionModificationRequest()
-			if err != nil {
-				return "", err
+	case PortManagementInformationForTSCIEWithinPFCPSessionModificationRequest,
+		PortManagementInformationForTSCIEWithinPFCPSessionModificationResponse,
+		PortManagementInformationForTSCIEWithinPFCPSessionReportRequest:
+		ies, err := i.PortManagementInformationForTSC()
+		if err != nil {
+			return "", err
+		}
+		for _, x := range ies {
+			if x.Type == PortManagementInformationContainer {
+				return x.PortManagementInformationContainer()
 			}
-			for _, x := range ies {
-				if x.Type == PortManagementInformationContainer {
-					return x.PortManagementInformationContainer()
-				}
-			}
-			return "", ErrIENotFound
-		case PortManagementInformationforTSCIEWithinPFCPSessionModificationResponse:
-			ies, err := i.PortManagementInformationforTSCIEWithinPFCPSessionModificationResponse()
-			if err != nil {
-				return "", err
-			}
-			for _, x := range ies {
-				if x.Type == PortManagementInformationContainer {
-					return x.PortManagementInformationContainer()
-				}
-			}
-			return "", ErrIENotFound
-		case PortManagementInformationforTSCIEWithinPFCPSessionReportRequest:
-			ies, err := i.PortManagementInformationforTSCIEWithinPFCPSessionReportRequest()
-			if err != nil {
-				return "", err
-			}
-			for _, x := range ies {
-				if x.Type == PortManagementInformationContainer {
-					return x.PortManagementInformationContainer()
-				}
-			}
-			return "", ErrIENotFound
-	*/
+		}
+		return "", ErrIENotFound
 	default:
 		return "", &InvalidTypeError{Type: i.Type}
 	}

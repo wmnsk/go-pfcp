@@ -1512,6 +1512,33 @@ func TestIEs(t *testing.T) {
 			ie.NewTSNBridgeID(nil),
 			[]byte{0x00, 0xc6, 0x00, 0x01, 0x00},
 		}, {
+			"PortManagementInformationForTSCIEWithinPFCPSessionModificationRequest",
+			ie.NewPortManagementInformationForTSCIEWithinPFCPSessionModificationRequest(
+				ie.NewPortManagementInformationContainer("go-pfcp"),
+			),
+			[]byte{
+				0x00, 0xc7, 0x00, 0x0b,
+				0x00, 0xca, 0x00, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70,
+			},
+		}, {
+			"PortManagementInformationForTSCIEWithinPFCPSessionModificationResponse",
+			ie.NewPortManagementInformationForTSCIEWithinPFCPSessionModificationResponse(
+				ie.NewPortManagementInformationContainer("go-pfcp"),
+			),
+			[]byte{
+				0x00, 0xc8, 0x00, 0x0b,
+				0x00, 0xca, 0x00, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70,
+			},
+		}, {
+			"PortManagementInformationForTSCIEWithinPFCPSessionReportRequest",
+			ie.NewPortManagementInformationForTSCIEWithinPFCPSessionReportRequest(
+				ie.NewPortManagementInformationContainer("go-pfcp"),
+			),
+			[]byte{
+				0x00, 0xc9, 0x00, 0x0b,
+				0x00, 0xca, 0x00, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70,
+			},
+		}, {
 			"PortManagementInformationContainer",
 			ie.NewPortManagementInformationContainer("go-pfcp"),
 			[]byte{0x00, 0xca, 0x00, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70},
