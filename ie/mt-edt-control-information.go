@@ -25,7 +25,7 @@ func (i *IE) MTEDTControlInformation() (uint8, error) {
 	}
 }
 
-// HasRDSI reports whether an IE has MTEDTControlInformation bit.
+// HasRDSI reports whether an IE has RDSI bit.
 func (i *IE) HasRDSI() bool {
 	v, err := i.MTEDTControlInformation()
 	if err != nil {
