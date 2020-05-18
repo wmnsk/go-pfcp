@@ -213,7 +213,7 @@ const (
 	PortManagementInformationforTSCIEWithinPFCPSessionModificationRequest  uint16 = 199
 	PortManagementInformationforTSCIEWithinPFCPSessionModificationResponse uint16 = 200
 	PortManagementInformationforTSCIEWithinPFCPSessionReportRequest        uint16 = 201
-	PortManagementInformationforTSCIEWithinPFCPSessionReportResponse       uint16 = 202
+	PortManagementInformationContainer                                     uint16 = 202
 	ClockDritControlInformation                                            uint16 = 203
 	RequestedClockDritInformation                                          uint16 = 204
 	ClockDriftReport                                                       uint16 = 205
