@@ -210,15 +210,15 @@ const (
 	DSTTPortNumber                                                         uint16 = 196
 	NWTTPortNumber                                                         uint16 = 197
 	TSNBridgeID                                                            uint16 = 198
-	PortManagementInformationforTSCIEWithinPFCPSessionModificationRequest  uint16 = 199
-	PortManagementInformationforTSCIEWithinPFCPSessionModificationResponse uint16 = 200
-	PortManagementInformationforTSCIEWithinPFCPSessionReportRequest        uint16 = 201
-	PortManagementInformationforTSCIEWithinPFCPSessionReportResponse       uint16 = 202
-	ClockDritControlInformation                                            uint16 = 203
-	RequestedClockDritInformation                                          uint16 = 204
+	PortManagementInformationForTSCIEWithinPFCPSessionModificationRequest  uint16 = 199
+	PortManagementInformationForTSCIEWithinPFCPSessionModificationResponse uint16 = 200
+	PortManagementInformationForTSCIEWithinPFCPSessionReportRequest        uint16 = 201
+	PortManagementInformationContainer                                     uint16 = 202
+	ClockDriftControlInformation                                           uint16 = 203
+	RequestedClockDriftInformation                                         uint16 = 204
 	ClockDriftReport                                                       uint16 = 205
 	TSNTimeDomainNumber                                                    uint16 = 206
-	TimeOffsetThrehold                                                     uint16 = 207
+	TimeOffsetThreshold                                                    uint16 = 207
 	CumulativeRateRatioThreshold                                           uint16 = 208
 	TimeOffsetMeasurement                                                  uint16 = 209
 	CumulativeRateRatioMeasurement                                         uint16 = 210
@@ -233,7 +233,7 @@ const (
 	AccessAvailabilityInformation                                          uint16 = 219
 	ProvideATSSSControlInformation                                         uint16 = 220
 	ATSSSControlParameters                                                 uint16 = 221
-	MPTCPControlParameters                                                 uint16 = 222
+	MPTCPControlInformation                                                uint16 = 222
 	ATSSSLLControlInformation                                              uint16 = 223
 	PMFControlInformation                                                  uint16 = 224
 	MPTCPParameters                                                        uint16 = 225
@@ -244,10 +244,10 @@ const (
 	PMFAddressInformation                                                  uint16 = 230
 	ATSSSLLInformation                                                     uint16 = 231
 	DataNetworkAccessIdentifier                                            uint16 = 232
-	UEIPAddressPoolInformation                                             uint16 = 234
-	AveragePacketDelay                                                     uint16 = 235
-	MinimumPacketDelay                                                     uint16 = 236
-	MaximumPacketDelay                                                     uint16 = 237
+	UEIPAddressPoolInformation                                             uint16 = 233
+	AveragePacketDelay                                                     uint16 = 234
+	MinimumPacketDelay                                                     uint16 = 235
+	MaximumPacketDelay                                                     uint16 = 236
 	QosReportTrigger                                                       uint16 = 237
 	GTPUPathQoSControlInformation                                          uint16 = 238
 	GTPUPathQoSReport                                                      uint16 = 239
@@ -435,7 +435,7 @@ var grouped = []uint16{
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
 	17, 18, 51, 54, 58, 59, 68, 77, 85, 86, 87, 99, 102, 105, 118, 127,
 	128, 129, 130, 132, 143, 147, 165, 166, 167, 168, 169, 175, 176, 183, 187, 188,
-	189, 190, 254, 255, 256,
+	189, 190, 195, 199, 200, 201, 203, 211, 216, 218, 254, 255, 256,
 }
 
 // IsGrouped reports whether an IE is grouped type or not.

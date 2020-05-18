@@ -318,50 +318,50 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 190            | Leave IP Multicast Information IE within Usage Report                            | Yes        |
 | 191            | IP Multicast Address                                                             | Yes        |
 | 192            | Source IP Address                                                                | Yes        |
-| 193            | Packet Rate Status                                                               |            |
-| 194            | Create Bridge Info for TSC                                                       |            |
-| 195            | Created Bridge Info for TSC                                                      |            |
-| 196            | DS-TT Port Number                                                                |            |
-| 197            | NW-TT Port Number                                                                |            |
-| 198            | TSN Bridge ID                                                                    |            |
-| 199            | Port Management Information for TSC IE within PFCP Session Modification Request  |            |
-| 200            | Port Management Information for TSC IE within PFCP Session Modification Response |            |
-| 201            | Port Management Information for TSC IE within PFCP Session Report Request        |            |
-| 202            | Port Management Information Container                                            |            |
-| 203            | Clock Drift Control Information                                                  |            |
-| 204            | Requested Clock Drift Information                                                |            |
-| 205            | Clock Drift Report                                                               |            |
-| 206            | TSN Time Domain Number                                                           |            |
-| 207            | Time Offset Threshold                                                            |            |
-| 208            | Cumulative rateRatio Threshold                                                   |            |
-| 209            | Time Offset Measurement                                                          |            |
-| 210            | Cumulative rateRatio Measurement                                                 |            |
-| 211            | Remove SRR                                                                       |            |
+| 193            | Packet Rate Status                                                               | Yes        |
+| 194            | Create Bridge Info for TSC                                                       | Yes        |
+| 195            | Created Bridge Info for TSC                                                      | Yes        |
+| 196            | DS-TT Port Number                                                                | Yes        |
+| 197            | NW-TT Port Number                                                                | Yes        |
+| 198            | TSN Bridge ID                                                                    | Yes        |
+| 199            | Port Management Information for TSC IE within PFCP Session Modification Request  | Yes        |
+| 200            | Port Management Information for TSC IE within PFCP Session Modification Response | Yes        |
+| 201            | Port Management Information for TSC IE within PFCP Session Report Request        | Yes        |
+| 202            | Port Management Information Container                                            | Yes        |
+| 203            | Clock Drift Control Information                                                  | Yes        |
+| 204            | Requested Clock Drift Information                                                | Yes        |
+| 205            | Clock Drift Report                                                               | Yes        |
+| 206            | TSN Time Domain Number                                                           | Yes        |
+| 207            | Time Offset Threshold                                                            | Yes        |
+| 208            | Cumulative rateRatio Threshold                                                   | Yes        |
+| 209            | Time Offset Measurement                                                          | Yes        |
+| 210            | Cumulative rateRatio Measurement                                                 | Yes        |
+| 211            | Remove SRR                                                                       | Yes        |
 | 212            | Create SRR                                                                       |            |
 | 213            | Update SRR                                                                       |            |
 | 214            | Session Report                                                                   |            |
-| 215            | SRR ID                                                                           |            |
-| 216            | Access Availability Control Information                                          |            |
-| 217            | Requested Access Availability Information                                        |            |
-| 218            | Access Availability Report                                                       |            |
-| 219            | Access Availability Information                                                  |            |
+| 215            | SRR ID                                                                           | Yes        |
+| 216            | Access Availability Control Information                                          | Yes        |
+| 217            | Requested Access Availability Information                                        | Yes        |
+| 218            | Access Availability Report                                                       | Yes        |
+| 219            | Access Availability Information                                                  | Yes        |
 | 220            | Provide ATSSS Control Information                                                |            |
 | 221            | ATSSS Control Parameters                                                         |            |
-| 222            | MPTCP Control Information                                                        |            |
-| 223            | ATSSS-LL Control Information                                                     |            |
-| 224            | PMF Control Information                                                          |            |
+| 222            | MPTCP Control Information                                                        | Yes        |
+| 223            | ATSSS-LL Control Information                                                     | Yes        |
+| 224            | PMF Control Information                                                          | Yes        |
 | 225            | MPTCP Parameters                                                                 |            |
 | 226            | ATSSS-LL Parameters                                                              |            |
 | 227            | PMF Parameters                                                                   |            |
 | 228            | MPTCP Address Information                                                        |            |
 | 229            | UE Link-Specific IP Address                                                      |            |
 | 230            | PMF Address Information                                                          |            |
-| 231            | ATSSS-LL Information                                                             |            |
-| 232            | Data Network Access Identifier                                                   |            |
+| 231            | ATSSS-LL Information                                                             | Yes        |
+| 232            | Data Network Access Identifier                                                   | Yes        |
 | 233            | UE IP address Pool Information                                                   |            |
-| 234            | Average Packet Delay                                                             |            |
-| 235            | Minimum Packet Delay                                                             |            |
-| 236            | Maximum Packet Delay                                                             |            |
+| 234            | Average Packet Delay                                                             | Yes        |
+| 235            | Minimum Packet Delay                                                             | Yes        |
+| 236            | Maximum Packet Delay                                                             | Yes        |
 | 237            | QoS Report Trigger                                                               |            |
 | 238            | GTP-U Path QoS Control Information                                               |            |
 | 239            | GTP-U Path QoS Report (PFCP Node Report Request)                                 |            |
