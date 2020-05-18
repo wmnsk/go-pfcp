@@ -244,10 +244,10 @@ const (
 	PMFAddressInformation                                                  uint16 = 230
 	ATSSSLLInformation                                                     uint16 = 231
 	DataNetworkAccessIdentifier                                            uint16 = 232
-	UEIPAddressPoolInformation                                             uint16 = 234
-	AveragePacketDelay                                                     uint16 = 235
-	MinimumPacketDelay                                                     uint16 = 236
-	MaximumPacketDelay                                                     uint16 = 237
+	UEIPAddressPoolInformation                                             uint16 = 233
+	AveragePacketDelay                                                     uint16 = 234
+	MinimumPacketDelay                                                     uint16 = 235
+	MaximumPacketDelay                                                     uint16 = 236
 	QosReportTrigger                                                       uint16 = 237
 	GTPUPathQoSControlInformation                                          uint16 = 238
 	GTPUPathQoSReport                                                      uint16 = 239
