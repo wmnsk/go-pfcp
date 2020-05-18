@@ -24,20 +24,18 @@ func (i *IE) TimeOffsetThreshold() (time.Duration, error) {
 	switch i.Type {
 	case TimeOffsetThreshold:
 		return time.Duration(binary.BigEndian.Uint64(i.Payload[0:8])), nil
-	/*
-		case ClockDriftControlInformation:
-			ies, err := i.ClockDriftControlInformation()
-			if err != nil {
-				return 0, err
-			}
+	case ClockDriftControlInformation:
+		ies, err := i.ClockDriftControlInformation()
+		if err != nil {
+			return 0, err
+		}
 
-			for _, x := range ies {
-				if x.Type == TimeOffsetThreshold {
-					return x.TimeOffsetThreshold()
-				}
+		for _, x := range ies {
+			if x.Type == TimeOffsetThreshold {
+				return x.TimeOffsetThreshold()
 			}
-			return 0, ErrIENotFound
-	*/
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

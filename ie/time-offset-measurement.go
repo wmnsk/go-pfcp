@@ -24,20 +24,6 @@ func (i *IE) TimeOffsetMeasurement() (time.Duration, error) {
 	switch i.Type {
 	case TimeOffsetMeasurement:
 		return time.Duration(binary.BigEndian.Uint64(i.Payload[0:8])), nil
-	/*
-		case ClockDriftControlInformation:
-			ies, err := i.ClockDriftControlInformation()
-			if err != nil {
-				return 0, err
-			}
-
-			for _, x := range ies {
-				if x.Type == TimeOffsetMeasurement {
-					return x.TimeOffsetMeasurement()
-				}
-			}
-			return 0, ErrIENotFound
-	*/
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

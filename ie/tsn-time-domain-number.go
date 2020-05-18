@@ -20,20 +20,18 @@ func (i *IE) TSNTimeDomainNumber() (uint8, error) {
 	switch i.Type {
 	case TSNTimeDomainNumber:
 		return i.Payload[0], nil
-	/*
-		case ClockDriftControlInformation:
-			ies, err := i.ClockDriftControlInformation()
-			if err != nil {
-				return 0, err
-			}
+	case ClockDriftControlInformation:
+		ies, err := i.ClockDriftControlInformation()
+		if err != nil {
+			return 0, err
+		}
 
-			for _, x := range ies {
-				if x.Type == TSNTimeDomainNumber {
-					return x.TSNTimeDomainNumber()
-				}
+		for _, x := range ies {
+			if x.Type == TSNTimeDomainNumber {
+				return x.TSNTimeDomainNumber()
 			}
-			return 0, ErrIENotFound
-	*/
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
