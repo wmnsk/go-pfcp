@@ -1590,6 +1590,10 @@ func TestIEs(t *testing.T) {
 			ie.NewRequestedAccessAvailabilityInformation(1),
 			[]byte{0x00, 0xd9, 0x00, 0x01, 0x01},
 		}, {
+			"AccessAvailabilityInformation",
+			ie.NewAccessAvailabilityInformation(3, 3),
+			[]byte{0x00, 0xdb, 0x00, 0x01, 0x0f},
+		}, {
 			"MinimumWaitTime",
 			ie.NewMinimumWaitTime(10 * time.Second),
 			[]byte{0x00, 0xf6, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},
