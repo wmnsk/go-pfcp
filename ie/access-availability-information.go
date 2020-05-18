@@ -32,6 +32,18 @@ func (i *IE) AccessAvailabilityInformation() (uint8, error) {
 	switch i.Type {
 	case AccessAvailabilityInformation:
 		return i.Payload[0], nil
+	case AccessAvailabilityReport:
+		ies, err := i.AccessAvailabilityReport()
+		if err != nil {
+			return 0, err
+		}
+
+		for _, x := range ies {
+			if x.Type == AccessAvailabilityInformation {
+				return x.AccessAvailabilityInformation()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

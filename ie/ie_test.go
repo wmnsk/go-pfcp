@@ -1599,6 +1599,15 @@ func TestIEs(t *testing.T) {
 			ie.NewRequestedAccessAvailabilityInformation(1),
 			[]byte{0x00, 0xd9, 0x00, 0x01, 0x01},
 		}, {
+			"AccessAvailabilityReport",
+			ie.NewAccessAvailabilityReport(
+				ie.NewAccessAvailabilityInformation(3, 3),
+			),
+			[]byte{
+				0x00, 0xda, 0x00, 0x05,
+				0x00, 0xdb, 0x00, 0x01, 0x0f,
+			},
+		}, {
 			"AccessAvailabilityInformation",
 			ie.NewAccessAvailabilityInformation(3, 3),
 			[]byte{0x00, 0xdb, 0x00, 0x01, 0x0f},
