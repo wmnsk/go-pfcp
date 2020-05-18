@@ -20,19 +20,19 @@ func (i *IE) SRRID() (uint8, error) {
 	switch i.Type {
 	case SRRID:
 		return i.Payload[0], nil
-	/*
-		case RemoveSRR:
-			ies, err := i.RemoveSRR()
-			if err != nil {
-				return 0, err
-			}
+	case RemoveSRR:
+		ies, err := i.RemoveSRR()
+		if err != nil {
+			return 0, err
+		}
 
-			for _, x := range ies {
-				if x.Type == SRRID {
-					return x.SRRID()
-				}
+		for _, x := range ies {
+			if x.Type == SRRID {
+				return x.SRRID()
 			}
-			return 0, ErrIENotFound
+		}
+		return 0, ErrIENotFound
+	/*
 		case CreateSRR:
 			ies, err := i.CreateSRR()
 			if err != nil {
