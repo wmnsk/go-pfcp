@@ -1586,6 +1586,10 @@ func TestIEs(t *testing.T) {
 			ie.NewSRRID(255),
 			[]byte{0x00, 0xd7, 0x00, 0x01, 0xff},
 		}, {
+			"RequestedAccessAvailabilityInformation",
+			ie.NewRequestedAccessAvailabilityInformation(1),
+			[]byte{0x00, 0xd9, 0x00, 0x01, 0x01},
+		}, {
 			"MinimumWaitTime",
 			ie.NewMinimumWaitTime(10 * time.Second),
 			[]byte{0x00, 0xf6, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},
