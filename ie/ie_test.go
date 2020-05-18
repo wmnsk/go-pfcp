@@ -1547,6 +1547,10 @@ func TestIEs(t *testing.T) {
 			ie.NewRequestedClockDriftInformation(1, 1),
 			[]byte{0x00, 0xcc, 0x00, 0x01, 0x03},
 		}, {
+			"TSNTimeDomainNumber",
+			ie.NewTSNTimeDomainNumber(255),
+			[]byte{0x00, 0xce, 0x00, 0x01, 0xff},
+		}, {
 			"MinimumWaitTime",
 			ie.NewMinimumWaitTime(10 * time.Second),
 			[]byte{0x00, 0xf6, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},
