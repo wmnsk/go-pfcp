@@ -218,7 +218,7 @@ const (
 	RequestedClockDriftInformation                                         uint16 = 204
 	ClockDriftReport                                                       uint16 = 205
 	TSNTimeDomainNumber                                                    uint16 = 206
-	TimeOffsetThrehold                                                     uint16 = 207
+	TimeOffsetThreshold                                                    uint16 = 207
 	CumulativeRateRatioThreshold                                           uint16 = 208
 	TimeOffsetMeasurement                                                  uint16 = 209
 	CumulativeRateRatioMeasurement                                         uint16 = 210
