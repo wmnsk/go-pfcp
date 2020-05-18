@@ -1633,6 +1633,10 @@ func TestIEs(t *testing.T) {
 			ie.NewPMFControlInformation(1),
 			[]byte{0x00, 0xe0, 0x00, 0x01, 0x01},
 		}, {
+			"ATSSSLLInformation",
+			ie.NewATSSSLLInformation(1),
+			[]byte{0x00, 0xe7, 0x00, 0x01, 0x01},
+		}, {
 			"MinimumWaitTime",
 			ie.NewMinimumWaitTime(10 * time.Second),
 			[]byte{0x00, 0xf6, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},

@@ -27,10 +27,14 @@ func (i *IE) ATSSSLLControlInformation() (uint8, error) {
 
 // HasLLI reports whether an IE has LLI bit.
 func (i *IE) HasLLI() bool {
-	v, err := i.ATSSSLLControlInformation()
-	if err != nil {
+	switch i.Type {
+	case ATSSSLLControlInformation, ATSSSLLInformation:
+		if len(i.Payload) < 1 {
+			return false
+		}
+
+		return has1stBit(i.Payload[0])
+	default:
 		return false
 	}
-
-	return has1stBit(v)
 }
