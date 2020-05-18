@@ -214,8 +214,8 @@ const (
 	PortManagementInformationForTSCIEWithinPFCPSessionModificationResponse uint16 = 200
 	PortManagementInformationForTSCIEWithinPFCPSessionReportRequest        uint16 = 201
 	PortManagementInformationContainer                                     uint16 = 202
-	ClockDritControlInformation                                            uint16 = 203
-	RequestedClockDritInformation                                          uint16 = 204
+	ClockDriftControlInformation                                           uint16 = 203
+	RequestedClockDriftInformation                                         uint16 = 204
 	ClockDriftReport                                                       uint16 = 205
 	TSNTimeDomainNumber                                                    uint16 = 206
 	TimeOffsetThrehold                                                     uint16 = 207
