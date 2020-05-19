@@ -37,6 +37,17 @@ func (i *IE) AveragePacketDelay() (time.Duration, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case QoSInformationInGTPUPathQoSReport:
+		ies, err := i.QoSInformationInGTPUPathQoSReport()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == AveragePacketDelay {
+				return x.AveragePacketDelay()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
