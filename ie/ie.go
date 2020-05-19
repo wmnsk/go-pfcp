@@ -97,7 +97,7 @@ const (
 	DownlinkDataReport                                                     uint16 = 83
 	OuterHeaderCreation                                                    uint16 = 84
 	CreateBAR                                                              uint16 = 85
-	UpdateBARIEWithinPFCPSessionModificationRequest                            uint16 = 86
+	UpdateBARIEWithinPFCPSessionModificationRequest                        uint16 = 86
 	RemoveBAR                                                              uint16 = 87
 	BARID                                                                  uint16 = 88
 	CPFunctionFeatures                                                     uint16 = 89
@@ -433,7 +433,7 @@ func (i *IE) IsVendorSpecific() bool {
 var grouped = []uint16{
 	// TODO: fill here with all the type of IEs that may be grouped, using constants above.
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-	17, 18, 51, 54, 58, 59, 68, 77, 85, 86, 87, 99, 102, 105, 118, 127,
+	17, 18, 51, 54, 58, 59, 68, 77, 83, 85, 86, 87, 99, 102, 105, 118, 127,
 	128, 129, 130, 132, 143, 147, 165, 166, 167, 168, 169, 175, 176, 183, 187, 188,
 	189, 190, 195, 199, 200, 201, 203, 211, 212, 213, 214, 216, 218, 220, 221, 225,
 	226, 227, 233, 238, 239, 240, 242, 247, 252, 254, 255, 256,

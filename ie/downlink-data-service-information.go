@@ -25,11 +25,23 @@ func NewDownlinkDataServiceInformation(hasPPI, hasQFI bool, ppi, qfi uint8) *IE 
 
 // DownlinkDataServiceInformation returns DownlinkDataServiceInformation in []byte if the type of IE matches.
 func (i *IE) DownlinkDataServiceInformation() ([]byte, error) {
-	if i.Type != DownlinkDataServiceInformation {
+	switch i.Type {
+	case DownlinkDataServiceInformation:
+		return i.Payload, nil
+	case DownlinkDataReport:
+		ies, err := i.DownlinkDataReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == DownlinkDataServiceInformation {
+				return x.DownlinkDataServiceInformation()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return i.Payload, nil
 }
 
 // HasPPI reports whether an IE has PPI bit.
