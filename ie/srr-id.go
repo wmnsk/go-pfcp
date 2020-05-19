@@ -44,20 +44,18 @@ func (i *IE) SRRID() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
-	/*
-		case UpdateSRR:
-			ies, err := i.UpdateSRR()
-			if err != nil {
-				return 0, err
-			}
+	case UpdateSRR:
+		ies, err := i.UpdateSRR()
+		if err != nil {
+			return 0, err
+		}
 
-			for _, x := range ies {
-				if x.Type == SRRID {
-					return x.SRRID()
-				}
+		for _, x := range ies {
+			if x.Type == SRRID {
+				return x.SRRID()
 			}
-			return 0, ErrIENotFound
-	*/
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

@@ -25,6 +25,17 @@ func (i *IE) AccessAvailabilityControlInformation() ([]*IE, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case UpdateSRR:
+		ies, err := i.UpdateSRR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == AccessAvailabilityControlInformation {
+				return x.AccessAvailabilityControlInformation()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
