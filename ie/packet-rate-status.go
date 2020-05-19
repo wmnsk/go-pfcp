@@ -32,6 +32,17 @@ func (i *IE) PacketRateStatus() (*PacketRateStatusFields, error) {
 		}
 
 		return fields, nil
+	case PacketRateStatusReport:
+		ies, err := i.PacketRateStatusReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketRateStatus {
+				return x.PacketRateStatus()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

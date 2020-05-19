@@ -37,7 +37,7 @@ func (i *IE) QoSMonitoringMeasurement() (*QoSMonitoringMeasurementFields, error)
 			return nil, err
 		}
 		for _, x := range ies {
-			if x.Type == PMFParameters {
+			if x.Type == QoSMonitoringMeasurement {
 				return x.QoSMonitoringMeasurement()
 			}
 		}
