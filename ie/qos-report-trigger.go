@@ -31,6 +31,17 @@ func (i *IE) QoSReportTrigger() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case GTPUPathQoSReport:
+		ies, err := i.GTPUPathQoSReport()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == QoSReportTrigger {
+				return x.QoSReportTrigger()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

@@ -11,9 +11,21 @@ func NewQoSInformationInGTPUPathQoSReport(avgDelay, minDelay, maxDelay, dscp *IE
 
 // QoSInformationInGTPUPathQoSReport returns the IEs above QoSInformationInGTPUPathQoSReport if the type of IE matches.
 func (i *IE) QoSInformationInGTPUPathQoSReport() ([]*IE, error) {
-	if i.Type != QoSInformationInGTPUPathQoSReport {
+	switch i.Type {
+	case QoSInformationInGTPUPathQoSReport:
+		return ParseMultiIEs(i.Payload)
+	case GTPUPathQoSReport:
+		ies, err := i.GTPUPathQoSReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == QoSInformationInGTPUPathQoSReport {
+				return x.QoSInformationInGTPUPathQoSReport()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return ParseMultiIEs(i.Payload)
 }

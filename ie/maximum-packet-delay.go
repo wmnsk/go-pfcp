@@ -37,6 +37,17 @@ func (i *IE) MaximumPacketDelay() (time.Duration, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case GTPUPathQoSReport:
+		ies, err := i.GTPUPathQoSReport()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == QoSInformationInGTPUPathQoSReport {
+				return x.MaximumPacketDelay()
+			}
+		}
+		return 0, ErrIENotFound
 	case QoSInformationInGTPUPathQoSReport:
 		ies, err := i.QoSInformationInGTPUPathQoSReport()
 		if err != nil {
