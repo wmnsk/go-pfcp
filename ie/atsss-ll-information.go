@@ -20,6 +20,17 @@ func (i *IE) ATSSSLLInformation() (uint8, error) {
 	switch i.Type {
 	case ATSSSLLInformation:
 		return i.Payload[0], nil
+	case ATSSSLLParameters:
+		ies, err := i.ATSSSLLParameters()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == ATSSSLLInformation {
+				return x.ATSSSLLInformation()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

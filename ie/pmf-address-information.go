@@ -32,6 +32,17 @@ func (i *IE) PMFAddressInformation() (*PMFAddressInformationFields, error) {
 		}
 
 		return fields, nil
+	case PMFParameters:
+		ies, err := i.PMFParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PMFAddressInformation {
+				return x.PMFAddressInformation()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
