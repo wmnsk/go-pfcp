@@ -36,6 +36,18 @@ func (i *IE) DownlinkDataNotificationDelay() (time.Duration, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdateBARIEWithinPCFPSessionReportResponse,
+		UpdateBARIEWithinPFCPSessionModificationRequest:
+		ies, err := i.UpdateBAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == DownlinkDataNotificationDelay {
+				return x.DownlinkDataNotificationDelay()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

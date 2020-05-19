@@ -33,6 +33,18 @@ func (i *IE) SuggestedBufferingPacketsCount() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdateBARIEWithinPCFPSessionReportResponse,
+		UpdateBARIEWithinPFCPSessionModificationRequest:
+		ies, err := i.CreateBAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == SuggestedBufferingPacketsCount {
+				return x.SuggestedBufferingPacketsCount()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

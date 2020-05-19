@@ -23,7 +23,7 @@ const (
 	UpdatePDR                                                              uint16 = 9
 	UpdateFAR                                                              uint16 = 10
 	UpdateForwardingParameters                                             uint16 = 11
-	UpdateBARForPCFPSessionReportResponse                                  uint16 = 12
+	UpdateBARIEWithinPCFPSessionReportResponse                             uint16 = 12
 	UpdateURR                                                              uint16 = 13
 	UpdateQER                                                              uint16 = 14
 	RemovePDR                                                              uint16 = 15
@@ -97,7 +97,7 @@ const (
 	DownlinkDataReport                                                     uint16 = 83
 	OuterHeaderCreation                                                    uint16 = 84
 	CreateBAR                                                              uint16 = 85
-	UpdateBARForSessionModificationRequest                                 uint16 = 86
+	UpdateBARIEWithinPFCPSessionModificationRequest                            uint16 = 86
 	RemoveBAR                                                              uint16 = 87
 	BARID                                                                  uint16 = 88
 	CPFunctionFeatures                                                     uint16 = 89

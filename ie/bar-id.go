@@ -44,6 +44,18 @@ func (i *IE) BARID() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdateBARIEWithinPCFPSessionReportResponse,
+		UpdateBARIEWithinPFCPSessionModificationRequest:
+		ies, err := i.UpdateBAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == BARID {
+				return x.BARID()
+			}
+		}
+		return 0, ErrIENotFound
 	case RemoveBAR:
 		ies, err := i.RemoveBAR()
 		if err != nil {
