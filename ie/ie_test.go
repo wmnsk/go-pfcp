@@ -1654,6 +1654,14 @@ func TestIEs(t *testing.T) {
 				0x20, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
 			},
 		}, {
+			"ATSSSLLParameters",
+			ie.NewATSSSLLParameters(
+				ie.NewATSSSLLInformation(1),
+			),
+			[]byte{
+				0x00, 0xe2, 0x00, 0x05,
+				0x00, 0xe7, 0x00, 0x01, 0x01},
+		}, {
 			"MPTCPAddressInformation/Both",
 			ie.NewMPTCPAddressInformation(ie.MPTCPProxyTransportConverter, 8080, net.ParseIP("127.0.0.1"), net.ParseIP("2001::1")),
 			[]byte{
