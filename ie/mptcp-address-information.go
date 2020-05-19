@@ -37,6 +37,17 @@ func (i *IE) MPTCPAddressInformation() (*MPTCPAddressInformationFields, error) {
 		}
 
 		return fields, nil
+	case MPTCPParameters:
+		ies, err := i.MPTCPParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == MPTCPAddressInformation {
+				return x.MPTCPAddressInformation()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
