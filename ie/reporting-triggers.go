@@ -147,6 +147,9 @@ func (i *IE) HasPERIO() bool {
 	case ReportingTriggers, UsageReportTrigger:
 		u8 := uint8(i.Payload[0])
 		return has1stBit(u8)
+	case ReportingFrequency:
+		u8 := uint8(i.Payload[0])
+		return has2ndBit(u8)
 	default:
 		return false
 	}

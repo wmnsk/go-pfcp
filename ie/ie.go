@@ -255,7 +255,7 @@ const (
 	GTPUPathInterfaceType                                                  uint16 = 241
 	QoSMonitoringPerQoSFlowControlInformation                              uint16 = 242
 	RequestedQoSMonitoring                                                 uint16 = 243
-	ReporingFrequency                                                      uint16 = 244
+	ReportingFrequency                                                     uint16 = 244
 	PacketDelayThresholds                                                  uint16 = 245
 	MinimumWaitTime                                                        uint16 = 246
 	QoSMonitoringReport                                                    uint16 = 247

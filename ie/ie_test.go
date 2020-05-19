@@ -1897,6 +1897,10 @@ func TestIEs(t *testing.T) {
 			ie.NewRequestedQoSMonitoring(1, 1, 1),
 			[]byte{0x00, 0xf3, 0x00, 0x01, 0x07},
 		}, {
+			"ReportingFrequency",
+			ie.NewReportingFrequency(1, 1, 1),
+			[]byte{0x00, 0xf4, 0x00, 0x01, 0x07},
+		}, {
 			"MinimumWaitTime",
 			ie.NewMinimumWaitTime(10 * time.Second),
 			[]byte{0x00, 0xf6, 0x00, 0x04, 0x00, 0x00, 0x00, 0x0a},
