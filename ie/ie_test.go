@@ -1893,6 +1893,10 @@ func TestIEs(t *testing.T) {
 			ie.NewQoSReportTrigger(1, 1, 1),
 			[]byte{0x00, 0xed, 0x00, 0x01, 0x07},
 		}, {
+			"GTPUPathInterfaceType",
+			ie.NewGTPUPathInterfaceType(1, 1),
+			[]byte{0x00, 0xf1, 0x00, 0x01, 0x03},
+		}, {
 			"RequestedQoSMonitoring",
 			ie.NewRequestedQoSMonitoring(1, 1, 1),
 			[]byte{0x00, 0xf3, 0x00, 0x01, 0x07},
