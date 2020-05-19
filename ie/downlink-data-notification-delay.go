@@ -4,7 +4,10 @@
 
 package ie
 
-import "time"
+import (
+	"io"
+	"time"
+)
 
 // NewDownlinkDataNotificationDelay creates a new DownlinkDataNotificationDelay IE.
 func NewDownlinkDataNotificationDelay(delay time.Duration) *IE {
@@ -15,9 +18,25 @@ func NewDownlinkDataNotificationDelay(delay time.Duration) *IE {
 
 // DownlinkDataNotificationDelay returns DownlinkDataNotificationDelay in time.Duration if the type of IE matches.
 func (i *IE) DownlinkDataNotificationDelay() (time.Duration, error) {
-	if i.Type != DownlinkDataNotificationDelay {
-		return 0, &InvalidTypeError{Type: i.Type}
+	if len(i.Payload) < 1 {
+		return 0, io.ErrUnexpectedEOF
 	}
 
-	return time.Duration(int64(i.Payload[0]) * 50000000), nil
+	switch i.Type {
+	case DownlinkDataNotificationDelay:
+		return time.Duration(int64(i.Payload[0]) * 50000000), nil
+	case CreateBAR:
+		ies, err := i.CreateBAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == DownlinkDataNotificationDelay {
+				return x.DownlinkDataNotificationDelay()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }
