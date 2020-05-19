@@ -19,11 +19,23 @@ func NewUEIPAddressPoolIdentity(id string) *IE {
 
 // UEIPAddressPoolIdentity returns UEIPAddressPoolIdentity in []byte if the type of IE matches.
 func (i *IE) UEIPAddressPoolIdentity() ([]byte, error) {
-	if i.Type != UEIPAddressPoolIdentity {
+	switch i.Type {
+	case UEIPAddressPoolIdentity:
+		return i.Payload, nil
+	case UEIPAddressPoolInformation:
+		ies, err := i.UEIPAddressPoolInformation()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == UEIPAddressPoolIdentity {
+				return x.UEIPAddressPoolIdentity()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return i.Payload, nil
 }
 
 // UEIPAddressPoolIdentityString returns UEIPAddressPoolIdentityString in string if the type of IE matches.
