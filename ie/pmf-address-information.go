@@ -32,6 +32,17 @@ func (i *IE) PMFAddressInformation() (*PMFAddressInformationFields, error) {
 		}
 
 		return fields, nil
+	case ATSSSControlParameters:
+		ies, err := i.ATSSSControlParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PMFParameters {
+				return x.PMFAddressInformation()
+			}
+		}
+		return nil, ErrIENotFound
 	case PMFParameters:
 		ies, err := i.PMFParameters()
 		if err != nil {

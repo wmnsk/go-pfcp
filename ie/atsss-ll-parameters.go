@@ -11,9 +11,21 @@ func NewATSSSLLParameters(info *IE) *IE {
 
 // ATSSSLLParameters returns the IEs above ATSSSLLParameters if the type of IE matches.
 func (i *IE) ATSSSLLParameters() ([]*IE, error) {
-	if i.Type != ATSSSLLParameters {
+	switch i.Type {
+	case ATSSSLLParameters:
+		return ParseMultiIEs(i.Payload)
+	case ATSSSControlParameters:
+		ies, err := i.ATSSSControlParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == ATSSSLLParameters {
+				return x.ATSSSLLParameters()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return ParseMultiIEs(i.Payload)
 }

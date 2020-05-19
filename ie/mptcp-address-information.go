@@ -37,6 +37,17 @@ func (i *IE) MPTCPAddressInformation() (*MPTCPAddressInformationFields, error) {
 		}
 
 		return fields, nil
+	case ATSSSControlParameters:
+		ies, err := i.ATSSSControlParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == MPTCPParameters {
+				return x.MPTCPAddressInformation()
+			}
+		}
+		return nil, ErrIENotFound
 	case MPTCPParameters:
 		ies, err := i.MPTCPParameters()
 		if err != nil {
