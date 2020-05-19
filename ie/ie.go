@@ -240,7 +240,7 @@ const (
 	ATSSSLLParameters                                                      uint16 = 226
 	PMFParameters                                                          uint16 = 227
 	MPTCPAddressInformation                                                uint16 = 228
-	UELinkSpeciicIPAddress                                                 uint16 = 229
+	UELinkSpecificIPAddress                                                uint16 = 229
 	PMFAddressInformation                                                  uint16 = 230
 	ATSSSLLInformation                                                     uint16 = 231
 	DataNetworkAccessIdentifier                                            uint16 = 232
