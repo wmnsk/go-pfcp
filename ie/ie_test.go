@@ -1621,6 +1621,19 @@ func TestIEs(t *testing.T) {
 			ie.NewAccessAvailabilityInformation(3, 3),
 			[]byte{0x00, 0xdb, 0x00, 0x01, 0x0f},
 		}, {
+			"ProvideATSSSControlInformation",
+			ie.NewProvideATSSSControlInformation(
+				ie.NewMPTCPControlInformation(1),
+				ie.NewATSSSLLControlInformation(1),
+				ie.NewPMFControlInformation(1),
+			),
+			[]byte{
+				0x00, 0xdc, 0x00, 0x0f,
+				0x00, 0xde, 0x00, 0x01, 0x01,
+				0x00, 0xdf, 0x00, 0x01, 0x01,
+				0x00, 0xe0, 0x00, 0x01, 0x01,
+			},
+		}, {
 			"ATSSSControlParameters",
 			ie.NewATSSSControlParameters(
 				ie.NewMPTCPParameters(
