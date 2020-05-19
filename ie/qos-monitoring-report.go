@@ -14,19 +14,17 @@ func (i *IE) QoSMonitoringReport() ([]*IE, error) {
 	switch i.Type {
 	case QoSMonitoringReport:
 		return ParseMultiIEs(i.Payload)
-	/*
-		case SessionReport:
-			ies, err := i.SessionReport()
-			if err != nil {
-				return nil, err
+	case SessionReport:
+		ies, err := i.SessionReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == QoSMonitoringReport {
+				return x.QoSMonitoringReport()
 			}
-			for _, x := range ies {
-				if x.Type == QoSMonitoringReport {
-					return x.QoSMonitoringReport()
-				}
-			}
-			return nil, ErrIENotFound
-	*/
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

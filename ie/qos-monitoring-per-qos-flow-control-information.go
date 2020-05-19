@@ -36,19 +36,6 @@ func (i *IE) QoSMonitoringPerQoSFlowControlInformation() ([]*IE, error) {
 			}
 		}
 		return nil, ErrIENotFound
-	/*
-		case SessionReport:
-			ies, err := i.SessionReport()
-			if err != nil {
-				return nil, err
-			}
-			for _, x := range ies {
-				if x.Type == QoSMonitoringPerQoSFlowControlInformation {
-					return x.QoSMonitoringPerQoSFlowControlInformation()
-				}
-			}
-			return nil, ErrIENotFound
-	*/
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

@@ -56,6 +56,18 @@ func (i *IE) SRRID() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case SessionReport:
+		ies, err := i.SessionReport()
+		if err != nil {
+			return 0, err
+		}
+
+		for _, x := range ies {
+			if x.Type == SRRID {
+				return x.SRRID()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
