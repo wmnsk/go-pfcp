@@ -31,19 +31,17 @@ func (i *IE) PacketDelayThresholds() (*PacketDelayThresholdsFields, error) {
 		}
 
 		return fields, nil
-	/*
-		case QoSMonitoringPerQoSFlowControlInformation:
-			ies, err := i.QoSMonitoringPerQoSFlowControlInformation()
-			if err != nil {
-				return nil, err
+	case QoSMonitoringPerQoSFlowControlInformation:
+		ies, err := i.QoSMonitoringPerQoSFlowControlInformation()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketDelayThresholds {
+				return x.PacketDelayThresholds()
 			}
-			for _, x := range ies {
-				if x.Type == PMFParameters {
-					return x.PacketDelayThresholds()
-				}
-			}
-			return nil, ErrIENotFound
-	*/
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
