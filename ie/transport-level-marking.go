@@ -15,12 +15,26 @@ func NewTransportLevelMarking(tos uint16) *IE {
 
 // TransportLevelMarking returns TransportLevelMarking in uint16 if the type of IE matches.
 func (i *IE) TransportLevelMarking() (uint16, error) {
-	if i.Type != TransportLevelMarking {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-
 	if len(i.Payload) < 2 {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+
+	switch i.Type {
+	case TransportLevelMarking:
+		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+	case GTPUPathQoSControlInformation:
+		ies, err := i.GTPUPathQoSControlInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TransportLevelMarking {
+				return x.TransportLevelMarking()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
+
 }
