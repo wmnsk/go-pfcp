@@ -19,12 +19,47 @@ func NewAveragePacketDelay(delay time.Duration) *IE {
 
 // AveragePacketDelay returns AveragePacketDelay in time.Duration if the type of IE matches.
 func (i *IE) AveragePacketDelay() (time.Duration, error) {
-	if i.Type != AveragePacketDelay {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return time.Duration(binary.BigEndian.Uint32(i.Payload[0:4])) * time.Millisecond, nil
+	switch i.Type {
+	case AveragePacketDelay:
+		return time.Duration(binary.BigEndian.Uint32(i.Payload[0:4])) * time.Millisecond, nil
+	case GTPUPathQoSControlInformation:
+		ies, err := i.GTPUPathQoSControlInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == AveragePacketDelay {
+				return x.AveragePacketDelay()
+			}
+		}
+		return 0, ErrIENotFound
+	case GTPUPathQoSReport:
+		ies, err := i.GTPUPathQoSReport()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == QoSInformationInGTPUPathQoSReport {
+				return x.AveragePacketDelay()
+			}
+		}
+		return 0, ErrIENotFound
+	case QoSInformationInGTPUPathQoSReport:
+		ies, err := i.QoSInformationInGTPUPathQoSReport()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == AveragePacketDelay {
+				return x.AveragePacketDelay()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

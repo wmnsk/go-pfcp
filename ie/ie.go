@@ -23,7 +23,7 @@ const (
 	UpdatePDR                                                              uint16 = 9
 	UpdateFAR                                                              uint16 = 10
 	UpdateForwardingParameters                                             uint16 = 11
-	UpdateBARForPCFPSessionReportResponse                                  uint16 = 12
+	UpdateBARIEWithinPCFPSessionReportResponse                             uint16 = 12
 	UpdateURR                                                              uint16 = 13
 	UpdateQER                                                              uint16 = 14
 	RemovePDR                                                              uint16 = 15
@@ -97,7 +97,7 @@ const (
 	DownlinkDataReport                                                     uint16 = 83
 	OuterHeaderCreation                                                    uint16 = 84
 	CreateBAR                                                              uint16 = 85
-	UpdateBARForSessionModificationRequest                                 uint16 = 86
+	UpdateBARIEWithinPFCPSessionModificationRequest                        uint16 = 86
 	RemoveBAR                                                              uint16 = 87
 	BARID                                                                  uint16 = 88
 	CPFunctionFeatures                                                     uint16 = 89
@@ -240,7 +240,7 @@ const (
 	ATSSSLLParameters                                                      uint16 = 226
 	PMFParameters                                                          uint16 = 227
 	MPTCPAddressInformation                                                uint16 = 228
-	UELinkSpeciicIPAddress                                                 uint16 = 229
+	UELinkSpecificIPAddress                                                uint16 = 229
 	PMFAddressInformation                                                  uint16 = 230
 	ATSSSLLInformation                                                     uint16 = 231
 	DataNetworkAccessIdentifier                                            uint16 = 232
@@ -248,14 +248,14 @@ const (
 	AveragePacketDelay                                                     uint16 = 234
 	MinimumPacketDelay                                                     uint16 = 235
 	MaximumPacketDelay                                                     uint16 = 236
-	QosReportTrigger                                                       uint16 = 237
+	QoSReportTrigger                                                       uint16 = 237
 	GTPUPathQoSControlInformation                                          uint16 = 238
 	GTPUPathQoSReport                                                      uint16 = 239
 	QoSInformationInGTPUPathQoSReport                                      uint16 = 240
 	GTPUPathInterfaceType                                                  uint16 = 241
 	QoSMonitoringPerQoSFlowControlInformation                              uint16 = 242
 	RequestedQoSMonitoring                                                 uint16 = 243
-	ReporingFrequency                                                      uint16 = 244
+	ReportingFrequency                                                     uint16 = 244
 	PacketDelayThresholds                                                  uint16 = 245
 	MinimumWaitTime                                                        uint16 = 246
 	QoSMonitoringReport                                                    uint16 = 247
@@ -433,9 +433,10 @@ func (i *IE) IsVendorSpecific() bool {
 var grouped = []uint16{
 	// TODO: fill here with all the type of IEs that may be grouped, using constants above.
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-	17, 18, 51, 54, 58, 59, 68, 77, 85, 86, 87, 99, 102, 105, 118, 127,
+	17, 18, 51, 54, 58, 59, 68, 77, 83, 85, 86, 87, 99, 102, 105, 118, 127,
 	128, 129, 130, 132, 143, 147, 165, 166, 167, 168, 169, 175, 176, 183, 187, 188,
-	189, 190, 195, 199, 200, 201, 203, 211, 216, 218, 254, 255, 256,
+	189, 190, 195, 199, 200, 201, 203, 211, 212, 213, 214, 216, 218, 220, 221, 225,
+	226, 227, 233, 238, 239, 240, 242, 247, 252, 254, 255, 256,
 }
 
 // IsGrouped reports whether an IE is grouped type or not.

@@ -11,9 +11,43 @@ func NewAccessAvailabilityControlInformation(info *IE) *IE {
 
 // AccessAvailabilityControlInformation returns the IEs above AccessAvailabilityControlInformation if the type of IE matches.
 func (i *IE) AccessAvailabilityControlInformation() ([]*IE, error) {
-	if i.Type != AccessAvailabilityControlInformation {
+	switch i.Type {
+	case AccessAvailabilityControlInformation:
+		return ParseMultiIEs(i.Payload)
+	case CreateSRR:
+		ies, err := i.CreateSRR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == AccessAvailabilityControlInformation {
+				return x.AccessAvailabilityControlInformation()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateSRR:
+		ies, err := i.UpdateSRR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == AccessAvailabilityControlInformation {
+				return x.AccessAvailabilityControlInformation()
+			}
+		}
+		return nil, ErrIENotFound
+	case SessionReport:
+		ies, err := i.SessionReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == AccessAvailabilityControlInformation {
+				return x.AccessAvailabilityControlInformation()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return ParseMultiIEs(i.Payload)
 }

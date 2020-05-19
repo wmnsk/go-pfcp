@@ -19,12 +19,25 @@ func NewMinimumWaitTime(period time.Duration) *IE {
 
 // MinimumWaitTime returns MinimumWaitTime in time.Duration if the type of IE matches.
 func (i *IE) MinimumWaitTime() (time.Duration, error) {
-	if i.Type != MinimumWaitTime {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return time.Duration(binary.BigEndian.Uint32(i.Payload[0:4])) * time.Second, nil
+	switch i.Type {
+	case MinimumWaitTime:
+		return time.Duration(binary.BigEndian.Uint32(i.Payload[0:4])) * time.Second, nil
+	case QoSMonitoringPerQoSFlowControlInformation:
+		ies, err := i.QoSMonitoringPerQoSFlowControlInformation()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == MinimumWaitTime {
+				return x.MinimumWaitTime()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

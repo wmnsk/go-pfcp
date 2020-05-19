@@ -20,6 +20,17 @@ func (i *IE) PMFControlInformation() (uint8, error) {
 	switch i.Type {
 	case PMFControlInformation:
 		return i.Payload[0], nil
+	case ATSSSControlParameters:
+		ies, err := i.ATSSSControlParameters()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PMFControlInformation {
+				return x.PMFControlInformation()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

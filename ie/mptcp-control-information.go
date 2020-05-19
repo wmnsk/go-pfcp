@@ -20,6 +20,17 @@ func (i *IE) MPTCPControlInformation() (uint8, error) {
 	switch i.Type {
 	case MPTCPControlInformation:
 		return i.Payload[0], nil
+	case ATSSSControlParameters:
+		ies, err := i.ATSSSControlParameters()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == MPTCPControlInformation {
+				return x.MPTCPControlInformation()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

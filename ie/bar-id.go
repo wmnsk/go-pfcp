@@ -33,6 +33,40 @@ func (i *IE) BARID() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case CreateBAR:
+		ies, err := i.CreateBAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == BARID {
+				return x.BARID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateBARIEWithinPCFPSessionReportResponse,
+		UpdateBARIEWithinPFCPSessionModificationRequest:
+		ies, err := i.UpdateBAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == BARID {
+				return x.BARID()
+			}
+		}
+		return 0, ErrIENotFound
+	case RemoveBAR:
+		ies, err := i.RemoveBAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == BARID {
+				return x.BARID()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

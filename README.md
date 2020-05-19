@@ -137,7 +137,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 9              | Update PDR                                                                       |            |
 | 10             | Update FAR                                                                       |            |
 | 11             | Update Forwarding Parameters                                                     |            |
-| 12             | Update BAR (PFCP Session Report Response)                                        |            |
+| 12             | Update BAR (PFCP Session Report Response)                                        | Yes        |
 | 13             | Update URR                                                                       |            |
 | 14             | Update QER                                                                       |            |
 | 15             | Remove PDR                                                                       |            |
@@ -208,10 +208,10 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 80             | Usage Report (Session Report Request)                                            |            |
 | 81             | URR ID                                                                           | Yes        |
 | 82             | Linked URR ID                                                                    | Yes        |
-| 83             | Downlink Data Report                                                             |            |
+| 83             | Downlink Data Report                                                             | Yes        |
 | 84             | Outer Header Creation                                                            | Yes        |
-| 85             | Create BAR                                                                       |            |
-| 86             | Update BAR (Session Modification Request)                                        |            |
+| 85             | Create BAR                                                                       | Yes        |
+| 86             | Update BAR (Session Modification Request)                                        | Yes        |
 | 87             | Remove BAR                                                                       | Yes        |
 | 88             | BAR ID                                                                           | Yes        |
 | 89             | CP Function Features                                                             | Yes        |
@@ -337,53 +337,53 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 209            | Time Offset Measurement                                                          | Yes        |
 | 210            | Cumulative rateRatio Measurement                                                 | Yes        |
 | 211            | Remove SRR                                                                       | Yes        |
-| 212            | Create SRR                                                                       |            |
-| 213            | Update SRR                                                                       |            |
-| 214            | Session Report                                                                   |            |
+| 212            | Create SRR                                                                       | Yes        |
+| 213            | Update SRR                                                                       | Yes        |
+| 214            | Session Report                                                                   | Yes        |
 | 215            | SRR ID                                                                           | Yes        |
 | 216            | Access Availability Control Information                                          | Yes        |
 | 217            | Requested Access Availability Information                                        | Yes        |
 | 218            | Access Availability Report                                                       | Yes        |
 | 219            | Access Availability Information                                                  | Yes        |
-| 220            | Provide ATSSS Control Information                                                |            |
-| 221            | ATSSS Control Parameters                                                         |            |
+| 220            | Provide ATSSS Control Information                                                | Yes        |
+| 221            | ATSSS Control Parameters                                                         | Yes        |
 | 222            | MPTCP Control Information                                                        | Yes        |
 | 223            | ATSSS-LL Control Information                                                     | Yes        |
 | 224            | PMF Control Information                                                          | Yes        |
-| 225            | MPTCP Parameters                                                                 |            |
-| 226            | ATSSS-LL Parameters                                                              |            |
-| 227            | PMF Parameters                                                                   |            |
-| 228            | MPTCP Address Information                                                        |            |
-| 229            | UE Link-Specific IP Address                                                      |            |
-| 230            | PMF Address Information                                                          |            |
+| 225            | MPTCP Parameters                                                                 | Yes        |
+| 226            | ATSSS-LL Parameters                                                              | Yes        |
+| 227            | PMF Parameters                                                                   | Yes        |
+| 228            | MPTCP Address Information                                                        | Yes        |
+| 229            | UE Link-Specific IP Address                                                      | Yes        |
+| 230            | PMF Address Information                                                          | Yes        |
 | 231            | ATSSS-LL Information                                                             | Yes        |
 | 232            | Data Network Access Identifier                                                   | Yes        |
-| 233            | UE IP address Pool Information                                                   |            |
+| 233            | UE IP address Pool Information                                                   | Yes        |
 | 234            | Average Packet Delay                                                             | Yes        |
 | 235            | Minimum Packet Delay                                                             | Yes        |
 | 236            | Maximum Packet Delay                                                             | Yes        |
-| 237            | QoS Report Trigger                                                               |            |
-| 238            | GTP-U Path QoS Control Information                                               |            |
-| 239            | GTP-U Path QoS Report (PFCP Node Report Request)                                 |            |
-| 240            | QoS Information in GTP-U Path QoS Report                                         |            |
-| 241            | GTP-U Path Interface Type                                                        |            |
-| 242            | QoS Monitoring per QoS flow Control Information                                  |            |
-| 243            | Requested QoS Monitoring                                                         |            |
-| 244            | Reporting Frequency                                                              |            |
-| 245            | Packet Delay Thresholds                                                          |            |
+| 237            | QoS Report Trigger                                                               | Yes        |
+| 238            | GTP-U Path QoS Control Information                                               | Yes        |
+| 239            | GTP-U Path QoS Report (PFCP Node Report Request)                                 | Yes        |
+| 240            | QoS Information in GTP-U Path QoS Report                                         | Yes        |
+| 241            | GTP-U Path Interface Type                                                        | Yes        |
+| 242            | QoS Monitoring per QoS flow Control Information                                  | Yes        |
+| 243            | Requested QoS Monitoring                                                         | Yes        |
+| 244            | Reporting Frequency                                                              | Yes        |
+| 245            | Packet Delay Thresholds                                                          | Yes        |
 | 246            | Minimum Wait Time                                                                | Yes        |
-| 247            | QoS Monitoring Report                                                            |            |
-| 248            | QoS Monitoring Measurement                                                       |            |
+| 247            | QoS Monitoring Report                                                            | Yes        |
+| 248            | QoS Monitoring Measurement                                                       | Yes        |
 | 249            | MT-EDT Control Information                                                       | Yes        |
 | 250            | DL Data Packets Size                                                             | Yes        |
 | 251            | QER Control Indications                                                          | Yes        |
-| 252            | Packet Rate Status Report                                                        |            |
+| 252            | Packet Rate Status Report                                                        | Yes        |
 | 253            | NF Instance ID                                                                   | Yes        |
 | 254            | Ethernet Context Information                                                     | Yes        |
 | 255            | Redundant Transmission Parameters                                                | Yes        |
 | 256            | Updated PDR                                                                      | Yes        |
-| 257 to 32767   | _(For future use)_                                                               |            |
-| 32768 to 65535 | Reserved for vendor specific IEs                                                 |            |
+| 257 to 32767   | _(For future use)_                                                               | -          |
+| 32768 to 65535 | Reserved for vendor specific IEs                                                 | -          |
 
 
 ## Disclaimer

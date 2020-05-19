@@ -47,6 +47,17 @@ func (i *IE) NetworkInstance() (string, error) {
 			}
 		}
 		return "", ErrIENotFound
+	case UEIPAddressPoolInformation:
+		ies, err := i.UEIPAddressPoolInformation()
+		if err != nil {
+			return "", err
+		}
+		for _, x := range ies {
+			if x.Type == NetworkInstance {
+				return x.NetworkInstance()
+			}
+		}
+		return "", ErrIENotFound
 	default:
 		return "", &InvalidTypeError{Type: i.Type}
 	}
