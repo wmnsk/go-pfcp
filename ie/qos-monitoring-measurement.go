@@ -31,19 +31,17 @@ func (i *IE) QoSMonitoringMeasurement() (*QoSMonitoringMeasurementFields, error)
 		}
 
 		return fields, nil
-	/*
-		case QoSMonitoringPerQoSFlowControlInformation:
-			ies, err := i.QoSMonitoringPerQoSFlowControlInformation()
-			if err != nil {
-				return nil, err
+	case QoSMonitoringReport:
+		ies, err := i.QoSMonitoringReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PMFParameters {
+				return x.QoSMonitoringMeasurement()
 			}
-			for _, x := range ies {
-				if x.Type == PMFParameters {
-					return x.QoSMonitoringMeasurement()
-				}
-			}
-			return nil, ErrIENotFound
-	*/
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

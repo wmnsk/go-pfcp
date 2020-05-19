@@ -36,6 +36,17 @@ func (i *IE) StartTime() (time.Time, error) {
 			}
 		}
 		return time.Time{}, ErrIENotFound
+	case QoSMonitoringReport:
+		ies, err := i.QoSMonitoringReport()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == StartTime {
+				return x.StartTime()
+			}
+		}
+		return time.Time{}, ErrIENotFound
 	default:
 		return time.Time{}, &InvalidTypeError{Type: i.Type}
 	}

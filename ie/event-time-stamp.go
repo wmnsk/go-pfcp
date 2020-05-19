@@ -36,6 +36,17 @@ func (i *IE) EventTimeStamp() (time.Time, error) {
 			}
 		}
 		return time.Time{}, ErrIENotFound
+	case QoSMonitoringReport:
+		ies, err := i.QoSMonitoringReport()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == EventTimeStamp {
+				return x.EventTimeStamp()
+			}
+		}
+		return time.Time{}, ErrIENotFound
 	default:
 		return time.Time{}, &InvalidTypeError{Type: i.Type}
 	}
