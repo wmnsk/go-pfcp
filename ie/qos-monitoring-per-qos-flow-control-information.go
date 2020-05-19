@@ -14,7 +14,29 @@ func (i *IE) QoSMonitoringPerQoSFlowControlInformation() ([]*IE, error) {
 	switch i.Type {
 	case QoSMonitoringPerQoSFlowControlInformation:
 		return ParseMultiIEs(i.Payload)
+	case CreateSRR:
+		ies, err := i.CreateSRR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == QoSMonitoringPerQoSFlowControlInformation {
+				return x.QoSMonitoringPerQoSFlowControlInformation()
+			}
+		}
+		return nil, ErrIENotFound
 	/*
+		case UpdateSRR:
+			ies, err := i.UpdateSRR()
+			if err != nil {
+				return nil, err
+			}
+			for _, x := range ies {
+				if x.Type == QoSMonitoringPerQoSFlowControlInformation {
+					return x.QoSMonitoringPerQoSFlowControlInformation()
+				}
+			}
+			return nil, ErrIENotFound
 		case SessionReport:
 			ies, err := i.SessionReport()
 			if err != nil {
