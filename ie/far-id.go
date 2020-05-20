@@ -23,6 +23,18 @@ func (i *IE) FARID() (uint32, error) {
 	switch i.Type {
 	case FARID:
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case RemoveFAR:
+		ies, err := i.RemoveFAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			switch x.Type {
+			case TGPPAccessForwardingActionInformation, NonTGPPAccessForwardingActionInformation:
+				return x.FARID()
+			}
+		}
+		return 0, ErrIENotFound
 	case CreateMAR:
 		ies, err := i.CreateMAR()
 		if err != nil {
