@@ -42,6 +42,19 @@ func (i *IE) MACAddressesRemoved() (*MACAddressesRemovedFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == EthernetTrafficInformation {
+				return x.MACAddressesRemoved()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

@@ -22,6 +22,28 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 			return 0, io.ErrUnexpectedEOF
 		}
 		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+	case RemovePDR:
+		ies, err := i.RemovePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketDetectionRuleID {
+				return x.PacketDetectionRuleID()
+			}
+		}
+		return 0, ErrIENotFound
+	case CreatedPDR:
+		ies, err := i.CreatedPDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketDetectionRuleID {
+				return x.PacketDetectionRuleID()
+			}
+		}
+		return 0, ErrIENotFound
 	case ApplicationDetectionInformation:
 		ies, err := i.ApplicationDetectionInformation()
 		if err != nil {
@@ -29,6 +51,17 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 		}
 		for _, x := range ies {
 			if x.Type == PacketDetectionRuleID {
+				return x.PacketDetectionRuleID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UsageReportWithinSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == ApplicationDetectionInformation {
 				return x.PacketDetectionRuleID()
 			}
 		}

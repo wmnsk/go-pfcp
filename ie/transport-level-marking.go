@@ -22,6 +22,28 @@ func (i *IE) TransportLevelMarking() (uint16, error) {
 	switch i.Type {
 	case TransportLevelMarking:
 		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+	case DuplicatingParameters:
+		ies, err := i.DuplicatingParameters()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TransportLevelMarking {
+				return x.TransportLevelMarking()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateDuplicatingParameters:
+		ies, err := i.UpdateDuplicatingParameters()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TransportLevelMarking {
+				return x.TransportLevelMarking()
+			}
+		}
+		return 0, ErrIENotFound
 	case GTPUPathQoSControlInformation:
 		ies, err := i.GTPUPathQoSControlInformation()
 		if err != nil {

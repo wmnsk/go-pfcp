@@ -23,6 +23,30 @@ func (i *IE) URRID() (uint32, error) {
 		}
 
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case RemoveURR:
+		ies, err := i.RemoveURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == URRID {
+				return x.URRID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == URRID {
+				return x.URRID()
+			}
+		}
+		return 0, ErrIENotFound
 	case CreateMAR:
 		ies, err := i.CreateMAR()
 		if err != nil {

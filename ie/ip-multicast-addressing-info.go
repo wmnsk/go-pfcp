@@ -4,14 +4,14 @@
 
 package ie
 
-// NewIPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest creates a new IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest IE.
-func NewIPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest(multi, source *IE) *IE {
-	return newGroupedIE(IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest, 0, multi, source)
+// NewIPMuliticastAddressingInfoWithinSessionEstablishmentRequest creates a new IPMuliticastAddressingInfoWithinSessionEstablishmentRequest IE.
+func NewIPMuliticastAddressingInfoWithinSessionEstablishmentRequest(multi, source *IE) *IE {
+	return newGroupedIE(IPMuliticastAddressingInfoWithinSessionEstablishmentRequest, 0, multi, source)
 }
 
-// IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest returns the IEs above IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest if the type of IE matches.
-func (i *IE) IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest() ([]*IE, error) {
-	if i.Type != IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest {
+// IPMuliticastAddressingInfoWithinSessionEstablishmentRequest returns the IEs above IPMuliticastAddressingInfoWithinSessionEstablishmentRequest if the type of IE matches.
+func (i *IE) IPMuliticastAddressingInfoWithinSessionEstablishmentRequest() ([]*IE, error) {
+	if i.Type != IPMuliticastAddressingInfoWithinSessionEstablishmentRequest {
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
 

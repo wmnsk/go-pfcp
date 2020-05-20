@@ -11,9 +11,23 @@ func NewEthernetTrafficInformation(detected, removed *IE) *IE {
 
 // EthernetTrafficInformation returns the IEs above EthernetTrafficInformation if the type of IE matches.
 func (i *IE) EthernetTrafficInformation() ([]*IE, error) {
-	if i.Type != EthernetTrafficInformation {
+	switch i.Type {
+	case EthernetTrafficInformation:
+		return ParseMultiIEs(i.Payload)
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == EthernetTrafficInformation {
+				return x.EthernetTrafficInformation()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return ParseMultiIEs(i.Payload)
 }

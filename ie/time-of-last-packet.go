@@ -18,12 +18,27 @@ func NewTimeOfLastPacket(ts time.Time) *IE {
 
 // TimeOfLastPacket returns TimeOfLastPacket in time.Time if the type of IE matches.
 func (i *IE) TimeOfLastPacket() (time.Time, error) {
-	if i.Type != TimeOfLastPacket {
-		return time.Time{}, &InvalidTypeError{Type: i.Type}
-	}
-
 	if len(i.Payload) < 4 {
 		return time.Time{}, io.ErrUnexpectedEOF
 	}
-	return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+
+	switch i.Type {
+	case TimeOfLastPacket:
+		return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == TimeOfLastPacket {
+				return x.TimeOfLastPacket()
+			}
+		}
+		return time.Time{}, ErrIENotFound
+	default:
+		return time.Time{}, &InvalidTypeError{Type: i.Type}
+	}
 }

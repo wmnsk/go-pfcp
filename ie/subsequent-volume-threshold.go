@@ -10,38 +10,27 @@ import (
 )
 
 // NewSubsequentVolumeThreshold creates a new SubsequentVolumeThreshold IE.
-func NewSubsequentVolumeThreshold(flags uint8, total, ul, dl uint64) *IE {
-	i := New(SubsequentVolumeThreshold, []byte{flags})
+func NewSubsequentVolumeThreshold(flags uint8, tvol, uvol, dvol uint64) *IE {
+	fields := NewSubsequentVolumeThresholdFields(flags, tvol, uvol, dvol)
 
-	offset := 1
-	if has1stBit(flags) {
-		i.Payload = append(i.Payload, make([]byte, 8)...)
-		binary.BigEndian.PutUint64(i.Payload[offset:offset+8], total)
-		offset += 8
-	}
-	if has2ndBit(flags) {
-		i.Payload = append(i.Payload, make([]byte, 8)...)
-		binary.BigEndian.PutUint64(i.Payload[offset:offset+8], ul)
-		offset += 8
-	}
-	if has3rdBit(flags) {
-		i.Payload = append(i.Payload, make([]byte, 8)...)
-		binary.BigEndian.PutUint64(i.Payload[offset:offset+8], dl)
+	b, err := fields.Marshal()
+	if err != nil {
+		return nil
 	}
 
-	i.SetLength()
-	return i
+	return New(SubsequentVolumeThreshold, b)
 }
 
-// SubsequentVolumeThreshold returns SubsequentVolumeThreshold in []byte if the type of IE matches.
-func (i *IE) SubsequentVolumeThreshold() ([]byte, error) {
-	if len(i.Payload) < 1 {
-		return nil, io.ErrUnexpectedEOF
-	}
-
+// SubsequentVolumeThreshold returns SubsequentVolumeThreshold in structured format if the type of IE matches.
+func (i *IE) SubsequentVolumeThreshold() (*SubsequentVolumeThresholdFields, error) {
 	switch i.Type {
 	case SubsequentVolumeThreshold:
-		return i.Payload, nil
+		fields, err := ParseSubsequentVolumeThresholdFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
 	case AdditionalMonitoringTime:
 		ies, err := i.AdditionalMonitoringTime()
 		if err != nil {
@@ -58,62 +47,165 @@ func (i *IE) SubsequentVolumeThreshold() ([]byte, error) {
 	}
 }
 
-// SubsequentVolumeThresholdTotal returns SubsequentVolumeThresholdTotal in uint64 if the type of IE matches.
-func (i *IE) SubsequentVolumeThresholdTotal() (uint64, error) {
-	paylod, err := i.SubsequentVolumeThreshold()
-	if err != nil {
-		return 0, err
-	}
-
-	if has1stBit(paylod[0]) && len(paylod) >= 8 {
-		return binary.BigEndian.Uint64(paylod[1:9]), nil
-	}
-	return 0, nil
+// SubsequentVolumeThresholdFields represents a fields contained in SubsequentVolumeThreshold IE.
+type SubsequentVolumeThresholdFields struct {
+	Flags          uint8
+	TotalVolume    uint64
+	UplinkVolume   uint64
+	DownlinkVolume uint64
 }
 
-// SubsequentVolumeThresholdUplink returns SubsequentVolumeThresholdUplink in uint64 if the type of IE matches.
-func (i *IE) SubsequentVolumeThresholdUplink() (uint64, error) {
-	paylod, err := i.SubsequentVolumeThreshold()
-	if err != nil {
-		return 0, err
+// NewSubsequentVolumeThresholdFields creates a new NewSubsequentVolumeThresholdFields.
+func NewSubsequentVolumeThresholdFields(flags uint8, tvol, uvol, dvol uint64) *SubsequentVolumeThresholdFields {
+	f := &SubsequentVolumeThresholdFields{Flags: flags}
+
+	if f.HasTOVOL() {
+		f.TotalVolume = tvol
 	}
 
-	if !has2ndBit(paylod[0]) {
-		return 0, nil
+	if f.HasULVOL() {
+		f.UplinkVolume = uvol
 	}
 
-	offset := 1
-	if has1stBit(i.Payload[0]) {
-		offset += 8
+	if f.HasDLVOL() {
+		f.DownlinkVolume = dvol
 	}
 
-	if len(paylod) < offset+8 {
-		return 0, nil
-	}
-	return binary.BigEndian.Uint64(paylod[offset : offset+8]), nil
+	return f
 }
 
-// SubsequentVolumeThresholdDownlink returns SubsequentVolumeThresholdDownlink in uint64 if the type of IE matches.
-func (i *IE) SubsequentVolumeThresholdDownlink() (uint64, error) {
-	paylod, err := i.SubsequentVolumeThreshold()
-	if err != nil {
-		return 0, err
+// HasDLVOL reports whether DLVOL flag is set.
+func (f *SubsequentVolumeThresholdFields) HasDLVOL() bool {
+	return has3rdBit(f.Flags)
+}
+
+// SetDLVOLFlag sets DLVOL flag in SubsequentVolumeThreshold.
+func (f *SubsequentVolumeThresholdFields) SetDLVOLFlag() {
+	f.Flags |= 0x04
+}
+
+// HasULVOL reports whether ULVOL flag is set.
+func (f *SubsequentVolumeThresholdFields) HasULVOL() bool {
+	return has2ndBit(f.Flags)
+}
+
+// SetULVOLFlag sets ULVOL flag in SubsequentVolumeThreshold.
+func (f *SubsequentVolumeThresholdFields) SetULVOLFlag() {
+	f.Flags |= 0x02
+}
+
+// HasTOVOL reports whether TOVOL flag is set.
+func (f *SubsequentVolumeThresholdFields) HasTOVOL() bool {
+	return has1stBit(f.Flags)
+}
+
+// SetTOVOLFlag sets TOVOL flag in SubsequentVolumeThreshold.
+func (f *SubsequentVolumeThresholdFields) SetTOVOLFlag() {
+	f.Flags |= 0x01
+}
+
+// ParseSubsequentVolumeThresholdFields parses b into SubsequentVolumeThresholdFields.
+func ParseSubsequentVolumeThresholdFields(b []byte) (*SubsequentVolumeThresholdFields, error) {
+	f := &SubsequentVolumeThresholdFields{}
+	if err := f.UnmarshalBinary(b); err != nil {
+		return nil, err
+	}
+	return f, nil
+}
+
+// UnmarshalBinary parses b into IE.
+func (f *SubsequentVolumeThresholdFields) UnmarshalBinary(b []byte) error {
+	l := len(b)
+	if l < 2 {
+		return io.ErrUnexpectedEOF
 	}
 
-	if !has2ndBit(paylod[0]) {
-		return 0, nil
-	}
-
+	f.Flags = b[0]
 	offset := 1
-	if has1stBit(i.Payload[0]) {
-		offset += 8
-	}
-	if has2ndBit(i.Payload[0]) {
+
+	if f.HasTOVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		f.TotalVolume = binary.BigEndian.Uint64(b[offset : offset+8])
 		offset += 8
 	}
 
-	if len(paylod) < offset+8 {
-		return 0, nil
+	if f.HasULVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		f.UplinkVolume = binary.BigEndian.Uint64(b[offset : offset+8])
+		offset += 8
 	}
-	return binary.BigEndian.Uint64(paylod[offset : offset+8]), nil
+
+	if f.HasDLVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		f.DownlinkVolume = binary.BigEndian.Uint64(b[offset : offset+8])
+	}
+
+	return nil
+}
+
+// Marshal returns the serialized bytes of SubsequentVolumeThresholdFields.
+func (f *SubsequentVolumeThresholdFields) Marshal() ([]byte, error) {
+	b := make([]byte, f.MarshalLen())
+	if err := f.MarshalTo(b); err != nil {
+		return nil, err
+	}
+	return b, nil
+}
+
+// MarshalTo puts the byte sequence in the byte array given as b.
+func (f *SubsequentVolumeThresholdFields) MarshalTo(b []byte) error {
+	l := len(b)
+	if l < 1 {
+		return io.ErrUnexpectedEOF
+	}
+
+	b[0] = f.Flags
+	offset := 1
+
+	if f.HasTOVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		binary.BigEndian.PutUint64(b[offset:offset+8], f.TotalVolume)
+		offset += 8
+	}
+
+	if f.HasULVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		binary.BigEndian.PutUint64(b[offset:offset+8], f.UplinkVolume)
+		offset += 8
+	}
+
+	if f.HasDLVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		binary.BigEndian.PutUint64(b[offset:offset+8], f.DownlinkVolume)
+	}
+
+	return nil
+}
+
+// MarshalLen returns field length in integer.
+func (f *SubsequentVolumeThresholdFields) MarshalLen() int {
+	l := 1
+	if f.HasTOVOL() {
+		l += 8
+	}
+	if f.HasULVOL() {
+		l += 8
+	}
+	if f.HasDLVOL() {
+		l += 8
+	}
+
+	return l
 }

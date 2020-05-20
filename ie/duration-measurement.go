@@ -19,12 +19,27 @@ func NewDurationMeasurement(duration time.Duration) *IE {
 
 // DurationMeasurement returns DurationMeasurement in time.Duration if the type of IE matches.
 func (i *IE) DurationMeasurement() (time.Duration, error) {
-	if i.Type != DurationMeasurement {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return time.Duration(binary.BigEndian.Uint32(i.Payload[0:4])) * time.Second, nil
+	switch i.Type {
+	case DurationMeasurement:
+		return time.Duration(binary.BigEndian.Uint32(i.Payload[0:4])) * time.Second, nil
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == DurationMeasurement {
+				return x.DurationMeasurement()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

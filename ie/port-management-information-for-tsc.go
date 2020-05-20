@@ -9,27 +9,27 @@ func NewPortManagementInformationForTSC(typ uint16, info *IE) *IE {
 	return newGroupedIE(typ, 0, info)
 }
 
-// NewPortManagementInformationForTSCIEWithinPFCPSessionModificationRequest creates a new PortManagementInformationForTSCIEWithinPFCPSessionModificationRequest IE.
-func NewPortManagementInformationForTSCIEWithinPFCPSessionModificationRequest(info *IE) *IE {
-	return newGroupedIE(PortManagementInformationForTSCIEWithinPFCPSessionModificationRequest, 0, info)
+// NewPortManagementInformationForTSCWithinSessionModificationRequest creates a new PortManagementInformationForTSCWithinSessionModificationRequest IE.
+func NewPortManagementInformationForTSCWithinSessionModificationRequest(info *IE) *IE {
+	return newGroupedIE(PortManagementInformationForTSCWithinSessionModificationRequest, 0, info)
 }
 
-// NewPortManagementInformationForTSCIEWithinPFCPSessionModificationResponse creates a new PortManagementInformationForTSCIEWithinPFCPSessionModificationResponse IE.
-func NewPortManagementInformationForTSCIEWithinPFCPSessionModificationResponse(info *IE) *IE {
-	return newGroupedIE(PortManagementInformationForTSCIEWithinPFCPSessionModificationResponse, 0, info)
+// NewPortManagementInformationForTSCWithinSessionModificationResponse creates a new PortManagementInformationForTSCWithinSessionModificationResponse IE.
+func NewPortManagementInformationForTSCWithinSessionModificationResponse(info *IE) *IE {
+	return newGroupedIE(PortManagementInformationForTSCWithinSessionModificationResponse, 0, info)
 }
 
-// NewPortManagementInformationForTSCIEWithinPFCPSessionReportRequest creates a new PortManagementInformationForTSCIEWithinPFCPSessionReportRequest IE.
-func NewPortManagementInformationForTSCIEWithinPFCPSessionReportRequest(info *IE) *IE {
-	return newGroupedIE(PortManagementInformationForTSCIEWithinPFCPSessionReportRequest, 0, info)
+// NewPortManagementInformationForTSCWithinSessionReportRequest creates a new PortManagementInformationForTSCWithinSessionReportRequest IE.
+func NewPortManagementInformationForTSCWithinSessionReportRequest(info *IE) *IE {
+	return newGroupedIE(PortManagementInformationForTSCWithinSessionReportRequest, 0, info)
 }
 
 // PortManagementInformationForTSC returns the IEs above PortManagementInformationForTSC if the type of IE matches.
 func (i *IE) PortManagementInformationForTSC() ([]*IE, error) {
 	switch i.Type {
-	case PortManagementInformationForTSCIEWithinPFCPSessionModificationRequest,
-		PortManagementInformationForTSCIEWithinPFCPSessionModificationResponse,
-		PortManagementInformationForTSCIEWithinPFCPSessionReportRequest:
+	case PortManagementInformationForTSCWithinSessionModificationRequest,
+		PortManagementInformationForTSCWithinSessionModificationResponse,
+		PortManagementInformationForTSCWithinSessionReportRequest:
 
 		return ParseMultiIEs(i.Payload)
 	default:

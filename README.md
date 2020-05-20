@@ -130,20 +130,20 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 2              | PDI                                                                              |            |
 | 3              | Create FAR                                                                       |            |
 | 4              | Forwarding Parameters                                                            |            |
-| 5              | Duplicating Parameters                                                           |            |
+| 5              | Duplicating Parameters                                                           | Yes        |
 | 6              | Create URR                                                                       |            |
 | 7              | Create QER                                                                       |            |
-| 8              | Created PDR                                                                      |            |
+| 8              | Created PDR                                                                      | Yes        |
 | 9              | Update PDR                                                                       |            |
 | 10             | Update FAR                                                                       |            |
 | 11             | Update Forwarding Parameters                                                     |            |
 | 12             | Update BAR (PFCP Session Report Response)                                        | Yes        |
 | 13             | Update URR                                                                       |            |
 | 14             | Update QER                                                                       |            |
-| 15             | Remove PDR                                                                       |            |
-| 16             | Remove FAR                                                                       |            |
-| 17             | Remove URR                                                                       |            |
-| 18             | Remove QER                                                                       |            |
+| 15             | Remove PDR                                                                       | Yes        |
+| 16             | Remove FAR                                                                       | Yes        |
+| 17             | Remove URR                                                                       | Yes        |
+| 18             | Remove QER                                                                       | Yes        |
 | 19             | Cause                                                                            | Yes        |
 | 20             | Source Interface                                                                 | Yes        |
 | 21             | F-TEID                                                                           | Yes        |
@@ -203,9 +203,9 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 | 75             | Start Time                                                                       | Yes        |
 | 76             | End Time                                                                         | Yes        |
 | 77             | Query URR                                                                        | Yes        |
-| 78             | Usage Report (Session Modification Response)                                     |            |
-| 79             | Usage Report (Session Deletion Response)                                         |            |
-| 80             | Usage Report (Session Report Request)                                            |            |
+| 78             | Usage Report (Session Modification Response)                                     | Yes        |
+| 79             | Usage Report (Session Deletion Response)                                         | Yes        |
+| 80             | Usage Report (Session Report Request)                                            | Yes        |
 | 81             | URR ID                                                                           | Yes        |
 | 82             | Linked URR ID                                                                    | Yes        |
 | 83             | Downlink Data Report                                                             | Yes        |

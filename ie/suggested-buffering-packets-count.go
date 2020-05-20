@@ -33,8 +33,8 @@ func (i *IE) SuggestedBufferingPacketsCount() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
-	case UpdateBARIEWithinPCFPSessionReportResponse,
-		UpdateBARIEWithinPFCPSessionModificationRequest:
+	case UpdateBARWithinSessionReportResponse,
+		UpdateBARWithinSessionModificationRequest:
 		ies, err := i.CreateBAR()
 		if err != nil {
 			return 0, err

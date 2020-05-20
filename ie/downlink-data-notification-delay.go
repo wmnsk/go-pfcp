@@ -36,8 +36,8 @@ func (i *IE) DownlinkDataNotificationDelay() (time.Duration, error) {
 			}
 		}
 		return 0, ErrIENotFound
-	case UpdateBARIEWithinPCFPSessionReportResponse,
-		UpdateBARIEWithinPFCPSessionModificationRequest:
+	case UpdateBARWithinSessionReportResponse,
+		UpdateBARWithinSessionModificationRequest:
 		ies, err := i.UpdateBAR()
 		if err != nil {
 			return 0, err

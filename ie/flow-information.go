@@ -46,6 +46,17 @@ func (i *IE) FlowInformation() ([]byte, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case UsageReportWithinSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == ApplicationDetectionInformation {
+				return x.FlowInformation()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

@@ -33,6 +33,17 @@ func (i *IE) FTEID() (*FTEIDFields, error) {
 		}
 
 		return fields, nil
+	case CreatedPDR:
+		ies, err := i.CreatedPDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == FTEID {
+				return x.FTEID()
+			}
+		}
+		return nil, ErrIENotFound
 	case ErrorIndicationReport:
 		ies, err := i.ErrorIndicationReport()
 		if err != nil {

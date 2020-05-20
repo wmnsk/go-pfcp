@@ -30,6 +30,28 @@ func (i *IE) OuterHeaderCreation() (*OuterHeaderCreationFields, error) {
 			return nil, err
 		}
 		return f, nil
+	case DuplicatingParameters:
+		ies, err := i.DuplicatingParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == OuterHeaderCreation {
+				return x.OuterHeaderCreation()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateDuplicatingParameters:
+		ies, err := i.UpdateDuplicatingParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == OuterHeaderCreation {
+				return x.OuterHeaderCreation()
+			}
+		}
+		return nil, ErrIENotFound
 	case RedundantTransmissionParameters:
 		ies, err := i.RedundantTransmissionParameters()
 		if err != nil {

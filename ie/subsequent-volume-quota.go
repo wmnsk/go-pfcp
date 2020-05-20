@@ -10,38 +10,27 @@ import (
 )
 
 // NewSubsequentVolumeQuota creates a new SubsequentVolumeQuota IE.
-func NewSubsequentVolumeQuota(flags uint8, total, ul, dl uint64) *IE {
-	i := New(SubsequentVolumeQuota, []byte{flags})
+func NewSubsequentVolumeQuota(flags uint8, tvol, uvol, dvol uint64) *IE {
+	fields := NewSubsequentVolumeQuotaFields(flags, tvol, uvol, dvol)
 
-	offset := 1
-	if has1stBit(flags) {
-		i.Payload = append(i.Payload, make([]byte, 8)...)
-		binary.BigEndian.PutUint64(i.Payload[offset:offset+8], total)
-		offset += 8
-	}
-	if has2ndBit(flags) {
-		i.Payload = append(i.Payload, make([]byte, 8)...)
-		binary.BigEndian.PutUint64(i.Payload[offset:offset+8], ul)
-		offset += 8
-	}
-	if has3rdBit(flags) {
-		i.Payload = append(i.Payload, make([]byte, 8)...)
-		binary.BigEndian.PutUint64(i.Payload[offset:offset+8], dl)
+	b, err := fields.Marshal()
+	if err != nil {
+		return nil
 	}
 
-	i.SetLength()
-	return i
+	return New(SubsequentVolumeQuota, b)
 }
 
-// SubsequentVolumeQuota returns SubsequentVolumeQuota in []byte if the type of IE matches.
-func (i *IE) SubsequentVolumeQuota() ([]byte, error) {
-	if len(i.Payload) < 1 {
-		return nil, io.ErrUnexpectedEOF
-	}
-
+// SubsequentVolumeQuota returns SubsequentVolumeQuota in structured format if the type of IE matches.
+func (i *IE) SubsequentVolumeQuota() (*SubsequentVolumeQuotaFields, error) {
 	switch i.Type {
 	case SubsequentVolumeQuota:
-		return i.Payload, nil
+		fields, err := ParseSubsequentVolumeQuotaFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
 	case AdditionalMonitoringTime:
 		ies, err := i.AdditionalMonitoringTime()
 		if err != nil {
@@ -58,62 +47,165 @@ func (i *IE) SubsequentVolumeQuota() ([]byte, error) {
 	}
 }
 
-// SubsequentVolumeQuotaTotal returns SubsequentVolumeQuotaTotal in uint64 if the type of IE matches.
-func (i *IE) SubsequentVolumeQuotaTotal() (uint64, error) {
-	paylod, err := i.SubsequentVolumeQuota()
-	if err != nil {
-		return 0, err
-	}
-
-	if has1stBit(paylod[0]) && len(paylod) >= 8 {
-		return binary.BigEndian.Uint64(paylod[1:9]), nil
-	}
-	return 0, nil
+// SubsequentVolumeQuotaFields represents a fields contained in SubsequentVolumeQuota IE.
+type SubsequentVolumeQuotaFields struct {
+	Flags          uint8
+	TotalVolume    uint64
+	UplinkVolume   uint64
+	DownlinkVolume uint64
 }
 
-// SubsequentVolumeQuotaUplink returns SubsequentVolumeQuotaUplink in uint64 if the type of IE matches.
-func (i *IE) SubsequentVolumeQuotaUplink() (uint64, error) {
-	paylod, err := i.SubsequentVolumeQuota()
-	if err != nil {
-		return 0, err
+// NewSubsequentVolumeQuotaFields creates a new NewSubsequentVolumeQuotaFields.
+func NewSubsequentVolumeQuotaFields(flags uint8, tvol, uvol, dvol uint64) *SubsequentVolumeQuotaFields {
+	f := &SubsequentVolumeQuotaFields{Flags: flags}
+
+	if f.HasTOVOL() {
+		f.TotalVolume = tvol
 	}
 
-	if !has2ndBit(paylod[0]) {
-		return 0, nil
+	if f.HasULVOL() {
+		f.UplinkVolume = uvol
 	}
 
-	offset := 1
-	if has1stBit(i.Payload[0]) {
-		offset += 8
+	if f.HasDLVOL() {
+		f.DownlinkVolume = dvol
 	}
 
-	if len(paylod) < offset+8 {
-		return 0, nil
-	}
-	return binary.BigEndian.Uint64(paylod[offset : offset+8]), nil
+	return f
 }
 
-// SubsequentVolumeQuotaDownlink returns SubsequentVolumeQuotaDownlink in uint64 if the type of IE matches.
-func (i *IE) SubsequentVolumeQuotaDownlink() (uint64, error) {
-	paylod, err := i.SubsequentVolumeQuota()
-	if err != nil {
-		return 0, err
+// HasDLVOL reports whether DLVOL flag is set.
+func (f *SubsequentVolumeQuotaFields) HasDLVOL() bool {
+	return has3rdBit(f.Flags)
+}
+
+// SetDLVOLFlag sets DLVOL flag in SubsequentVolumeQuota.
+func (f *SubsequentVolumeQuotaFields) SetDLVOLFlag() {
+	f.Flags |= 0x04
+}
+
+// HasULVOL reports whether ULVOL flag is set.
+func (f *SubsequentVolumeQuotaFields) HasULVOL() bool {
+	return has2ndBit(f.Flags)
+}
+
+// SetULVOLFlag sets ULVOL flag in SubsequentVolumeQuota.
+func (f *SubsequentVolumeQuotaFields) SetULVOLFlag() {
+	f.Flags |= 0x02
+}
+
+// HasTOVOL reports whether TOVOL flag is set.
+func (f *SubsequentVolumeQuotaFields) HasTOVOL() bool {
+	return has1stBit(f.Flags)
+}
+
+// SetTOVOLFlag sets TOVOL flag in SubsequentVolumeQuota.
+func (f *SubsequentVolumeQuotaFields) SetTOVOLFlag() {
+	f.Flags |= 0x01
+}
+
+// ParseSubsequentVolumeQuotaFields parses b into SubsequentVolumeQuotaFields.
+func ParseSubsequentVolumeQuotaFields(b []byte) (*SubsequentVolumeQuotaFields, error) {
+	f := &SubsequentVolumeQuotaFields{}
+	if err := f.UnmarshalBinary(b); err != nil {
+		return nil, err
+	}
+	return f, nil
+}
+
+// UnmarshalBinary parses b into IE.
+func (f *SubsequentVolumeQuotaFields) UnmarshalBinary(b []byte) error {
+	l := len(b)
+	if l < 2 {
+		return io.ErrUnexpectedEOF
 	}
 
-	if !has2ndBit(paylod[0]) {
-		return 0, nil
-	}
-
+	f.Flags = b[0]
 	offset := 1
-	if has1stBit(i.Payload[0]) {
-		offset += 8
-	}
-	if has2ndBit(i.Payload[0]) {
+
+	if f.HasTOVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		f.TotalVolume = binary.BigEndian.Uint64(b[offset : offset+8])
 		offset += 8
 	}
 
-	if len(paylod) < offset+8 {
-		return 0, nil
+	if f.HasULVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		f.UplinkVolume = binary.BigEndian.Uint64(b[offset : offset+8])
+		offset += 8
 	}
-	return binary.BigEndian.Uint64(paylod[offset : offset+8]), nil
+
+	if f.HasDLVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		f.DownlinkVolume = binary.BigEndian.Uint64(b[offset : offset+8])
+	}
+
+	return nil
+}
+
+// Marshal returns the serialized bytes of SubsequentVolumeQuotaFields.
+func (f *SubsequentVolumeQuotaFields) Marshal() ([]byte, error) {
+	b := make([]byte, f.MarshalLen())
+	if err := f.MarshalTo(b); err != nil {
+		return nil, err
+	}
+	return b, nil
+}
+
+// MarshalTo puts the byte sequence in the byte array given as b.
+func (f *SubsequentVolumeQuotaFields) MarshalTo(b []byte) error {
+	l := len(b)
+	if l < 1 {
+		return io.ErrUnexpectedEOF
+	}
+
+	b[0] = f.Flags
+	offset := 1
+
+	if f.HasTOVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		binary.BigEndian.PutUint64(b[offset:offset+8], f.TotalVolume)
+		offset += 8
+	}
+
+	if f.HasULVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		binary.BigEndian.PutUint64(b[offset:offset+8], f.UplinkVolume)
+		offset += 8
+	}
+
+	if f.HasDLVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		binary.BigEndian.PutUint64(b[offset:offset+8], f.DownlinkVolume)
+	}
+
+	return nil
+}
+
+// MarshalLen returns field length in integer.
+func (f *SubsequentVolumeQuotaFields) MarshalLen() int {
+	l := 1
+	if f.HasTOVOL() {
+		l += 8
+	}
+	if f.HasULVOL() {
+		l += 8
+	}
+	if f.HasDLVOL() {
+		l += 8
+	}
+
+	return l
 }
