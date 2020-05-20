@@ -10,97 +10,191 @@ import (
 )
 
 // NewVolumeThreshold creates a new VolumeThreshold IE.
-func NewVolumeThreshold(flags uint8, total, ul, dl uint64) *IE {
-	i := New(VolumeThreshold, []byte{flags})
+func NewVolumeThreshold(flags uint8, tvol, uvol, dvol uint64) *IE {
+	fields := NewVolumeThresholdFields(flags, tvol, uvol, dvol)
 
-	offset := 1
-	if has1stBit(flags) {
-		i.Payload = append(i.Payload, make([]byte, 8)...)
-		binary.BigEndian.PutUint64(i.Payload[offset:offset+8], total)
-		offset += 8
-	}
-	if has2ndBit(flags) {
-		i.Payload = append(i.Payload, make([]byte, 8)...)
-		binary.BigEndian.PutUint64(i.Payload[offset:offset+8], ul)
-		offset += 8
-	}
-	if has3rdBit(flags) {
-		i.Payload = append(i.Payload, make([]byte, 8)...)
-		binary.BigEndian.PutUint64(i.Payload[offset:offset+8], dl)
+	b, err := fields.Marshal()
+	if err != nil {
+		return nil
 	}
 
-	i.SetLength()
-	return i
+	return New(VolumeThreshold, b)
 }
 
-// VolumeThreshold returns VolumeThreshold in []byte if the type of IE matches.
-func (i *IE) VolumeThreshold() ([]byte, error) {
-	if i.Type != VolumeThreshold {
+// VolumeThreshold returns VolumeThreshold in structured format if the type of IE matches.
+func (i *IE) VolumeThreshold() (*VolumeThresholdFields, error) {
+	switch i.Type {
+	case VolumeThreshold:
+		fields, err := ParseVolumeThresholdFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return fields, nil
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-	if len(i.Payload) < 1 {
-		return nil, io.ErrUnexpectedEOF
-	}
-
-	return i.Payload, nil
 }
 
-// VolumeThresholdTotal returns VolumeThresholdTotal in uint64 if the type of IE matches.
-func (i *IE) VolumeThresholdTotal() (uint64, error) {
-	paylod, err := i.VolumeThreshold()
-	if err != nil {
-		return 0, err
-	}
-
-	if has1stBit(paylod[0]) && len(paylod) >= 8 {
-		return binary.BigEndian.Uint64(paylod[1:9]), nil
-	}
-	return 0, nil
+// VolumeThresholdFields represents a fields contained in VolumeThreshold IE.
+type VolumeThresholdFields struct {
+	Flags          uint8
+	TotalVolume    uint64
+	UplinkVolume   uint64
+	DownlinkVolume uint64
 }
 
-// VolumeThresholdUplink returns VolumeThresholdUplink in uint64 if the type of IE matches.
-func (i *IE) VolumeThresholdUplink() (uint64, error) {
-	paylod, err := i.VolumeThreshold()
-	if err != nil {
-		return 0, err
+// NewVolumeThresholdFields creates a new NewVolumeThresholdFields.
+func NewVolumeThresholdFields(flags uint8, tvol, uvol, dvol uint64) *VolumeThresholdFields {
+	f := &VolumeThresholdFields{Flags: flags}
+
+	if f.HasTOVOL() {
+		f.TotalVolume = tvol
 	}
 
-	if !has2ndBit(paylod[0]) {
-		return 0, nil
+	if f.HasULVOL() {
+		f.UplinkVolume = uvol
 	}
 
+	if f.HasDLVOL() {
+		f.DownlinkVolume = dvol
+	}
+
+	return f
+}
+
+// HasDLVOL reports whether DLVOL flag is set.
+func (f *VolumeThresholdFields) HasDLVOL() bool {
+	return has3rdBit(f.Flags)
+}
+
+// SetDLVOLFlag sets DLVOL flag in VolumeThreshold.
+func (f *VolumeThresholdFields) SetDLVOLFlag() {
+	f.Flags |= 0x04
+}
+
+// HasULVOL reports whether ULVOL flag is set.
+func (f *VolumeThresholdFields) HasULVOL() bool {
+	return has2ndBit(f.Flags)
+}
+
+// SetULVOLFlag sets ULVOL flag in VolumeThreshold.
+func (f *VolumeThresholdFields) SetULVOLFlag() {
+	f.Flags |= 0x02
+}
+
+// HasTOVOL reports whether TOVOL flag is set.
+func (f *VolumeThresholdFields) HasTOVOL() bool {
+	return has1stBit(f.Flags)
+}
+
+// SetTOVOLFlag sets TOVOL flag in VolumeThreshold.
+func (f *VolumeThresholdFields) SetTOVOLFlag() {
+	f.Flags |= 0x01
+}
+
+// ParseVolumeThresholdFields parses b into VolumeThresholdFields.
+func ParseVolumeThresholdFields(b []byte) (*VolumeThresholdFields, error) {
+	f := &VolumeThresholdFields{}
+	if err := f.UnmarshalBinary(b); err != nil {
+		return nil, err
+	}
+	return f, nil
+}
+
+// UnmarshalBinary parses b into IE.
+func (f *VolumeThresholdFields) UnmarshalBinary(b []byte) error {
+	l := len(b)
+	if l < 2 {
+		return io.ErrUnexpectedEOF
+	}
+
+	f.Flags = b[0]
 	offset := 1
-	if has1stBit(i.Payload[0]) {
+
+	if f.HasTOVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		f.TotalVolume = binary.BigEndian.Uint64(b[offset : offset+8])
 		offset += 8
 	}
 
-	if len(paylod) < offset+8 {
-		return 0, nil
+	if f.HasULVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		f.UplinkVolume = binary.BigEndian.Uint64(b[offset : offset+8])
+		offset += 8
 	}
-	return binary.BigEndian.Uint64(paylod[offset : offset+8]), nil
+
+	if f.HasDLVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		f.DownlinkVolume = binary.BigEndian.Uint64(b[offset : offset+8])
+	}
+
+	return nil
 }
 
-// VolumeThresholdDownlink returns VolumeThresholdDownlink in uint64 if the type of IE matches.
-func (i *IE) VolumeThresholdDownlink() (uint64, error) {
-	paylod, err := i.VolumeThreshold()
-	if err != nil {
-		return 0, err
+// Marshal returns the serialized bytes of VolumeThresholdFields.
+func (f *VolumeThresholdFields) Marshal() ([]byte, error) {
+	b := make([]byte, f.MarshalLen())
+	if err := f.MarshalTo(b); err != nil {
+		return nil, err
+	}
+	return b, nil
+}
+
+// MarshalTo puts the byte sequence in the byte array given as b.
+func (f *VolumeThresholdFields) MarshalTo(b []byte) error {
+	l := len(b)
+	if l < 1 {
+		return io.ErrUnexpectedEOF
 	}
 
-	if !has2ndBit(paylod[0]) {
-		return 0, nil
-	}
-
+	b[0] = f.Flags
 	offset := 1
-	if has1stBit(i.Payload[0]) {
-		offset += 8
-	}
-	if has2ndBit(i.Payload[0]) {
+
+	if f.HasTOVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		binary.BigEndian.PutUint64(b[offset:offset+8], f.TotalVolume)
 		offset += 8
 	}
 
-	if len(paylod) < offset+8 {
-		return 0, nil
+	if f.HasULVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		binary.BigEndian.PutUint64(b[offset:offset+8], f.UplinkVolume)
+		offset += 8
 	}
-	return binary.BigEndian.Uint64(paylod[offset : offset+8]), nil
+
+	if f.HasDLVOL() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
+		binary.BigEndian.PutUint64(b[offset:offset+8], f.DownlinkVolume)
+	}
+
+	return nil
+}
+
+// MarshalLen returns field length in integer.
+func (f *VolumeThresholdFields) MarshalLen() int {
+	l := 1
+	if f.HasTOVOL() {
+		l += 8
+	}
+	if f.HasULVOL() {
+		l += 8
+	}
+	if f.HasDLVOL() {
+		l += 8
+	}
+
+	return l
 }
