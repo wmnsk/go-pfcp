@@ -25,9 +25,9 @@ func (i *IE) TimeOfFirstPacket() (time.Time, error) {
 	switch i.Type {
 	case TimeOfFirstPacket:
 		return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return time.Time{}, err

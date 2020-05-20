@@ -31,9 +31,9 @@ func (i *IE) VolumeMeasurement() (*VolumeMeasurementFields, error) {
 		}
 
 		return fields, nil
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return nil, err

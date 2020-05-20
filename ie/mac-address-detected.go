@@ -53,9 +53,9 @@ func (i *IE) MACAddressesDetected() (*MACAddressesDetectedFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return nil, err

@@ -46,7 +46,7 @@ func (i *IE) FlowInformation() ([]byte, error) {
 			}
 		}
 		return nil, ErrIENotFound
-	case UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return nil, err

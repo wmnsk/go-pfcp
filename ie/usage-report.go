@@ -9,27 +9,27 @@ func NewUsageReport(typ uint16, ies ...*IE) *IE {
 	return newGroupedIE(typ, 0, ies...)
 }
 
-// NewUsageReportIEWithinPFCPSessionModificationResponse creates a new UsageReportIEWithinPFCPSessionModificationResponse IE.
-func NewUsageReportIEWithinPFCPSessionModificationResponse(urr, seq, trigger, start, end, vol, dur, firstPkt, lastPkt, usage, query, eth *IE) *IE {
-	return NewUsageReport(UsageReportIEWithinPFCPSessionModificationResponse, urr, seq, trigger, start, end, vol, dur, firstPkt, lastPkt, usage, query, eth)
+// NewUsageReportWithinSessionModificationResponse creates a new UsageReportWithinSessionModificationResponse IE.
+func NewUsageReportWithinSessionModificationResponse(urr, seq, trigger, start, end, vol, dur, firstPkt, lastPkt, usage, query, eth *IE) *IE {
+	return NewUsageReport(UsageReportWithinSessionModificationResponse, urr, seq, trigger, start, end, vol, dur, firstPkt, lastPkt, usage, query, eth)
 }
 
-// NewUsageReportIEWithinPFCPSessionDeletionResponse creates a new UsageReportIEWithinPFCPSessionDeletionResponse IE.
-func NewUsageReportIEWithinPFCPSessionDeletionResponse(urr, seq, trigger, start, end, vol, dur, firstPkt, lastPkt, usage, eth *IE) *IE {
-	return NewUsageReport(UsageReportIEWithinPFCPSessionDeletionResponse, urr, seq, trigger, start, end, vol, dur, firstPkt, lastPkt, usage, eth)
+// NewUsageReportWithinSessionDeletionResponse creates a new UsageReportWithinSessionDeletionResponse IE.
+func NewUsageReportWithinSessionDeletionResponse(urr, seq, trigger, start, end, vol, dur, firstPkt, lastPkt, usage, eth *IE) *IE {
+	return NewUsageReport(UsageReportWithinSessionDeletionResponse, urr, seq, trigger, start, end, vol, dur, firstPkt, lastPkt, usage, eth)
 }
 
-// NewUsageReportIEWithinPFCPSessionReportRequest creates a new UsageReportIEWithinPFCPSessionReportRequest IE.
-func NewUsageReportIEWithinPFCPSessionReportRequest(urr, seq, trigger, start, end, vol, dur, app, ip, firstPkt, lastPkt, usage, query, ts, eth, join, leave *IE) *IE {
-	return NewUsageReport(UsageReportIEWithinPFCPSessionReportRequest, urr, seq, trigger, start, end, vol, dur, app, ip, firstPkt, lastPkt, usage, query, ts, eth, join, leave)
+// NewUsageReportWithinSessionReportRequest creates a new UsageReportWithinSessionReportRequest IE.
+func NewUsageReportWithinSessionReportRequest(urr, seq, trigger, start, end, vol, dur, app, ip, firstPkt, lastPkt, usage, query, ts, eth, join, leave *IE) *IE {
+	return NewUsageReport(UsageReportWithinSessionReportRequest, urr, seq, trigger, start, end, vol, dur, app, ip, firstPkt, lastPkt, usage, query, ts, eth, join, leave)
 }
 
 // UsageReport returns the IEs above UsageReport if the type of IE matches.
 func (i *IE) UsageReport() ([]*IE, error) {
 	switch i.Type {
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 
 		return ParseMultiIEs(i.Payload)
 	default:

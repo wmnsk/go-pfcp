@@ -57,8 +57,8 @@ func TestIEs(t *testing.T) {
 				0x00, 0x5d, 0x00, 0x05, 0x02, 0x7f, 0x00, 0x00, 0x01,
 			},
 		}, {
-			"UpdateBARIEWithinPCFPSessionReportResponse",
-			ie.NewUpdateBARIEWithinPCFPSessionReportResponse(
+			"UpdateBARWithinSessionReportResponse",
+			ie.NewUpdateBARWithinSessionReportResponse(
 				ie.NewBARID(0xff),
 				ie.NewDownlinkDataNotificationDelay(100*time.Millisecond),
 				ie.NewDLBufferingDuration(30*time.Second),
@@ -548,8 +548,8 @@ func TestIEs(t *testing.T) {
 				0x00, 0x51, 0x00, 0x04, 0xff, 0xff, 0xff, 0xff,
 			},
 		}, {
-			"UsageReportIEWithinPFCPSessionModificationResponse",
-			ie.NewUsageReportIEWithinPFCPSessionModificationResponse(
+			"UsageReportWithinSessionModificationResponse",
+			ie.NewUsageReportWithinSessionModificationResponse(
 				ie.NewURRID(0xffffffff),
 				ie.NewURSEQN(0xffffffff),
 				ie.NewUsageReportTrigger(0xff, 0xff, 0xff),
@@ -605,8 +605,8 @@ func TestIEs(t *testing.T) {
 				0x03, 0x07, 0xf9, 0xff,
 			},
 		}, {
-			"UsageReportIEWithinPFCPSessionDeletionResponse",
-			ie.NewUsageReportIEWithinPFCPSessionDeletionResponse(
+			"UsageReportWithinSessionDeletionResponse",
+			ie.NewUsageReportWithinSessionDeletionResponse(
 				ie.NewURRID(0xffffffff),
 				ie.NewURSEQN(0xffffffff),
 				ie.NewUsageReportTrigger(0xff, 0xff, 0xff),
@@ -660,8 +660,8 @@ func TestIEs(t *testing.T) {
 				0x03, 0x07, 0xf9, 0xff,
 			},
 		}, {
-			"UsageReportIEWithinPFCPSessionReportRequest",
-			ie.NewUsageReportIEWithinPFCPSessionReportRequest(
+			"UsageReportWithinSessionReportRequest",
+			ie.NewUsageReportWithinSessionReportRequest(
 				ie.NewURRID(0xffffffff),
 				ie.NewURSEQN(0xffffffff),
 				ie.NewUsageReportTrigger(0xff, 0xff, 0xff),
@@ -693,11 +693,11 @@ func TestIEs(t *testing.T) {
 						mac1, mac2, mac3, mac4,
 					),
 				),
-				ie.NewJoinIPMulticastInformationIEWithinUsageReport(
+				ie.NewJoinIPMulticastInformationWithinUsageReport(
 					ie.NewIPMulticastAddress(net.ParseIP("127.0.0.1"), nil, net.ParseIP("127.0.0.1"), nil),
 					ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), nil, 24),
 				),
-				ie.NewLeaveIPMulticastInformationIEWithinUsageReport(
+				ie.NewLeaveIPMulticastInformationWithinUsageReport(
 					ie.NewIPMulticastAddress(net.ParseIP("127.0.0.1"), nil, net.ParseIP("127.0.0.1"), nil),
 					ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), nil, 24),
 				),
@@ -804,8 +804,8 @@ func TestIEs(t *testing.T) {
 				0x00, 0xf9, 0x00, 0x01, 0x01,
 			},
 		}, {
-			"UpdateBARIEWithinPFCPSessionModificationRequest",
-			ie.NewUpdateBARIEWithinPFCPSessionModificationRequest(
+			"UpdateBARWithinSessionModificationRequest",
+			ie.NewUpdateBARWithinSessionModificationRequest(
 				ie.NewBARID(0xff),
 				ie.NewDownlinkDataNotificationDelay(100*time.Millisecond),
 				ie.NewSuggestedBufferingPacketsCount(0x01),
@@ -1635,8 +1635,8 @@ func TestIEs(t *testing.T) {
 				0x00, 0x15, 0x73, 0x6f, 0x6d, 0x65, 0x2e, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65,
 			},
 		}, {
-			"IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest",
-			ie.NewIPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest(
+			"IPMuliticastAddressingInfoWithinSessionEstablishmentRequest",
+			ie.NewIPMuliticastAddressingInfoWithinSessionEstablishmentRequest(
 				ie.NewIPMulticastAddress(net.ParseIP("127.0.0.1"), nil, net.ParseIP("127.0.0.1"), nil),
 				ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), nil, 24),
 			),
@@ -1651,8 +1651,8 @@ func TestIEs(t *testing.T) {
 				0x7f, 0x00, 0x00, 0x01, 0x18,
 			},
 		}, {
-			"JoinIPMulticastInformationIEWithinUsageReport",
-			ie.NewJoinIPMulticastInformationIEWithinUsageReport(
+			"JoinIPMulticastInformationWithinUsageReport",
+			ie.NewJoinIPMulticastInformationWithinUsageReport(
 				ie.NewIPMulticastAddress(net.ParseIP("127.0.0.1"), nil, net.ParseIP("127.0.0.1"), nil),
 				ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), nil, 24),
 			),
@@ -1667,8 +1667,8 @@ func TestIEs(t *testing.T) {
 				0x7f, 0x00, 0x00, 0x01, 0x18,
 			},
 		}, {
-			"LeaveIPMulticastInformationIEWithinUsageReport",
-			ie.NewLeaveIPMulticastInformationIEWithinUsageReport(
+			"LeaveIPMulticastInformationWithinUsageReport",
+			ie.NewLeaveIPMulticastInformationWithinUsageReport(
 				ie.NewIPMulticastAddress(net.ParseIP("127.0.0.1"), nil, net.ParseIP("127.0.0.1"), nil),
 				ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), nil, 24),
 			),
@@ -1859,8 +1859,8 @@ func TestIEs(t *testing.T) {
 			ie.NewTSNBridgeID(nil),
 			[]byte{0x00, 0xc6, 0x00, 0x01, 0x00},
 		}, {
-			"PortManagementInformationForTSCIEWithinPFCPSessionModificationRequest",
-			ie.NewPortManagementInformationForTSCIEWithinPFCPSessionModificationRequest(
+			"PortManagementInformationForTSCWithinSessionModificationRequest",
+			ie.NewPortManagementInformationForTSCWithinSessionModificationRequest(
 				ie.NewPortManagementInformationContainer("go-pfcp"),
 			),
 			[]byte{
@@ -1868,8 +1868,8 @@ func TestIEs(t *testing.T) {
 				0x00, 0xca, 0x00, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70,
 			},
 		}, {
-			"PortManagementInformationForTSCIEWithinPFCPSessionModificationResponse",
-			ie.NewPortManagementInformationForTSCIEWithinPFCPSessionModificationResponse(
+			"PortManagementInformationForTSCWithinSessionModificationResponse",
+			ie.NewPortManagementInformationForTSCWithinSessionModificationResponse(
 				ie.NewPortManagementInformationContainer("go-pfcp"),
 			),
 			[]byte{
@@ -1877,8 +1877,8 @@ func TestIEs(t *testing.T) {
 				0x00, 0xca, 0x00, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70,
 			},
 		}, {
-			"PortManagementInformationForTSCIEWithinPFCPSessionReportRequest",
-			ie.NewPortManagementInformationForTSCIEWithinPFCPSessionReportRequest(
+			"PortManagementInformationForTSCWithinSessionReportRequest",
+			ie.NewPortManagementInformationForTSCWithinSessionReportRequest(
 				ie.NewPortManagementInformationContainer("go-pfcp"),
 			),
 			[]byte{

@@ -23,8 +23,8 @@ func (i *IE) QueryURRReference() (uint32, error) {
 	switch i.Type {
 	case QueryURRReference:
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return 0, err

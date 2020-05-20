@@ -14,9 +14,9 @@ func (i *IE) EthernetTrafficInformation() ([]*IE, error) {
 	switch i.Type {
 	case EthernetTrafficInformation:
 		return ParseMultiIEs(i.Payload)
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return nil, err

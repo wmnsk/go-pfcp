@@ -4,24 +4,24 @@
 
 package ie
 
-// NewJoinIPMulticastInformationIEWithinUsageReport creates a new JoinIPMulticastInformationIEWithinUsageReport IE.
-func NewJoinIPMulticastInformationIEWithinUsageReport(multi, source *IE) *IE {
-	return newGroupedIE(JoinIPMulticastInformationIEWithinUsageReport, 0, multi, source)
+// NewJoinIPMulticastInformationWithinUsageReport creates a new JoinIPMulticastInformationWithinUsageReport IE.
+func NewJoinIPMulticastInformationWithinUsageReport(multi, source *IE) *IE {
+	return newGroupedIE(JoinIPMulticastInformationWithinUsageReport, 0, multi, source)
 }
 
-// JoinIPMulticastInformationIEWithinUsageReport returns the IEs above JoinIPMulticastInformationIEWithinUsageReport if the type of IE matches.
-func (i *IE) JoinIPMulticastInformationIEWithinUsageReport() ([]*IE, error) {
+// JoinIPMulticastInformationWithinUsageReport returns the IEs above JoinIPMulticastInformationWithinUsageReport if the type of IE matches.
+func (i *IE) JoinIPMulticastInformationWithinUsageReport() ([]*IE, error) {
 	switch i.Type {
-	case JoinIPMulticastInformationIEWithinUsageReport:
+	case JoinIPMulticastInformationWithinUsageReport:
 		return ParseMultiIEs(i.Payload)
-	case UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return nil, err
 		}
 		for _, x := range ies {
-			if x.Type == JoinIPMulticastInformationIEWithinUsageReport {
-				return x.JoinIPMulticastInformationIEWithinUsageReport()
+			if x.Type == JoinIPMulticastInformationWithinUsageReport {
+				return x.JoinIPMulticastInformationWithinUsageReport()
 			}
 		}
 		return nil, ErrIENotFound

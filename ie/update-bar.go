@@ -9,21 +9,21 @@ func NewUpdateBAR(typ uint16, ies ...*IE) *IE {
 	return newGroupedIE(typ, 0, ies...)
 }
 
-// NewUpdateBARIEWithinPFCPSessionModificationRequest creates a new UpdateBARIEWithinPFCPSessionModificationRequest IE.
-func NewUpdateBARIEWithinPFCPSessionModificationRequest(bar, delay, bufCount, mtedt *IE) *IE {
-	return NewUpdateBAR(UpdateBARIEWithinPFCPSessionModificationRequest, bar, delay, bufCount, mtedt)
+// NewUpdateBARWithinSessionModificationRequest creates a new UpdateBARWithinSessionModificationRequest IE.
+func NewUpdateBARWithinSessionModificationRequest(bar, delay, bufCount, mtedt *IE) *IE {
+	return NewUpdateBAR(UpdateBARWithinSessionModificationRequest, bar, delay, bufCount, mtedt)
 }
 
-// NewUpdateBARIEWithinPCFPSessionReportResponse creates a new UpdateBARIEWithinPCFPSessionReportResponse IE.
-func NewUpdateBARIEWithinPCFPSessionReportResponse(bar, delay, duration, dlCount, bufCount *IE) *IE {
-	return NewUpdateBAR(UpdateBARIEWithinPCFPSessionReportResponse, bar, delay, duration, dlCount, bufCount)
+// NewUpdateBARWithinSessionReportResponse creates a new UpdateBARWithinSessionReportResponse IE.
+func NewUpdateBARWithinSessionReportResponse(bar, delay, duration, dlCount, bufCount *IE) *IE {
+	return NewUpdateBAR(UpdateBARWithinSessionReportResponse, bar, delay, duration, dlCount, bufCount)
 }
 
 // UpdateBAR returns the IEs above UpdateBAR if the type of IE matches.
 func (i *IE) UpdateBAR() ([]*IE, error) {
 	switch i.Type {
-	case UpdateBARIEWithinPFCPSessionModificationRequest,
-		UpdateBARIEWithinPCFPSessionReportResponse:
+	case UpdateBARWithinSessionModificationRequest,
+		UpdateBARWithinSessionReportResponse:
 
 		return ParseMultiIEs(i.Payload)
 	default:

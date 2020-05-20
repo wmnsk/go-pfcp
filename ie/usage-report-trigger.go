@@ -22,9 +22,9 @@ func (i *IE) UsageReportTrigger() ([]byte, error) {
 	switch i.Type {
 	case UsageReportTrigger:
 		return i.Payload, nil
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return nil, err
@@ -50,9 +50,9 @@ func (i *IE) HasIMMER() bool {
 	case UsageReportTrigger:
 		u8 := uint8(i.Payload[0])
 		return has8thBit(u8)
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return false
@@ -78,9 +78,9 @@ func (i *IE) HasMONIT() bool {
 	case UsageReportTrigger:
 		u8 := uint8(i.Payload[1])
 		return has5thBit(u8)
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return false
@@ -106,9 +106,9 @@ func (i *IE) HasTERMR() bool {
 	case UsageReportTrigger:
 		u8 := uint8(i.Payload[1])
 		return has4thBit(u8)
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return false

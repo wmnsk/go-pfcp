@@ -14,9 +14,9 @@ func (i *IE) ApplicationDetectionInformation() ([]*IE, error) {
 	switch i.Type {
 	case ApplicationDetectionInformation:
 		return ParseMultiIEs(i.Payload)
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return nil, err

@@ -55,7 +55,7 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 			}
 		}
 		return 0, ErrIENotFound
-	case UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return 0, err

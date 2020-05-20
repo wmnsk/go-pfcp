@@ -20,9 +20,9 @@ func (i *IE) UsageInformation() (uint8, error) {
 	switch i.Type {
 	case UsageInformation:
 		return i.Payload[0], nil
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return 0, err

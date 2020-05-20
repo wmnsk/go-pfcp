@@ -31,8 +31,8 @@ func (i *IE) IPMulticastAddress() (*IPMulticastAddressFields, error) {
 		}
 
 		return fields, nil
-	case IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest:
-		ies, err := i.IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest()
+	case IPMuliticastAddressingInfoWithinSessionEstablishmentRequest:
+		ies, err := i.IPMuliticastAddressingInfoWithinSessionEstablishmentRequest()
 		if err != nil {
 			return nil, err
 		}
@@ -42,8 +42,8 @@ func (i *IE) IPMulticastAddress() (*IPMulticastAddressFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
-	case JoinIPMulticastInformationIEWithinUsageReport:
-		ies, err := i.JoinIPMulticastInformationIEWithinUsageReport()
+	case JoinIPMulticastInformationWithinUsageReport:
+		ies, err := i.JoinIPMulticastInformationWithinUsageReport()
 		if err != nil {
 			return nil, err
 		}
@@ -53,8 +53,8 @@ func (i *IE) IPMulticastAddress() (*IPMulticastAddressFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
-	case LeaveIPMulticastInformationIEWithinUsageReport:
-		ies, err := i.LeaveIPMulticastInformationIEWithinUsageReport()
+	case LeaveIPMulticastInformationWithinUsageReport:
+		ies, err := i.LeaveIPMulticastInformationWithinUsageReport()
 		if err != nil {
 			return nil, err
 		}

@@ -25,7 +25,7 @@ func (i *IE) EventTimeStamp() (time.Time, error) {
 	switch i.Type {
 	case EventTimeStamp:
 		return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
-	case UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return time.Time{}, err

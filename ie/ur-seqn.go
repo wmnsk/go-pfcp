@@ -23,9 +23,9 @@ func (i *IE) URSEQN() (uint32, error) {
 	switch i.Type {
 	case URSEQN:
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return 0, err

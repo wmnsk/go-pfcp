@@ -36,7 +36,7 @@ func (i *IE) ApplicationID() (string, error) {
 			}
 		}
 		return "", ErrIENotFound
-	case UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return "", err

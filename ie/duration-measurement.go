@@ -26,9 +26,9 @@ func (i *IE) DurationMeasurement() (time.Duration, error) {
 	switch i.Type {
 	case DurationMeasurement:
 		return time.Duration(binary.BigEndian.Uint32(i.Payload[0:4])) * time.Second, nil
-	case UsageReportIEWithinPFCPSessionModificationResponse,
-		UsageReportIEWithinPFCPSessionDeletionResponse,
-		UsageReportIEWithinPFCPSessionReportRequest:
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
 			return 0, err
