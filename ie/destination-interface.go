@@ -4,6 +4,8 @@
 
 package ie
 
+import "io"
+
 // Interface definitions.
 const (
 	DstInterfaceAccess       uint8 = 0
@@ -21,9 +23,36 @@ func NewDestinationInterface(intf uint8) *IE {
 
 // DestinationInterface returns DestinationInterface in uint8 if the type of IE matches.
 func (i *IE) DestinationInterface() (uint8, error) {
-	if i.Type != DestinationInterface {
-		return 0, &InvalidTypeError{Type: i.Type}
+	if len(i.Payload) < 1 {
+		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0], nil
+	switch i.Type {
+	case DestinationInterface:
+		return i.Payload[0], nil
+	case DuplicatingParameters:
+		ies, err := i.DuplicatingParameters()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == DestinationInterface {
+				return x.DestinationInterface()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateDuplicatingParameters:
+		ies, err := i.UpdateDuplicatingParameters()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == DestinationInterface {
+				return x.DestinationInterface()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

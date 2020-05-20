@@ -19,11 +19,34 @@ func NewForwardingPolicy(id string) *IE {
 
 // ForwardingPolicy returns ForwardingPolicy in []byte if the type of IE matches.
 func (i *IE) ForwardingPolicy() ([]byte, error) {
-	if i.Type != ForwardingPolicy {
+	switch i.Type {
+	case ForwardingPolicy:
+		return i.Payload, nil
+	case DuplicatingParameters:
+		ies, err := i.DuplicatingParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == ForwardingPolicy {
+				return x.ForwardingPolicy()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateDuplicatingParameters:
+		ies, err := i.UpdateDuplicatingParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == ForwardingPolicy {
+				return x.ForwardingPolicy()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return i.Payload, nil
 }
 
 // ForwardingPolicyIdentifier returns ForwardingPolicyIdentifier in string if the type of IE matches.
