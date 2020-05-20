@@ -33,6 +33,17 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case CreatedPDR:
+		ies, err := i.CreatedPDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketDetectionRuleID {
+				return x.PacketDetectionRuleID()
+			}
+		}
+		return 0, ErrIENotFound
 	case ApplicationDetectionInformation:
 		ies, err := i.ApplicationDetectionInformation()
 		if err != nil {

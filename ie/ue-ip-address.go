@@ -30,6 +30,17 @@ func (i *IE) UEIPAddress() (*UEIPAddressFields, error) {
 		}
 
 		return fields, nil
+	case CreatedPDR:
+		ies, err := i.CreatedPDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == UEIPAddress {
+				return x.UEIPAddress()
+			}
+		}
+		return nil, ErrIENotFound
 	case UsageReportIEWithinPFCPSessionReportRequest:
 		ies, err := i.UsageReport()
 		if err != nil {
