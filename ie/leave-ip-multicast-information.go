@@ -11,9 +11,21 @@ func NewLeaveIPMulticastInformationIEWithinUsageReport(multi, source *IE) *IE {
 
 // LeaveIPMulticastInformationIEWithinUsageReport returns the IEs above LeaveIPMulticastInformationIEWithinUsageReport if the type of IE matches.
 func (i *IE) LeaveIPMulticastInformationIEWithinUsageReport() ([]*IE, error) {
-	if i.Type != LeaveIPMulticastInformationIEWithinUsageReport {
+	switch i.Type {
+	case LeaveIPMulticastInformationIEWithinUsageReport:
+		return ParseMultiIEs(i.Payload)
+	case UsageReportIEWithinPFCPSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == LeaveIPMulticastInformationIEWithinUsageReport {
+				return x.LeaveIPMulticastInformationIEWithinUsageReport()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return ParseMultiIEs(i.Payload)
 }

@@ -36,6 +36,17 @@ func (i *IE) ApplicationID() (string, error) {
 			}
 		}
 		return "", ErrIENotFound
+	case UsageReportIEWithinPFCPSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return "", err
+		}
+		for _, x := range ies {
+			if x.Type == ApplicationDetectionInformation {
+				return x.ApplicationID()
+			}
+		}
+		return "", ErrIENotFound
 	default:
 		return "", &InvalidTypeError{Type: i.Type}
 	}

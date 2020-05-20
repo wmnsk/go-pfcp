@@ -53,6 +53,19 @@ func (i *IE) MACAddressesDetected() (*MACAddressesDetectedFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case UsageReportIEWithinPFCPSessionModificationResponse,
+		UsageReportIEWithinPFCPSessionDeletionResponse,
+		UsageReportIEWithinPFCPSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == EthernetTrafficInformation {
+				return x.MACAddressesDetected()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

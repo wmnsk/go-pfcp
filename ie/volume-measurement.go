@@ -31,41 +31,19 @@ func (i *IE) VolumeMeasurement() (*VolumeMeasurementFields, error) {
 		}
 
 		return fields, nil
-	/*
-		case IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest:
-			ies, err := i.IPMuliticastAddressingInfoWithinPFCPSessionEstablishmentRequest()
-			if err != nil {
-				return nil, err
+	case UsageReportIEWithinPFCPSessionModificationResponse,
+		UsageReportIEWithinPFCPSessionDeletionResponse,
+		UsageReportIEWithinPFCPSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == VolumeMeasurement {
+				return x.VolumeMeasurement()
 			}
-			for _, x := range ies {
-				if x.Type == VolumeMeasurement {
-					return x.VolumeMeasurement()
-				}
-			}
-			return nil, ErrIENotFound
-		case JoinIPMulticastInformationIEWithinUsageReport:
-			ies, err := i.JoinIPMulticastInformationIEWithinUsageReport()
-			if err != nil {
-				return nil, err
-			}
-			for _, x := range ies {
-				if x.Type == VolumeMeasurement {
-					return x.VolumeMeasurement()
-				}
-			}
-			return nil, ErrIENotFound
-		case LeaveIPMulticastInformationIEWithinUsageReport:
-			ies, err := i.LeaveIPMulticastInformationIEWithinUsageReport()
-			if err != nil {
-				return nil, err
-			}
-			for _, x := range ies {
-				if x.Type == VolumeMeasurement {
-					return x.VolumeMeasurement()
-				}
-			}
-			return nil, ErrIENotFound
-	*/
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

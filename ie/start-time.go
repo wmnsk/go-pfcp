@@ -25,6 +25,19 @@ func (i *IE) StartTime() (time.Time, error) {
 	switch i.Type {
 	case StartTime:
 		return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+	case UsageReportIEWithinPFCPSessionModificationResponse,
+		UsageReportIEWithinPFCPSessionDeletionResponse,
+		UsageReportIEWithinPFCPSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == StartTime {
+				return x.StartTime()
+			}
+		}
+		return time.Time{}, ErrIENotFound
 	case GTPUPathQoSReport:
 		ies, err := i.GTPUPathQoSReport()
 		if err != nil {

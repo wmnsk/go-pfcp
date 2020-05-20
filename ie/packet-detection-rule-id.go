@@ -33,6 +33,17 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UsageReportIEWithinPFCPSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == ApplicationDetectionInformation {
+				return x.PacketDetectionRuleID()
+			}
+		}
+		return 0, ErrIENotFound
 	case DownlinkDataReport:
 		ies, err := i.DownlinkDataReport()
 		if err != nil {

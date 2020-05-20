@@ -15,14 +15,29 @@ func NewUsageReportTrigger(triggerOctets ...uint8) *IE {
 
 // UsageReportTrigger returns UsageReportTrigger in []byte if the type of IE matches.
 func (i *IE) UsageReportTrigger() ([]byte, error) {
-	if i.Type != UsageReportTrigger {
-		return nil, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 3 {
 		return nil, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload, nil
+	switch i.Type {
+	case UsageReportTrigger:
+		return i.Payload, nil
+	case UsageReportIEWithinPFCPSessionModificationResponse,
+		UsageReportIEWithinPFCPSessionDeletionResponse,
+		UsageReportIEWithinPFCPSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == UsageReportTrigger {
+				return x.UsageReportTrigger()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
+		return nil, &InvalidTypeError{Type: i.Type}
+	}
 }
 
 // HasIMMER reports whether an IE has IMMER bit.
@@ -35,6 +50,19 @@ func (i *IE) HasIMMER() bool {
 	case UsageReportTrigger:
 		u8 := uint8(i.Payload[0])
 		return has8thBit(u8)
+	case UsageReportIEWithinPFCPSessionModificationResponse,
+		UsageReportIEWithinPFCPSessionDeletionResponse,
+		UsageReportIEWithinPFCPSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return false
+		}
+		for _, x := range ies {
+			if x.Type == UsageReportTrigger {
+				return x.HasIMMER()
+			}
+		}
+		return false
 	default:
 		return false
 	}
@@ -50,6 +78,19 @@ func (i *IE) HasMONIT() bool {
 	case UsageReportTrigger:
 		u8 := uint8(i.Payload[1])
 		return has5thBit(u8)
+	case UsageReportIEWithinPFCPSessionModificationResponse,
+		UsageReportIEWithinPFCPSessionDeletionResponse,
+		UsageReportIEWithinPFCPSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return false
+		}
+		for _, x := range ies {
+			if x.Type == UsageReportTrigger {
+				return x.HasMONIT()
+			}
+		}
+		return false
 	default:
 		return false
 	}
@@ -65,6 +106,19 @@ func (i *IE) HasTERMR() bool {
 	case UsageReportTrigger:
 		u8 := uint8(i.Payload[1])
 		return has4thBit(u8)
+	case UsageReportIEWithinPFCPSessionModificationResponse,
+		UsageReportIEWithinPFCPSessionDeletionResponse,
+		UsageReportIEWithinPFCPSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return false
+		}
+		for _, x := range ies {
+			if x.Type == UsageReportTrigger {
+				return x.HasTERMR()
+			}
+		}
+		return false
 	default:
 		return false
 	}
