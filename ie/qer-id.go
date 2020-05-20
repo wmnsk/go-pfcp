@@ -23,6 +23,17 @@ func (i *IE) QERID() (uint32, error) {
 	switch i.Type {
 	case QERID:
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case RemoveQER:
+		ies, err := i.RemoveQER()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == QERID {
+				return x.QERID()
+			}
+		}
+		return 0, ErrIENotFound
 	case PacketRateStatusReport:
 		ies, err := i.PacketRateStatusReport()
 		if err != nil {
