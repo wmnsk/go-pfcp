@@ -14,19 +14,17 @@ func (i *IE) EthernetPacketFilter() ([]*IE, error) {
 	switch i.Type {
 	case EthernetPacketFilter:
 		return ParseMultiIEs(i.Payload)
-	/*
-		case CreatePDR:
-			ies, err := i.CreatePDR()
-			if err != nil {
-				return nil, err
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PDI {
+				return x.EthernetPacketFilter()
 			}
-			for _, x := range ies {
-				if x.Type == PDI {
-					return x.EthernetPacketFilter()
-				}
-			}
-			return nil, ErrIENotFound
-	*/
+		}
+		return nil, ErrIENotFound
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {

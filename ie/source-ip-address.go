@@ -31,8 +31,19 @@ func (i *IE) SourceIPAddress() (*SourceIPAddressFields, error) {
 		}
 
 		return fields, nil
-	case IPMuliticastAddressingInfoWithinSessionEstablishmentRequest:
-		ies, err := i.IPMuliticastAddressingInfoWithinSessionEstablishmentRequest()
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == IPMulticastAddressingInfo {
+				return x.SourceIPAddress()
+			}
+		}
+		return nil, ErrIENotFound
+	case IPMulticastAddressingInfo:
+		ies, err := i.IPMulticastAddressingInfo()
 		if err != nil {
 			return nil, err
 		}

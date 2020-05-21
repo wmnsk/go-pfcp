@@ -4,16 +4,28 @@
 
 package ie
 
-// NewIPMuliticastAddressingInfoWithinSessionEstablishmentRequest creates a new IPMuliticastAddressingInfoWithinSessionEstablishmentRequest IE.
-func NewIPMuliticastAddressingInfoWithinSessionEstablishmentRequest(multi, source *IE) *IE {
-	return newGroupedIE(IPMuliticastAddressingInfoWithinSessionEstablishmentRequest, 0, multi, source)
+// NewIPMulticastAddressingInfo creates a new IPMulticastAddressingInfo IE.
+func NewIPMulticastAddressingInfo(multi, source *IE) *IE {
+	return newGroupedIE(IPMulticastAddressingInfo, 0, multi, source)
 }
 
-// IPMuliticastAddressingInfoWithinSessionEstablishmentRequest returns the IEs above IPMuliticastAddressingInfoWithinSessionEstablishmentRequest if the type of IE matches.
-func (i *IE) IPMuliticastAddressingInfoWithinSessionEstablishmentRequest() ([]*IE, error) {
-	if i.Type != IPMuliticastAddressingInfoWithinSessionEstablishmentRequest {
+// IPMulticastAddressingInfo returns the IEs above IPMulticastAddressingInfo if the type of IE matches.
+func (i *IE) IPMulticastAddressingInfo() ([]*IE, error) {
+	switch i.Type {
+	case IPMulticastAddressingInfo:
+		return ParseMultiIEs(i.Payload)
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == IPMulticastAddressingInfo {
+				return x.IPMulticastAddressingInfo()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return ParseMultiIEs(i.Payload)
 }

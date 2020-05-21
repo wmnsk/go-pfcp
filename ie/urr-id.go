@@ -23,6 +23,17 @@ func (i *IE) URRID() (uint32, error) {
 		}
 
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == URRID {
+				return x.URRID()
+			}
+		}
+		return 0, ErrIENotFound
 	case RemoveURR:
 		ies, err := i.RemoveURR()
 		if err != nil {

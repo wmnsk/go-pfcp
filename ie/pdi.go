@@ -11,9 +11,21 @@ func NewPDI(srcIF, fteid, ni, rtp, ip, endpoint, sdffilter, appID, ethInfo, ethF
 
 // PDI returns the IEs above PDI if the type of IE matches.
 func (i *IE) PDI() ([]*IE, error) {
-	if i.Type != PDI {
+	switch i.Type {
+	case PDI:
+		return ParseMultiIEs(i.Payload)
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PDI {
+				return x.PDI()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return ParseMultiIEs(i.Payload)
 }

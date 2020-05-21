@@ -22,6 +22,17 @@ func (i *IE) MARID() (uint16, error) {
 	switch i.Type {
 	case MARID:
 		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == MARID {
+				return x.MARID()
+			}
+		}
+		return 0, ErrIENotFound
 	case CreateMAR:
 		ies, err := i.CreateMAR()
 		if err != nil {

@@ -22,19 +22,17 @@ func (i *IE) TrafficEndpointID() (uint8, error) {
 	switch i.Type {
 	case TrafficEndpointID:
 		return i.Payload[0], nil
-	/*
-		case CreatePDR:
-			ies, err := i.CreatePDR()
-			if err != nil {
-				return 0, err
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PDI {
+				return x.TrafficEndpointID()
 			}
-			for _, x := range ies {
-				if x.Type == PDI {
-					return x.TrafficEndpointID()
-				}
-			}
-			return 0, ErrIENotFound
-	*/
+		}
+		return 0, ErrIENotFound
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {

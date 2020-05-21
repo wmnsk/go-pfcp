@@ -24,19 +24,17 @@ func (i *IE) RedundantTransmissionParameters() ([]*IE, error) {
 	switch i.Type {
 	case RedundantTransmissionParameters:
 		return ParseMultiIEs(i.Payload)
-	/*
-		case CreatePDR:
-			ies, err := i.CreatePDR()
-			if err != nil {
-				return nil, err
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PDI {
+				return x.RedundantTransmissionParameters()
 			}
-			for _, x := range ies {
-				if x.Type == PDI {
-					return x.RedundantTransmissionParameters()
-				}
-			}
-			return nil, ErrIENotFound
-	*/
+		}
+		return nil, ErrIENotFound
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {

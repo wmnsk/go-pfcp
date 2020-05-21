@@ -14,19 +14,17 @@ func (i *IE) ApplicationID() (string, error) {
 	switch i.Type {
 	case ApplicationID:
 		return string(i.Payload), nil
-	/*
-		case CreatePDR:
-			ies, err := i.CreatePDR()
-			if err != nil {
-				return "", err
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return "", err
+		}
+		for _, x := range ies {
+			if x.Type == PDI {
+				return x.ApplicationID()
 			}
-			for _, x := range ies {
-				if x.Type == PDI {
-					return x.ApplicationID()
-				}
-			}
-			return nil, ErrIENotFound
-	*/
+		}
+		return "", ErrIENotFound
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {

@@ -23,6 +23,17 @@ func (i *IE) FARID() (uint32, error) {
 	switch i.Type {
 	case FARID:
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == FARID {
+				return x.FARID()
+			}
+		}
+		return 0, ErrIENotFound
 	case RemoveFAR:
 		ies, err := i.RemoveFAR()
 		if err != nil {

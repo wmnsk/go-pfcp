@@ -14,19 +14,6 @@ func (i *IE) NetworkInstance() (string, error) {
 	switch i.Type {
 	case NetworkInstance:
 		return string(i.Payload), nil
-	/*
-		case CreatePDR:
-			ies, err := i.CreatePDR()
-			if err != nil {
-				return "", err
-			}
-			for _, x := range ies {
-				if x.Type == PDI {
-					return x.NetworkInstance()
-				}
-			}
-			return "", ErrIENotFound
-	*/
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {

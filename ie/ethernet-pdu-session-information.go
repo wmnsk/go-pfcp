@@ -14,19 +14,17 @@ func (i *IE) EthernetPDUSessionInformation() ([]byte, error) {
 	switch i.Type {
 	case EthernetPDUSessionInformation:
 		return i.Payload, nil
-	/*
-		case CreatePDR:
-			ies, err := i.CreatePDR()
-			if err != nil {
-				return nil, err
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PDI {
+				return x.EthernetPDUSessionInformation()
 			}
-			for _, x := range ies {
-				if x.Type == PDI {
-					return x.EthernetPDUSessionInformation()
-				}
-			}
-			return nil, ErrIENotFound
-	*/
+		}
+		return nil, ErrIENotFound
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {

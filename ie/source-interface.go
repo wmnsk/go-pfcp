@@ -29,19 +29,17 @@ func (i *IE) SourceInterface() (uint8, error) {
 	switch i.Type {
 	case SourceInterface:
 		return i.Payload[0], nil
-	/*
-		case CreatePDR:
-			ies, err := i.CreatePDR()
-			if err != nil {
-				return 0, err
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PDI {
+				return x.SourceInterface()
 			}
-			for _, x := range ies {
-				if x.Type == PDI {
-					return x.SourceInterface()
-				}
-			}
-			return 0, ErrIENotFound
-	*/
+		}
+		return 0, ErrIENotFound
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {
