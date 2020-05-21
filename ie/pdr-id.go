@@ -33,6 +33,17 @@ func (i *IE) PDRID() (uint16, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PDRID {
+				return x.PDRID()
+			}
+		}
+		return 0, ErrIENotFound
 	case RemovePDR:
 		ies, err := i.RemovePDR()
 		if err != nil {

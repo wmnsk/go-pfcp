@@ -25,6 +25,17 @@ func (i *IE) IPMulticastAddressingInfo() ([]*IE, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == IPMulticastAddressingInfo {
+				return x.IPMulticastAddressingInfo()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

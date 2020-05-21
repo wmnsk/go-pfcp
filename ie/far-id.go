@@ -34,6 +34,17 @@ func (i *IE) FARID() (uint32, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == FARID {
+				return x.FARID()
+			}
+		}
+		return 0, ErrIENotFound
 	case RemoveFAR:
 		ies, err := i.RemoveFAR()
 		if err != nil {

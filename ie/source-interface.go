@@ -40,6 +40,17 @@ func (i *IE) SourceInterface() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PDI {
+				return x.SourceInterface()
+			}
+		}
+		return 0, ErrIENotFound
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {

@@ -36,6 +36,17 @@ func (i *IE) DeactivationTime() (time.Time, error) {
 			}
 		}
 		return time.Time{}, ErrIENotFound
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == DeactivationTime {
+				return x.DeactivationTime()
+			}
+		}
+		return time.Time{}, ErrIENotFound
 	default:
 		return time.Time{}, &InvalidTypeError{Type: i.Type}
 	}

@@ -42,6 +42,17 @@ func (i *IE) IPMulticastAddress() (*IPMulticastAddressFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == IPMulticastAddressingInfo {
+				return x.IPMulticastAddress()
+			}
+		}
+		return nil, ErrIENotFound
 	case IPMulticastAddressingInfo:
 		ies, err := i.IPMulticastAddressingInfo()
 		if err != nil {

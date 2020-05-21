@@ -33,6 +33,17 @@ func (i *IE) Precedence() (uint32, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == Precedence {
+				return x.Precedence()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
