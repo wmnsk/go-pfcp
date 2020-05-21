@@ -23,6 +23,17 @@ func (i *IE) Ethertype() (uint16, error) {
 	switch i.Type {
 	case Ethertype:
 		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+	case PDI:
+		ies, err := i.PDI()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == EthernetPacketFilter {
+				return x.Ethertype()
+			}
+		}
+		return 0, ErrIENotFound
 	case EthernetPacketFilter:
 		ies, err := i.EthernetPacketFilter()
 		if err != nil {

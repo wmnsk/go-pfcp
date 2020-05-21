@@ -11,9 +11,34 @@ func NewEthernetPacketFilter(fid, fprop, mac, etype, ctag, stag, sdfFilter *IE) 
 
 // EthernetPacketFilter returns the IEs above EthernetPacketFilter if the type of IE matches.
 func (i *IE) EthernetPacketFilter() ([]*IE, error) {
-	if i.Type != EthernetPacketFilter {
+	switch i.Type {
+	case EthernetPacketFilter:
+		return ParseMultiIEs(i.Payload)
+	/*
+		case CreatePDR:
+			ies, err := i.CreatePDR()
+			if err != nil {
+				return nil, err
+			}
+			for _, x := range ies {
+				if x.Type == PDI {
+					return x.EthernetPacketFilter()
+				}
+			}
+			return nil, ErrIENotFound
+	*/
+	case PDI:
+		ies, err := i.PDI()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == EthernetPacketFilter {
+				return x.EthernetPacketFilter()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return ParseMultiIEs(i.Payload)
 }

@@ -33,6 +33,31 @@ func (i *IE) FTEID() (*FTEIDFields, error) {
 		}
 
 		return fields, nil
+	/*
+		case CreatePDR:
+			ies, err := i.CreatePDR()
+			if err != nil {
+				return nil, err
+			}
+			for _, x := range ies {
+				if x.Type == PDI {
+					return x.FTEID()
+				}
+			}
+			return nil, ErrIENotFound
+	*/
+	case PDI:
+		ies, err := i.PDI()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			switch i.Type {
+			case FTEID, RedundantTransmissionParameters:
+				return x.FTEID()
+			}
+		}
+		return nil, ErrIENotFound
 	case CreatedPDR:
 		ies, err := i.CreatedPDR()
 		if err != nil {
