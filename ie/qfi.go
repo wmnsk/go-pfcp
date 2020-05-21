@@ -37,6 +37,17 @@ func (i *IE) QFI() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdateQER:
+		ies, err := i.UpdateQER()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == QFI {
+				return x.QFI()
+			}
+		}
+		return 0, ErrIENotFound
 	case CreateTrafficEndpoint:
 		ies, err := i.CreateTrafficEndpoint()
 		if err != nil {

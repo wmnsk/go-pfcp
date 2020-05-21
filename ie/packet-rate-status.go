@@ -43,6 +43,17 @@ func (i *IE) PacketRateStatus() (*PacketRateStatusFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case UpdateQER:
+		ies, err := i.UpdateQER()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketRateStatus {
+				return x.PacketRateStatus()
+			}
+		}
+		return nil, ErrIENotFound
 	case PacketRateStatusReport:
 		ies, err := i.PacketRateStatusReport()
 		if err != nil {

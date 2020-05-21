@@ -56,6 +56,17 @@ func (i *IE) QERID() (uint32, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case UpdateQER:
+		ies, err := i.UpdateQER()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == QERID {
+				return x.QERID()
+			}
+		}
+		return 0, ErrIENotFound
 	case RemoveQER:
 		ies, err := i.RemoveQER()
 		if err != nil {

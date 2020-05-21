@@ -49,6 +49,17 @@ func (i *IE) PacketRate() (*PacketRateFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case UpdateQER:
+		ies, err := i.UpdateQER()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketRate {
+				return x.PacketRate()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
