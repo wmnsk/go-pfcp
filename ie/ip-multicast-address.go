@@ -31,8 +31,30 @@ func (i *IE) IPMulticastAddress() (*IPMulticastAddressFields, error) {
 		}
 
 		return fields, nil
-	case IPMuliticastAddressingInfoWithinSessionEstablishmentRequest:
-		ies, err := i.IPMuliticastAddressingInfoWithinSessionEstablishmentRequest()
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == IPMulticastAddressingInfo {
+				return x.IPMulticastAddress()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == IPMulticastAddressingInfo {
+				return x.IPMulticastAddress()
+			}
+		}
+		return nil, ErrIENotFound
+	case IPMulticastAddressingInfo:
+		ies, err := i.IPMulticastAddressingInfo()
 		if err != nil {
 			return nil, err
 		}

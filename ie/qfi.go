@@ -13,19 +13,41 @@ func NewQFI(qfi uint8) *IE {
 
 // QFI returns QFI in uint8 if the type of IE matches.
 func (i *IE) QFI() (uint8, error) {
+	if len(i.Payload) < 1 {
+		return 0, io.ErrUnexpectedEOF
+	}
+
 	switch i.Type {
+	case QFI:
+		return i.Payload[0], nil
 	case DownlinkDataServiceInformation:
 		if len(i.Payload) < 2 {
 			return 0, io.ErrUnexpectedEOF
 		}
 
 		return i.Payload[2], nil
-	case QFI:
-		if len(i.Payload) < 1 {
-			return 0, io.ErrUnexpectedEOF
+	case CreateQER:
+		ies, err := i.CreateQER()
+		if err != nil {
+			return 0, err
 		}
-
-		return i.Payload[0], nil
+		for _, x := range ies {
+			if x.Type == QFI {
+				return x.QFI()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateQER:
+		ies, err := i.UpdateQER()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == QFI {
+				return x.QFI()
+			}
+		}
+		return 0, ErrIENotFound
 	case CreateTrafficEndpoint:
 		ies, err := i.CreateTrafficEndpoint()
 		if err != nil {

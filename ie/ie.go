@@ -67,7 +67,7 @@ const (
 	Metric                                                           uint16 = 53
 	OverloadControlInformation                                       uint16 = 54
 	Timer                                                            uint16 = 55
-	PacketDetectionRuleID                                            uint16 = 56
+	PDRID                                            uint16 = 56
 	FSEID                                                            uint16 = 57
 	ApplicationIDsPFDs                                               uint16 = 58
 	PFDContext                                                       uint16 = 59
@@ -199,7 +199,7 @@ const (
 	CPPFCPEntityIPAddress                                            uint16 = 185
 	PFCPSEReqFlags                                                   uint16 = 186
 	UserPlanePathRecoveryReport                                      uint16 = 187
-	IPMuliticastAddressingInfoWithinSessionEstablishmentRequest      uint16 = 188
+	IPMulticastAddressingInfo                                        uint16 = 188
 	JoinIPMulticastInformationWithinUsageReport                      uint16 = 189
 	LeaveIPMulticastInformationWithinUsageReport                     uint16 = 190
 	IPMulticastAddress                                               uint16 = 191

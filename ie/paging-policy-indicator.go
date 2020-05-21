@@ -4,6 +4,8 @@
 
 package ie
 
+import "io"
+
 // NewPagingPolicyIndicator creates a new PagingPolicyIndicator IE.
 func NewPagingPolicyIndicator(indicator uint8) *IE {
 	return newUint8ValIE(PagingPolicyIndicator, indicator)
@@ -11,9 +13,36 @@ func NewPagingPolicyIndicator(indicator uint8) *IE {
 
 // PagingPolicyIndicator returns PagingPolicyIndicator in uint8 if the type of IE matches.
 func (i *IE) PagingPolicyIndicator() (uint8, error) {
-	if i.Type != PagingPolicyIndicator {
-		return 0, &InvalidTypeError{Type: i.Type}
+	if len(i.Payload) < 1 {
+		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0] & 0x07, nil
+	switch i.Type {
+	case PagingPolicyIndicator:
+		return i.Payload[0] & 0x07, nil
+	case CreateQER:
+		ies, err := i.CreateQER()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PagingPolicyIndicator {
+				return x.PagingPolicyIndicator()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateQER:
+		ies, err := i.UpdateQER()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PagingPolicyIndicator {
+				return x.PagingPolicyIndicator()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

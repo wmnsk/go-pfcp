@@ -9,27 +9,49 @@ import (
 	"io"
 )
 
-// NewPacketDetectionRuleID creates a new PacketDetectionRuleID IE.
-func NewPacketDetectionRuleID(id uint16) *IE {
-	return newUint16ValIE(PacketDetectionRuleID, id)
+// NewPDRID creates a new PDRID IE.
+func NewPDRID(id uint16) *IE {
+	return newUint16ValIE(PDRID, id)
 }
 
-// PacketDetectionRuleID returns PacketDetectionRuleID in uint16 if the type of IE matches.
-func (i *IE) PacketDetectionRuleID() (uint16, error) {
+// PDRID returns PDRID in uint16 if the type of IE matches.
+func (i *IE) PDRID() (uint16, error) {
 	switch i.Type {
-	case PacketDetectionRuleID:
+	case PDRID:
 		if len(i.Payload) < 2 {
 			return 0, io.ErrUnexpectedEOF
 		}
 		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PDRID {
+				return x.PDRID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == PDRID {
+				return x.PDRID()
+			}
+		}
+		return 0, ErrIENotFound
 	case RemovePDR:
 		ies, err := i.RemovePDR()
 		if err != nil {
 			return 0, err
 		}
 		for _, x := range ies {
-			if x.Type == PacketDetectionRuleID {
-				return x.PacketDetectionRuleID()
+			if x.Type == PDRID {
+				return x.PDRID()
 			}
 		}
 		return 0, ErrIENotFound
@@ -39,8 +61,8 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 			return 0, err
 		}
 		for _, x := range ies {
-			if x.Type == PacketDetectionRuleID {
-				return x.PacketDetectionRuleID()
+			if x.Type == PDRID {
+				return x.PDRID()
 			}
 		}
 		return 0, ErrIENotFound
@@ -50,8 +72,8 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 			return 0, err
 		}
 		for _, x := range ies {
-			if x.Type == PacketDetectionRuleID {
-				return x.PacketDetectionRuleID()
+			if x.Type == PDRID {
+				return x.PDRID()
 			}
 		}
 		return 0, ErrIENotFound
@@ -62,7 +84,7 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 		}
 		for _, x := range ies {
 			if x.Type == ApplicationDetectionInformation {
-				return x.PacketDetectionRuleID()
+				return x.PDRID()
 			}
 		}
 		return 0, ErrIENotFound
@@ -72,8 +94,8 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 			return 0, err
 		}
 		for _, x := range ies {
-			if x.Type == PacketDetectionRuleID {
-				return x.PacketDetectionRuleID()
+			if x.Type == PDRID {
+				return x.PDRID()
 			}
 		}
 		return 0, ErrIENotFound
@@ -83,8 +105,8 @@ func (i *IE) PacketDetectionRuleID() (uint16, error) {
 			return 0, err
 		}
 		for _, x := range ies {
-			if x.Type == PacketDetectionRuleID {
-				return x.PacketDetectionRuleID()
+			if x.Type == PDRID {
+				return x.PDRID()
 			}
 		}
 		return 0, ErrIENotFound

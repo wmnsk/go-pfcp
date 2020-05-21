@@ -4,15 +4,15 @@
 
 package ie
 
-// NewEthernetPacketFilter creates a new EthernetPacketFilter IE.
-func NewEthernetPacketFilter(fid, fprop, mac, etype, ctag, stag, sdfFilter *IE) *IE {
-	return newGroupedIE(EthernetPacketFilter, 0, fid, fprop, mac, etype, ctag, stag, sdfFilter)
+// NewPDI creates a new PDI IE.
+func NewPDI(srcIF, fteid, ni, rtp, ip, endpoint, sdffilter, appID, ethInfo, ethFilter *IE) *IE {
+	return newGroupedIE(PDI, 0, srcIF, fteid, ni, rtp, ip, endpoint, sdffilter, appID, ethInfo, ethFilter)
 }
 
-// EthernetPacketFilter returns the IEs above EthernetPacketFilter if the type of IE matches.
-func (i *IE) EthernetPacketFilter() ([]*IE, error) {
+// PDI returns the IEs above PDI if the type of IE matches.
+func (i *IE) PDI() ([]*IE, error) {
 	switch i.Type {
-	case EthernetPacketFilter:
+	case PDI:
 		return ParseMultiIEs(i.Payload)
 	case CreatePDR:
 		ies, err := i.CreatePDR()
@@ -21,18 +21,18 @@ func (i *IE) EthernetPacketFilter() ([]*IE, error) {
 		}
 		for _, x := range ies {
 			if x.Type == PDI {
-				return x.EthernetPacketFilter()
+				return x.PDI()
 			}
 		}
 		return nil, ErrIENotFound
-	case PDI:
-		ies, err := i.PDI()
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
 		if err != nil {
 			return nil, err
 		}
 		for _, x := range ies {
-			if x.Type == EthernetPacketFilter {
-				return x.EthernetPacketFilter()
+			if x.Type == PDI {
+				return x.PDI()
 			}
 		}
 		return nil, ErrIENotFound

@@ -23,6 +23,17 @@ func (i *IE) EthernetFilterID() (uint32, error) {
 	switch i.Type {
 	case EthernetFilterID:
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case PDI:
+		ies, err := i.PDI()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == EthernetPacketFilter {
+				return x.EthernetFilterID()
+			}
+		}
+		return 0, ErrIENotFound
 	case EthernetPacketFilter:
 		ies, err := i.EthernetPacketFilter()
 		if err != nil {

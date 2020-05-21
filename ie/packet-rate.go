@@ -31,15 +31,39 @@ func NewPacketRate(flags uint8, ulunit uint8, ulpackets uint16, dlunit uint8, dl
 
 // PacketRate returns PacketRate in *PacketRateFields if the type of IE matches.
 func (i *IE) PacketRate() (*PacketRateFields, error) {
-	if i.Type != PacketRate {
+	switch i.Type {
+	case PacketRate:
+		f, err := ParsePacketRateFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+		return f, nil
+	case CreateQER:
+		ies, err := i.CreateQER()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketRate {
+				return x.PacketRate()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateQER:
+		ies, err := i.UpdateQER()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketRate {
+				return x.PacketRate()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
 
-	f, err := ParsePacketRateFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-	return f, nil
 }
 
 // HasDLPR reports whether an IE has DLPR bit.

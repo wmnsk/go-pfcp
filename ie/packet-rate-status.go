@@ -12,9 +12,9 @@ import (
 
 // NewPacketRateStatus creates a new PacketRateStatus IE.
 func NewPacketRateStatus(flags uint8, ul, aul, dl, adl uint16, vtime time.Time) *IE {
-	fields := NewPacketRateStatusFields(flags, ul, aul, dl, adl, vtime)
+	f := NewPacketRateStatusFields(flags, ul, aul, dl, adl, vtime)
 
-	b, err := fields.Marshal()
+	b, err := f.Marshal()
 	if err != nil {
 		return nil
 	}
@@ -26,12 +26,34 @@ func NewPacketRateStatus(flags uint8, ul, aul, dl, adl uint16, vtime time.Time) 
 func (i *IE) PacketRateStatus() (*PacketRateStatusFields, error) {
 	switch i.Type {
 	case PacketRateStatus:
-		fields, err := ParsePacketRateStatusFields(i.Payload)
+		f, err := ParsePacketRateStatusFields(i.Payload)
 		if err != nil {
 			return nil, err
 		}
 
-		return fields, nil
+		return f, nil
+	case CreateQER:
+		ies, err := i.CreateQER()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketRateStatus {
+				return x.PacketRateStatus()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateQER:
+		ies, err := i.UpdateQER()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PacketRateStatus {
+				return x.PacketRateStatus()
+			}
+		}
+		return nil, ErrIENotFound
 	case PacketRateStatusReport:
 		ies, err := i.PacketRateStatusReport()
 		if err != nil {
@@ -48,7 +70,7 @@ func (i *IE) PacketRateStatus() (*PacketRateStatusFields, error) {
 	}
 }
 
-// PacketRateStatusFields represents a fields contained in PacketRateStatus IE.
+// PacketRateStatusFields represents a f contained in PacketRateStatus IE.
 type PacketRateStatusFields struct {
 	Flags                                             uint8
 	NumberOfRemainingUplinkPacketsAllowed             uint16

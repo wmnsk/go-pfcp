@@ -11,8 +11,8 @@ import (
 
 // NewDLFlowLevelMarking creates a new DLFlowLevelMarking IE.
 func NewDLFlowLevelMarking(flags uint8, ttc, sci uint16) *IE {
-	fields := NewDLFlowLevelMarkingFields(flags, ttc, sci)
-	b, err := fields.Marshal()
+	f := NewDLFlowLevelMarkingFields(flags, ttc, sci)
+	b, err := f.Marshal()
 	if err != nil {
 		return nil
 	}
@@ -22,15 +22,39 @@ func NewDLFlowLevelMarking(flags uint8, ttc, sci uint16) *IE {
 
 // DLFlowLevelMarking returns DLFlowLevelMarking in *DLFlowLevelMarkingFields if the type of IE matches.
 func (i *IE) DLFlowLevelMarking() (*DLFlowLevelMarkingFields, error) {
-	if i.Type != DLFlowLevelMarking {
+	switch i.Type {
+	case DLFlowLevelMarking:
+		f, err := ParseDLFlowLevelMarkingFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+
+		return f, nil
+	case CreateQER:
+		ies, err := i.CreateQER()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == DLFlowLevelMarking {
+				return x.DLFlowLevelMarking()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateQER:
+		ies, err := i.UpdateQER()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == DLFlowLevelMarking {
+				return x.DLFlowLevelMarking()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	f, err := ParseDLFlowLevelMarkingFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-	return f, nil
 }
 
 // HasTTC reports whether an IE has TTC bit.
@@ -57,7 +81,7 @@ func (i *IE) HasSCI() bool {
 	return has1stBit(i.Payload[0])
 }
 
-// DLFlowLevelMarkingFields represents a fields contained in DLFlowLevelMarking IE.
+// DLFlowLevelMarkingFields represents a f contained in DLFlowLevelMarking IE.
 type DLFlowLevelMarkingFields struct {
 	Flags                  uint8
 	ToSTrafficClass        uint16

@@ -21,33 +21,56 @@ func NewGBR(ul, dl uint32) *IE {
 
 // GBR returns GBR in []byte if the type of IE matches.
 func (i *IE) GBR() ([]byte, error) {
-	if i.Type != GBR {
-		return nil, &InvalidTypeError{Type: i.Type}
+	if len(i.Payload) < 8 {
+		return nil, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload, nil
+	switch i.Type {
+	case GBR:
+		return i.Payload, nil
+	case CreateQER:
+		ies, err := i.CreateQER()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == GBR {
+				return x.GBR()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateQER:
+		ies, err := i.UpdateQER()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == GBR {
+				return x.GBR()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
+		return nil, &InvalidTypeError{Type: i.Type}
+	}
 }
 
 // GBRUL returns GBRUL in uint32 if the type of IE matches.
 func (i *IE) GBRUL() (uint32, error) {
-	if i.Type != GBR {
-		return 0, &InvalidTypeError{Type: i.Type}
+	v, err := i.GBR()
+	if err != nil {
+		return 0, err
 	}
 
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-	return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	return binary.BigEndian.Uint32(v[0:4]), nil
 }
 
 // GBRDL returns GBRDL in uint32 if the type of IE matches.
 func (i *IE) GBRDL() (uint32, error) {
-	if i.Type != GBR {
-		return 0, &InvalidTypeError{Type: i.Type}
+	v, err := i.GBR()
+	if err != nil {
+		return 0, err
 	}
 
-	if len(i.Payload) < 8 {
-		return 0, io.ErrUnexpectedEOF
-	}
-	return binary.BigEndian.Uint32(i.Payload[4:8]), nil
+	return binary.BigEndian.Uint32(v[4:8]), nil
 }

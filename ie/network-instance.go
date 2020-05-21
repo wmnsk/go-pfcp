@@ -14,6 +14,18 @@ func (i *IE) NetworkInstance() (string, error) {
 	switch i.Type {
 	case NetworkInstance:
 		return string(i.Payload), nil
+	case PDI:
+		ies, err := i.PDI()
+		if err != nil {
+			return "", err
+		}
+		for _, x := range ies {
+			switch i.Type {
+			case NetworkInstance, RedundantTransmissionParameters:
+				return x.NetworkInstance()
+			}
+		}
+		return "", ErrIENotFound
 	case CreateTrafficEndpoint:
 		ies, err := i.CreateTrafficEndpoint()
 		if err != nil {

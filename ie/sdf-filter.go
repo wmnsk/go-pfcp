@@ -32,6 +32,28 @@ func (i *IE) SDFFilter() (*SDFFilterFields, error) {
 		}
 
 		return fields, nil
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PDI {
+				return x.SDFFilter()
+			}
+		}
+		return nil, ErrIENotFound
+	case PDI:
+		ies, err := i.PDI()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == SDFFilter {
+				return x.SDFFilter()
+			}
+		}
+		return nil, ErrIENotFound
 	case EthernetPacketFilter:
 		ies, err := i.EthernetPacketFilter()
 		if err != nil {

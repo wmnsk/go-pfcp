@@ -11,9 +11,21 @@ func NewDeactivatePredefinedRules(name string) *IE {
 
 // DeactivatePredefinedRules returns DeactivatePredefinedRules in string if the type of IE matches.
 func (i *IE) DeactivatePredefinedRules() (string, error) {
-	if i.Type != DeactivatePredefinedRules {
+	switch i.Type {
+	case DeactivatePredefinedRules:
+		return string(i.Payload), nil
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return "", err
+		}
+		for _, x := range ies {
+			if x.Type == DeactivatePredefinedRules {
+				return x.DeactivatePredefinedRules()
+			}
+		}
+		return "", ErrIENotFound
+	default:
 		return "", &InvalidTypeError{Type: i.Type}
 	}
-
-	return string(i.Payload), nil
 }

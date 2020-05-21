@@ -18,12 +18,36 @@ func NewDeactivationTime(ts time.Time) *IE {
 
 // DeactivationTime returns DeactivationTime in time.Time if the type of IE matches.
 func (i *IE) DeactivationTime() (time.Time, error) {
-	if i.Type != DeactivationTime {
-		return time.Time{}, &InvalidTypeError{Type: i.Type}
-	}
-
 	if len(i.Payload) < 4 {
 		return time.Time{}, io.ErrUnexpectedEOF
 	}
-	return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+
+	switch i.Type {
+	case DeactivationTime:
+		return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+	case CreatePDR:
+		ies, err := i.CreatePDR()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == DeactivationTime {
+				return x.DeactivationTime()
+			}
+		}
+		return time.Time{}, ErrIENotFound
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == DeactivationTime {
+				return x.DeactivationTime()
+			}
+		}
+		return time.Time{}, ErrIENotFound
+	default:
+		return time.Time{}, &InvalidTypeError{Type: i.Type}
+	}
 }

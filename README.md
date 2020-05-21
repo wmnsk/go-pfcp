@@ -122,24 +122,23 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 
 ### Information Elements
 
-
 | IE Type        | Information elements                                                             | Supported? |
 |----------------|----------------------------------------------------------------------------------|------------|
 | 0              | _(Reserved)_                                                                     | -          |
-| 1              | Create PDR                                                                       |            |
-| 2              | PDI                                                                              |            |
+| 1              | Create PDR                                                                       | Yes        |
+| 2              | PDI                                                                              | Yes        |
 | 3              | Create FAR                                                                       |            |
 | 4              | Forwarding Parameters                                                            |            |
 | 5              | Duplicating Parameters                                                           | Yes        |
 | 6              | Create URR                                                                       |            |
-| 7              | Create QER                                                                       |            |
+| 7              | Create QER                                                                       | Yes        |
 | 8              | Created PDR                                                                      | Yes        |
-| 9              | Update PDR                                                                       |            |
+| 9              | Update PDR                                                                       | Yes        |
 | 10             | Update FAR                                                                       |            |
 | 11             | Update Forwarding Parameters                                                     |            |
 | 12             | Update BAR (PFCP Session Report Response)                                        | Yes        |
 | 13             | Update URR                                                                       |            |
-| 14             | Update QER                                                                       |            |
+| 14             | Update QER                                                                       | Yes        |
 | 15             | Remove PDR                                                                       | Yes        |
 | 16             | Remove FAR                                                                       | Yes        |
 | 17             | Remove URR                                                                       | Yes        |

@@ -31,6 +31,17 @@ func (i *IE) STAG() (*STAGFields, error) {
 		}
 
 		return fields, nil
+	case PDI:
+		ies, err := i.PDI()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == EthernetPacketFilter {
+				return x.STAG()
+			}
+		}
+		return nil, ErrIENotFound
 	case EthernetPacketFilter:
 		ies, err := i.EthernetPacketFilter()
 		if err != nil {
