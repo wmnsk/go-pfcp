@@ -16,12 +16,25 @@ func NewAveragingWindow(window uint32) *IE {
 
 // AveragingWindow returns AveragingWindow in uint32 if the type of IE matches.
 func (i *IE) AveragingWindow() (uint32, error) {
-	if i.Type != AveragingWindow {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	switch i.Type {
+	case AveragingWindow:
+		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case CreateQER:
+		ies, err := i.CreateQER()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == AveragingWindow {
+				return x.AveragingWindow()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

@@ -20,6 +20,17 @@ func (i *IE) QERControlIndications() (uint8, error) {
 	switch i.Type {
 	case QERControlIndications:
 		return i.Payload[0], nil
+	case CreateQER:
+		ies, err := i.CreateQER()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == QERControlIndications {
+				return x.QERControlIndications()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
