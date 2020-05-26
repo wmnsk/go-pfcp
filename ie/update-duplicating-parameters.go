@@ -11,9 +11,21 @@ func NewUpdateDuplicatingParameters(di, ohc, tlm, fp *IE) *IE {
 
 // UpdateDuplicatingParameters returns the IEs above UpdateDuplicatingParameters if the type of IE matches.
 func (i *IE) UpdateDuplicatingParameters() ([]*IE, error) {
-	if i.Type != UpdateDuplicatingParameters {
+	switch i.Type {
+	case UpdateDuplicatingParameters:
+		return ParseMultiIEs(i.Payload)
+	case UpdateFAR:
+		ies, err := i.UpdateFAR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == UpdateDuplicatingParameters {
+				return x.UpdateDuplicatingParameters()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return ParseMultiIEs(i.Payload)
 }

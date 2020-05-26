@@ -22,6 +22,28 @@ func (i *IE) BARID() (uint8, error) {
 		}
 
 		return i.Payload[0], nil
+	case CreateFAR:
+		ies, err := i.CreateFAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == BARID {
+				return x.BARID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateFAR:
+		ies, err := i.UpdateFAR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == BARID {
+				return x.BARID()
+			}
+		}
+		return 0, ErrIENotFound
 	case QueryURR:
 		ies, err := i.QueryURR()
 		if err != nil {
