@@ -3,9 +3,8 @@
 PFCP implementation in Golang.
 
 [![CircleCI](https://circleci.com/gh/wmnsk/go-pfcp.svg?style=shield)](https://circleci.com/gh/wmnsk/go-pfcp)
-[![GolangCI](https://golangci.com/badges/github.com/wmnsk/go-pfcp.svg)](https://golangci.com/r/github.com/wmnsk/go-pfcp)
 [![GoDoc](https://godoc.org/github.com/wmnsk/go-pfcp?status.svg)](https://godoc.org/github.com/wmnsk/go-pfcp)
-[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/wmnsk/go-pfcp/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/wmnsk/go-pfcp/blob/master/LICENSE)
 
 ## What is PFCP?
 
@@ -122,22 +121,116 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 
 ### Information Elements
 
+All the IEs are of the same type: `ie.IE`.
+
+Constructors are available for every type of IEs.  
+To create `CreatePDR` IE, use `NewCreatePDR()`. Parameters for those constructors are implemented as friendly for Gophers as possible. See `ie/ie_test.go` for detailed (and working) usage.
+
+```go
+// returned type and parameters in NewCreatePDR() are all *ie.IE.
+createPDR := ie.NewCreatePDR(
+	ie.NewPDRID(0xffff),
+	ie.NewPrecedence(0x11111111),
+	ie.NewPDI(
+		ie.NewSourceInterface(ie.SrcInterfaceAccess),
+		ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+		ie.NewNetworkInstance("some.instance.example"),
+		ie.NewRedundantTransmissionParametersInPDI(
+			ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+			ie.NewNetworkInstance("some.instance.example"),
+		),
+		ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0),
+		ie.NewTrafficEndpointID(0x01),
+		ie.NewSDFFilter("aaaaaaaa", "bb", "cccc", "ddd", 0xffffffff),
+		ie.NewApplicationID("https://github.com/wmnsk/go-pfcp/"),
+		ie.NewEthernetPDUSessionInformation(0x01),
+		ie.NewEthernetPacketFilter(
+			ie.NewEthernetFilterID(0xffffffff),
+			ie.NewEthernetFilterProperties(0x01),
+			ie.NewMACAddress(mac1, mac2, mac3, mac4),
+			ie.NewEthertype(0xffff),
+			ie.NewCTAG(0x07, 1, 1, 4095),
+			ie.NewSTAG(0x07, 1, 1, 4095),
+			ie.NewSDFFilter("aaaaaaaa", "bb", "cccc", "ddd", 0xffffffff),
+		),
+	),
+	ie.NewOuterHeaderRemoval(0x01, 0x02),
+	ie.NewFARID(0xffffffff),
+	ie.NewURRID(0xffffffff),
+	ie.NewQERID(0xffffffff),
+	ie.NewActivatePredefinedRules("go-pfcp"),
+	ie.NewActivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
+	ie.NewDeactivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
+	ie.NewMARID(0x1111),
+	ie.NewPacketReplicationAndDetectionCarryOnInformation(0x0f),
+	ie.NewIPMulticastAddressingInfo(
+		ie.NewIPMulticastAddress(net.ParseIP("127.0.0.1"), nil, net.ParseIP("127.0.0.1"), nil),
+		ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), nil, 24),
+	),
+	ie.NewUEIPAddressPoolIdentity("go-pfcp"),
+)
+```
+
+Or just use `ie.New()` to create an arbitrary IE(when you don't need constructors or you need to create an enterprise-specific one).
+
+```go
+ie := ie.New(ieType, enterpriseID, payload)
+```
+
+Values can be retrieved by calling helper methods on `*ie.IE`.
+For instance, you can immediately get the value in string by calling `NetworkInstance()`.
+
+```go
+ni := ie.NewNetworkInstance("some.instance.example")
+
+v, err := ni.NetworkInstance()
+// returns "some.instance.example" if ni is valid. Otherwise it returns error.
+```
+
+For complex IEs like F-TEID, `<IE-name>` method returns `<IE-name>Fields` structure.
+
+```go
+fteid := ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil)
+
+f, err := fteid.FTEID()
+// returns FTEIDFields struct which contains values in its fields.
+
+teid := f.TEID // has TEID as uint32
+v4 := f.IPv4Address // has IPv4 address as net.IP
+```
+
+On grouped IEs, the value (or custom fields) can be retrieved by calling such kind of methods directly.
+
+```go
+createPDR := ie.NewCreatePDR(
+    ie.NewPDRID(0xffff),
+    // ...
+)
+
+v, err := createPDR.PDRID()
+// returns 0xffff if createPDR contains PDRID and it is valid. Otherwise it returns error.
+```
+
+#### List of implemented IEs
+
+IEs are (basically) implemented in conformance with TS29.244 V16.3.1(2020-04).
+
 | IE Type        | Information elements                                                             | Supported? |
 |----------------|----------------------------------------------------------------------------------|------------|
 | 0              | _(Reserved)_                                                                     | -          |
 | 1              | Create PDR                                                                       | Yes        |
 | 2              | PDI                                                                              | Yes        |
-| 3              | Create FAR                                                                       |            |
-| 4              | Forwarding Parameters                                                            |            |
+| 3              | Create FAR                                                                       | Yes        |
+| 4              | Forwarding Parameters                                                            | Yes        |
 | 5              | Duplicating Parameters                                                           | Yes        |
-| 6              | Create URR                                                                       |            |
+| 6              | Create URR                                                                       | Yes        |
 | 7              | Create QER                                                                       | Yes        |
 | 8              | Created PDR                                                                      | Yes        |
 | 9              | Update PDR                                                                       | Yes        |
-| 10             | Update FAR                                                                       |            |
-| 11             | Update Forwarding Parameters                                                     |            |
+| 10             | Update FAR                                                                       | Yes        |
+| 11             | Update Forwarding Parameters                                                     | Yes        |
 | 12             | Update BAR (PFCP Session Report Response)                                        | Yes        |
-| 13             | Update URR                                                                       |            |
+| 13             | Update URR                                                                       | Yes        |
 | 14             | Update QER                                                                       | Yes        |
 | 15             | Remove PDR                                                                       | Yes        |
 | 16             | Remove FAR                                                                       | Yes        |
