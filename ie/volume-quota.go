@@ -25,12 +25,34 @@ func NewVolumeQuota(flags uint8, tvol, uvol, dvol uint64) *IE {
 func (i *IE) VolumeQuota() (*VolumeQuotaFields, error) {
 	switch i.Type {
 	case VolumeQuota:
-		fields, err := ParseVolumeQuotaFields(i.Payload)
+		f, err := ParseVolumeQuotaFields(i.Payload)
 		if err != nil {
 			return nil, err
 		}
 
-		return fields, nil
+		return f, nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == VolumeQuota {
+				return x.VolumeQuota()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == VolumeQuota {
+				return x.VolumeQuota()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

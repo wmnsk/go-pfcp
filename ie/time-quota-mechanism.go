@@ -26,9 +26,32 @@ func NewTimeQuotaMechanism(btit uint8, bti time.Duration) *IE {
 
 // TimeQuotaMechanism returns TimeQuotaMechanism in []byte if the type of IE matches.
 func (i *IE) TimeQuotaMechanism() ([]byte, error) {
-	if i.Type != TimeQuotaMechanism {
+	switch i.Type {
+	case TimeQuotaMechanism:
+		return i.Payload, nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == TimeQuotaMechanism {
+				return x.TimeQuotaMechanism()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == TimeQuotaMechanism {
+				return x.TimeQuotaMechanism()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return i.Payload, nil
 }

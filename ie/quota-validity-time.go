@@ -18,12 +18,36 @@ func NewQuotaValidityTime(ts time.Time) *IE {
 
 // QuotaValidityTime returns QuotaValidityTime in time.Time if the type of IE matches.
 func (i *IE) QuotaValidityTime() (time.Time, error) {
-	if i.Type != QuotaValidityTime {
-		return time.Time{}, &InvalidTypeError{Type: i.Type}
-	}
-
 	if len(i.Payload) < 4 {
 		return time.Time{}, io.ErrUnexpectedEOF
 	}
-	return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+
+	switch i.Type {
+	case QuotaValidityTime:
+		return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == QuotaValidityTime {
+				return x.QuotaValidityTime()
+			}
+		}
+		return time.Time{}, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == QuotaValidityTime {
+				return x.QuotaValidityTime()
+			}
+		}
+		return time.Time{}, ErrIENotFound
+	default:
+		return time.Time{}, &InvalidTypeError{Type: i.Type}
+	}
 }

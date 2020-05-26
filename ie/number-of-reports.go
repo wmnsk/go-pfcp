@@ -15,12 +15,36 @@ func NewNumberOfReports(num uint16) *IE {
 
 // NumberOfReports returns NumberOfReports in uint16 if the type of IE matches.
 func (i *IE) NumberOfReports() (uint16, error) {
-	if i.Type != NumberOfReports {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-
 	if len(i.Payload) < 2 {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+
+	switch i.Type {
+	case NumberOfReports:
+		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == NumberOfReports {
+				return x.NumberOfReports()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == NumberOfReports {
+				return x.NumberOfReports()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

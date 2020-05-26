@@ -15,14 +15,38 @@ func NewMeasurementInformation(flags uint8) *IE {
 
 // MeasurementInformation returns MeasurementInformation in uint8 if the type of IE matches.
 func (i *IE) MeasurementInformation() (uint8, error) {
-	if i.Type != MeasurementInformation {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 1 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0], nil
+	switch i.Type {
+	case MeasurementInformation:
+		return i.Payload[0], nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == MeasurementInformation {
+				return x.MeasurementInformation()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == MeasurementInformation {
+				return x.MeasurementInformation()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }
 
 // HasISTM reports whether an IE has ISTM bit.

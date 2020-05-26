@@ -25,6 +25,28 @@ func (i *IE) MonitoringTime() (time.Time, error) {
 	switch i.Type {
 	case MonitoringTime:
 		return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == MonitoringTime {
+				return x.MonitoringTime()
+			}
+		}
+		return time.Time{}, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return time.Time{}, err
+		}
+		for _, x := range ies {
+			if x.Type == MonitoringTime {
+				return x.MonitoringTime()
+			}
+		}
+		return time.Time{}, ErrIENotFound
 	case AdditionalMonitoringTime:
 		ies, err := i.AdditionalMonitoringTime()
 		if err != nil {

@@ -26,6 +26,28 @@ func (i *IE) MeasurementPeriod() (time.Duration, error) {
 	switch i.Type {
 	case MeasurementPeriod:
 		return time.Duration(binary.BigEndian.Uint32(i.Payload[0:4])) * time.Second, nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == MeasurementPeriod {
+				return x.MeasurementPeriod()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == MeasurementPeriod {
+				return x.MeasurementPeriod()
+			}
+		}
+		return 0, ErrIENotFound
 	case QoSMonitoringPerQoSFlowControlInformation:
 		ies, err := i.QoSMonitoringPerQoSFlowControlInformation()
 		if err != nil {

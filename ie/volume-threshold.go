@@ -25,12 +25,34 @@ func NewVolumeThreshold(flags uint8, tvol, uvol, dvol uint64) *IE {
 func (i *IE) VolumeThreshold() (*VolumeThresholdFields, error) {
 	switch i.Type {
 	case VolumeThreshold:
-		fields, err := ParseVolumeThresholdFields(i.Payload)
+		f, err := ParseVolumeThresholdFields(i.Payload)
 		if err != nil {
 			return nil, err
 		}
 
-		return fields, nil
+		return f, nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == VolumeThreshold {
+				return x.VolumeThreshold()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == VolumeThreshold {
+				return x.VolumeThreshold()
+			}
+		}
+		return nil, ErrIENotFound
 	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}

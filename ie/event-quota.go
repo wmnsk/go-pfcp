@@ -23,6 +23,28 @@ func (i *IE) EventQuota() (uint32, error) {
 	switch i.Type {
 	case EventQuota:
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == EventQuota {
+				return x.EventQuota()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == EventQuota {
+				return x.EventQuota()
+			}
+		}
+		return 0, ErrIENotFound
 	case AdditionalMonitoringTime:
 		ies, err := i.AdditionalMonitoringTime()
 		if err != nil {

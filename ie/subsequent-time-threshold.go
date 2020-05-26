@@ -23,6 +23,28 @@ func (i *IE) SubsequentTimeThreshold() (uint32, error) {
 	switch i.Type {
 	case SubsequentTimeThreshold:
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == SubsequentTimeThreshold {
+				return x.SubsequentTimeThreshold()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == SubsequentTimeThreshold {
+				return x.SubsequentTimeThreshold()
+			}
+		}
+		return 0, ErrIENotFound
 	case AdditionalMonitoringTime:
 		ies, err := i.AdditionalMonitoringTime()
 		if err != nil {

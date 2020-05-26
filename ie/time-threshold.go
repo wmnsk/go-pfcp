@@ -16,12 +16,36 @@ func NewTimeThreshold(threshold uint32) *IE {
 
 // TimeThreshold returns TimeThreshold in uint32 if the type of IE matches.
 func (i *IE) TimeThreshold() (uint32, error) {
-	if i.Type != TimeThreshold {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
-	return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+
+	switch i.Type {
+	case TimeThreshold:
+		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TimeThreshold {
+				return x.TimeThreshold()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TimeThreshold {
+				return x.TimeThreshold()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }
