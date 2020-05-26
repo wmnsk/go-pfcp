@@ -23,15 +23,38 @@ func NewRedirectInformation(addrType uint8, addrs ...string) *IE {
 
 // RedirectInformation returns RedirectInformation in structured format if the type of IE matches.
 func (i *IE) RedirectInformation() (*RedirectInformationFields, error) {
-	if i.Type != RedirectInformation {
+	switch i.Type {
+	case RedirectInformation:
+		f, err := ParseRedirectInformationFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+		return f, nil
+	case ForwardingParameters:
+		ies, err := i.ForwardingParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == RedirectInformation {
+				return x.RedirectInformation()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateForwardingParameters:
+		ies, err := i.UpdateForwardingParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == RedirectInformation {
+				return x.RedirectInformation()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	s, err := ParseRedirectInformationFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-	return s, nil
 }
 
 // RedirectAddressType definitions.

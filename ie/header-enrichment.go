@@ -26,15 +26,38 @@ func NewHeaderEnrichment(typ uint8, name, value string) *IE {
 
 // HeaderEnrichment returns HeaderEnrichment in *HeaderEnrichmentFields if the type of IE matches.
 func (i *IE) HeaderEnrichment() (*HeaderEnrichmentFields, error) {
-	if i.Type != HeaderEnrichment {
+	switch i.Type {
+	case HeaderEnrichment:
+		f, err := ParseHeaderEnrichmentFields(i.Payload)
+		if err != nil {
+			return nil, err
+		}
+		return f, nil
+	case ForwardingParameters:
+		ies, err := i.ForwardingParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == HeaderEnrichment {
+				return x.HeaderEnrichment()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateForwardingParameters:
+		ies, err := i.UpdateForwardingParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == HeaderEnrichment {
+				return x.HeaderEnrichment()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	f, err := ParseHeaderEnrichmentFields(i.Payload)
-	if err != nil {
-		return nil, err
-	}
-	return f, nil
 }
 
 // HeaderEnrichmentFields represents a fields contained in HeaderEnrichment IE.

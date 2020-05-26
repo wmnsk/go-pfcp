@@ -26,6 +26,28 @@ func (i *IE) NetworkInstance() (string, error) {
 			}
 		}
 		return "", ErrIENotFound
+	case ForwardingParameters:
+		ies, err := i.ForwardingParameters()
+		if err != nil {
+			return "", err
+		}
+		for _, x := range ies {
+			if x.Type == NetworkInstance {
+				return x.NetworkInstance()
+			}
+		}
+		return "", ErrIENotFound
+	case UpdateForwardingParameters:
+		ies, err := i.UpdateForwardingParameters()
+		if err != nil {
+			return "", err
+		}
+		for _, x := range ies {
+			if x.Type == NetworkInstance {
+				return x.NetworkInstance()
+			}
+		}
+		return "", ErrIENotFound
 	case CreateTrafficEndpoint:
 		ies, err := i.CreateTrafficEndpoint()
 		if err != nil {

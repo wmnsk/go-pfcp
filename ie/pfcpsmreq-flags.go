@@ -11,45 +11,96 @@ func NewPFCPSMReqFlags(flag uint8) *IE {
 
 // PFCPSMReqFlags returns PFCPSMReqFlags in []byte if the type of IE matches.
 func (i *IE) PFCPSMReqFlags() ([]byte, error) {
-	if i.Type != PFCPSMReqFlags {
+	switch i.Type {
+	case PFCPSMReqFlags:
+		return i.Payload, nil
+	case ForwardingParameters:
+		ies, err := i.ForwardingParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PFCPSMReqFlags {
+				return x.PFCPSMReqFlags()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateForwardingParameters:
+		ies, err := i.UpdateForwardingParameters()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PFCPSMReqFlags {
+				return x.PFCPSMReqFlags()
+			}
+		}
+		return nil, ErrIENotFound
+	default:
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
-	return i.Payload, nil
 }
 
 // HasDROBU reports whether an IE has DROBU bit.
 func (i *IE) HasDROBU() bool {
-	if i.Type != PFCPSMReqFlags && i.Type != PFCPSRRspFlags {
-		return false
-	}
 	if len(i.Payload) < 1 {
 		return false
 	}
 
-	return has1stBit(i.Payload[0])
+	switch i.Type {
+	case PFCPSMReqFlags:
+		v, err := i.PFCPSMReqFlags()
+		if err != nil {
+			return false
+		}
+
+		return has1stBit(v[0])
+	case PFCPSRRspFlags:
+		v, err := i.PFCPSRRspFlags()
+		if err != nil {
+			return false
+		}
+
+		return has1stBit(v[0])
+	default:
+		return false
+	}
 }
 
 // HasSNDEM reports whether an IE has SNDEM bit.
 func (i *IE) HasSNDEM() bool {
-	if i.Type != PFCPSMReqFlags {
-		return false
-	}
 	if len(i.Payload) < 1 {
 		return false
 	}
 
-	return has2ndBit(i.Payload[0])
+	switch i.Type {
+	case PFCPSMReqFlags:
+		v, err := i.PFCPSMReqFlags()
+		if err != nil {
+			return false
+		}
+
+		return has2ndBit(v[0])
+	default:
+		return false
+	}
 }
 
 // HasQAURR reports whether an IE has QAURR bit.
 func (i *IE) HasQAURR() bool {
-	if i.Type != PFCPSMReqFlags {
-		return false
-	}
 	if len(i.Payload) < 1 {
 		return false
 	}
 
-	return has3rdBit(i.Payload[0])
+	switch i.Type {
+	case PFCPSMReqFlags:
+		v, err := i.PFCPSMReqFlags()
+		if err != nil {
+			return false
+		}
+
+		return has3rdBit(v[0])
+	default:
+		return false
+	}
 }
