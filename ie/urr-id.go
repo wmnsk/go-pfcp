@@ -34,6 +34,28 @@ func (i *IE) URRID() (uint32, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == URRID {
+				return x.URRID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == URRID {
+				return x.URRID()
+			}
+		}
+		return 0, ErrIENotFound
 	case UpdatePDR:
 		ies, err := i.UpdatePDR()
 		if err != nil {

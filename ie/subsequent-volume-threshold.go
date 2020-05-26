@@ -31,6 +31,28 @@ func (i *IE) SubsequentVolumeThreshold() (*SubsequentVolumeThresholdFields, erro
 		}
 
 		return fields, nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == SubsequentVolumeThreshold {
+				return x.SubsequentVolumeThreshold()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == SubsequentVolumeThreshold {
+				return x.SubsequentVolumeThreshold()
+			}
+		}
+		return nil, ErrIENotFound
 	case AdditionalMonitoringTime:
 		ies, err := i.AdditionalMonitoringTime()
 		if err != nil {

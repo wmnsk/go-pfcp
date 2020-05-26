@@ -23,6 +23,28 @@ func (i *IE) EventThreshold() (uint32, error) {
 	switch i.Type {
 	case EventThreshold:
 		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == EventThreshold {
+				return x.EventThreshold()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == EventThreshold {
+				return x.EventThreshold()
+			}
+		}
+		return 0, ErrIENotFound
 	case AdditionalMonitoringTime:
 		ies, err := i.AdditionalMonitoringTime()
 		if err != nil {

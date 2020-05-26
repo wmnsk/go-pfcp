@@ -46,6 +46,28 @@ func (i *IE) RedundantTransmissionParameters() ([]*IE, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case CreateFAR:
+		ies, err := i.CreateFAR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == RedundantTransmissionParameters {
+				return x.RedundantTransmissionParameters()
+			}
+		}
+		return nil, ErrIENotFound
+	case UpdateFAR:
+		ies, err := i.UpdateFAR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == RedundantTransmissionParameters {
+				return x.RedundantTransmissionParameters()
+			}
+		}
+		return nil, ErrIENotFound
 	case CreateTrafficEndpoint:
 		ies, err := i.CreateTrafficEndpoint()
 		if err != nil {

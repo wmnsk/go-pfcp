@@ -4,6 +4,8 @@
 
 package ie
 
+import "io"
+
 // TGPPInterfaceType definitons.
 const (
 	TGPPInterfaceTypeS1U                      uint8 = 0
@@ -36,9 +38,36 @@ func NewTGPPInterfaceType(intf uint8) *IE {
 
 // TGPPInterfaceType returns TGPPInterfaceType in uint8 if the type of IE matches.
 func (i *IE) TGPPInterfaceType() (uint8, error) {
-	if i.Type != TGPPInterfaceType {
-		return 0, &InvalidTypeError{Type: i.Type}
+	if len(i.Payload) < 1 {
+		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0] & 0x3f, nil
+	switch i.Type {
+	case TGPPInterfaceType:
+		return i.Payload[0] & 0x3f, nil
+	case ForwardingParameters:
+		ies, err := i.ForwardingParameters()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TGPPInterfaceType {
+				return x.TGPPInterfaceType()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateForwardingParameters:
+		ies, err := i.UpdateForwardingParameters()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TGPPInterfaceType {
+				return x.TGPPInterfaceType()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }

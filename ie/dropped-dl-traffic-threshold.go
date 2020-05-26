@@ -6,6 +6,7 @@ package ie
 
 import (
 	"encoding/binary"
+	"io"
 )
 
 // NewDroppedDLTrafficThreshold creates a new DroppedDLTrafficThreshold IE.
@@ -38,11 +39,38 @@ func NewDroppedDLTrafficThreshold(dlpa, dlby bool, packets, bytes uint64) *IE {
 
 // DroppedDLTrafficThreshold returns DroppedDLTrafficThreshold in uint8 if the type of IE matches.
 func (i *IE) DroppedDLTrafficThreshold() (uint8, error) {
-	if i.Type != DroppedDLTrafficThreshold {
-		return 0, &InvalidTypeError{Type: i.Type}
+	if len(i.Payload) < 1 {
+		return 0, io.ErrUnexpectedEOF
 	}
 
-	return i.Payload[0], nil
+	switch i.Type {
+	case DroppedDLTrafficThreshold:
+		return i.Payload[0], nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == DroppedDLTrafficThreshold {
+				return x.DroppedDLTrafficThreshold()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == DroppedDLTrafficThreshold {
+				return x.DroppedDLTrafficThreshold()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }
 
 // HasDLBY reports whether an IE has DLBY bit.

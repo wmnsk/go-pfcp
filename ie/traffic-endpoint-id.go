@@ -44,6 +44,28 @@ func (i *IE) TrafficEndpointID() (uint8, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case ForwardingParameters:
+		ies, err := i.ForwardingParameters()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TrafficEndpointID {
+				return x.TrafficEndpointID()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateForwardingParameters:
+		ies, err := i.UpdateForwardingParameters()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TrafficEndpointID {
+				return x.TrafficEndpointID()
+			}
+		}
+		return 0, ErrIENotFound
 	case CreateTrafficEndpoint:
 		ies, err := i.CreateTrafficEndpoint()
 		if err != nil {

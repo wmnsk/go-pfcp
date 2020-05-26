@@ -19,12 +19,36 @@ func NewTimeQuota(period time.Duration) *IE {
 
 // TimeQuota returns TimeQuota in time.Duration if the type of IE matches.
 func (i *IE) TimeQuota() (time.Duration, error) {
-	if i.Type != TimeQuota {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
-	return time.Duration(binary.BigEndian.Uint32(i.Payload[0:4])) * time.Second, nil
+	switch i.Type {
+	case TimeQuota:
+		return time.Duration(binary.BigEndian.Uint32(i.Payload[0:4])) * time.Second, nil
+	case CreateURR:
+		ies, err := i.CreateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TimeQuota {
+				return x.TimeQuota()
+			}
+		}
+		return 0, ErrIENotFound
+	case UpdateURR:
+		ies, err := i.UpdateURR()
+		if err != nil {
+			return 0, err
+		}
+		for _, x := range ies {
+			if x.Type == TimeQuota {
+				return x.TimeQuota()
+			}
+		}
+		return 0, ErrIENotFound
+	default:
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
 }
