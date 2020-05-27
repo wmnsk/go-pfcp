@@ -80,6 +80,10 @@ func Parse(b []byte) (Message, error) {
 		m = &AssociationReleaseResponse{}
 	case MsgTypeVersionNotSupportedResponse:
 		m = &VersionNotSupportedResponse{}
+	case MsgTypeNodeReportRequest:
+		m = &NodeReportRequest{}
+	case MsgTypeNodeReportResponse:
+		m = &NodeReportResponse{}
 	default:
 		m = &Generic{}
 	}
