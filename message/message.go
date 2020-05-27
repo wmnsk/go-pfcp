@@ -66,6 +66,10 @@ func Parse(b []byte) (Message, error) {
 		m = &PFDManagementRequest{}
 	case MsgTypePFDManagementResponse:
 		m = &PFDManagementResponse{}
+	case MsgTypeAssociationSetupRequest:
+		m = &AssociationSetupRequest{}
+	case MsgTypeAssociationSetupResponse:
+		m = &AssociationSetupResponse{}
 	default:
 		m = &Generic{}
 	}
