@@ -78,6 +78,8 @@ func Parse(b []byte) (Message, error) {
 		m = &AssociationReleaseRequest{}
 	case MsgTypeAssociationReleaseResponse:
 		m = &AssociationReleaseResponse{}
+	case MsgTypeVersionNotSupportedResponse:
+		m = &VersionNotSupportedResponse{}
 	default:
 		m = &Generic{}
 	}

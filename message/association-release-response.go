@@ -145,7 +145,7 @@ func (m *AssociationReleaseResponse) SetLength() {
 
 // MessageTypeName returns the name of protocol.
 func (m *AssociationReleaseResponse) MessageTypeName() string {
-	return "Heartbeat Request"
+	return "Association Release Response"
 }
 
 // SEID returns the SEID in uint64.
