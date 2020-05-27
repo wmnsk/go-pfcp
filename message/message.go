@@ -70,6 +70,10 @@ func Parse(b []byte) (Message, error) {
 		m = &AssociationSetupRequest{}
 	case MsgTypeAssociationSetupResponse:
 		m = &AssociationSetupResponse{}
+	case MsgTypeAssociationUpdateRequest:
+		m = &AssociationUpdateRequest{}
+	case MsgTypeAssociationUpdateResponse:
+		m = &AssociationUpdateResponse{}
 	default:
 		m = &Generic{}
 	}
