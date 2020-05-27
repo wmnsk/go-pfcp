@@ -34,7 +34,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	hbreq, err := message.NewHeartbeatRequest(ie.NewRecoveryTimeStamp(time.Now())).Marshal()
+	hbreq, err := message.NewHeartbeatRequest(
+		ie.NewRecoveryTimeStamp(time.Now()),
+		ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), net.ParseIP("2001::1"), 0),
+	).Marshal()
 	if err != nil {
 		log.Fatal(err)
 	}

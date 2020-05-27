@@ -62,6 +62,32 @@ func Parse(b []byte) (Message, error) {
 		m = &HeartbeatRequest{}
 	case MsgTypeHeartbeatResponse:
 		m = &HeartbeatResponse{}
+	case MsgTypePFDManagementRequest:
+		m = &PFDManagementRequest{}
+	case MsgTypePFDManagementResponse:
+		m = &PFDManagementResponse{}
+	case MsgTypeAssociationSetupRequest:
+		m = &AssociationSetupRequest{}
+	case MsgTypeAssociationSetupResponse:
+		m = &AssociationSetupResponse{}
+	case MsgTypeAssociationUpdateRequest:
+		m = &AssociationUpdateRequest{}
+	case MsgTypeAssociationUpdateResponse:
+		m = &AssociationUpdateResponse{}
+	case MsgTypeAssociationReleaseRequest:
+		m = &AssociationReleaseRequest{}
+	case MsgTypeAssociationReleaseResponse:
+		m = &AssociationReleaseResponse{}
+	case MsgTypeVersionNotSupportedResponse:
+		m = &VersionNotSupportedResponse{}
+	case MsgTypeNodeReportRequest:
+		m = &NodeReportRequest{}
+	case MsgTypeNodeReportResponse:
+		m = &NodeReportResponse{}
+	case MsgTypeSessionSetDeletionRequest:
+		m = &SessionSetDeletionRequest{}
+	case MsgTypeSessionSetDeletionResponse:
+		m = &SessionSetDeletionResponse{}
 	default:
 		m = &Generic{}
 	}

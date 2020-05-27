@@ -7,6 +7,7 @@ package ie
 import (
 	"io"
 	"net"
+	"strings"
 )
 
 // NodeID definitions.
@@ -32,10 +33,18 @@ func NewNodeID(ipv4, ipv6, fqdn string) *IE {
 		p[0] = NodeIDIPv6Address
 		copy(p[1:], net.ParseIP(ipv6).To16())
 	} else if fqdn != "" {
-		s := []byte(fqdn)
-		p = make([]byte, 1+len(s))
+		p = make([]byte, 2+len([]byte(fqdn)))
+
 		p[0] = NodeIDFQDN
-		copy(p[1:], s)
+
+		offset := 1
+		for _, label := range strings.Split(fqdn, ".") {
+			l := len(label)
+			p[offset] = uint8(l)
+			copy(p[offset+1:], []byte(label))
+			offset += l + 1
+		}
+
 	} else { // all params are empty
 		return nil
 	}

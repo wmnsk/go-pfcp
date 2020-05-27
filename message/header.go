@@ -102,7 +102,7 @@ func ParseHeader(b []byte) (*Header, error) {
 // UnmarshalBinary sets the values retrieved from byte sequence in GTPv2 header.
 func (h *Header) UnmarshalBinary(b []byte) error {
 	l := len(b)
-	if l < 12 {
+	if l < 8 {
 		return io.ErrUnexpectedEOF
 	}
 	h.Flags = b[0]
@@ -111,12 +111,18 @@ func (h *Header) UnmarshalBinary(b []byte) error {
 
 	offset := 4
 	if h.HasSEID() {
+		if l < offset+8 {
+			return io.ErrUnexpectedEOF
+		}
 		h.SEID = binary.BigEndian.Uint64(b[offset : offset+8])
 		offset += 8
 	}
 
+	if l < offset+4 {
+		return io.ErrUnexpectedEOF
+	}
 	h.SequenceNumber = uint24To32(b[offset : offset+3])
-	h.MessagePriority = b[offset+4]
+	h.MessagePriority = b[offset+3]
 	offset += 4
 
 	if int(h.Length)+offset != l {
@@ -124,6 +130,9 @@ func (h *Header) UnmarshalBinary(b []byte) error {
 		return nil
 	}
 
+	if l < offset+int(h.Length) {
+		return io.ErrUnexpectedEOF
+	}
 	h.Payload = b[offset : offset+int(h.Length)]
 	return nil
 }

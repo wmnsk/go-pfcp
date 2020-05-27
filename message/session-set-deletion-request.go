@@ -8,33 +8,33 @@ import (
 	"github.com/wmnsk/go-pfcp/ie"
 )
 
-// HeartbeatRequest is a HeartbeatRequest formed PFCP Header and its IEs above.
-type HeartbeatRequest struct {
+// SessionSetDeletionRequest is a SessionSetDeletionRequest formed PFCP Header and its IEs above.
+type SessionSetDeletionRequest struct {
 	*Header
-	RecoveryTimeStamp *ie.IE
-	SourceIPAddress   *ie.IE
-	IEs               []*ie.IE
+	NodeID *ie.IE
+	FQCSID *ie.IE
+	IEs    []*ie.IE
 }
 
-// NewHeartbeatRequest creates a new HeartbeatRequest.
-func NewHeartbeatRequest(ts, ip *ie.IE, ies ...*ie.IE) *HeartbeatRequest {
-	m := &HeartbeatRequest{
+// NewSessionSetDeletionRequest creates a new SessionSetDeletionRequest.
+func NewSessionSetDeletionRequest(id, csid *ie.IE, ies ...*ie.IE) *SessionSetDeletionRequest {
+	m := &SessionSetDeletionRequest{
 		Header: NewHeader(
 			1, 0, 0, 0,
-			MsgTypeHeartbeatRequest, 0, 0, 0,
+			MsgTypeSessionSetDeletionRequest, 0, 0, 0,
 			nil,
 		),
-		RecoveryTimeStamp: ts,
-		SourceIPAddress:   ip,
-		IEs:               ies,
+		NodeID: id,
+		FQCSID: csid,
+		IEs:    ies,
 	}
 	m.SetLength()
 
 	return m
 }
 
-// Marshal returns the byte sequence generated from a HeartbeatRequest.
-func (m *HeartbeatRequest) Marshal() ([]byte, error) {
+// Marshal returns the byte sequence generated from a SessionSetDeletionRequest.
+func (m *SessionSetDeletionRequest) Marshal() ([]byte, error) {
 	b := make([]byte, m.MarshalLen())
 	if err := m.MarshalTo(b); err != nil {
 		return nil, err
@@ -44,20 +44,20 @@ func (m *HeartbeatRequest) Marshal() ([]byte, error) {
 }
 
 // MarshalTo puts the byte sequence in the byte array given as b.
-func (m *HeartbeatRequest) MarshalTo(b []byte) error {
+func (m *SessionSetDeletionRequest) MarshalTo(b []byte) error {
 	if m.Header.Payload != nil {
 		m.Header.Payload = nil
 	}
 	m.Header.Payload = make([]byte, m.MarshalLen()-m.Header.MarshalLen())
 
 	offset := 0
-	if i := m.RecoveryTimeStamp; i != nil {
+	if i := m.NodeID; i != nil {
 		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
 			return err
 		}
 		offset += i.MarshalLen()
 	}
-	if i := m.SourceIPAddress; i != nil {
+	if i := m.FQCSID; i != nil {
 		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
 			return err
 		}
@@ -78,17 +78,17 @@ func (m *HeartbeatRequest) MarshalTo(b []byte) error {
 	return m.Header.MarshalTo(b)
 }
 
-// ParseHeartbeatRequest decodes a given byte sequence as a HeartbeatRequest.
-func ParseHeartbeatRequest(b []byte) (*HeartbeatRequest, error) {
-	m := &HeartbeatRequest{}
+// ParseSessionSetDeletionRequest decodes a given byte sequence as a SessionSetDeletionRequest.
+func ParseSessionSetDeletionRequest(b []byte) (*SessionSetDeletionRequest, error) {
+	m := &SessionSetDeletionRequest{}
 	if err := m.UnmarshalBinary(b); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-// UnmarshalBinary decodes a given byte sequence as a HeartbeatRequest.
-func (m *HeartbeatRequest) UnmarshalBinary(b []byte) error {
+// UnmarshalBinary decodes a given byte sequence as a SessionSetDeletionRequest.
+func (m *SessionSetDeletionRequest) UnmarshalBinary(b []byte) error {
 	var err error
 	m.Header, err = ParseHeader(b)
 	if err != nil {
@@ -105,10 +105,10 @@ func (m *HeartbeatRequest) UnmarshalBinary(b []byte) error {
 
 	for _, i := range ies {
 		switch i.Type {
-		case ie.RecoveryTimeStamp:
-			m.RecoveryTimeStamp = i
-		case ie.SourceIPAddress:
-			m.SourceIPAddress = i
+		case ie.NodeID:
+			m.NodeID = i
+		case ie.FQCSID:
+			m.FQCSID = i
 		default:
 			m.IEs = append(m.IEs, i)
 		}
@@ -118,13 +118,13 @@ func (m *HeartbeatRequest) UnmarshalBinary(b []byte) error {
 }
 
 // MarshalLen returns the serial length of Data.
-func (m *HeartbeatRequest) MarshalLen() int {
+func (m *SessionSetDeletionRequest) MarshalLen() int {
 	l := m.Header.MarshalLen() - len(m.Header.Payload)
 
-	if i := m.RecoveryTimeStamp; i != nil {
+	if i := m.NodeID; i != nil {
 		l += i.MarshalLen()
 	}
-	if i := m.SourceIPAddress; i != nil {
+	if i := m.FQCSID; i != nil {
 		l += i.MarshalLen()
 	}
 
@@ -139,28 +139,16 @@ func (m *HeartbeatRequest) MarshalLen() int {
 }
 
 // SetLength sets the length in Length field.
-func (m *HeartbeatRequest) SetLength() {
-	l := m.Header.MarshalLen() - len(m.Header.Payload) - 4
-
-	if i := m.RecoveryTimeStamp; i != nil {
-		l += i.MarshalLen()
-	}
-	if i := m.SourceIPAddress; i != nil {
-		l += i.MarshalLen()
-	}
-
-	for _, ie := range m.IEs {
-		l += ie.MarshalLen()
-	}
-	m.Header.Length = uint16(l)
+func (m *SessionSetDeletionRequest) SetLength() {
+	m.Header.Length = uint16(m.MarshalLen() - 4)
 }
 
 // MessageTypeName returns the name of protocol.
-func (m *HeartbeatRequest) MessageTypeName() string {
-	return "Heartbeat Request"
+func (m *SessionSetDeletionRequest) MessageTypeName() string {
+	return "Session Set Deletion Request"
 }
 
 // SEID returns the SEID in uint64.
-func (m *HeartbeatRequest) SEID() uint64 {
+func (m *SessionSetDeletionRequest) SEID() uint64 {
 	return m.Header.seid()
 }

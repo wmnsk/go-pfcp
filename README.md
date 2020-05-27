@@ -90,19 +90,19 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 |--------------|--------------------------------|-----|-----|-----|----|------------|
 | 1            | Heartbeat Request              | X   | X   | X   | X  | Yes        |
 | 2            | Heartbeat Response             | X   | X   | X   | X  | Yes        |
-| 3            | PFD Management Request         | -   | X   | X   | X  |            |
-| 4            | PFD Management Response        | -   | X   | X   | X  |            |
-| 5            | Association Setup Request      | X   | X   | X   | X  |            |
-| 6            | Association Setup Response     | X   | X   | X   | X  |            |
-| 7            | Association Update Request     | X   | X   | X   | X  |            |
-| 8            | Association Update Response    | X   | X   | X   | X  |            |
-| 9            | Association Release Request    | X   | X   | X   | X  |            |
-| 10           | Association Release Response   | X   | X   | X   | X  |            |
-| 11           | Version Not Supported Response | X   | X   | X   | X  |            |
-| 12           | Node Report Request            | X   | X   | X   | X  |            |
-| 13           | Node Report Response           | X   | X   | X   | X  |            |
-| 14           | Session Set Deletion Request   | X   | X   | -   |    |            |
-| 15           | Session Set Deletion Response  | X   | X   | -   |    |            |
+| 3            | PFD Management Request         | -   | X   | X   | X  | Yes        |
+| 4            | PFD Management Response        | -   | X   | X   | X  | Yes        |
+| 5            | Association Setup Request      | X   | X   | X   | X  | Yes        |
+| 6            | Association Setup Response     | X   | X   | X   | X  | Yes        |
+| 7            | Association Update Request     | X   | X   | X   | X  | Yes        |
+| 8            | Association Update Response    | X   | X   | X   | X  | Yes        |
+| 9            | Association Release Request    | X   | X   | X   | X  | Yes        |
+| 10           | Association Release Response   | X   | X   | X   | X  | Yes        |
+| 11           | Version Not Supported Response | X   | X   | X   | X  | Yes        |
+| 12           | Node Report Request            | X   | X   | X   | X  | Yes        |
+| 13           | Node Report Response           | X   | X   | X   | X  | Yes        |
+| 14           | Session Set Deletion Request   | X   | X   | -   |    | Yes        |
+| 15           | Session Set Deletion Response  | X   | X   | -   |    | Yes        |
 | 16 to 49     | _(For future use)_             |     |     |     |    | -          |
 
 #### PFCP Session related messages
