@@ -62,6 +62,10 @@ func Parse(b []byte) (Message, error) {
 		m = &HeartbeatRequest{}
 	case MsgTypeHeartbeatResponse:
 		m = &HeartbeatResponse{}
+	case MsgTypePFDManagementRequest:
+		m = &PFDManagementRequest{}
+	case MsgTypePFDManagementResponse:
+		m = &PFDManagementResponse{}
 	default:
 		m = &Generic{}
 	}
