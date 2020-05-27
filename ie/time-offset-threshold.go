@@ -36,6 +36,18 @@ func (i *IE) TimeOffsetThreshold() (time.Duration, error) {
 			}
 		}
 		return 0, ErrIENotFound
+	case ClockDriftReport:
+		ies, err := i.ClockDriftReport()
+		if err != nil {
+			return 0, err
+		}
+
+		for _, x := range ies {
+			if x.Type == TimeOffsetThreshold {
+				return x.TimeOffsetThreshold()
+			}
+		}
+		return 0, ErrIENotFound
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
