@@ -12,11 +12,12 @@ import (
 type HeartbeatRequest struct {
 	*Header
 	RecoveryTimeStamp *ie.IE
+	SourceIPAddress   *ie.IE
 	IEs               []*ie.IE
 }
 
 // NewHeartbeatRequest creates a new HeartbeatRequest.
-func NewHeartbeatRequest(ts *ie.IE, ies ...*ie.IE) *HeartbeatRequest {
+func NewHeartbeatRequest(ts, ip *ie.IE, ies ...*ie.IE) *HeartbeatRequest {
 	m := &HeartbeatRequest{
 		Header: NewHeader(
 			1, 0, 0, 0,
@@ -24,6 +25,7 @@ func NewHeartbeatRequest(ts *ie.IE, ies ...*ie.IE) *HeartbeatRequest {
 			nil,
 		),
 		RecoveryTimeStamp: ts,
+		SourceIPAddress:   ip,
 		IEs:               ies,
 	}
 	m.SetLength()
@@ -50,6 +52,12 @@ func (m *HeartbeatRequest) MarshalTo(b []byte) error {
 
 	offset := 0
 	if i := m.RecoveryTimeStamp; i != nil {
+		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
+			return err
+		}
+		offset += i.MarshalLen()
+	}
+	if i := m.SourceIPAddress; i != nil {
 		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
 			return err
 		}
@@ -99,6 +107,8 @@ func (m *HeartbeatRequest) UnmarshalBinary(b []byte) error {
 		switch i.Type {
 		case ie.RecoveryTimeStamp:
 			m.RecoveryTimeStamp = i
+		case ie.SourceIPAddress:
+			m.SourceIPAddress = i
 		default:
 			m.IEs = append(m.IEs, i)
 		}
@@ -112,6 +122,9 @@ func (m *HeartbeatRequest) MarshalLen() int {
 	l := m.Header.MarshalLen() - len(m.Header.Payload)
 
 	if i := m.RecoveryTimeStamp; i != nil {
+		l += i.MarshalLen()
+	}
+	if i := m.SourceIPAddress; i != nil {
 		l += i.MarshalLen()
 	}
 
@@ -130,6 +143,9 @@ func (m *HeartbeatRequest) SetLength() {
 	l := m.Header.MarshalLen() - len(m.Header.Payload) - 4
 
 	if i := m.RecoveryTimeStamp; i != nil {
+		l += i.MarshalLen()
+	}
+	if i := m.SourceIPAddress; i != nil {
 		l += i.MarshalLen()
 	}
 
