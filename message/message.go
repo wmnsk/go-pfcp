@@ -74,6 +74,10 @@ func Parse(b []byte) (Message, error) {
 		m = &AssociationUpdateRequest{}
 	case MsgTypeAssociationUpdateResponse:
 		m = &AssociationUpdateResponse{}
+	case MsgTypeAssociationReleaseRequest:
+		m = &AssociationReleaseRequest{}
+	case MsgTypeAssociationReleaseResponse:
+		m = &AssociationReleaseResponse{}
 	default:
 		m = &Generic{}
 	}
