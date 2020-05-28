@@ -14,7 +14,10 @@ Looking for GTP implementation in Golang? [go-gtp](https://github.com/wmnsk/go-g
 
 ## Project Status
 
-This project is still WIP; We're in the middle of implementing basic structures of messages and IEs, networking functionalities(like setting up associations quickly) are not available currently.
+This project is still WIP.  
+We are in the middle of implementation of networking functionalities(like setting up associations, establish session with easy & quick APIs).
+
+Implementation of all the messages and IEs defined in TS29.244 V16.3.1(2020-04) has been done at v0.0.1, but the exported APIs may still be updated in the future (we add new tag in that case).
 
 ## Getting Started
 
@@ -477,11 +480,6 @@ IEs are (basically) implemented in conformance with TS29.244 V16.3.1(2020-04).
 | 257 to 32767   | _(For future use)_                                                               | -          |
 | 32768 to 65535 | Reserved for vendor specific IEs                                                 | -          |
 
-
-## Disclaimer
-
-This is still an experimental project. Any part of implementations(including exported APIs) may be changed before released as v1.0.0.
-
 ## Author(s)
 
 Yoshiyuki Kurauchi ([Website](https://wmnsk.com/) / [LinkedIn](https://www.linkedin.com/in/yoshiyuki-kurauchi/))
@@ -490,4 +488,4 @@ _I'm always open to welcome co-authors! Please feel free to talk to me._
 
 ## LICENSE
 
-[MIT](https://github.com/wmnsk/go-gtp/blob/master/LICENSE)
+[MIT](https://github.com/wmnsk/go-pfcp/blob/master/LICENSE)
