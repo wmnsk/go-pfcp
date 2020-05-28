@@ -109,14 +109,14 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 
 | Message Type | Message                        | Sxa | Sxb | Sxc | N4 | Supported? |
 |--------------|--------------------------------|-----|-----|-----|----|------------|
-| 50           | Session Establishment Request  | X   | X   | X   | X  |            |
-| 51           | Session Establishment Response | X   | X   | X   | X  |            |
-| 52           | Session Modification Request   | X   | X   | X   | X  |            |
-| 53           | Session Modification Response  | X   | X   | X   | X  |            |
-| 54           | Session Deletion Request       | X   | X   | X   | X  |            |
-| 55           | Session Deletion Response      | X   | X   | X   | X  |            |
-| 56           | Session Report Request         | X   | X   | X   | X  |            |
-| 57           | Session Report Response        | X   | X   | X   | X  |            |
+| 50           | Session Establishment Request  | X   | X   | X   | X  | Yes        |
+| 51           | Session Establishment Response | X   | X   | X   | X  | Yes        |
+| 52           | Session Modification Request   | X   | X   | X   | X  | Yes        |
+| 53           | Session Modification Response  | X   | X   | X   | X  | Yes        |
+| 54           | Session Deletion Request       | X   | X   | X   | X  | Yes        |
+| 55           | Session Deletion Response      | X   | X   | X   | X  | Yes        |
+| 56           | Session Report Request         | X   | X   | X   | X  | Yes        |
+| 57           | Session Report Response        | X   | X   | X   | X  | Yes        |
 | 58 to 99     | _(For future use)_             |     |     |     |    | -          |
 
 ### Information Elements
