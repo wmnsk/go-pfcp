@@ -88,6 +88,10 @@ func Parse(b []byte) (Message, error) {
 		m = &SessionSetDeletionRequest{}
 	case MsgTypeSessionSetDeletionResponse:
 		m = &SessionSetDeletionResponse{}
+	case MsgTypeSessionEstablishmentRequest:
+		m = &SessionEstablishmentRequest{}
+	case MsgTypeSessionEstablishmentResponse:
+		m = &SessionEstablishmentResponse{}
 	default:
 		m = &Generic{}
 	}
