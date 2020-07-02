@@ -13,7 +13,7 @@ func NewOuterHeaderRemoval(desc, ext uint8) *IE {
 
 // OuterHeaderRemoval returns OuterHeaderRemoval in []byte if the type of IE matches.
 func (i *IE) OuterHeaderRemoval() ([]byte, error) {
-	if len(i.Payload) < 2 {
+	if len(i.Payload) < 1 {
 		return nil, io.ErrUnexpectedEOF
 	}
 
