@@ -287,7 +287,7 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 	}
 
 	f.OuterHeaderCreationDescription = binary.BigEndian.Uint16(b[0:2])
-	offset := 3
+	offset := 2
 
 	oct5 := b[0]
 	if has1stBit(oct5) || has2ndBit(oct5) {
