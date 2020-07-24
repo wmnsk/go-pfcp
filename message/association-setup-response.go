@@ -5,7 +5,6 @@
 package message
 
 import (
-	"encoding/binary"
 	"github.com/wmnsk/go-pfcp/ie"
 )
 
@@ -61,7 +60,7 @@ func NewAssociationSetupResponse(ies ...*ie.IE) *AssociationSetupResponse {
 		case ie.NFInstanceID:
 			m.UPFInstanceID = i
 		case ie.SequenceNumber:
-                        m.Header.SequenceNumber = binary.BigEndian.Uint32(i.Payload[0:4])
+			m.Header.SequenceNumber,_ = i.SequenceNumber()
 		default:
 			m.IEs = append(m.IEs, i)
 		}
