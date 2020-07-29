@@ -63,7 +63,8 @@ func main() {
 		}
 
 		// Timestamp shouldn't be the time message is sent in the real deployment but anyway :D
-		hbres, err := message.NewHeartbeatResponse(ie.NewRecoveryTimeStamp(time.Now())).Marshal()
+		var seq uint32 = 1
+		hbres, err := message.NewHeartbeatResponse(seq, ie.NewRecoveryTimeStamp(time.Now())).Marshal()
 		if err != nil {
 			log.Fatal(err)
 		}

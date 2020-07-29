@@ -16,9 +16,9 @@ func TestVersionNotSupportedResponse(t *testing.T) {
 	cases := []testutil.TestCase{
 		{
 			Description: "Normal",
-			Structured:  message.NewVersionNotSupportedResponse(),
+			Structured:  message.NewVersionNotSupportedResponse(seq),
 			Serialized: []byte{
-				0x20, 0x0b, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00,
+				0x20, 0x0b, 0x00, 0x04, 0x11, 0x22, 0x33, 0x00,
 			},
 		},
 	}
