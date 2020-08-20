@@ -5,7 +5,6 @@
 package message_test
 
 import (
-	"log"
 	"net"
 	"testing"
 	"time"
@@ -447,7 +446,6 @@ func TestSessionEstablishmentRequest(t *testing.T) {
 			return nil, err
 		}
 
-		log.Println(len(cases[0].Serialized))
 		v.Payload = nil
 		return v, nil
 	})
