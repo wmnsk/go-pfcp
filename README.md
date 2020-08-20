@@ -15,37 +15,30 @@ Looking for GTP implementation in Golang? [go-gtp](https://github.com/wmnsk/go-g
 ## Project Status
 
 This project is still WIP.  
-We are in the middle of implementation of networking functionalities(like setting up associations, establish session with easy & quick APIs).
+We are in the middle of the implementation of networking functionalities(like setting up associations, establish sessions with easy & quick APIs).
 
-Implementation of all the messages and IEs defined in TS29.244 V16.3.1(2020-04) has been done at v0.0.1, but the exported APIs may still be updated in the future (we add new tag in that case).
+Implementation of all the messages and IEs defined in TS29.244 V16.3.1(2020-04) has been done at v0.0.1, but the exported APIs may still be updated in the future (we add a new tag in that case).
 
 ## Getting Started
 
 ### Installation
 
-go-pfcp supports Go Modules. Just run `go mod tidy` in your project's directory to collect required packages automatically.
+go-pfcp supports Go Modules. Just run `go mod tidy` in your project's directory to collect the required packages automatically.
 
 ```shell-session
 go mod tidy
-```
-
-If your Go version is older than 1.11, run `go get` manually the following packages instead.
-
-```shell-session
-go get -u github.com/google/go-cmp
-go get -u github.com/pascaldekloe/goe
 ```
 
 ### Running examples
 
 #### Exchanging Heartbeat
 
-Small examples of Heartbeat client and server is available under [examples/heartheat](./examples/heartheat/).
-Client sends HeartbeatRequest and server respond with HeartbeatResponse.
+Small examples of Heartbeat client and server are available under [examples/heartheat](./examples/heartheat/).
+The client sends HeartbeatRequest and the server respond with HeartbeatResponse.
 
 1. run server first,
 
-By default server listens on loopback. It can be specified explicitly by `-s` flag.
+By default, server listens on loopback. It can be specified explicitly by `-s` flag.
 
 ```shell-session
 go-pfcp/examples/heartbeat/hb-server$ go run main.go
@@ -54,8 +47,8 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 
 2. then run client,
 
-By default client sends Heartbeat to loopback. It can be specified explicitly by `-s` flag.
-It exits after printing timestamp in Heartbeat Response from server.
+By default, the client sends Heartbeat to loopback. It can be specified explicitly by `-s` flag.
+It exits after printing the timestamp in Heartbeat Response from the server.
 
 ```shell-session
 go-pfcp/examples/heartbeat/hb-client$ go run main.go
@@ -69,7 +62,7 @@ go-pfcp/examples/heartbeat/hb-client$ go run main.go
 
 3. and see the outcome on server
 
-It starts listening again after responding to client.
+It starts listening again after responding to the client.
 
 ```shell-session
 go-pfcp/examples/heartbeat/hb-server$ go run main.go
