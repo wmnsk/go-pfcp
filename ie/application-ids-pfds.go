@@ -5,8 +5,8 @@
 package ie
 
 // NewApplicationIDsPFDs creates a new ApplicationIDsPFDs IE.
-func NewApplicationIDsPFDs(ies ...*IE) *IE {
-	return newGroupedIE(ApplicationIDsPFDs, 0, ies...)
+func NewApplicationIDsPFDs(appID, pfdCtx *IE) *IE {
+	return newGroupedIE(ApplicationIDsPFDs, 0, appID, pfdCtx)
 }
 
 // ApplicationIDsPFDs returns the IEs above ApplicationIDsPFDs if the type of IE matches.

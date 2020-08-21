@@ -5,8 +5,8 @@
 package ie
 
 // NewUpdatePDR creates a new UpdatePDR IE.
-func NewUpdatePDR(ies ...*IE) *IE {
-	return newGroupedIE(UpdatePDR, 0, ies...)
+func NewUpdatePDR(pdr, hdrRemoval, precedence, pdi, far, urr, qer, apr, dpr, atime, dtime, mcInfo *IE) *IE {
+	return newGroupedIE(UpdatePDR, 0, pdr, hdrRemoval, precedence, pdi, far, urr, qer, apr, dpr, atime, dtime, mcInfo)
 }
 
 // UpdatePDR returns the IEs above UpdatePDR if the type of IE matches.

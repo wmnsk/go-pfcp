@@ -10,8 +10,8 @@ func NewUpdateBAR(typ uint16, ies ...*IE) *IE {
 }
 
 // NewUpdateBARWithinSessionModificationRequest creates a new UpdateBARWithinSessionModificationRequest IE.
-func NewUpdateBARWithinSessionModificationRequest(ies ...*IE) *IE {
-	return NewUpdateBAR(UpdateBARWithinSessionModificationRequest, ies...)
+func NewUpdateBARWithinSessionModificationRequest(bar, delay, bufCount, mtedt *IE) *IE {
+	return NewUpdateBAR(UpdateBARWithinSessionModificationRequest, bar, delay, bufCount, mtedt)
 }
 
 // NewUpdateBARWithinSessionReportResponse creates a new UpdateBARWithinSessionReportResponse IE.

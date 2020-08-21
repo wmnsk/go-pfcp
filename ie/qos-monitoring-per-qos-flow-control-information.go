@@ -5,8 +5,8 @@
 package ie
 
 // NewQoSMonitoringPerQoSFlowControlInformation creates a new QoSMonitoringPerQoSFlowControlInformation IE.
-func NewQoSMonitoringPerQoSFlowControlInformation(ies ...*IE) *IE {
-	return newGroupedIE(QoSMonitoringPerQoSFlowControlInformation, 0, ies...)
+func NewQoSMonitoringPerQoSFlowControlInformation(qfi, qos, freq, delay, wait, period *IE) *IE {
+	return newGroupedIE(QoSMonitoringPerQoSFlowControlInformation, 0, qfi, qos, freq, delay, wait, period)
 }
 
 // QoSMonitoringPerQoSFlowControlInformation returns the IEs above QoSMonitoringPerQoSFlowControlInformation if the type of IE matches.

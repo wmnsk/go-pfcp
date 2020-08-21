@@ -5,9 +5,19 @@
 package ie
 
 // NewUpdateURR creates a new UpdateURR IE.
-func NewUpdateURR(ies ...*IE) *IE {
+func NewUpdateURR(
+	urr, method, triggers, period, volth, volqt, evth, evqt,
+	timeth, timeqt, qhtime, dropped, vtime, montime, subvth, subtimeth,
+	subvqt, subtimeqt, subevth, subevqt, inact, likedURR, mInfo, mechanism,
+	aggURRs, far, ethInact, addMontime, reports *IE) *IE {
 
-	return newGroupedIE(UpdateURR, 0, ies...)
+	return newGroupedIE(
+		UpdateURR, 0,
+		urr, method, triggers, period, volth, volqt, evth, evqt,
+		timeth, timeqt, qhtime, dropped, vtime, montime, subvth, subtimeth,
+		subvqt, subtimeqt, subevth, subevqt, inact, likedURR, mInfo, mechanism,
+		aggURRs, far, ethInact, addMontime, reports,
+	)
 }
 
 // UpdateURR returns the IEs above UpdateURR if the type of IE matches.

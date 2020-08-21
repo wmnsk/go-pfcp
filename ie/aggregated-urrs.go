@@ -5,8 +5,8 @@
 package ie
 
 // NewAggregatedURRs creates a new AggregatedURRs IE.
-func NewAggregatedURRs(ies ...*IE) *IE {
-	return newGroupedIE(AggregatedURRs, 0, ies...)
+func NewAggregatedURRs(id, multiplier *IE) *IE {
+	return newGroupedIE(AggregatedURRs, 0, id, multiplier)
 }
 
 // AggregatedURRs returns the IEs above AggregatedURRs if the type of IE matches.

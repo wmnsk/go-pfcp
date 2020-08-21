@@ -5,8 +5,8 @@
 package ie
 
 // NewCreatedPDR creates a new CreatedPDR IE.
-func NewCreatedPDR(ies ...*IE) *IE {
-	return newGroupedIE(CreatedPDR, 0, ies...)
+func NewCreatedPDR(pdrID, fteid1, fteid2, ip *IE) *IE {
+	return newGroupedIE(CreatedPDR, 0, pdrID, fteid1, fteid2, ip)
 }
 
 // CreatedPDR returns the IEs above CreatedPDR if the type of IE matches.

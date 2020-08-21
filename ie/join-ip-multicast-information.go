@@ -5,8 +5,8 @@
 package ie
 
 // NewJoinIPMulticastInformationWithinUsageReport creates a new JoinIPMulticastInformationWithinUsageReport IE.
-func NewJoinIPMulticastInformationWithinUsageReport(ies ...*IE) *IE {
-	return newGroupedIE(JoinIPMulticastInformationWithinUsageReport, 0, ies...)
+func NewJoinIPMulticastInformationWithinUsageReport(multi, source *IE) *IE {
+	return newGroupedIE(JoinIPMulticastInformationWithinUsageReport, 0, multi, source)
 }
 
 // JoinIPMulticastInformationWithinUsageReport returns the IEs above JoinIPMulticastInformationWithinUsageReport if the type of IE matches.

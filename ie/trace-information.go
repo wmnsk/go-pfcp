@@ -8,11 +8,11 @@ import (
 	"io"
 	"net"
 
-	"git.code.oa.com/reaganhe/go-pfcp/internal/utils"
+	"github.com/wmnsk/go-pfcp/internal/utils"
 )
 
 // NewTraceInformation creates a new TraceInformation IE.
-func NewTraceInformation(mcc, mnc, id string, events []byte, depth uint8, interfaces []byte, ip net.IP) *IE {
+func NewTraceInformation(mcc, mnc, id string, events []byte, depth uint8, interfaces, ip []byte) *IE {
 	fields := NewTraceInformationFields(mcc, mnc, id, events, depth, interfaces, ip)
 
 	b, err := fields.Marshal()

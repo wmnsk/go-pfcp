@@ -5,8 +5,8 @@
 package ie
 
 // NewAdditionalMonitoringTime creates a new AdditionalMonitoringTime IE.
-func NewAdditionalMonitoringTime(ies ...*IE) *IE {
-	return newGroupedIE(AdditionalMonitoringTime, 0, ies...)
+func NewAdditionalMonitoringTime(mTime, svolTh, stimeTh, svolQt, stimeQt, eTh, eQt *IE) *IE {
+	return newGroupedIE(AdditionalMonitoringTime, 0, mTime, svolTh, stimeTh, svolQt, stimeQt, eTh, eQt)
 }
 
 // AdditionalMonitoringTime returns the IEs above AdditionalMonitoringTime if the type of IE matches.

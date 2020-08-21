@@ -5,8 +5,8 @@
 package ie
 
 // NewTGPPAccessForwardingActionInformation creates a new TGPPAccessForwardingActionInformation IE.
-func NewTGPPAccessForwardingActionInformation(ies ...*IE) *IE {
-	return newGroupedIE(TGPPAccessForwardingActionInformation, 0, ies...)
+func NewTGPPAccessForwardingActionInformation(farID, weight, priority, urrID *IE) *IE {
+	return newGroupedIE(TGPPAccessForwardingActionInformation, 0, farID, weight, priority, urrID)
 }
 
 // TGPPAccessForwardingActionInformation returns the IEs above TGPPAccessForwardingActionInformation if the type of IE matches.

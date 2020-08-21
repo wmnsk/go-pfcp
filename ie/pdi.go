@@ -5,8 +5,8 @@
 package ie
 
 // NewPDI creates a new PDI IE.
-func NewPDI(ies ...*IE) *IE {
-	return newGroupedIE(PDI, 0, ies...)
+func NewPDI(srcIF, fteid, ni, rtp, ip, endpoint, sdffilter, appID, ethInfo, ethFilter *IE) *IE {
+	return newGroupedIE(PDI, 0, srcIF, fteid, ni, rtp, ip, endpoint, sdffilter, appID, ethInfo, ethFilter)
 }
 
 // PDI returns the IEs above PDI if the type of IE matches.

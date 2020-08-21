@@ -5,8 +5,8 @@
 package ie
 
 // NewIPMulticastAddressingInfo creates a new IPMulticastAddressingInfo IE.
-func NewIPMulticastAddressingInfo(ies ...*IE) *IE {
-	return newGroupedIE(IPMulticastAddressingInfo, 0, ies...)
+func NewIPMulticastAddressingInfo(multi, source *IE) *IE {
+	return newGroupedIE(IPMulticastAddressingInfo, 0, multi, source)
 }
 
 // IPMulticastAddressingInfo returns the IEs above IPMulticastAddressingInfo if the type of IE matches.

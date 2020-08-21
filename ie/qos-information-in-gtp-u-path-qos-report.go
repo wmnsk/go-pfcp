@@ -5,8 +5,8 @@
 package ie
 
 // NewQoSInformationInGTPUPathQoSReport creates a new QoSInformationInGTPUPathQoSReport IE.
-func NewQoSInformationInGTPUPathQoSReport(ies ...*IE) *IE {
-	return newGroupedIE(QoSInformationInGTPUPathQoSReport, 0, ies...)
+func NewQoSInformationInGTPUPathQoSReport(avgDelay, minDelay, maxDelay, dscp *IE) *IE {
+	return newGroupedIE(QoSInformationInGTPUPathQoSReport, 0, avgDelay, minDelay, maxDelay, dscp)
 }
 
 // QoSInformationInGTPUPathQoSReport returns the IEs above QoSInformationInGTPUPathQoSReport if the type of IE matches.

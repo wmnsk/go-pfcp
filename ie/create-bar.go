@@ -5,8 +5,8 @@
 package ie
 
 // NewCreateBAR creates a new CreateBAR IE.
-func NewCreateBAR(ies ...*IE) *IE {
-	return newGroupedIE(CreateBAR, 0, ies...)
+func NewCreateBAR(bar, delay, buf, mtedt *IE) *IE {
+	return newGroupedIE(CreateBAR, 0, bar, delay, buf, mtedt)
 }
 
 // CreateBAR returns the IEs above CreateBAR if the type of IE matches.

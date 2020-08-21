@@ -5,8 +5,8 @@
 package ie
 
 // NewUpdateQER creates a new UpdateQER IE.
-func NewUpdateQER(ies ...*IE) *IE {
-	return newGroupedIE(UpdateQER, 0, ies...)
+func NewUpdateQER(qer, qci, gate, mbr, gbr, pktRate, prStatus, dlflm, qfi, rqi, ppi, aw, qInd *IE) *IE {
+	return newGroupedIE(UpdateQER, 0, qer, qci, gate, mbr, gbr, pktRate, prStatus, dlflm, qfi, rqi, ppi, aw, qInd)
 }
 
 // UpdateQER returns the IEs above UpdateQER if the type of IE matches.

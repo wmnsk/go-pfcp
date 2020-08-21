@@ -5,8 +5,8 @@
 package ie
 
 // NewCreatedBridgeInfoForTSC creates a new CreatedBridgeInfoForTSC IE.
-func NewCreatedBridgeInfoForTSC(ies ...*IE) *IE {
-	return newGroupedIE(CreatedBridgeInfoForTSC, 0, ies...)
+func NewCreatedBridgeInfoForTSC(dstt, nwtt, tsn *IE) *IE {
+	return newGroupedIE(CreatedBridgeInfoForTSC, 0, dstt, nwtt, tsn)
 }
 
 // CreatedBridgeInfoForTSC returns the IEs above CreatedBridgeInfoForTSC if the type of IE matches.
