@@ -16,7 +16,7 @@ type AssociationSetupResponse struct {
 	RecoveryTimeStamp              *ie.IE
 	UPFunctionFeatures             *ie.IE
 	CPFunctionFeatures             *ie.IE
-	UserPlaneIPResourceInformation *ie.IE
+	UserPlaneIPResourceInformation []*ie.IE
 	AlternativeSMFIPAddress        *ie.IE
 	PFCPASRspFlags                 *ie.IE
 	UEIPAddressPoolInformation     *ie.IE
@@ -49,7 +49,7 @@ func NewAssociationSetupResponse(seq uint32, ies ...*ie.IE) *AssociationSetupRes
 		case ie.CPFunctionFeatures:
 			m.CPFunctionFeatures = i
 		case ie.UserPlaneIPResourceInformation:
-			m.UserPlaneIPResourceInformation = i
+			m.UserPlaneIPResourceInformation = append(m.UserPlaneIPResourceInformation, i)
 		case ie.AlternativeSMFIPAddress:
 			m.AlternativeSMFIPAddress = i
 		case ie.PFCPASRspFlags:
@@ -119,7 +119,7 @@ func (m *AssociationSetupResponse) MarshalTo(b []byte) error {
 		}
 		offset += i.MarshalLen()
 	}
-	if i := m.UserPlaneIPResourceInformation; i != nil {
+	for _, i := range m.UserPlaneIPResourceInformation {
 		if err := i.MarshalTo(m.Payload[offset:]); err != nil {
 			return err
 		}
@@ -214,7 +214,7 @@ func (m *AssociationSetupResponse) UnmarshalBinary(b []byte) error {
 		case ie.CPFunctionFeatures:
 			m.CPFunctionFeatures = i
 		case ie.UserPlaneIPResourceInformation:
-			m.UserPlaneIPResourceInformation = i
+			m.UserPlaneIPResourceInformation = append(m.UserPlaneIPResourceInformation, i)
 		case ie.AlternativeSMFIPAddress:
 			m.AlternativeSMFIPAddress = i
 		case ie.PFCPASRspFlags:
@@ -254,7 +254,7 @@ func (m *AssociationSetupResponse) MarshalLen() int {
 	if i := m.CPFunctionFeatures; i != nil {
 		l += i.MarshalLen()
 	}
-	if i := m.UserPlaneIPResourceInformation; i != nil {
+	for _, i := range m.UserPlaneIPResourceInformation {
 		l += i.MarshalLen()
 	}
 	if i := m.AlternativeSMFIPAddress; i != nil {
