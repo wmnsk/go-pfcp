@@ -6,6 +6,6 @@
 // implemented in the Go Programming Language.
 //
 // THIS PROJECT IS STILL WIP.
-// It has only a few messages and IEs definitions.
-// Networking functionality would be implemented in the future.
+// It has the full definitions of messages and IEs as of V16.3.1(2020-04), TS29.244, but the
+// networking functionalities are not available at this moment.
 package pfcp
