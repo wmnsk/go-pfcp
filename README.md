@@ -15,9 +15,9 @@ Are you looking for a GTP implementation in Golang? [go-gtp](https://github.com/
 ## Project Status
 
 This project is still WIP.  
-We are in the middle of the implementation of networking functionalities(like setting up associations, establish sessions with easy & quick APIs).
+Implementation of all the messages and IEs defined in TS29.244 V16.3.1(2020-04) has been done at v0.0.1, but the exported APIs may still be updated in the future, as they are not tested enough (we add a new tag in that case).
 
-Implementation of all the messages and IEs defined in TS29.244 V16.3.1(2020-04) has been done at v0.0.1, but the exported APIs may still be updated in the future (we add a new tag in that case).
+We are now working on implementing networking functionalities (like setting up associations, establish sessions with easy & quick APIs), as well as updating the messages and IE definitions according to the latest specifications.
 
 ## Getting Started
 
