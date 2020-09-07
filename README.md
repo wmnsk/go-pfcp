@@ -10,7 +10,7 @@ PFCP implementation in Golang.
 
 PFCP(Packet Forwarding Control Protocol) is a signaling protocol used in mobile networking infrastructure(LTE EPC, 5GC) to realize CUPS architecture(Control and User Plane Separation, not a printing system) defined in 3GPP TS29.244.
 
-Looking for GTP implementation in Golang? [go-gtp](https://github.com/wmnsk/go-gtp) would be a good choice for you :P
+Are you looking for a GTP implementation in Golang? [go-gtp](https://github.com/wmnsk/go-gtp) would be the right choice for you :P
 
 ## Project Status
 
@@ -33,12 +33,12 @@ go mod tidy
 
 #### Exchanging Heartbeat
 
-Small examples of Heartbeat client and server are available under [examples/heartheat](./examples/heartheat/).
-The client sends HeartbeatRequest and the server respond with HeartbeatResponse.
+Small heartbeat client and server examples are available under [examples/heartheat](./examples/heartheat/).
+The client sends HeartbeatRequest, and the server responds with HeartbeatResponse.
 
 1. run server first,
 
-By default, server listens on loopback. It can be specified explicitly by `-s` flag.
+By default, the server listens on loopback. It can be specified explicitly by the `-s` flag.
 
 ```shell-session
 go-pfcp/examples/heartbeat/hb-server$ go run main.go
@@ -47,7 +47,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 
 2. then run client,
 
-By default, the client sends Heartbeat to loopback. It can be specified explicitly by `-s` flag.
+By default, the client sends a Heartbeat to loopback. It can be specified explicitly by the `-s` flag.
 It exits after printing the timestamp in Heartbeat Response from the server.
 
 ```shell-session
@@ -78,7 +78,7 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 
 ## Supported Features
 
-### Messages 
+### Messages
 
 #### PFCP Node related messages
 
@@ -125,45 +125,45 @@ To create `CreatePDR` IE, use `NewCreatePDR()`. Parameters for those constructor
 ```go
 // returned type and parameters in NewCreatePDR() are all *ie.IE.
 createPDR := ie.NewCreatePDR(
-	ie.NewPDRID(0xffff),
-	ie.NewPrecedence(0x11111111),
-	ie.NewPDI(
-		ie.NewSourceInterface(ie.SrcInterfaceAccess),
-		ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-		ie.NewNetworkInstance("some.instance.example"),
-		ie.NewRedundantTransmissionParametersInPDI(
-			ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-			ie.NewNetworkInstance("some.instance.example"),
-		),
-		ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0),
-		ie.NewTrafficEndpointID(0x01),
-		ie.NewSDFFilter("aaaaaaaa", "bb", "cccc", "ddd", 0xffffffff),
-		ie.NewApplicationID("https://github.com/wmnsk/go-pfcp/"),
-		ie.NewEthernetPDUSessionInformation(0x01),
-		ie.NewEthernetPacketFilter(
-			ie.NewEthernetFilterID(0xffffffff),
-			ie.NewEthernetFilterProperties(0x01),
-			ie.NewMACAddress(mac1, mac2, mac3, mac4),
-			ie.NewEthertype(0xffff),
-			ie.NewCTAG(0x07, 1, 1, 4095),
-			ie.NewSTAG(0x07, 1, 1, 4095),
-			ie.NewSDFFilter("aaaaaaaa", "bb", "cccc", "ddd", 0xffffffff),
-		),
-	),
-	ie.NewOuterHeaderRemoval(0x01, 0x02),
-	ie.NewFARID(0xffffffff),
-	ie.NewURRID(0xffffffff),
-	ie.NewQERID(0xffffffff),
-	ie.NewActivatePredefinedRules("go-pfcp"),
-	ie.NewActivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
-	ie.NewDeactivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
-	ie.NewMARID(0x1111),
-	ie.NewPacketReplicationAndDetectionCarryOnInformation(0x0f),
-	ie.NewIPMulticastAddressingInfo(
-		ie.NewIPMulticastAddress(net.ParseIP("127.0.0.1"), nil, net.ParseIP("127.0.0.1"), nil),
-		ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), nil, 24),
-	),
-	ie.NewUEIPAddressPoolIdentity("go-pfcp"),
+    ie.NewPDRID(0xffff),
+    ie.NewPrecedence(0x11111111),
+    ie.NewPDI(
+        ie.NewSourceInterface(ie.SrcInterfaceAccess),
+        ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+        ie.NewNetworkInstance("some.instance.example"),
+        ie.NewRedundantTransmissionParametersInPDI(
+            ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+            ie.NewNetworkInstance("some.instance.example"),
+        ),
+        ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0),
+        ie.NewTrafficEndpointID(0x01),
+        ie.NewSDFFilter("aaaaaaaa", "bb", "cccc", "ddd", 0xffffffff),
+        ie.NewApplicationID("https://github.com/wmnsk/go-pfcp/"),
+        ie.NewEthernetPDUSessionInformation(0x01),
+        ie.NewEthernetPacketFilter(
+            ie.NewEthernetFilterID(0xffffffff),
+            ie.NewEthernetFilterProperties(0x01),
+            ie.NewMACAddress(mac1, mac2, mac3, mac4),
+            ie.NewEthertype(0xffff),
+            ie.NewCTAG(0x07, 1, 1, 4095),
+            ie.NewSTAG(0x07, 1, 1, 4095),
+            ie.NewSDFFilter("aaaaaaaa", "bb", "cccc", "ddd", 0xffffffff),
+        ),
+    ),
+    ie.NewOuterHeaderRemoval(0x01, 0x02),
+    ie.NewFARID(0xffffffff),
+    ie.NewURRID(0xffffffff),
+    ie.NewQERID(0xffffffff),
+    ie.NewActivatePredefinedRules("go-pfcp"),
+    ie.NewActivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
+    ie.NewDeactivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
+    ie.NewMARID(0x1111),
+    ie.NewPacketReplicationAndDetectionCarryOnInformation(0x0f),
+    ie.NewIPMulticastAddressingInfo(
+        ie.NewIPMulticastAddress(net.ParseIP("127.0.0.1"), nil, net.ParseIP("127.0.0.1"), nil),
+        ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), nil, 24),
+    ),
+    ie.NewUEIPAddressPoolIdentity("go-pfcp"),
 )
 ```
 
@@ -174,7 +174,7 @@ ie := ie.New(ieType, enterpriseID, payload)
 ```
 
 Values can be retrieved by calling helper methods on `*ie.IE`.
-For instance, you can immediately get the value in string by calling `NetworkInstance()`.
+For instance, you can immediately get the value in a string by calling `NetworkInstance()`.
 
 ```go
 ni := ie.NewNetworkInstance("some.instance.example")
@@ -195,7 +195,7 @@ teid := f.TEID // has TEID as uint32
 v4 := f.IPv4Address // has IPv4 address as net.IP
 ```
 
-On grouped IEs, the value (or custom fields) can be retrieved by calling such kind of methods directly.
+On grouped IEs, the value (or custom fields) can be retrieved by directly calling such methods.
 
 ```go
 createPDR := ie.NewCreatePDR(
