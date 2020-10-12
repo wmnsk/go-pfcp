@@ -39,7 +39,7 @@ func (i *IE) FTEID() (*FTEIDFields, error) {
 			return nil, err
 		}
 		for _, x := range ies {
-			switch i.Type {
+			switch x.Type {
 			case FTEID, RedundantTransmissionParameters:
 				return x.FTEID()
 			}
