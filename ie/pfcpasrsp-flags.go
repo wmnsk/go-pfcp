@@ -25,12 +25,10 @@ func (i *IE) PFCPASRspFlags() (uint8, error) {
 
 // HasPSREI reports whether an IE has PSREI bit.
 func (i *IE) HasPSREI() bool {
-	if i.Type != PFCPASRspFlags {
-		return false
-	}
-	if len(i.Payload) < 1 {
+	v, err := i.PFCPASRspFlags()
+	if err != nil {
 		return false
 	}
 
-	return has1stBit(i.Payload[0])
+	return has1stBit(v)
 }
