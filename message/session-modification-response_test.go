@@ -27,7 +27,7 @@ func TestSessionModificationResponse(t *testing.T) {
 					ie.NewPDRID(0xffff),
 					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
 					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0),
+					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 				),
 				ie.NewLoadControlInformation(ie.NewSequenceNumber(0xffffffff), ie.NewMetric(0x01)),
 				ie.NewOverloadControlInformation(
@@ -67,7 +67,7 @@ func TestSessionModificationResponse(t *testing.T) {
 					ie.NewTrafficEndpointID(0x01),
 					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
 					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0),
+					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 				),
 				ie.NewCreatedBridgeInfoForTSC(
 					ie.NewDSTTPortNumber(0xffffffff),
@@ -186,13 +186,13 @@ func TestSessionModificationResponse(t *testing.T) {
 					ie.NewPDRID(0xffff),
 					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
 					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0),
+					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 				),
 				ie.NewCreatedPDR(
 					ie.NewPDRID(0xeeee),
 					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
 					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0),
+					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 				),
 				ie.NewLoadControlInformation(ie.NewSequenceNumber(0xffffffff), ie.NewMetric(0x01)),
 				ie.NewOverloadControlInformation(
@@ -232,7 +232,7 @@ func TestSessionModificationResponse(t *testing.T) {
 					ie.NewTrafficEndpointID(0x01),
 					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
 					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0),
+					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 				),
 				ie.NewCreatedBridgeInfoForTSC(
 					ie.NewDSTTPortNumber(0xffffffff),
