@@ -78,7 +78,7 @@ func (i *IE) DLBufferingDuration() (time.Duration, error) {
 		}
 		return d, nil
 	case UpdateBARWithinSessionReportResponse:
-		ies, err := i.CreateBAR()
+		ies, err := i.UpdateBAR()
 		if err != nil {
 			return 0, err
 		}
