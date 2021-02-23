@@ -56,7 +56,7 @@ type Message interface {
 
 // Parse parses the given bytes as Message.
 func Parse(b []byte) (Message, error) {
-	if len(b) < 1 {
+	if len(b) < 2 {
 		return nil, io.ErrUnexpectedEOF
 	}
 
