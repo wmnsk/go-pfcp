@@ -48,7 +48,7 @@ func (i *IE) HasIMMER() bool {
 
 	switch i.Type {
 	case UsageReportTrigger:
-		u8 := uint8(i.Payload[0])
+		u8 := i.Payload[0]
 		return has8thBit(u8)
 	case UsageReportWithinSessionModificationResponse,
 		UsageReportWithinSessionDeletionResponse,
@@ -76,7 +76,7 @@ func (i *IE) HasMONIT() bool {
 
 	switch i.Type {
 	case UsageReportTrigger:
-		u8 := uint8(i.Payload[1])
+		u8 := i.Payload[1]
 		return has5thBit(u8)
 	case UsageReportWithinSessionModificationResponse,
 		UsageReportWithinSessionDeletionResponse,
@@ -104,7 +104,7 @@ func (i *IE) HasTERMR() bool {
 
 	switch i.Type {
 	case UsageReportTrigger:
-		u8 := uint8(i.Payload[1])
+		u8 := i.Payload[1]
 		return has4thBit(u8)
 	case UsageReportWithinSessionModificationResponse,
 		UsageReportWithinSessionDeletionResponse,

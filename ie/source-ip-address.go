@@ -239,7 +239,7 @@ func (f *SourceIPAddressFields) MarshalLen() int {
 		l += 16
 	}
 	if f.HasMPL() {
-		l += 1
+		l++
 	}
 
 	return l

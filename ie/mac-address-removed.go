@@ -158,12 +158,12 @@ func (f *MACAddressesRemovedFields) MarshalTo(b []byte) error {
 	}
 
 	b[offset] = f.CTAGLength
-	offset += 1
+	offset++
 	copy(b[offset:offset+int(f.CTAGLength)], f.CTAG)
 	offset += int(f.CTAGLength)
 
 	b[offset] = f.STAGLength
-	offset += 1
+	offset++
 	copy(b[offset:offset+int(f.STAGLength)], f.STAG)
 
 	return nil

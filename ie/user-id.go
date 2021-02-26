@@ -225,7 +225,7 @@ func (f *UserIDFields) MarshalTo(b []byte) error {
 		b[offset] = f.NAILength
 		offset++
 
-		copy(b[offset:offset+int(f.NAILength)], []byte(f.NAI))
+		copy(b[offset:offset+int(f.NAILength)], f.NAI)
 	}
 
 	return nil

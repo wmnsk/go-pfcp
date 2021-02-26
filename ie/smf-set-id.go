@@ -12,7 +12,7 @@ func NewSMFSetID(id string) *IE {
 	i := New(SMFSetID, make([]byte, 1+l))
 
 	i.Payload[0] = 0 // Spare
-	copy(i.Payload[1:], []byte(id))
+	copy(i.Payload[1:], id)
 
 	return i
 }

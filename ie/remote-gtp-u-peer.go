@@ -244,7 +244,7 @@ func (f *RemoteGTPUPeerFields) MarshalTo(b []byte) error {
 	if has4thBit(f.Flags) {
 		binary.BigEndian.PutUint16(b[offset:offset+2], f.NILength)
 		offset += 2
-		copy(b[offset:offset+int(f.NILength)], []byte(f.NetworkInstance))
+		copy(b[offset:offset+int(f.NILength)], f.NetworkInstance)
 	}
 
 	return nil

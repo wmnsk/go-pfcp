@@ -12,7 +12,7 @@ func NewForwardingPolicy(id string) *IE {
 	i := New(ForwardingPolicy, make([]byte, 1+l))
 
 	i.Payload[0] = uint8(l)
-	copy(i.Payload[1:], []byte(id))
+	copy(i.Payload[1:], id)
 
 	return i
 }
