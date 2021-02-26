@@ -50,7 +50,7 @@ func swap(raw []byte) []byte {
 	swapped := make([]byte, len(raw))
 	for n := range raw {
 		t := ((raw[n] >> 4) & 0xf) + ((raw[n] << 4) & 0xf0)
-		swapped = append(swapped, t)
+		swapped[n] = t
 	}
 	return swapped
 }
