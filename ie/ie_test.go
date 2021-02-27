@@ -3399,3 +3399,34 @@ func TestIEs(t *testing.T) {
 		})
 	}
 }
+
+func TestIEAddRemove(t *testing.T) {
+	i := ie.NewCreatePDR(
+		ie.NewNodeID("127.0.0.1", "", ""),
+		ie.NewPDRID(1),
+	)
+	i.Add(ie.NewAPNDNN("foo.example"))
+
+	added := ie.NewCreatePDR(
+		ie.NewNodeID("127.0.0.1", "", ""),
+		ie.NewPDRID(1),
+		ie.NewAPNDNN("foo.example"),
+	)
+
+	opt := cmp.AllowUnexported(*i, *added)
+	if diff := cmp.Diff(i, added, opt); diff != "" {
+		t.Error(diff)
+	}
+
+	i.Remove(ie.NodeID)
+
+	removed := ie.NewCreatePDR(
+		ie.NewPDRID(1),
+		ie.NewAPNDNN("foo.example"),
+	)
+
+	opt = cmp.AllowUnexported(*i, *removed)
+	if diff := cmp.Diff(i, removed, opt); diff != "" {
+		t.Error(diff)
+	}
+}
