@@ -1,4 +1,4 @@
-module github.com/wmnsk/go-pfcp
+module github.com/muthuramanecs03g/go-pfcp
 
 go 1.16
 
