@@ -1,4 +1,4 @@
-// Copyright 2019-2020 go-pfcp authors. All rights reserved.
+// Copyright 2019-2021 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -3397,5 +3397,36 @@ func TestIEs(t *testing.T) {
 				t.Error(diff)
 			}
 		})
+	}
+}
+
+func TestIEAddRemove(t *testing.T) {
+	i := ie.NewCreatePDR(
+		ie.NewNodeID("127.0.0.1", "", ""),
+		ie.NewPDRID(1),
+	)
+	i.Add(ie.NewAPNDNN("foo.example"))
+
+	added := ie.NewCreatePDR(
+		ie.NewNodeID("127.0.0.1", "", ""),
+		ie.NewPDRID(1),
+		ie.NewAPNDNN("foo.example"),
+	)
+
+	opt := cmp.AllowUnexported(*i, *added)
+	if diff := cmp.Diff(i, added, opt); diff != "" {
+		t.Error(diff)
+	}
+
+	i.Remove(ie.NodeID)
+
+	removed := ie.NewCreatePDR(
+		ie.NewPDRID(1),
+		ie.NewAPNDNN("foo.example"),
+	)
+
+	opt = cmp.AllowUnexported(*i, *removed)
+	if diff := cmp.Diff(i, removed, opt); diff != "" {
+		t.Error(diff)
 	}
 }

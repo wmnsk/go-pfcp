@@ -1,4 +1,4 @@
-// Copyright 2019-2020 go-pfcp authors. All rights reserved.
+// Copyright 2019-2021 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -15,7 +15,7 @@ func NewAPNDNN(apn string) *IE {
 	for _, label := range strings.Split(apn, ".") {
 		l := len(label)
 		i.Payload[offset] = uint8(l)
-		copy(i.Payload[offset+1:], []byte(label))
+		copy(i.Payload[offset+1:], label)
 		offset += l + 1
 	}
 

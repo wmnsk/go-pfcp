@@ -1,4 +1,4 @@
-// Copyright 2019-2020 go-pfcp authors. All rights reserved.
+// Copyright 2019-2021 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -477,12 +477,15 @@ func (i *IE) Remove(typ uint16) {
 	}
 
 	i.Payload = nil
-	var newChildren []*IE
+	newChildren := make([]*IE, len(i.ChildIEs))
+	idx := 0
 	for _, ie := range i.ChildIEs {
 		if ie.Type == typ {
+			newChildren = newChildren[:len(newChildren)-1]
 			continue
 		}
-		newChildren = append(newChildren, ie)
+		newChildren[idx] = ie
+		idx++
 
 		serialized, err := ie.Marshal()
 		if err != nil {
