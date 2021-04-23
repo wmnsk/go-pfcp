@@ -11,17 +11,15 @@ import (
 
 // NewGBR creates a new GBR IE.
 func NewGBR(ul, dl uint32) *IE {
-	i := New(GBR, make([]byte, 8))
-
-	binary.BigEndian.PutUint32(i.Payload[0:4], ul)
-	binary.BigEndian.PutUint32(i.Payload[4:8], dl)
-
+	i := New(GBR, make([]byte, 10))
+	binary.BigEndian.PutUint32(i.Payload[1:5], ul)
+	binary.BigEndian.PutUint32(i.Payload[6:10], dl)
 	return i
 }
 
 // GBR returns GBR in []byte if the type of IE matches.
 func (i *IE) GBR() ([]byte, error) {
-	if len(i.Payload) < 8 {
+	if len(i.Payload) < 10 {
 		return nil, io.ErrUnexpectedEOF
 	}
 
@@ -61,8 +59,7 @@ func (i *IE) GBRUL() (uint32, error) {
 	if err != nil {
 		return 0, err
 	}
-
-	return binary.BigEndian.Uint32(v[0:4]), nil
+	return binary.BigEndian.Uint32(v[1:5]), nil
 }
 
 // GBRDL returns GBRDL in uint32 if the type of IE matches.
@@ -71,6 +68,5 @@ func (i *IE) GBRDL() (uint32, error) {
 	if err != nil {
 		return 0, err
 	}
-
-	return binary.BigEndian.Uint32(v[4:8]), nil
+	return binary.BigEndian.Uint32(v[6:10]), nil
 }

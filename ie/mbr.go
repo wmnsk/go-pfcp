@@ -11,11 +11,9 @@ import (
 
 // NewMBR creates a new MBR IE.
 func NewMBR(ul, dl uint32) *IE {
-	i := New(MBR, make([]byte, 8))
-
-	binary.BigEndian.PutUint32(i.Payload[0:4], ul)
-	binary.BigEndian.PutUint32(i.Payload[4:8], dl)
-
+	i := New(MBR, make([]byte, 10))
+	binary.BigEndian.PutUint32(i.Payload[1:5], ul)
+	binary.BigEndian.PutUint32(i.Payload[6:10], dl)
 	return i
 }
 
@@ -61,8 +59,7 @@ func (i *IE) MBRUL() (uint32, error) {
 	if err != nil {
 		return 0, err
 	}
-
-	return binary.BigEndian.Uint32(v[0:4]), nil
+	return binary.BigEndian.Uint32(v[1:5]), nil
 }
 
 // MBRDL returns MBRDL in uint32 if the type of IE matches.
@@ -71,6 +68,5 @@ func (i *IE) MBRDL() (uint32, error) {
 	if err != nil {
 		return 0, err
 	}
-
-	return binary.BigEndian.Uint32(v[4:8]), nil
+	return binary.BigEndian.Uint32(v[6:10]), nil
 }
