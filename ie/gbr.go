@@ -9,17 +9,25 @@ import (
 	"io"
 )
 
+const (
+	GBR_PAYLOAD_SIZE   int = 10
+	GBR_UL_START_INDEX int = 1
+	GBR_UL_END_INDEX   int = 5
+	GBR_DL_START_INDEX int = 6
+	GBR_DL_END_INDEX   int = 10
+)
+
 // NewGBR creates a new GBR IE.
 func NewGBR(ul, dl uint32) *IE {
-	i := New(GBR, make([]byte, 10))
-	binary.BigEndian.PutUint32(i.Payload[1:5], ul)
-	binary.BigEndian.PutUint32(i.Payload[6:10], dl)
+	i := New(GBR, make([]byte, GBR_PAYLOAD_SIZE))
+	binary.BigEndian.PutUint32(i.Payload[GBR_UL_START_INDEX:GBR_UL_END_INDEX], ul)
+	binary.BigEndian.PutUint32(i.Payload[GBR_DL_START_INDEX:GBR_DL_END_INDEX], dl)
 	return i
 }
 
 // GBR returns GBR in []byte if the type of IE matches.
 func (i *IE) GBR() ([]byte, error) {
-	if len(i.Payload) < 10 {
+	if len(i.Payload) < GBR_PAYLOAD_SIZE {
 		return nil, io.ErrUnexpectedEOF
 	}
 
@@ -59,7 +67,7 @@ func (i *IE) GBRUL() (uint32, error) {
 	if err != nil {
 		return 0, err
 	}
-	return binary.BigEndian.Uint32(v[1:5]), nil
+	return binary.BigEndian.Uint32(v[GBR_UL_START_INDEX:GBR_UL_END_INDEX]), nil
 }
 
 // GBRDL returns GBRDL in uint32 if the type of IE matches.
@@ -68,5 +76,5 @@ func (i *IE) GBRDL() (uint32, error) {
 	if err != nil {
 		return 0, err
 	}
-	return binary.BigEndian.Uint32(v[6:10]), nil
+	return binary.BigEndian.Uint32(v[GBR_DL_START_INDEX:GBR_DL_END_INDEX]), nil
 }
