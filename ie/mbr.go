@@ -19,7 +19,7 @@ func NewMBR(ul, dl uint32) *IE {
 
 // MBR returns MBR in []byte if the type of IE matches.
 func (i *IE) MBR() ([]byte, error) {
-	if len(i.Payload) < 8 {
+	if len(i.Payload) < 10 {
 		return nil, io.ErrUnexpectedEOF
 	}
 
