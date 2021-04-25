@@ -470,7 +470,22 @@ IEs are (basically) implemented in conformance with TS29.244 V16.3.1(2020-04).
 | 254            | Ethernet Context Information                                                     | Yes        |
 | 255            | Redundant Transmission Parameters                                                | Yes        |
 | 256            | Updated PDR                                                                      | Yes        |
-| 257 to 32767   | _(For future use)_                                                               | -          |
+| 257            | S-NSSAI                                                                          |            |
+| 258            | IP version                                                                       |            |
+| 259            | PFCPASReq-Flags                                                                  |            |
+| 260            | Data Status                                                                      |            |
+| 261            | Provide RDS configuration information                                            |            |
+| 262            | RDS configuration information                                                    |            |
+| 263            | Query Packet Rate Status IE within PFCP Session Modification Request             |            |
+| 264            | Packet Rate Status Report IE within PFCP Session Modification Response           |            |
+| 265            | MPTCP Applicable Indication                                                      |            |
+| 266            | Bridge Management Information Container                                          |            |
+| 267            | UE IP Address Usage Information                                                  |            |
+| 268            | Number of UE IP Addresses                                                        |            |
+| 269            | Validity Timer                                                                   |            |
+| 270            | Redundant Transmission Forwarding Parameters                                     |            |
+| 271            | Transport Delay Reporting                                                        |            |
+| 272 to 32767   | _(For future use)_                                                               | -          |
 | 32768 to 65535 | Reserved for vendor specific IEs                                                 | -          |
 
 ## Author(s)
