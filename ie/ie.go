@@ -212,9 +212,12 @@ const (
 	DSTTPortNumber                                                   uint16 = 196
 	NWTTPortNumber                                                   uint16 = 197
 	TSNBridgeID                                                      uint16 = 198
-	PortManagementInformationForTSCWithinSessionModificationRequest  uint16 = 199
-	PortManagementInformationForTSCWithinSessionModificationResponse uint16 = 200
-	PortManagementInformationForTSCWithinSessionReportRequest        uint16 = 201
+	TSCManagementInformationWithinSessionModificationRequest         uint16 = 199
+	TSCManagementInformationWithinSessionModificationResponse        uint16 = 200
+	TSCManagementInformationWithinSessionReportRequest               uint16 = 201
+	PortManagementInformationForTSCWithinSessionModificationRequest  uint16 = 199 // Deprecated
+	PortManagementInformationForTSCWithinSessionModificationResponse uint16 = 200 // Deprecated
+	PortManagementInformationForTSCWithinSessionReportRequest        uint16 = 201 // Deprecated
 	PortManagementInformationContainer                               uint16 = 202
 	ClockDriftControlInformation                                     uint16 = 203
 	RequestedClockDriftInformation                                   uint16 = 204

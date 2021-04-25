@@ -14,9 +14,9 @@ func (i *IE) PortManagementInformationContainer() (string, error) {
 	switch i.Type {
 	case PortManagementInformationContainer:
 		return string(i.Payload), nil
-	case PortManagementInformationForTSCWithinSessionModificationRequest,
-		PortManagementInformationForTSCWithinSessionModificationResponse,
-		PortManagementInformationForTSCWithinSessionReportRequest:
+	case TSCManagementInformationWithinSessionModificationRequest,
+		TSCManagementInformationWithinSessionModificationResponse,
+		TSCManagementInformationWithinSessionReportRequest:
 		ies, err := i.PortManagementInformationForTSC()
 		if err != nil {
 			return "", err
