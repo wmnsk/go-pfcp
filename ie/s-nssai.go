@@ -28,7 +28,7 @@ func (i *IE) SNSSAI() ([]byte, error) {
 	case SNSSAI:
 		return i.Payload[0:4], nil
 	case UEIPAddressPoolInformation:
-		ies, err := i.PDI()
+		ies, err := i.UEIPAddressPoolInformation()
 		if err != nil {
 			return nil, err
 		}

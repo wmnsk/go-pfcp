@@ -279,8 +279,8 @@ const (
 	DataStatus                                                       uint16 = 260
 	ProvideRDSConfigurationInformation                               uint16 = 261
 	RDSConfigurationInformation                                      uint16 = 262
-	QueryPacketRateStatusIEWithinPFCPSessionModificationRequest      uint16 = 263
-	PacketRateStatusReportIEWithinPFCPSessionModificationResponse    uint16 = 264
+	QueryPacketRateStatusWithinPFCPSessionModificationRequest        uint16 = 263
+	PacketRateStatusReportWithinPFCPSessionModificationResponse      uint16 = 264
 	MPTCPApplicableIndication                                        uint16 = 265
 	BridgeManagementInformationContainer                             uint16 = 266
 	UEIPAddressUsageInformation                                      uint16 = 267
