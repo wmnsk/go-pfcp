@@ -4,14 +4,14 @@
 
 package ie
 
-// NewQueryPacketRateStatusWithinPFCPSessionModificationRequest creates a new QueryPacketRateStatusWithinPFCPSessionModificationRequest IE.
-func NewQueryPacketRateStatusWithinPFCPSessionModificationRequest(ies ...*IE) *IE {
-	return newGroupedIE(QueryPacketRateStatusWithinPFCPSessionModificationRequest, 0, ies...)
+// NewQueryPacketRateStatusWithinSessionModificationRequest creates a new QueryPacketRateStatusWithinSessionModificationRequest IE.
+func NewQueryPacketRateStatusWithinSessionModificationRequest(ies ...*IE) *IE {
+	return newGroupedIE(QueryPacketRateStatusWithinSessionModificationRequest, 0, ies...)
 }
 
-// QueryPacketRateStatusWithinPFCPSessionModificationRequest returns the IEs above QueryPacketRateStatusWithinPFCPSessionModificationRequest if the type of IE matches.
-func (i *IE) QueryPacketRateStatusWithinPFCPSessionModificationRequest() ([]*IE, error) {
-	if i.Type != QueryPacketRateStatusWithinPFCPSessionModificationRequest {
+// QueryPacketRateStatus returns the IEs above QueryPacketRateStatus if the type of IE matches.
+func (i *IE) QueryPacketRateStatus() ([]*IE, error) {
+	if i.Type != QueryPacketRateStatusWithinSessionModificationRequest {
 		return nil, &InvalidTypeError{Type: i.Type}
 	}
 
