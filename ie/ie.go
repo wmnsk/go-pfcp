@@ -334,16 +334,18 @@ func (i *IE) UnmarshalBinary(b []byte) error {
 	i.Length = binary.BigEndian.Uint16(b[2:4])
 
 	offset := 4
+	end := int(i.Length)
 	if i.IsVendorSpecific() && l >= 6 {
 		i.EnterpriseID = binary.BigEndian.Uint16(b[4:6])
 		offset += 2
+		end -= 2
 	}
 
 	if l <= offset {
 		return nil
 	}
 
-	i.Payload = b[offset : offset+int(i.Length)]
+	i.Payload = b[offset : offset+end]
 
 	if i.IsGrouped() {
 		var err error
@@ -391,7 +393,7 @@ func (i *IE) MarshalTo(b []byte) error {
 		return nil
 	}
 
-	copy(b[4:i.MarshalLen()], i.Payload)
+	copy(b[offset:i.MarshalLen()], i.Payload)
 	return nil
 }
 
