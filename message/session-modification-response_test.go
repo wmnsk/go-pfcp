@@ -25,8 +25,8 @@ func TestSessionModificationResponse(t *testing.T) {
 				ie.NewOffendingIE(ie.Cause),
 				ie.NewCreatedPDR(
 					ie.NewPDRID(0xffff),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 				),
 				ie.NewLoadControlInformation(ie.NewSequenceNumber(0xffffffff), ie.NewMetric(0x01)),
@@ -65,8 +65,8 @@ func TestSessionModificationResponse(t *testing.T) {
 				ie.NewAdditionalUsageReportsInformation(0x00ff),
 				ie.NewCreatedTrafficEndpoint(
 					ie.NewTrafficEndpointID(0x01),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 				),
 				ie.NewCreatedBridgeInfoForTSC(
@@ -88,7 +88,7 @@ func TestSessionModificationResponse(t *testing.T) {
 				),
 				ie.NewUpdatedPDR(
 					ie.NewPDRID(0xffff),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				),
 			),
 			Serialized: []byte{
@@ -184,14 +184,14 @@ func TestSessionModificationResponse(t *testing.T) {
 				ie.NewOffendingIE(ie.Cause),
 				ie.NewCreatedPDR(
 					ie.NewPDRID(0xffff),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 				),
 				ie.NewCreatedPDR(
 					ie.NewPDRID(0xeeee),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 				),
 				ie.NewLoadControlInformation(ie.NewSequenceNumber(0xffffffff), ie.NewMetric(0x01)),
@@ -230,8 +230,8 @@ func TestSessionModificationResponse(t *testing.T) {
 				ie.NewAdditionalUsageReportsInformation(0x00ff),
 				ie.NewCreatedTrafficEndpoint(
 					ie.NewTrafficEndpointID(0x01),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 				),
 				ie.NewCreatedBridgeInfoForTSC(
@@ -253,7 +253,7 @@ func TestSessionModificationResponse(t *testing.T) {
 				),
 				ie.NewUpdatedPDR(
 					ie.NewPDRID(0xffff),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				),
 			),
 			Serialized: []byte{

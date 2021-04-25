@@ -129,10 +129,10 @@ createPDR := ie.NewCreatePDR(
     ie.NewPrecedence(0x11111111),
     ie.NewPDI(
         ie.NewSourceInterface(ie.SrcInterfaceAccess),
-        ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+        ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
         ie.NewNetworkInstance("some.instance.example"),
         ie.NewRedundantTransmissionParametersInPDI(
-            ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+            ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
             ie.NewNetworkInstance("some.instance.example"),
         ),
         ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0),
@@ -186,7 +186,7 @@ v, err := ni.NetworkInstance()
 For complex IEs like F-TEID, `<IE-name>` method returns `<IE-name>Fields` structure.
 
 ```go
-fteid := ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil)
+fteid := ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, nil)
 
 f, err := fteid.FTEID()
 // returns FTEIDFields struct which contains values in its fields.

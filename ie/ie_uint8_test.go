@@ -788,7 +788,7 @@ func TestUint8IEs(t *testing.T) {
 			structured: ie.NewCreatePDR(
 				ie.NewPDRID(0xffff), ie.NewPDI(
 					ie.NewSourceInterface(ie.SrcInterfaceAccess),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				),
 			),
 			decoded:     ie.SrcInterfaceAccess,
@@ -798,7 +798,7 @@ func TestUint8IEs(t *testing.T) {
 			structured: ie.NewUpdatePDR(
 				ie.NewPDRID(0xffff), ie.NewPDI(
 					ie.NewSourceInterface(ie.SrcInterfaceAccess),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				),
 			),
 			decoded:     ie.SrcInterfaceAccess,
@@ -807,7 +807,7 @@ func TestUint8IEs(t *testing.T) {
 			description: "SourceInterface/PDI",
 			structured: ie.NewPDI(
 				ie.NewSourceInterface(ie.SrcInterfaceAccess),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 			),
 			decoded:     ie.SrcInterfaceAccess,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.SourceInterface() },
@@ -992,7 +992,7 @@ func TestUint8IEs(t *testing.T) {
 			description: "TrafficEndpointID/CreateTrafficEndpoint",
 			structured: ie.NewCreateTrafficEndpoint(
 				ie.NewTrafficEndpointID(0x01),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 			),
 			decoded:     0x01,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.TrafficEndpointID() },
@@ -1000,7 +1000,7 @@ func TestUint8IEs(t *testing.T) {
 			description: "TrafficEndpointID/CreatedTrafficEndpoint",
 			structured: ie.NewCreatedTrafficEndpoint(
 				ie.NewTrafficEndpointID(0x01),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 			),
 			decoded:     0x01,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.TrafficEndpointID() },
@@ -1008,7 +1008,7 @@ func TestUint8IEs(t *testing.T) {
 			description: "TrafficEndpointID/UpdateTrafficEndpoint",
 			structured: ie.NewUpdateTrafficEndpoint(
 				ie.NewTrafficEndpointID(0x01),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 			),
 			decoded:     0x01,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.TrafficEndpointID() },

@@ -69,7 +69,7 @@ func TestSessionReportRequest(t *testing.T) {
 					),
 				),
 				ie.NewErrorIndicationReport(
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				),
 				ie.NewLoadControlInformation(ie.NewSequenceNumber(0xffffffff), ie.NewMetric(0x01)),
 				ie.NewOverloadControlInformation(
@@ -80,7 +80,7 @@ func TestSessionReportRequest(t *testing.T) {
 				),
 				ie.NewAdditionalUsageReportsInformation(0x00ff),
 				ie.NewPFCPSRReqFlags(0x01),
-				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil),
 				ie.NewPacketRateStatusReport(
 					ie.NewQERID(0xffffffff),
 					ie.NewPacketRateStatus(0x07, 0x1111, 0x2222, 0x3333, 0x4444, time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
@@ -247,7 +247,7 @@ func TestSessionReportRequest(t *testing.T) {
 					),
 				),
 				ie.NewErrorIndicationReport(
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				),
 				ie.NewLoadControlInformation(ie.NewSequenceNumber(0xffffffff), ie.NewMetric(0x01)),
 				ie.NewOverloadControlInformation(
@@ -258,7 +258,7 @@ func TestSessionReportRequest(t *testing.T) {
 				),
 				ie.NewAdditionalUsageReportsInformation(0x00ff),
 				ie.NewPFCPSRReqFlags(0x01),
-				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil),
 				ie.NewPacketRateStatusReport(
 					ie.NewQERID(0xffffffff),
 					ie.NewPacketRateStatus(0x07, 0x1111, 0x2222, 0x3333, 0x4444, time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),

@@ -31,8 +31,8 @@ func TestSessionReportResponse(t *testing.T) {
 					ie.NewSuggestedBufferingPacketsCount(0x01),
 				),
 				ie.NewPFCPSRRspFlags(0x01),
-				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil, nil),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				ie.NewAlternativeSMFIPAddress(net.ParseIP("127.0.0.1"), nil),
 			),
 			Serialized: []byte{
