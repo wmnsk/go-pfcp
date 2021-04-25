@@ -21,7 +21,7 @@ func TestSessionModificationRequest(t *testing.T) {
 			Description: "Single IE",
 			Structured: message.NewSessionModificationRequest(
 				mp, fo, seid, seq, pri,
-				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil),
 				ie.NewRemovePDR(
 					ie.NewPDRID(0xffff),
 				),
@@ -900,7 +900,7 @@ func TestSessionModificationRequest(t *testing.T) {
 			Description: "Multiple IEs",
 			Structured: message.NewSessionModificationRequest(
 				mp, fo, seid, seq, pri,
-				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil),
 				ie.NewRemovePDR(
 					ie.NewPDRID(0xffff),
 				),

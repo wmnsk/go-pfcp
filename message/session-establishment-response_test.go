@@ -24,7 +24,7 @@ func TestSessionEstablishmentResponse(t *testing.T) {
 				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
 				ie.NewCause(ie.CauseRequestAccepted),
 				ie.NewOffendingIE(ie.Cause),
-				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil),
 				ie.NewCreatedPDR(
 					ie.NewPDRID(0xffff),
 					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
@@ -97,7 +97,7 @@ func TestSessionEstablishmentResponse(t *testing.T) {
 				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
 				ie.NewCause(ie.CauseRequestAccepted),
 				ie.NewOffendingIE(ie.Cause),
-				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil),
 				ie.NewCreatedPDR(
 					ie.NewPDRID(0xffff),
 					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
