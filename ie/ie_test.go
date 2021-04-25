@@ -33,10 +33,10 @@ func TestIEs(t *testing.T) {
 				ie.NewPrecedence(0x11111111),
 				ie.NewPDI(
 					ie.NewSourceInterface(ie.SrcInterfaceAccess),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 					ie.NewNetworkInstance("some.instance.example"),
 					ie.NewRedundantTransmissionParametersInPDI(
-						ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+						ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 						ie.NewNetworkInstance("some.instance.example"),
 					),
 					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
@@ -132,10 +132,10 @@ func TestIEs(t *testing.T) {
 			"PDI",
 			ie.NewPDI(
 				ie.NewSourceInterface(ie.SrcInterfaceAccess),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				ie.NewNetworkInstance("some.instance.example"),
 				ie.NewRedundantTransmissionParametersInPDI(
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 					ie.NewNetworkInstance("some.instance.example"),
 				),
 				ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
@@ -195,10 +195,10 @@ func TestIEs(t *testing.T) {
 			"PDI/WithNIL",
 			ie.NewPDI(
 				ie.NewSourceInterface(ie.SrcInterfaceAccess),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				ie.NewNetworkInstance("some.instance.example"),
 				ie.NewRedundantTransmissionParametersInPDI(
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 					ie.NewNetworkInstance("some.instance.example"),
 				),
 				ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
@@ -475,8 +475,8 @@ func TestIEs(t *testing.T) {
 			"CreatedPDR",
 			ie.NewCreatedPDR(
 				ie.NewPDRID(0xffff),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 			),
 			[]byte{
@@ -494,10 +494,10 @@ func TestIEs(t *testing.T) {
 				ie.NewPrecedence(0x11111111),
 				ie.NewPDI(
 					ie.NewSourceInterface(ie.SrcInterfaceAccess),
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 					ie.NewNetworkInstance("some.instance.example"),
 					ie.NewRedundantTransmissionParametersInPDI(
-						ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+						ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 						ie.NewNetworkInstance("some.instance.example"),
 					),
 					ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
@@ -855,13 +855,25 @@ func TestIEs(t *testing.T) {
 			ie.NewSourceInterface(ie.SrcInterfaceAccess),
 			[]byte{0x00, 0x14, 0x00, 0x01, 0x00},
 		}, {
-			"FTEID/TEID/IPv4", // TODO: add other forms
-			ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+			"FTEID/TEID/IPv4",
+			ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 			[]byte{0x00, 0x15, 0x00, 0x09, 0x01, 0x11, 0x11, 0x11, 0x11, 0x7f, 0x00, 0x00, 0x01},
 		}, {
-			"FTEID/TEID/IPv6", // TODO: add other forms
-			ie.NewFTEID(0x11111111, nil, net.ParseIP("2001::1"), nil),
+			"FTEID/TEID/IPv6",
+			ie.NewFTEID(0x02, 0x11111111, nil, net.ParseIP("2001::1"), 0),
 			[]byte{0x00, 0x15, 0x00, 0x15, 0x02, 0x11, 0x11, 0x11, 0x11, 0x20, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01},
+		}, {
+			"FTEID/TEID/IPv4v6",
+			ie.NewFTEID(0x03, 0x11111111, net.ParseIP("127.0.0.1"), net.ParseIP("2001::1"), 0),
+			[]byte{0x00, 0x15, 0x00, 0x19, 0x03, 0x11, 0x11, 0x11, 0x11, 0x7f, 0x00, 0x00, 0x01, 0x20, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01},
+		}, {
+			"FTEID/TEID/CH",
+			ie.NewFTEID(0x04, 0, nil, nil, 0),
+			[]byte{0x00, 0x15, 0x00, 0x01, 0x04},
+		}, {
+			"FTEID/TEID/CH/CHID",
+			ie.NewFTEID(0x0c, 0, nil, nil, 255),
+			[]byte{0x00, 0x15, 0x00, 0x02, 0x0c, 0xff},
 		}, {
 			"NetworkInstance",
 			ie.NewNetworkInstance("some.instance.example"),
@@ -1660,7 +1672,7 @@ func TestIEs(t *testing.T) {
 		}, {
 			"ErrorIndicationReport",
 			ie.NewErrorIndicationReport(
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 			),
 			[]byte{
 				0x00, 0x63, 0x00, 0x0d,
@@ -1842,10 +1854,10 @@ func TestIEs(t *testing.T) {
 			"CreateTrafficEndpoint",
 			ie.NewCreateTrafficEndpoint(
 				ie.NewTrafficEndpointID(0x01),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				ie.NewNetworkInstance("some.instance.example"),
 				ie.NewRedundantTransmissionParametersInPDI(
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 					ie.NewNetworkInstance("some.instance.example"),
 				),
 				ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
@@ -1874,8 +1886,8 @@ func TestIEs(t *testing.T) {
 			"CreatedTrafficEndpoint",
 			ie.NewCreatedTrafficEndpoint(
 				ie.NewTrafficEndpointID(0x01),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
 			),
 			[]byte{
@@ -1889,10 +1901,10 @@ func TestIEs(t *testing.T) {
 			"UpdateTrafficEndpoint",
 			ie.NewUpdateTrafficEndpoint(
 				ie.NewTrafficEndpointID(0x01),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				ie.NewNetworkInstance("some.instance.example"),
 				ie.NewRedundantTransmissionParametersInPDI(
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 					ie.NewNetworkInstance("some.instance.example"),
 				),
 				ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0, 0),
@@ -3341,7 +3353,7 @@ func TestIEs(t *testing.T) {
 		}, {
 			"RedundantTransmissionParameters/PDI",
 			ie.NewRedundantTransmissionParametersInPDI(
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				ie.NewNetworkInstance("some.instance.example"),
 			),
 			[]byte{
@@ -3364,7 +3376,7 @@ func TestIEs(t *testing.T) {
 			"UpdatedPDR",
 			ie.NewUpdatedPDR(
 				ie.NewPDRID(0xffff),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 			),
 			[]byte{
 				0x01, 0x00, 0x00, 0x13,

@@ -69,7 +69,7 @@ func TestSessionReportRequest(t *testing.T) {
 					),
 				),
 				ie.NewErrorIndicationReport(
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				),
 				ie.NewLoadControlInformation(ie.NewSequenceNumber(0xffffffff), ie.NewMetric(0x01)),
 				ie.NewOverloadControlInformation(
@@ -247,7 +247,7 @@ func TestSessionReportRequest(t *testing.T) {
 					),
 				),
 				ie.NewErrorIndicationReport(
-					ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 				),
 				ie.NewLoadControlInformation(ie.NewSequenceNumber(0xffffffff), ie.NewMetric(0x01)),
 				ie.NewOverloadControlInformation(

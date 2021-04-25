@@ -169,7 +169,7 @@ func TestUint16IEs(t *testing.T) {
 			description: "PDRID/CreatedPDR",
 			structured: ie.NewCreatedPDR(
 				ie.NewPDRID(0xffff),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 			),
 			decoded:     0xffff,
 			decoderFunc: func(i *ie.IE) (uint16, error) { return i.PDRID() },
@@ -204,7 +204,7 @@ func TestUint16IEs(t *testing.T) {
 			description: "PDRID/UpdatedPDR",
 			structured: ie.NewUpdatedPDR(
 				ie.NewPDRID(0xffff),
-				ie.NewFTEID(0x11111111, net.ParseIP("127.0.0.1"), nil, nil),
+				ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
 			),
 			decoded:     0xffff,
 			decoderFunc: func(i *ie.IE) (uint16, error) { return i.PDRID() },
