@@ -470,14 +470,14 @@ IEs are (basically) implemented in conformance with TS29.244 V16.3.1(2020-04).
 | 254            | Ethernet Context Information                                               | Yes        |
 | 255            | Redundant Transmission Parameters                                          | Yes        |
 | 256            | Updated PDR                                                                | Yes        |
-| 257            | S-NSSAI                                                                    |            |
-| 258            | IP version                                                                 |            |
-| 259            | PFCPASReq-Flags                                                            |            |
-| 260            | Data Status                                                                |            |
-| 261            | Provide RDS configuration information                                      |            |
-| 262            | RDS configuration information                                              |            |
-| 263            | Query Packet Rate Status IE within PFCP Session Modification Request       |            |
-| 264            | Packet Rate Status Report IE within PFCP Session Modification Response     |            |
+| 257            | S-NSSAI                                                                    | Yes        |
+| 258            | IP version                                                                 | Yes        |
+| 259            | PFCPASReq-Flags                                                            | Yes        |
+| 260            | Data Status                                                                | Yes        |
+| 261            | Provide RDS configuration information                                      | Yes        |
+| 262            | RDS configuration information                                              | Yes        |
+| 263            | Query Packet Rate Status IE within PFCP Session Modification Request       | Yes        |
+| 264            | Packet Rate Status Report IE within PFCP Session Modification Response     | Yes        |
 | 265            | MPTCP Applicable Indication                                                |            |
 | 266            | Bridge Management Information Container                                    |            |
 | 267            | UE IP Address Usage Information                                            |            |
