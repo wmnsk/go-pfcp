@@ -398,6 +398,11 @@ func TestDurationIEs(t *testing.T) {
 			structured:  ie.NewUserPlaneInactivityTimer(10 * time.Second),
 			decoded:     10 * time.Second,
 			decoderFunc: func(i *ie.IE) (time.Duration, error) { return i.UserPlaneInactivityTimer() },
+		}, {
+			description: "ValidityTimer",
+			structured:  ie.NewValidityTimer(10 * time.Second),
+			decoded:     10 * time.Second,
+			decoderFunc: func(i *ie.IE) (time.Duration, error) { return i.ValidityTimer() },
 		},
 	}
 

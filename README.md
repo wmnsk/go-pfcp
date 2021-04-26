@@ -478,11 +478,11 @@ IEs are (basically) implemented in conformance with TS29.244 V16.3.1(2020-04).
 | 262            | RDS configuration information                                              | Yes        |
 | 263            | Query Packet Rate Status IE within PFCP Session Modification Request       | Yes        |
 | 264            | Packet Rate Status Report IE within PFCP Session Modification Response     | Yes        |
-| 265            | MPTCP Applicable Indication                                                |            |
-| 266            | Bridge Management Information Container                                    |            |
-| 267            | UE IP Address Usage Information                                            |            |
-| 268            | Number of UE IP Addresses                                                  |            |
-| 269            | Validity Timer                                                             |            |
+| 265            | MPTCP Applicable Indication                                                | Yes        |
+| 266            | Bridge Management Information Container                                    | Yes        |
+| 267            | UE IP Address Usage Information                                            | Yes        |
+| 268            | Number of UE IP Addresses                                                  | Yes        |
+| 269            | Validity Timer                                                             | Yes        |
 | 270            | Redundant Transmission Forwarding Parameters                               |            |
 | 271            | Transport Delay Reporting                                                  |            |
 | 272 to 32767   | _(For future use)_                                                         | -          |
