@@ -7,27 +7,23 @@ package ie
 import (
 	"encoding/binary"
 	"io"
-)
 
-const (
-	GBR_PAYLOAD_SIZE   int = 10
-	GBR_UL_START_INDEX int = 1
-	GBR_UL_END_INDEX   int = 5
-	GBR_DL_START_INDEX int = 6
-	GBR_DL_END_INDEX   int = 10
+	"github.com/wmnsk/go-pfcp/internal/utils"
 )
 
 // NewGBR creates a new GBR IE.
-func NewGBR(ul, dl uint32) *IE {
-	i := New(GBR, make([]byte, GBR_PAYLOAD_SIZE))
-	binary.BigEndian.PutUint32(i.Payload[GBR_UL_START_INDEX:GBR_UL_END_INDEX], ul)
-	binary.BigEndian.PutUint32(i.Payload[GBR_DL_START_INDEX:GBR_DL_END_INDEX], dl)
+func NewGBR(ul, dl uint64) *IE {
+	i := New(GBR, make([]byte, 10))
+	i.Payload[0] = byte(ul >> 32)
+	i.Payload[5] = byte(dl >> 32)
+	binary.BigEndian.PutUint32(i.Payload[1:5], uint32(ul))
+	binary.BigEndian.PutUint32(i.Payload[6:10], uint32(dl))
 	return i
 }
 
 // GBR returns GBR in []byte if the type of IE matches.
 func (i *IE) GBR() ([]byte, error) {
-	if len(i.Payload) < GBR_PAYLOAD_SIZE {
+	if len(i.Payload) < 10 {
 		return nil, io.ErrUnexpectedEOF
 	}
 
@@ -61,20 +57,20 @@ func (i *IE) GBR() ([]byte, error) {
 	}
 }
 
-// GBRUL returns GBRUL in uint32 if the type of IE matches.
-func (i *IE) GBRUL() (uint32, error) {
+// GBRUL returns GBRUL in uint64 if the type of IE matches.
+func (i *IE) GBRUL() (uint64, error) {
 	v, err := i.GBR()
 	if err != nil {
 		return 0, err
 	}
-	return binary.BigEndian.Uint32(v[GBR_UL_START_INDEX:GBR_UL_END_INDEX]), nil
+	return utils.Uint40To64(v[0:5]), nil
 }
 
-// GBRDL returns GBRDL in uint32 if the type of IE matches.
-func (i *IE) GBRDL() (uint32, error) {
+// GBRDL returns GBRDL in uint64 if the type of IE matches.
+func (i *IE) GBRDL() (uint64, error) {
 	v, err := i.GBR()
 	if err != nil {
 		return 0, err
 	}
-	return binary.BigEndian.Uint32(v[GBR_DL_START_INDEX:GBR_DL_END_INDEX]), nil
+	return utils.Uint40To64(v[5:10]), nil
 }
