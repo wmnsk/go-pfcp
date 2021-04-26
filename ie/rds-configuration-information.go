@@ -20,8 +20,8 @@ func (i *IE) RDSConfigurationInformation() (uint8, error) {
 	switch i.Type {
 	case RDSConfigurationInformation:
 		return i.Payload[0], nil
-	case ProvideATSSSControlInformation:
-		ies, err := i.ProvideATSSSControlInformation()
+	case ProvideRDSConfigurationInformation:
+		ies, err := i.ProvideRDSConfigurationInformation()
 		if err != nil {
 			return 0, err
 		}

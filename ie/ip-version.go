@@ -20,7 +20,7 @@ func NewIPVersion(v4, v6 bool) *IE {
 
 // IPVersion returns IPVersion in uint8 if the type of IE matches.
 func (i *IE) IPVersion() (uint8, error) {
-	if len(i.Payload) < 4 {
+	if len(i.Payload) < 1 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
