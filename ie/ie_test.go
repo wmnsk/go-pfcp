@@ -2670,8 +2670,8 @@ func TestIEs(t *testing.T) {
 			ie.NewTSNBridgeID(nil),
 			[]byte{0x00, 0xc6, 0x00, 0x01, 0x00},
 		}, {
-			"PortManagementInformationForTSCWithinSessionModificationRequest",
-			ie.NewPortManagementInformationForTSCWithinSessionModificationRequest(
+			"TSCManagementInformationWithinSessionModificationRequest",
+			ie.NewTSCManagementInformationWithinSessionModificationRequest(
 				ie.NewPortManagementInformationContainer("go-pfcp"),
 			),
 			[]byte{
@@ -2679,8 +2679,8 @@ func TestIEs(t *testing.T) {
 				0x00, 0xca, 0x00, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70,
 			},
 		}, {
-			"PortManagementInformationForTSCWithinSessionModificationResponse",
-			ie.NewPortManagementInformationForTSCWithinSessionModificationResponse(
+			"TSCManagementInformationWithinSessionModificationResponse",
+			ie.NewTSCManagementInformationWithinSessionModificationResponse(
 				ie.NewPortManagementInformationContainer("go-pfcp"),
 			),
 			[]byte{
@@ -2688,8 +2688,8 @@ func TestIEs(t *testing.T) {
 				0x00, 0xca, 0x00, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70,
 			},
 		}, {
-			"PortManagementInformationForTSCWithinSessionReportRequest",
-			ie.NewPortManagementInformationForTSCWithinSessionReportRequest(
+			"TSCManagementInformationWithinSessionReportRequest",
+			ie.NewTSCManagementInformationWithinSessionReportRequest(
 				ie.NewPortManagementInformationContainer("go-pfcp"),
 			),
 			[]byte{
@@ -3461,6 +3461,10 @@ func TestIEs(t *testing.T) {
 			"MPTCPApplicableIndication",
 			ie.NewMPTCPApplicableIndication(0x01),
 			[]byte{0x01, 0x09, 0x00, 0x01, 0x01},
+		}, {
+			"BridgeManagementInformationContainer",
+			ie.NewBridgeManagementInformationContainer("go-pfcp"),
+			[]byte{0x01, 0x0a, 0x00, 0x07, 0x67, 0x6f, 0x2d, 0x70, 0x66, 0x63, 0x70},
 		}, {
 			"VendorSpecific",
 			ie.NewVendorSpecificIE(0xffff, 10415, []byte{0xde, 0xad, 0xbe, 0xef}),

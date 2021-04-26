@@ -5,23 +5,23 @@
 package ie
 
 // NewTSCManagementInformation creates a new TSCManagementInformation IE.
-func NewTSCManagementInformation(typ uint16, info *IE) *IE {
-	return newGroupedIE(typ, 0, info)
+func NewTSCManagementInformation(typ uint16, ies ...*IE) *IE {
+	return newGroupedIE(typ, 0, ies...)
 }
 
 // NewTSCManagementInformationWithinSessionModificationRequest creates a new TSCManagementInformationWithinSessionModificationRequest IE.
-func NewTSCManagementInformationWithinSessionModificationRequest(info *IE) *IE {
-	return newGroupedIE(TSCManagementInformationWithinSessionModificationRequest, 0, info)
+func NewTSCManagementInformationWithinSessionModificationRequest(ies ...*IE) *IE {
+	return newGroupedIE(TSCManagementInformationWithinSessionModificationRequest, 0, ies...)
 }
 
 // NewTSCManagementInformationWithinSessionModificationResponse creates a new TSCManagementInformationWithinSessionModificationResponse IE.
-func NewTSCManagementInformationWithinSessionModificationResponse(info *IE) *IE {
-	return newGroupedIE(TSCManagementInformationWithinSessionModificationResponse, 0, info)
+func NewTSCManagementInformationWithinSessionModificationResponse(ies ...*IE) *IE {
+	return newGroupedIE(TSCManagementInformationWithinSessionModificationResponse, 0, ies...)
 }
 
 // NewTSCManagementInformationWithinSessionReportRequest creates a new TSCManagementInformationWithinSessionReportRequest IE.
-func NewTSCManagementInformationWithinSessionReportRequest(info *IE) *IE {
-	return newGroupedIE(TSCManagementInformationWithinSessionReportRequest, 0, info)
+func NewTSCManagementInformationWithinSessionReportRequest(ies ...*IE) *IE {
+	return newGroupedIE(TSCManagementInformationWithinSessionReportRequest, 0, ies...)
 }
 
 // TSCManagementInformation returns the IEs above TSCManagementInformation if the type of IE matches.

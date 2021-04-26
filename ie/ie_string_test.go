@@ -39,6 +39,35 @@ func TestStringIEs(t *testing.T) {
 			decoded:     "go-pfcp",
 			decoderFunc: func(i *ie.IE) (string, error) { return i.ApplicationInstanceID() },
 		}, {
+			description: "BridgeManagementInformationContainer",
+			structured:  ie.NewBridgeManagementInformationContainer("go-pfcp"),
+			decoded:     "go-pfcp",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.BridgeManagementInformationContainer() },
+		}, {
+			description: "BridgeManagementInformationContainer/TSCManagementInformationWithinSessionModificationRequest",
+			structured: ie.NewTSCManagementInformationWithinSessionModificationRequest(
+				ie.NewPortManagementInformationContainer("go-pfcp"),
+				ie.NewBridgeManagementInformationContainer("go-pfcp"),
+			),
+			decoded:     "go-pfcp",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.BridgeManagementInformationContainer() },
+		}, {
+			description: "BridgeManagementInformationContainer/TSCManagementInformationWithinSessionModificationResponse",
+			structured: ie.NewTSCManagementInformationWithinSessionModificationResponse(
+				ie.NewPortManagementInformationContainer("go-pfcp"),
+				ie.NewBridgeManagementInformationContainer("go-pfcp"),
+			),
+			decoded:     "go-pfcp",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.BridgeManagementInformationContainer() },
+		}, {
+			description: "BridgeManagementInformationContainer/TSCManagementInformationWithinSessionReportRequest",
+			structured: ie.NewTSCManagementInformationWithinSessionReportRequest(
+				ie.NewPortManagementInformationContainer("go-pfcp"),
+				ie.NewBridgeManagementInformationContainer("go-pfcp"),
+			),
+			decoded:     "go-pfcp",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.BridgeManagementInformationContainer() },
+		}, {
 			description: "DataNetworkAccessIdentifier",
 			structured:  ie.NewDataNetworkAccessIdentifier("go-pfcp"),
 			decoded:     "go-pfcp",
@@ -91,6 +120,30 @@ func TestStringIEs(t *testing.T) {
 		}, {
 			description: "PortManagementInformationContainer",
 			structured:  ie.NewPortManagementInformationContainer("go-pfcp"),
+			decoded:     "go-pfcp",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.PortManagementInformationContainer() },
+		}, {
+			description: "PortManagementInformationContainer/TSCManagementInformationWithinSessionModificationRequest",
+			structured: ie.NewTSCManagementInformationWithinSessionModificationRequest(
+				ie.NewPortManagementInformationContainer("go-pfcp"),
+				ie.NewBridgeManagementInformationContainer("go-pfcp"),
+			),
+			decoded:     "go-pfcp",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.PortManagementInformationContainer() },
+		}, {
+			description: "PortManagementInformationContainer/TSCManagementInformationWithinSessionModificationResponse",
+			structured: ie.NewTSCManagementInformationWithinSessionModificationResponse(
+				ie.NewPortManagementInformationContainer("go-pfcp"),
+				ie.NewBridgeManagementInformationContainer("go-pfcp"),
+			),
+			decoded:     "go-pfcp",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.PortManagementInformationContainer() },
+		}, {
+			description: "PortManagementInformationContainer/TSCManagementInformationWithinSessionReportRequest",
+			structured: ie.NewTSCManagementInformationWithinSessionReportRequest(
+				ie.NewPortManagementInformationContainer("go-pfcp"),
+				ie.NewBridgeManagementInformationContainer("go-pfcp"),
+			),
 			decoded:     "go-pfcp",
 			decoderFunc: func(i *ie.IE) (string, error) { return i.PortManagementInformationContainer() },
 		}, {
