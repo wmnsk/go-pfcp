@@ -5,7 +5,6 @@
 package ie
 
 import (
-	"encoding/binary"
 	"io"
 
 	"github.com/wmnsk/go-pfcp/internal/utils"
