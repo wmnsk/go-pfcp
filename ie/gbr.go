@@ -14,10 +14,8 @@ import (
 // NewGBR creates a new GBR IE.
 func NewGBR(ul, dl uint64) *IE {
 	i := New(GBR, make([]byte, 10))
-	i.Payload[0] = byte(ul >> 32)
-	i.Payload[5] = byte(dl >> 32)
-	binary.BigEndian.PutUint32(i.Payload[1:5], uint32(ul))
-	binary.BigEndian.PutUint32(i.Payload[6:10], uint32(dl))
+	copy(i.Payload[0:5], utils.Uint64To40(ul))
+	copy(i.Payload[5:10], utils.Uint64To40(dl))
 	return i
 }
 
