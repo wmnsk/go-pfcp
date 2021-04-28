@@ -135,6 +135,12 @@ func (i *IE) HasIPv4() bool {
 			return false
 		}
 		return v.HasIPv4()
+	case IPVersion:
+		v, err := i.IPVersion()
+		if err != nil {
+			return false
+		}
+		return has2ndBit(v)
 	default:
 		return false
 	}
@@ -173,6 +179,12 @@ func (i *IE) HasIPv6() bool {
 			return false
 		}
 		return v.HasIPv6()
+	case IPVersion:
+		v, err := i.IPVersion()
+		if err != nil {
+			return false
+		}
+		return has1stBit(v)
 	default:
 		return false
 	}

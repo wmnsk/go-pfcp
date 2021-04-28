@@ -378,6 +378,21 @@ func TestUint32IEs(t *testing.T) {
 			structured:  ie.NewMultiplier(0xffffffffffffffff, 0x11223344),
 			decoded:     0x11223344,
 			decoderFunc: func(i *ie.IE) (uint32, error) { return i.Exponent() },
+		}, {
+			description: "SNSSAI/SD",
+			structured:  ie.NewSNSSAI(0x11, 0x223344),
+			decoded:     0x223344,
+			decoderFunc: func(i *ie.IE) (uint32, error) { return i.SD() },
+		}, {
+			description: "SNSSAI/UEIPAddressPoolInformation/SD",
+			structured: ie.NewUEIPAddressPoolInformation(
+				ie.NewUEIPAddressPoolIdentity("go-pfcp"),
+				ie.NewNetworkInstance("some.instance.example"),
+				ie.NewSNSSAI(0x11, 0x223344),
+				ie.NewIPVersion(true, false),
+			),
+			decoded:     0x223344,
+			decoderFunc: func(i *ie.IE) (uint32, error) { return i.SD() },
 		},
 	}
 

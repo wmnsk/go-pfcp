@@ -4,15 +4,15 @@
 
 package ie
 
-// NewPortManagementInformationContainer creates a new PortManagementInformationContainer IE.
-func NewPortManagementInformationContainer(info string) *IE {
-	return newStringIE(PortManagementInformationContainer, info)
+// NewBridgeManagementInformationContainer creates a new BridgeManagementInformationContainer IE.
+func NewBridgeManagementInformationContainer(info string) *IE {
+	return newStringIE(BridgeManagementInformationContainer, info)
 }
 
-// PortManagementInformationContainer returns PortManagementInformationContainer in string if the type of IE matches.
-func (i *IE) PortManagementInformationContainer() (string, error) {
+// BridgeManagementInformationContainer returns BridgeManagementInformationContainer in string if the type of IE matches.
+func (i *IE) BridgeManagementInformationContainer() (string, error) {
 	switch i.Type {
-	case PortManagementInformationContainer:
+	case BridgeManagementInformationContainer:
 		return string(i.Payload), nil
 	case TSCManagementInformationWithinSessionModificationRequest,
 		TSCManagementInformationWithinSessionModificationResponse,
@@ -22,8 +22,8 @@ func (i *IE) PortManagementInformationContainer() (string, error) {
 			return "", err
 		}
 		for _, x := range ies {
-			if x.Type == PortManagementInformationContainer {
-				return x.PortManagementInformationContainer()
+			if x.Type == BridgeManagementInformationContainer {
+				return x.BridgeManagementInformationContainer()
 			}
 		}
 		return "", ErrIENotFound

@@ -5,8 +5,8 @@
 package ie
 
 // NewUEIPAddressPoolInformation creates a new UEIPAddressPoolInformation IE.
-func NewUEIPAddressPoolInformation(id, instance *IE) *IE {
-	return newGroupedIE(UEIPAddressPoolInformation, 0, id, instance)
+func NewUEIPAddressPoolInformation(ies ...*IE) *IE {
+	return newGroupedIE(UEIPAddressPoolInformation, 0, ies...)
 }
 
 // UEIPAddressPoolInformation returns the IEs above UEIPAddressPoolInformation if the type of IE matches.

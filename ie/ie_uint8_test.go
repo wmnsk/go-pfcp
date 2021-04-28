@@ -177,6 +177,19 @@ func TestUint8IEs(t *testing.T) {
 			decoded:     ie.DstInterfaceAccess,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.DestinationInterface() },
 		}, {
+			description: "DataStatus",
+			structured:  ie.NewDataStatus(0x03),
+			decoded:     0x03,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.DataStatus() },
+		}, {
+			description: "DataStatus/DownlinkDataReport",
+			structured: ie.NewDownlinkDataReport(
+				ie.NewPDRID(0xffff),
+				ie.NewDataStatus(0x03),
+			),
+			decoded:     0x03,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.DataStatus() },
+		}, {
 			description: "DestinationInterface/ForwardingParameters",
 			structured: ie.NewForwardingParameters(
 				ie.NewDestinationInterface(0xff),
@@ -364,6 +377,21 @@ func TestUint8IEs(t *testing.T) {
 			decoded:     3,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.GTPUPathInterfaceType() },
 		}, {
+			description: "IPVersion",
+			structured:  ie.NewIPVersion(true, false),
+			decoded:     0x01,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.IPVersion() },
+		}, {
+			description: "IPVersion/UEIPAddressPoolInformation",
+			structured: ie.NewUEIPAddressPoolInformation(
+				ie.NewUEIPAddressPoolIdentity("go-pfcp"),
+				ie.NewNetworkInstance("some.instance.example"),
+				ie.NewSNSSAI(0x11, 0x223344),
+				ie.NewIPVersion(true, false),
+			),
+			decoded:     0x01,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.IPVersion() },
+		}, {
 			description: "MeasurementInformation",
 			structured:  ie.NewMeasurementInformation(0x1f),
 			decoded:     0x1f,
@@ -410,6 +438,19 @@ func TestUint8IEs(t *testing.T) {
 			structured:  ie.NewMPTCPControlInformation(1),
 			decoded:     1,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.MPTCPControlInformation() },
+		}, {
+			description: "MPTCPApplicableIndication",
+			structured:  ie.NewMPTCPApplicableIndication(0x01),
+			decoded:     0x01,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.MPTCPApplicableIndication() },
+		}, {
+			description: "MPTCPApplicableIndication/CreatePDR",
+			structured: ie.NewCreatePDR(
+				ie.NewPDRID(0xffff),
+				ie.NewMPTCPApplicableIndication(0x01),
+			),
+			decoded:     0x01,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.MPTCPApplicableIndication() },
 		}, {
 			description: "MPTCPControlInformation/ProvideATSSSControlInformation",
 			structured: ie.NewProvideATSSSControlInformation(
@@ -505,6 +546,11 @@ func TestUint8IEs(t *testing.T) {
 			structured:  ie.NewPFCPAssociationReleaseRequest(1, 1),
 			decoded:     3,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.PFCPAssociationReleaseRequest() },
+		}, {
+			description: "PFCPASReqFlags",
+			structured:  ie.NewPFCPASReqFlags(0x01),
+			decoded:     0x01,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.PFCPASReqFlags() },
 		}, {
 			description: "PFCPASRspFlags",
 			structured:  ie.NewPFCPASRspFlags(0x01),
@@ -702,6 +748,18 @@ func TestUint8IEs(t *testing.T) {
 			decoded:     0x07,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.QoSReportTrigger() },
 		}, {
+			description: "RDSConfigurationInformation",
+			structured:  ie.NewRDSConfigurationInformation(0x01),
+			decoded:     0x01,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.RDSConfigurationInformation() },
+		}, {
+			description: "RDSConfigurationInformation/ProvideRDSConfigurationInformation",
+			structured: ie.NewProvideRDSConfigurationInformation(
+				ie.NewRDSConfigurationInformation(0x01),
+			),
+			decoded:     0x01,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.RDSConfigurationInformation() },
+		}, {
 			description: "ReportType",
 			structured:  ie.NewReportType(1, 1, 1, 1),
 			decoded:     0x0f,
@@ -778,6 +836,21 @@ func TestUint8IEs(t *testing.T) {
 			),
 			decoded:     0x01,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.RQI() },
+		}, {
+			description: "SNSSAI/SST",
+			structured:  ie.NewSNSSAI(0x11, 0x223344),
+			decoded:     0x11,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.SST() },
+		}, {
+			description: "SNSSAI/UEIPAddressPoolInformation/SST",
+			structured: ie.NewUEIPAddressPoolInformation(
+				ie.NewUEIPAddressPoolIdentity("go-pfcp"),
+				ie.NewNetworkInstance("some.instance.example"),
+				ie.NewSNSSAI(0x11, 0x223344),
+				ie.NewIPVersion(true, false),
+			),
+			decoded:     0x11,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.SST() },
 		}, {
 			description: "SourceInterface",
 			structured:  ie.NewSourceInterface(ie.SrcInterfaceAccess),
