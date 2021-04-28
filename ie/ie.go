@@ -452,23 +452,102 @@ func (i *IE) IsVendorSpecific() bool {
 	return i.Type&0x8000 != 0
 }
 
-var grouped = []uint16{
-	// TODO: fill here with all the type of IEs that may be grouped, using constants above.
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-	17, 18, 51, 54, 58, 59, 68, 77, 78, 79, 80, 83, 85, 86, 87, 99, 102, 105, 118, 127,
-	128, 129, 130, 132, 143, 147, 165, 166, 167, 168, 169, 175, 176, 183, 187, 188,
-	189, 190, 195, 199, 200, 201, 203, 205, 211, 212, 213, 214, 216, 218, 220, 221,
-	225, 226, 227, 233, 238, 239, 240, 242, 247, 252, 254, 255, 256, 261, 263, 264, 267, 270, 271,
+// We're using map to avoid iterating over a list.
+// The value is not actually used.
+var groupedMap = map[uint16]bool{
+	CreatePDR:                            true,
+	PDI:                                  true,
+	CreateFAR:                            true,
+	ForwardingParameters:                 true,
+	DuplicatingParameters:                true,
+	CreateURR:                            true,
+	CreateQER:                            true,
+	CreatedPDR:                           true,
+	UpdatePDR:                            true,
+	UpdateFAR:                            true,
+	UpdateForwardingParameters:           true,
+	UpdateBARWithinSessionReportResponse: true,
+	UpdateURR:                            true,
+	UpdateQER:                            true,
+	RemovePDR:                            true,
+	RemoveFAR:                            true,
+	RemoveURR:                            true,
+	RemoveQER:                            true,
+	LoadControlInformation:               true,
+	OverloadControlInformation:           true,
+	ApplicationIDsPFDs:                   true,
+	PFDContext:                           true,
+	ApplicationDetectionInformation:      true,
+	QueryURR:                             true,
+	UsageReportWithinSessionModificationResponse: true,
+	UsageReportWithinSessionDeletionResponse:     true,
+	UsageReportWithinSessionReportRequest:        true,
+	DownlinkDataReport:                           true,
+	CreateBAR:                                    true,
+	UpdateBARWithinSessionModificationRequest:    true,
+	RemoveBAR:                                                 true,
+	ErrorIndicationReport:                                     true,
+	UserPlanePathFailureReport:                                true,
+	UpdateDuplicatingParameters:                               true,
+	AggregatedURRs:                                            true,
+	CreateTrafficEndpoint:                                     true,
+	CreatedTrafficEndpoint:                                    true,
+	UpdateTrafficEndpoint:                                     true,
+	RemoveTrafficEndpoint:                                     true,
+	EthernetPacketFilter:                                      true,
+	EthernetTrafficInformation:                                true,
+	AdditionalMonitoringTime:                                  true,
+	CreateMAR:                                                 true,
+	TGPPAccessForwardingActionInformation:                     true,
+	NonTGPPAccessForwardingActionInformation:                  true,
+	RemoveMAR:                                                 true,
+	UpdateMAR:                                                 true,
+	UpdateTGPPAccessForwardingActionInformation:               true,
+	UpdateNonTGPPAccessForwardingActionInformation:            true,
+	PFCPSessionRetentionInformation:                           true,
+	UserPlanePathRecoveryReport:                               true,
+	IPMulticastAddressingInfo:                                 true,
+	JoinIPMulticastInformationWithinUsageReport:               true,
+	LeaveIPMulticastInformationWithinUsageReport:              true,
+	CreatedBridgeInfoForTSC:                                   true,
+	TSCManagementInformationWithinSessionModificationRequest:  true,
+	TSCManagementInformationWithinSessionModificationResponse: true,
+	TSCManagementInformationWithinSessionReportRequest:        true,
+	ClockDriftControlInformation:                              true,
+	ClockDriftReport:                                          true,
+	RemoveSRR:                                                 true,
+	CreateSRR:                                                 true,
+	UpdateSRR:                                                 true,
+	SessionReport:                                             true,
+	AccessAvailabilityControlInformation:                      true,
+	AccessAvailabilityReport:                                  true,
+	ProvideATSSSControlInformation:                            true,
+	ATSSSControlParameters:                                    true,
+	MPTCPParameters:                                           true,
+	ATSSSLLParameters:                                         true,
+	PMFParameters:                                             true,
+	UEIPAddressPoolInformation:                                true,
+	GTPUPathQoSControlInformation:                             true,
+	GTPUPathQoSReport:                                         true,
+	QoSInformationInGTPUPathQoSReport:                         true,
+	QoSMonitoringPerQoSFlowControlInformation:                 true,
+	QoSMonitoringReport:                                       true,
+	PacketRateStatusReport:                                    true,
+	EthernetContextInformation:                                true,
+	RedundantTransmissionParameters:                           true,
+	UpdatedPDR:                                                true,
+	ProvideRDSConfigurationInformation:                        true,
+	QueryPacketRateStatusWithinSessionModificationRequest:     true,
+	PacketRateStatusReportWithinSessionModificationResponse:   true,
+	UEIPAddressUsageInformation:                               true,
+	RedundantTransmissionForwardingParameters:                 true,
+	TransportDelayReporting:                                   true,
 }
 
 // IsGrouped reports whether an IE is grouped type or not.
 func (i *IE) IsGrouped() bool {
-	for _, itype := range grouped {
-		if i.Type == itype {
-			return true
-		}
-	}
-	return false
+	_, ok := groupedMap[i.Type]
+	return ok
 }
 
 // Add adds variable number of IEs to a IE if the IE is grouped type and update length.
