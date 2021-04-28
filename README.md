@@ -15,7 +15,7 @@ Are you looking for a GTP implementation in Golang? [go-gtp](https://github.com/
 ## Project Status
 
 This project is still WIP.  
-Implementation of all the messages and IEs defined in TS29.244 V16.3.1(2020-04) has been done at v0.0.1, but the exported APIs may still be updated in the future, as they are not tested enough (we add a new tag in that case).
+Implementation of all the messages and IEs defined in TS29.244 V16.7.0(2021-04) has been done, but the exported APIs may still be updated in the future, as they are not tested enough (we add a new tag in that case).
 
 We are now working on implementing networking functionalities (like setting up associations, establish sessions with easy & quick APIs), as well as updating the messages and IE definitions according to the latest specifications.
 
@@ -483,8 +483,8 @@ IEs are (basically) implemented in conformance with TS29.244 V16.3.1(2020-04).
 | 267            | UE IP Address Usage Information                                            | Yes        |
 | 268            | Number of UE IP Addresses                                                  | Yes        |
 | 269            | Validity Timer                                                             | Yes        |
-| 270            | Redundant Transmission Forwarding Parameters                               |            |
-| 271            | Transport Delay Reporting                                                  |            |
+| 270            | Redundant Transmission Forwarding Parameters                               | Yes        |
+| 271            | Transport Delay Reporting                                                  | Yes        |
 | 272 to 32767   | _(For future use)_                                                         | -          |
 | 32768 to 65535 | Reserved for vendor specific IEs                                           | -          |
 
