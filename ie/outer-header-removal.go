@@ -13,6 +13,9 @@ func NewOuterHeaderRemoval(desc, ext uint8) *IE {
 
 // OuterHeaderRemoval returns OuterHeaderRemoval in []byte if the type of IE matches.
 func (i *IE) OuterHeaderRemoval() ([]byte, error) {
+	// The size of the OuterHeaderRemoval IE was one octet in 3GPP TS 29.244 up to V15.3.0,
+	// but it has been changed to two octets since V15.4.0.
+	// For backward compatibility, one octet is also accepted.
 	if len(i.Payload) < 1 {
 		return nil, io.ErrUnexpectedEOF
 	}
@@ -62,6 +65,12 @@ func (i *IE) GTPUExternsionHeaderDeletion() (uint8, error) {
 	v, err := i.OuterHeaderRemoval()
 	if err != nil {
 		return 0, err
+	}
+
+	// If the size of the payload is less than two octets because the original was formatted before
+	// 3GPP TS 29.244 V15.3.0, 0 is returned as GTPUExternsionHeaderDeletion.
+	if len(v) < 2 {
+		return 0, nil
 	}
 
 	return v[1], nil
