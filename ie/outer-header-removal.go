@@ -70,7 +70,7 @@ func (i *IE) GTPUExternsionHeaderDeletion() (uint8, error) {
 	// If the size of the payload is less than two octets because the original was formatted before
 	// 3GPP TS 29.244 V15.3.0, 0 is returned as GTPUExternsionHeaderDeletion.
 	if len(v) < 2 {
-		return 0, nil
+		return 0, io.ErrUnexpectedEOF
 	}
 
 	return v[1], nil
