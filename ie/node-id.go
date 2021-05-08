@@ -8,6 +8,8 @@ import (
 	"io"
 	"net"
 	"strings"
+
+	"github.com/wmnsk/go-pfcp/internal/utils"
 )
 
 // NodeID definitions.
@@ -35,16 +37,8 @@ func NewNodeID(ipv4, ipv6, fqdn string) *IE {
 		copy(p[1:], net.ParseIP(ipv6).To16())
 	case fqdn != "":
 		p = make([]byte, 2+len([]byte(fqdn)))
-
 		p[0] = NodeIDFQDN
-
-		offset := 1
-		for _, label := range strings.Split(fqdn, ".") {
-			l := len(label)
-			p[offset] = uint8(l)
-			copy(p[offset+1:], label)
-			offset += l + 1
-		}
+		copy(p[1:], utils.EncodeFQDN(fqdn))
 	default: // all params are empty
 		return nil
 	}

@@ -103,6 +103,21 @@ func TestStringIEs(t *testing.T) {
 			decoded:     "go-pfcp",
 			decoderFunc: func(i *ie.IE) (string, error) { return i.NetworkInstance() },
 		}, {
+			description: "NetworkInstance/Heuristic",
+			structured:  ie.NewNetworkInstance("go-pfcp"),
+			decoded:     "go-pfcp",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.NetworkInstanceHeuristic() },
+		}, {
+			description: "NetworkInstance/FQDN",
+			structured:  ie.NewNetworkInstanceFQDN("go-pfcp.com"),
+			decoded:     "go-pfcp.com",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.NetworkInstanceFQDN() },
+		}, {
+			description: "NetworkInstance/FQDN/Heuristic",
+			structured:  ie.NewNetworkInstanceFQDN("go-pfcp.com"),
+			decoded:     "go-pfcp.com",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.NetworkInstanceHeuristic() },
+		}, {
 			description: "NodeID/IPv4",
 			structured:  ie.NewNodeID("127.0.0.1", "", ""),
 			decoded:     "127.0.0.1",

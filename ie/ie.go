@@ -9,6 +9,7 @@ import (
 	"io"
 
 	"github.com/wmnsk/go-pfcp/internal/logger"
+	"github.com/wmnsk/go-pfcp/internal/utils"
 )
 
 // IE Type definitions.
@@ -658,6 +659,10 @@ func newUint64ValIE(t uint16, v uint64) *IE {
 
 func newStringIE(t uint16, v string) *IE {
 	return New(t, []byte(v))
+}
+
+func newFQDNIE(t uint16, v string) *IE {
+	return New(t, utils.EncodeFQDN(v))
 }
 
 func newGroupedIE(itype, eid uint16, ies ...*IE) *IE {
