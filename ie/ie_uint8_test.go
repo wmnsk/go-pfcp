@@ -330,6 +330,16 @@ func TestUint8IEs(t *testing.T) {
 			decoded:     5,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.GateStatus() },
 		}, {
+			description: "GateStatus/OpenOpen/GateStatusUL",
+			structured:  ie.NewGateStatus(ie.GateStatusOpen, ie.GateStatusOpen),
+			decoded:     ie.GateStatusOpen,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.GateStatusUL() },
+		}, {
+			description: "GateStatus/OpenOpen/GateStatusDL",
+			structured:  ie.NewGateStatus(ie.GateStatusOpen, ie.GateStatusOpen),
+			decoded:     ie.GateStatusOpen,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.GateStatusDL() },
+		}, {
 			description: "GateStatus/OpenClosed/GateStatusUL",
 			structured:  ie.NewGateStatus(ie.GateStatusOpen, ie.GateStatusClosed),
 			decoded:     ie.GateStatusOpen,
@@ -337,6 +347,26 @@ func TestUint8IEs(t *testing.T) {
 		}, {
 			description: "GateStatus/OpenClosed/GateStatusDL",
 			structured:  ie.NewGateStatus(ie.GateStatusOpen, ie.GateStatusClosed),
+			decoded:     ie.GateStatusClosed,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.GateStatusDL() },
+		}, {
+			description: "GateStatus/ClosedOpen/GateStatusUL",
+			structured:  ie.NewGateStatus(ie.GateStatusClosed, ie.GateStatusOpen),
+			decoded:     ie.GateStatusClosed,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.GateStatusUL() },
+		}, {
+			description: "GateStatus/ClosedOpen/GateStatusDL",
+			structured:  ie.NewGateStatus(ie.GateStatusClosed, ie.GateStatusOpen),
+			decoded:     ie.GateStatusOpen,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.GateStatusDL() },
+		}, {
+			description: "GateStatus/ClosedClosed/GateStatusUL",
+			structured:  ie.NewGateStatus(ie.GateStatusClosed, ie.GateStatusClosed),
+			decoded:     ie.GateStatusClosed,
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.GateStatusUL() },
+		}, {
+			description: "GateStatus/ClosedClosed/GateStatusDL",
+			structured:  ie.NewGateStatus(ie.GateStatusClosed, ie.GateStatusClosed),
 			decoded:     ie.GateStatusClosed,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.GateStatusDL() },
 		}, {
