@@ -90,7 +90,7 @@ func (h *Header) MarshalTo(b []byte) error {
 	return nil
 }
 
-// ParseHeader decodes given byte sequence as a GTPv2 header.
+// ParseHeader decodes given byte sequence as a PFCP header.
 func ParseHeader(b []byte) (*Header, error) {
 	h := &Header{}
 	if err := h.UnmarshalBinary(b); err != nil {
@@ -99,7 +99,7 @@ func ParseHeader(b []byte) (*Header, error) {
 	return h, nil
 }
 
-// UnmarshalBinary sets the values retrieved from byte sequence in GTPv2 header.
+// UnmarshalBinary sets the values retrieved from byte sequence in PFCP header.
 func (h *Header) UnmarshalBinary(b []byte) error {
 	l := len(b)
 	if l < 8 {
@@ -155,7 +155,7 @@ func (h *Header) SetLength() {
 	}
 }
 
-// Version returns the GTP version.
+// Version returns the PFCP version.
 func (h *Header) Version() int {
 	return 1
 }
@@ -203,7 +203,7 @@ func (h *Header) MP() uint8 {
 	return (h.MessagePriority & 0xf0) >> 4
 }
 
-// String returns the GTPv2 header values in human readable format.
+// String returns the PFCP header values in human readable format.
 func (h *Header) String() string {
 	return fmt.Sprintf("{Version: %d, Flags: {FO: %t, MP: %t, S: %t}, Type: %d, Length: %d, SEID: %#016x, SequenceNumber: %#x, MessagePriority: %d, Payload: %#x}",
 		h.Version(),
