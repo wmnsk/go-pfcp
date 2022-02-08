@@ -528,10 +528,10 @@ func TestUint8IEs(t *testing.T) {
 			decoded:     0x01,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.OuterHeaderRemovalDescription() },
 		}, {
-			description: "OuterHeaderRemoval/GTPUExternsionHeaderDeletion",
+			description: "OuterHeaderRemoval/GTPUExtensionHeaderDeletion",
 			structured:  ie.NewOuterHeaderRemoval(0x01, 0x02),
 			decoded:     0x02,
-			decoderFunc: func(i *ie.IE) (uint8, error) { return i.GTPUExternsionHeaderDeletion() },
+			decoderFunc: func(i *ie.IE) (uint8, error) { return i.GTPUExtensionHeaderDeletion() },
 		}, {
 			description: "PacketReplicationAndDetectionCarryOnInformation",
 			structured:  ie.NewPacketReplicationAndDetectionCarryOnInformation(0x0f),
