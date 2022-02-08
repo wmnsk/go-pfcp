@@ -60,15 +60,15 @@ func (i *IE) OuterHeaderRemovalDescription() (uint8, error) {
 	return v[0], nil
 }
 
-// GTPUExternsionHeaderDeletion returns GTPUExternsionHeaderDeletion in uint8 if the type of IE matches.
-func (i *IE) GTPUExternsionHeaderDeletion() (uint8, error) {
+// GTPUExtensionHeaderDeletion returns GTPUExtensionHeaderDeletion in uint8 if the type of IE matches.
+func (i *IE) GTPUExtensionHeaderDeletion() (uint8, error) {
 	v, err := i.OuterHeaderRemoval()
 	if err != nil {
 		return 0, err
 	}
 
 	// If the size of the payload is less than two octets because the original was formatted before
-	// 3GPP TS 29.244 V15.3.0, 0 is returned as GTPUExternsionHeaderDeletion.
+	// 3GPP TS 29.244 V15.3.0, 0 is returned as GTPUExtensionHeaderDeletion.
 	if len(v) < 2 {
 		return 0, io.ErrUnexpectedEOF
 	}
