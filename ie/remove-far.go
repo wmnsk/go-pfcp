@@ -5,8 +5,8 @@
 package ie
 
 // NewRemoveFAR creates a new RemoveFAR IE.
-func NewRemoveFAR(pdr *IE) *IE {
-	return newGroupedIE(RemoveFAR, 0, pdr)
+func NewRemoveFAR(far *IE) *IE {
+	return newGroupedIE(RemoveFAR, 0, far)
 }
 
 // RemoveFAR returns the IEs above RemoveFAR if the type of IE matches.
