@@ -2,7 +2,7 @@
 
 PFCP implementation in Golang.
 
-[![CircleCI](https://circleci.com/gh/wmnsk/go-pfcp.svg?style=shield)](https://circleci.com/gh/wmnsk/go-pfcp)
+![CI status](https://github.com/wmnsk/go-pfcp/actions/workflows/go.yml/badge.svg)
 [![GoDoc](https://godoc.org/github.com/wmnsk/go-pfcp?status.svg)](https://godoc.org/github.com/wmnsk/go-pfcp)
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/wmnsk/go-pfcp/blob/master/LICENSE)
 
