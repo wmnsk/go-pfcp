@@ -26,6 +26,27 @@ func TestUint16IEs(t *testing.T) {
 			decoded:     0x00ff,
 			decoderFunc: func(i *ie.IE) (uint16, error) { return i.AdditionalUsageReportsInformation() },
 		}, {
+			description: "ApplyAction",
+			structured:  ie.NewApplyAction(0x0400),
+			decoded:     0x0400,
+			decoderFunc: func(i *ie.IE) (uint16, error) { return i.ApplyAction() },
+		}, {
+			description: "ApplyAction/CreateFAR",
+			structured: ie.NewCreateFAR(
+				ie.NewFARID(0xffffffff),
+				ie.NewApplyAction(0x0400),
+			),
+			decoded:     0x0400,
+			decoderFunc: func(i *ie.IE) (uint16, error) { return i.ApplyAction() },
+		}, {
+			description: "ApplyAction/UpdateFAR",
+			structured: ie.NewUpdateFAR(
+				ie.NewFARID(0xffffffff),
+				ie.NewApplyAction(0x0400),
+			),
+			decoded:     0x0400,
+			decoderFunc: func(i *ie.IE) (uint16, error) { return i.ApplyAction() },
+		}, {
 			description: "DLBufferingSuggestedPacketCount",
 			structured:  ie.NewDLBufferingSuggestedPacketCount(0xffff),
 			decoded:     0xffff,
