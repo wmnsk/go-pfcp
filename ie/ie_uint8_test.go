@@ -43,27 +43,6 @@ func TestUint8IEs(t *testing.T) {
 			decoded:     0x0f,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.AccessAvailabilityInformation() },
 		}, {
-			description: "ApplyAction",
-			structured:  ie.NewApplyAction(4),
-			decoded:     4,
-			decoderFunc: func(i *ie.IE) (uint8, error) { return i.ApplyAction() },
-		}, {
-			description: "ApplyAction/CreateFAR",
-			structured: ie.NewCreateFAR(
-				ie.NewFARID(0xffffffff),
-				ie.NewApplyAction(4),
-			),
-			decoded:     4,
-			decoderFunc: func(i *ie.IE) (uint8, error) { return i.ApplyAction() },
-		}, {
-			description: "ApplyAction/UpdateFAR",
-			structured: ie.NewUpdateFAR(
-				ie.NewFARID(0xffffffff),
-				ie.NewApplyAction(4),
-			),
-			decoded:     4,
-			decoderFunc: func(i *ie.IE) (uint8, error) { return i.ApplyAction() },
-		}, {
 			description: "ATSSSLLControlInformation",
 			structured:  ie.NewATSSSLLControlInformation(1),
 			decoded:     1,
