@@ -112,8 +112,10 @@ func (i *IE) UEIPAddress() (*UEIPAddressFields, error) {
 	}
 }
 
-// HasCH reports whether an IE has CH bit.
-func (i *IE) HasCH() bool {
+// HasCHV4 reports whether an IE has CHV4 bit.
+// This bit has been introduced in release 16.2
+// with the removal of the bit CH at the same position.
+func (i *IE) HasCHV4() bool {
 	if i.Type != UEIPAddress {
 		return false
 	}
@@ -122,6 +124,32 @@ func (i *IE) HasCH() bool {
 	}
 
 	return has5thBit(i.Payload[0])
+}
+
+// HasCHV6 reports whether an IE has CHV6 bit.
+// This bit has been introduced in release 16.2
+func (i *IE) HasCHV6() bool {
+	if i.Type != UEIPAddress {
+		return false
+	}
+	if len(i.Payload) < 1 {
+		return false
+	}
+
+	return has6thBit(i.Payload[0])
+}
+
+// HasIP6PL reports whether an IE has IP6PL bit.
+// This bit has been introduced in release 16.2
+func (i *IE) HasIP6PL() bool {
+	if i.Type != UEIPAddress {
+		return false
+	}
+	if len(i.Payload) < 1 {
+		return false
+	}
+
+	return has7thBit(i.Payload[0])
 }
 
 // HasIPv6D reports whether an IE has IPv6D bit.
