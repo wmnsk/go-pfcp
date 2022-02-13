@@ -112,7 +112,7 @@ func (i *IE) UEIPAddress() (*UEIPAddressFields, error) {
 	}
 }
 
-// HasCH4 reports whether an IE has CHV4 bit.
+// HasCHV4 reports whether an IE has CHV4 bit.
 // This bit has been introduced in release 16.2
 // with the removal of the bit CH at the same position.
 func (i *IE) HasCHV4() bool {
