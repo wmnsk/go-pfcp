@@ -231,7 +231,7 @@ func (i *IE) HasCTag() bool {
 		return false
 	}
 
-	return v.HasCtag()
+	return v.HasCTag()
 }
 
 // HasSTag reports whether an IE has STAG bit.
@@ -247,7 +247,7 @@ func (i *IE) HasSTag() bool {
 		return false
 	}
 
-	return v.HasStag()
+	return v.HasSTag()
 }
 
 // IsN19 reports whether an IE has N19 bit.
@@ -484,10 +484,10 @@ func (f *OuterHeaderCreationFields) MarshalLen() int {
 	if f.HasPortNumber() {
 		l += 2
 	}
-	if f.HasCtag() {
+	if f.HasCTag() {
 		l += 3
 	}
-	if f.HasStag() {
+	if f.HasSTag() {
 		l += 3
 	}
 
@@ -530,8 +530,8 @@ func (f *OuterHeaderCreationFields) HasPortNumber() bool {
 	return has3rdBit(desc) || has4thBit(desc)
 }
 
-// HasCTAG reports wether C-TAG field is set.
-func (f *OuterHeaderCreationFields) HasCtag() bool {
+// HasCTag reports wether C-TAG field is set.
+func (f *OuterHeaderCreationFields) HasCTag() bool {
 	// The C-TAG field shall be present
 	// if the Outer Header Creation Description requests
 	// the setting of the C-Tag in Ethernet packet. Otherwise it shall not be present.
@@ -539,8 +539,8 @@ func (f *OuterHeaderCreationFields) HasCtag() bool {
 	return has7thBit(desc)
 }
 
-// HasSTAG reports wether S-TAG field is set.
-func (f *OuterHeaderCreationFields) HasStag() bool {
+// HasSTag reports wether S-TAG field is set.
+func (f *OuterHeaderCreationFields) HasSTag() bool {
 	// The S-TAG field shall be present
 	// if the Outer Header Creation Description requests
 	// the setting of the S-Tag in Ethernet packet. Otherwise it shall not be present.
