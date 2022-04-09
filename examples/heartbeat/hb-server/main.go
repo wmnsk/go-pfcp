@@ -20,7 +20,7 @@ import (
 
 func main() {
 	var (
-		listen = flag.String("-s", "127.0.0.2:8805", "addr/port to listen on")
+		listen = flag.String("s", "127.0.0.2:8805", "addr/port to listen on")
 	)
 	flag.Parse()
 
