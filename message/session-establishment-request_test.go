@@ -21,7 +21,7 @@ func TestSessionEstablishmentRequest(t *testing.T) {
 			Description: "Single IE",
 			Structured: message.NewSessionEstablishmentRequest(
 				mp, fo, seid, seq, pri,
-				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
+				ie.NewNodeID("go-pfcp.epc.3gppnetwork.org"),
 				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil),
 				ie.NewCreatePDR(
 					ie.NewPDRID(0xffff),
@@ -447,7 +447,7 @@ func TestSessionEstablishmentRequest(t *testing.T) {
 			Description: "Multiple IEs",
 			Structured: message.NewSessionEstablishmentRequest(
 				mp, fo, seid, seq, pri,
-				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
+				ie.NewNodeID("go-pfcp.epc.3gppnetwork.org"),
 				ie.NewFSEID(0x1111111122222222, net.ParseIP("127.0.0.1"), nil),
 				ie.NewCreatePDR(
 					ie.NewPDRID(0xffff),

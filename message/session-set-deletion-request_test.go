@@ -19,7 +19,7 @@ func TestSessionSetDeletionRequest(t *testing.T) {
 			Description: "Normal",
 			Structured: message.NewSessionSetDeletionRequest(
 				seq,
-				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
+				ie.NewNodeID("go-pfcp.epc.3gppnetwork.org"),
 				ie.NewFQCSID("127.0.0.1", 1),
 			),
 			Serialized: []byte{

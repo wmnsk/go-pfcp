@@ -18,7 +18,7 @@ func TestAssociationReleaseRequest(t *testing.T) {
 		{
 			Description: "Normal",
 			Structured: message.NewAssociationReleaseRequest(
-				seq, ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
+				seq, ie.NewNodeID("go-pfcp.epc.3gppnetwork.org"),
 			),
 			Serialized: []byte{
 				0x20, 0x09, 0x00, 0x25, 0x11, 0x22, 0x33, 0x00,

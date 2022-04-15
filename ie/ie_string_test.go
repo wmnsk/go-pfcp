@@ -119,17 +119,17 @@ func TestStringIEs(t *testing.T) {
 			decoderFunc: func(i *ie.IE) (string, error) { return i.NetworkInstanceHeuristic() },
 		}, {
 			description: "NodeID/IPv4",
-			structured:  ie.NewNodeID("127.0.0.1", "", ""),
+			structured:  ie.NewNodeID("127.0.0.1"),
 			decoded:     "127.0.0.1",
 			decoderFunc: func(i *ie.IE) (string, error) { return i.NodeID() },
 		}, {
 			description: "NodeID/IPv6",
-			structured:  ie.NewNodeID("", "2001::1", ""),
+			structured:  ie.NewNodeID("2001::1"),
 			decoded:     "2001::1",
 			decoderFunc: func(i *ie.IE) (string, error) { return i.NodeID() },
 		}, {
 			description: "NodeID/FQDN",
-			structured:  ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
+			structured:  ie.NewNodeID("go-pfcp.epc.3gppnetwork.org"),
 			decoded:     "go-pfcp.epc.3gppnetwork.org",
 			decoderFunc: func(i *ie.IE) (string, error) { return i.NodeID() },
 		}, {
