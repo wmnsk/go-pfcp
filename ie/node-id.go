@@ -55,10 +55,10 @@ func NewNodeIDHeuristic(nodeID string) *IE {
 	var p []byte
 	ip := net.ParseIP(nodeID)
 	if ip != nil {
-		if ip.To4() != nil { // IPv4
+		if v4 := ip.To4(); v4 != nil { // IPv4
 			p = make([]byte, 5)
 			p[0] = NodeIDIPv4Address
-			copy(p[1:], ip.To4())
+			copy(p[1:], v4)
 		} else { // IPv6
 			p = make([]byte, 17)
 			p[0] = NodeIDIPv6Address
