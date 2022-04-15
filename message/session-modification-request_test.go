@@ -388,7 +388,7 @@ func TestSessionModificationRequest(t *testing.T) {
 						ie.NewURRID(0xffffffff),
 					),
 				),
-				ie.NewNodeID("go-pfcp.epc.3gppnetwork.org"),
+				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
 				ie.NewPortManagementInformationForTSCWithinSessionModificationRequest(
 					ie.NewPortManagementInformationContainer("go-pfcp"),
 				),
@@ -1313,7 +1313,7 @@ func TestSessionModificationRequest(t *testing.T) {
 						ie.NewURRID(0xffffffff),
 					),
 				),
-				ie.NewNodeID("go-pfcp.epc.3gppnetwork.org"),
+				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
 				ie.NewPortManagementInformationForTSCWithinSessionModificationRequest(
 					ie.NewPortManagementInformationContainer("go-pfcp"),
 				),

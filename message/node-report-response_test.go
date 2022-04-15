@@ -18,7 +18,7 @@ func TestNodeReportResponse(t *testing.T) {
 		{
 			Description: "Normal",
 			Structured: message.NewNodeReportResponse(seq,
-				ie.NewNodeID("go-pfcp.epc.3gppnetwork.org"),
+				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
 				ie.NewCause(ie.CauseRequestAccepted),
 				ie.NewOffendingIE(ie.Cause),
 			),

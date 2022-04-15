@@ -20,7 +20,34 @@ const (
 )
 
 // NewNodeID creates a new NodeID IE.
-func NewNodeID(nodeID string) *IE {
+//
+// Only one of the parameters should have a non-empty value(!="").
+// If multiple parameters are given, the first one is used(ipv4 > ipv6 > fqdn)
+func NewNodeID(ipv4, ipv6, fqdn string) *IE {
+	var p []byte
+
+	switch {
+	case ipv4 != "":
+		p = make([]byte, 5)
+		p[0] = NodeIDIPv4Address
+		copy(p[1:], net.ParseIP(ipv4).To4())
+	case ipv6 != "":
+		p = make([]byte, 17)
+		p[0] = NodeIDIPv6Address
+		copy(p[1:], net.ParseIP(ipv6).To16())
+	case fqdn != "":
+		p = make([]byte, 2+len([]byte(fqdn)))
+		p[0] = NodeIDFQDN
+		copy(p[1:], utils.EncodeFQDN(fqdn))
+	default: // all params are empty
+		return nil
+	}
+
+	return New(NodeID, p)
+}
+
+// NewNodeIDHeuristic creates a new NodeID IE.
+func NewNodeIDHeuristic(nodeID string) *IE {
 	if nodeID == "" {
 		return nil
 	}

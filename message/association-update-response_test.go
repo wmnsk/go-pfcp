@@ -18,7 +18,7 @@ func TestAssociationUpdateResponse(t *testing.T) {
 		{
 			Description: "Normal",
 			Structured: message.NewAssociationUpdateResponse(seq,
-				ie.NewNodeID("go-pfcp.epc.3gppnetwork.org"),
+				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
 				ie.NewCause(ie.CauseRequestAccepted),
 				ie.NewUPFunctionFeatures(0x01, 0x02),
 				ie.NewCPFunctionFeatures(0x3f),

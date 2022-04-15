@@ -19,7 +19,7 @@ func TestNodeReportRequest(t *testing.T) {
 		{
 			Description: "Single IE",
 			Structured: message.NewNodeReportRequest(seq,
-				ie.NewNodeID("go-pfcp.epc.3gppnetwork.org"),
+				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
 				ie.NewNodeReportType(0x01),
 				ie.NewUserPlanePathFailureReport(
 					ie.NewRemoteGTPUPeer(0x0e, "127.0.0.1", "", ie.DstInterfaceAccess, "some.instance.example"),
@@ -87,7 +87,7 @@ func TestNodeReportRequest(t *testing.T) {
 		}, {
 			Description: "Multiple IEs",
 			Structured: message.NewNodeReportRequest(seq,
-				ie.NewNodeID("go-pfcp.epc.3gppnetwork.org"),
+				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
 				ie.NewNodeReportType(0x01),
 				ie.NewUserPlanePathFailureReport(
 					ie.NewRemoteGTPUPeer(0x0e, "127.0.0.1", "", ie.DstInterfaceAccess, "some.instance.example"),
