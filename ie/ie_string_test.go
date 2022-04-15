@@ -133,6 +133,21 @@ func TestStringIEs(t *testing.T) {
 			decoded:     "go-pfcp.epc.3gppnetwork.org",
 			decoderFunc: func(i *ie.IE) (string, error) { return i.NodeID() },
 		}, {
+			description: "NodeIDHeuristic/IPv4",
+			structured:  ie.NewNodeIDHeuristic("127.0.0.1"),
+			decoded:     "127.0.0.1",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.NodeID() },
+		}, {
+			description: "NodeIDHeuristic/IPv6",
+			structured:  ie.NewNodeIDHeuristic("2001::1"),
+			decoded:     "2001::1",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.NodeID() },
+		}, {
+			description: "NodeIDHeuristic/FQDN",
+			structured:  ie.NewNodeIDHeuristic("go-pfcp.epc.3gppnetwork.org"),
+			decoded:     "go-pfcp.epc.3gppnetwork.org",
+			decoderFunc: func(i *ie.IE) (string, error) { return i.NodeID() },
+		}, {
 			description: "PortManagementInformationContainer",
 			structured:  ie.NewPortManagementInformationContainer("go-pfcp"),
 			decoded:     "go-pfcp",

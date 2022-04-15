@@ -46,6 +46,33 @@ func NewNodeID(ipv4, ipv6, fqdn string) *IE {
 	return New(NodeID, p)
 }
 
+// NewNodeIDHeuristic creates a new NodeID IE.
+func NewNodeIDHeuristic(nodeID string) *IE {
+	if nodeID == "" {
+		return nil
+	}
+
+	var p []byte
+	ip := net.ParseIP(nodeID)
+	if ip != nil {
+		if v4 := ip.To4(); v4 != nil { // IPv4
+			p = make([]byte, 5)
+			p[0] = NodeIDIPv4Address
+			copy(p[1:], v4)
+		} else { // IPv6
+			p = make([]byte, 17)
+			p[0] = NodeIDIPv6Address
+			copy(p[1:], ip.To16())
+		}
+	} else { // FQDN
+		p = make([]byte, 2+len([]byte(nodeID)))
+		p[0] = NodeIDFQDN
+		copy(p[1:], utils.EncodeFQDN(nodeID))
+	}
+
+	return New(NodeID, p)
+}
+
 // NodeID returns NodeID in string if the type of IE matches.
 func (i *IE) NodeID() (string, error) {
 	if i.Type != NodeID {
