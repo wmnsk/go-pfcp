@@ -52,6 +52,7 @@ type Message interface {
 	Version() int
 	SEID() uint64
 	Sequence() uint32
+	SetSequenceNumber(seq uint32)
 }
 
 // Parse parses the given bytes as Message.
