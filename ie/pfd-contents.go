@@ -112,7 +112,7 @@ func NewPFDContentsFields(fd, url, dn, cp, dnp string, afd, aurl, adnp []string)
 		f.SetDNPFlag()
 	}
 
-	if afd != nil && len(afd) > 0 {
+	if len(afd) > 0 {
 		l := 0
 		for _, a := range afd {
 			l += 2 + len([]byte(a))
@@ -123,7 +123,7 @@ func NewPFDContentsFields(fd, url, dn, cp, dnp string, afd, aurl, adnp []string)
 		f.SetAFDFlag()
 	}
 
-	if aurl != nil && len(aurl) > 0 {
+	if len(aurl) > 0 {
 		l := 0
 		for _, a := range aurl {
 			l += 2 + len([]byte(a))
@@ -134,7 +134,7 @@ func NewPFDContentsFields(fd, url, dn, cp, dnp string, afd, aurl, adnp []string)
 		f.SetAURLFlag()
 	}
 
-	if adnp != nil && len(adnp) > 0 {
+	if len(adnp) > 0 {
 		l := 0
 		for _, a := range adnp {
 			l += 2 + len([]byte(a))
