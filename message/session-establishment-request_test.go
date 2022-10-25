@@ -95,7 +95,7 @@ func TestSessionEstablishmentRequest(t *testing.T) {
 				ie.NewCreateURR(
 					ie.NewURRID(0xffffffff),
 					ie.NewMeasurementMethod(1, 1, 1),
-					ie.NewReportingTriggers(0x1122),
+					ie.NewReportingTriggers(0x11, 0x22),
 					ie.NewMeasurementPeriod(10*time.Second),
 					ie.NewVolumeThreshold(0x07, 0x3333333333333333, 0x1111111111111111, 0x2222222222222222),
 					ie.NewVolumeQuota(0x07, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff),
@@ -562,7 +562,7 @@ func TestSessionEstablishmentRequest(t *testing.T) {
 				ie.NewCreateURR(
 					ie.NewURRID(0xffffffff),
 					ie.NewMeasurementMethod(1, 1, 1),
-					ie.NewReportingTriggers(0x1122),
+					ie.NewReportingTriggers(0x11, 0x22),
 					ie.NewMeasurementPeriod(10*time.Second),
 					ie.NewVolumeThreshold(0x07, 0x3333333333333333, 0x1111111111111111, 0x2222222222222222),
 					ie.NewVolumeQuota(0x07, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff),

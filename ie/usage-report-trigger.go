@@ -123,3 +123,59 @@ func (i *IE) HasTERMR() bool {
 		return false
 	}
 }
+
+// HasEMRRE reports whether an IE has EMRRE bit.
+func (i *IE) HasEMRRE() bool {
+	if len(i.Payload) < 3 {
+		return false
+	}
+
+	switch i.Type {
+	case UsageReportTrigger:
+		u8 := i.Payload[2]
+		return has5thBit(u8)
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return false
+		}
+		for _, x := range ies {
+			if x.Type == UsageReportTrigger {
+				return x.HasEMRRE()
+			}
+		}
+		return false
+	default:
+		return false
+	}
+}
+
+// HasTEBUR reports whether an IE has TEBUR bit.
+func (i *IE) HasTEBUR() bool {
+	if len(i.Payload) < 3 {
+		return false
+	}
+
+	switch i.Type {
+	case UsageReportTrigger:
+		u8 := i.Payload[2]
+		return has2ndBit(u8)
+	case UsageReportWithinSessionModificationResponse,
+		UsageReportWithinSessionDeletionResponse,
+		UsageReportWithinSessionReportRequest:
+		ies, err := i.UsageReport()
+		if err != nil {
+			return false
+		}
+		for _, x := range ies {
+			if x.Type == UsageReportTrigger {
+				return x.HasTEBUR()
+			}
+		}
+		return false
+	default:
+		return false
+	}
+}

@@ -5,50 +5,48 @@
 package ie
 
 import (
-	"encoding/binary"
 	"io"
 )
 
 // NewReportingTriggers creates a new ReportingTriggers IE.
-func NewReportingTriggers(triggers uint16) *IE {
-	return newUint16ValIE(ReportingTriggers, triggers)
+func NewReportingTriggers(triggersOctets ...uint8) *IE {
+	return New(ReportingTriggers, triggersOctets)
 }
 
-// ReportingTriggers returns ReportingTriggers in uint16 if the type of IE matches.
-func (i *IE) ReportingTriggers() (uint16, error) {
+// ReportingTriggers returns ReportingTriggers in []byte if the type of IE matches.
+func (i *IE) ReportingTriggers() ([]byte, error) {
 	if len(i.Payload) < 2 {
-		return 0, io.ErrUnexpectedEOF
+		return nil, io.ErrUnexpectedEOF
 	}
 
 	switch i.Type {
 	case ReportingTriggers:
-		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+		return i.Payload, nil
 	case CreateURR:
 		ies, err := i.CreateURR()
 		if err != nil {
-			return 0, err
+			return nil, err
 		}
 		for _, x := range ies {
 			if x.Type == ReportingTriggers {
 				return x.ReportingTriggers()
 			}
 		}
-		return 0, ErrIENotFound
+		return nil, ErrIENotFound
 	case UpdateURR:
 		ies, err := i.UpdateURR()
 		if err != nil {
-			return 0, err
+			return nil, err
 		}
 		for _, x := range ies {
 			if x.Type == ReportingTriggers {
 				return x.ReportingTriggers()
 			}
 		}
-		return 0, ErrIENotFound
+		return nil, ErrIENotFound
 	default:
-		return 0, &InvalidTypeError{Type: i.Type}
+		return nil, &InvalidTypeError{Type: i.Type}
 	}
-
 }
 
 // HasLIUSA reports whether an IE has LIUSA bit.
@@ -180,6 +178,50 @@ func (i *IE) HasPERIO() bool {
 	}
 }
 
+// HasQUVTI reports whether an IE has QUVTI bit.
+func (i *IE) HasQUVTI() bool {
+	switch i.Type {
+	case ReportingTriggers:
+		if len(i.Payload) < 2 {
+			return false
+		}
+
+		u8 := i.Payload[1]
+		return has8thBit(u8)
+	case UsageReportTrigger:
+		if len(i.Payload) < 3 {
+			return false
+		}
+
+		u8 := i.Payload[2]
+		return has4thBit(u8)
+	default:
+		return false
+	}
+}
+
+// HasIPMJL reports whether an IE has IPMJL bit.
+func (i *IE) HasIPMJL() bool {
+	switch i.Type {
+	case ReportingTriggers:
+		if len(i.Payload) < 2 {
+			return false
+		}
+
+		u8 := i.Payload[1]
+		return has7thBit(u8)
+	case UsageReportTrigger:
+		if len(i.Payload) < 3 {
+			return false
+		}
+
+		u8 := i.Payload[2]
+		return has3rdBit(u8)
+	default:
+		return false
+	}
+}
+
 // HasEVEQU reports whether an IE has EVEQU bit.
 func (i *IE) HasEVEQU() bool {
 	switch i.Type {
@@ -280,6 +322,43 @@ func (i *IE) HasVOLQU() bool {
 	switch i.Type {
 	case ReportingTriggers, UsageReportTrigger:
 		u8 := i.Payload[1]
+		return has1stBit(u8)
+	default:
+		return false
+	}
+}
+
+// HasUPINT reports whether an IE has UPINT bit.
+func (i *IE) HasUPINT() bool {
+	switch i.Type {
+	case ReportingTriggers:
+		if len(i.Payload) < 3 {
+			return false
+		}
+
+		u8 := i.Payload[2]
+		return has2ndBit(u8)
+	case UsageReportTrigger:
+		if len(i.Payload) < 3 {
+			return false
+		}
+
+		u8 := i.Payload[2]
+		return has6thBit(u8)
+	default:
+		return false
+	}
+}
+
+// HasREEMR reports whether an IE has REEMR bit.
+func (i *IE) HasREEMR() bool {
+	switch i.Type {
+	case ReportingTriggers:
+		if len(i.Payload) < 3 {
+			return false
+		}
+
+		u8 := i.Payload[2]
 		return has1stBit(u8)
 	default:
 		return false
