@@ -230,27 +230,6 @@ func TestUint16IEs(t *testing.T) {
 			decoded:     0xffff,
 			decoderFunc: func(i *ie.IE) (uint16, error) { return i.PDRID() },
 		}, {
-			description: "ReportingTriggers",
-			structured:  ie.NewReportingTriggers(0x1122),
-			decoded:     0x1122,
-			decoderFunc: func(i *ie.IE) (uint16, error) { return i.ReportingTriggers() },
-		}, {
-			description: "ReportingTriggers/CreateURR",
-			structured: ie.NewCreateURR(
-				ie.NewURRID(0xffffffff),
-				ie.NewReportingTriggers(0x1122),
-			),
-			decoded:     0x1122,
-			decoderFunc: func(i *ie.IE) (uint16, error) { return i.ReportingTriggers() },
-		}, {
-			description: "ReportingTriggers/UpdateURR",
-			structured: ie.NewUpdateURR(
-				ie.NewURRID(0xffffffff),
-				ie.NewReportingTriggers(0x1122),
-			),
-			decoded:     0x1122,
-			decoderFunc: func(i *ie.IE) (uint16, error) { return i.ReportingTriggers() },
-		}, {
 			description: "TransportLevelMarking",
 			structured:  ie.NewTransportLevelMarking(0x1111),
 			decoded:     0x1111,

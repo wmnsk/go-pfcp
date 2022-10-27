@@ -373,7 +373,7 @@ func TestIEs(t *testing.T) {
 			ie.NewCreateURR(
 				ie.NewURRID(0xffffffff),
 				ie.NewMeasurementMethod(1, 1, 1),
-				ie.NewReportingTriggers(0x1122),
+				ie.NewReportingTriggers(0x11, 0x22),
 				ie.NewMeasurementPeriod(10*time.Second),
 				ie.NewVolumeThreshold(0x07, 0x3333333333333333, 0x1111111111111111, 0x2222222222222222),
 				ie.NewVolumeQuota(0x07, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff),
@@ -723,7 +723,7 @@ func TestIEs(t *testing.T) {
 			ie.NewUpdateURR(
 				ie.NewURRID(0xffffffff),
 				ie.NewMeasurementMethod(1, 1, 1),
-				ie.NewReportingTriggers(0x1122),
+				ie.NewReportingTriggers(0x11, 0x22),
 				ie.NewMeasurementPeriod(10*time.Second),
 				ie.NewVolumeThreshold(0x07, 0x3333333333333333, 0x1111111111111111, 0x2222222222222222),
 				ie.NewVolumeQuota(0x07, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff),
@@ -1011,8 +1011,8 @@ func TestIEs(t *testing.T) {
 			[]byte{0x00, 0x24, 0x00, 0x04, 0x11, 0x11, 0x11, 0x11},
 		}, {
 			"ReportingTriggers",
-			ie.NewReportingTriggers(0x1122),
-			[]byte{0x00, 0x25, 0x00, 0x02, 0x11, 0x22},
+			ie.NewReportingTriggers(0x11, 0x22, 0x00),
+			[]byte{0x00, 0x25, 0x00, 0x03, 0x11, 0x22, 0x00},
 		}, {
 			"RedirectInformation/URL/1",
 			ie.NewRedirectInformation(ie.RedirectAddrURL, "https://github.com/wmnsk/go-pfcp/"),
