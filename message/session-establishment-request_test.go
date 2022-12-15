@@ -66,7 +66,7 @@ func TestSessionEstablishmentRequest(t *testing.T) {
 				),
 				ie.NewCreateFAR(
 					ie.NewFARID(0xffffffff),
-					ie.NewApplyAction(0x0400),
+					ie.NewApplyAction(0x04, 0x00),
 					ie.NewForwardingParameters(
 						ie.NewDestinationInterface(ie.DstInterfaceAccess),
 						ie.NewNetworkInstance("some.instance.example"),
@@ -533,7 +533,7 @@ func TestSessionEstablishmentRequest(t *testing.T) {
 				),
 				ie.NewCreateFAR(
 					ie.NewFARID(0xffffffff),
-					ie.NewApplyAction(0x0400),
+					ie.NewApplyAction(0x04, 0x00),
 					ie.NewForwardingParameters(
 						ie.NewDestinationInterface(ie.DstInterfaceAccess),
 						ie.NewNetworkInstance("some.instance.example"),
