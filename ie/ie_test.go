@@ -265,7 +265,7 @@ func TestIEs(t *testing.T) {
 			"CreateFAR",
 			ie.NewCreateFAR(
 				ie.NewFARID(0xffffffff),
-				ie.NewApplyAction(0x0400),
+				ie.NewApplyAction(0x04, 0x00),
 				ie.NewForwardingParameters(
 					ie.NewDestinationInterface(ie.DstInterfaceAccess),
 					ie.NewNetworkInstance("some.instance.example"),
@@ -620,7 +620,7 @@ func TestIEs(t *testing.T) {
 			"UpdateFAR",
 			ie.NewUpdateFAR(
 				ie.NewFARID(0xffffffff),
-				ie.NewApplyAction(0x0400),
+				ie.NewApplyAction(0x04, 0x00),
 				ie.NewUpdateForwardingParameters(
 					ie.NewDestinationInterface(ie.DstInterfaceAccess),
 					ie.NewNetworkInstance("some.instance.example"),
@@ -1055,7 +1055,11 @@ func TestIEs(t *testing.T) {
 			[]byte{0x00, 0x2b, 0x00, 0x04, 0x01, 0x02, 0x03, 0x04},
 		}, {
 			"ApplyAction",
-			ie.NewApplyAction(0x0400),
+			ie.NewApplyAction(0x04),
+			[]byte{0x00, 0x2c, 0x00, 0x01, 0x04},
+		}, {
+			"ApplyAction",
+			ie.NewApplyAction(0x04, 0x00),
 			[]byte{0x00, 0x2c, 0x00, 0x02, 0x04, 0x00},
 		}, {
 			"DownlinkDataServiceInformation/HasPPI",
