@@ -11,7 +11,7 @@ var (
 	mac2, _         = net.ParseMAC("12:34:56:78:90:02")
 	mac3, _         = net.ParseMAC("12:34:56:78:90:03")
 	mac4, _         = net.ParseMAC("12:34:56:78:90:04")
-	TsnBridgeMac, _ = net.ParseMAC("12:34:56:78:90:05:67:89")
+	tsnBridgeMac, _ = net.ParseMAC("12:34:56:78:90:05:67:89")
 
 	mp   uint8  = 0                  // Flags
 	fo   uint8  = 0                  // Flags
