@@ -250,7 +250,7 @@ func TestSessionModificationResponse(t *testing.T) {
 				ie.NewCreatedBridgeInfoForTSC(
 					ie.NewDSTTPortNumber(0xffffffff),
 					ie.NewNWTTPortNumber(0xffffffff),
-					ie.NewTSNBridgeID(TsnBridgeMac),
+					ie.NewTSNBridgeID(tsnBridgeMac),
 				),
 				ie.NewATSSSControlParameters(
 					ie.NewMPTCPParameters(

@@ -42,11 +42,10 @@ func (i *IE) TSNBridgeID() (net.HardwareAddr, error) {
 		if !has1stBit(i.Payload[0]) {
 			return nil, nil
 		}
-
-		if len(i.Payload) < 9 {
-			if len(i.Payload) < 7 {
-				return nil, io.ErrUnexpectedEOF
-			}
+		if (len(i.Payload) != 7) && (len(i.Payload) < 9) {
+			return nil, io.ErrUnexpectedEOF
+		}
+		if len(i.Payload) == 7 {
 			return net.HardwareAddr(i.Payload[1:7]), nil
 		}
 		return net.HardwareAddr(i.Payload[1:9]), nil
