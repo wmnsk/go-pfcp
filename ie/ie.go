@@ -598,6 +598,8 @@ var groupedMap = map[uint16]bool{
 	UEIPAddressUsageInformation:                               true,
 	RedundantTransmissionForwardingParameters:                 true,
 	TransportDelayReporting:                                   true,
+	PartialFailureInformationSessionEstablishmentResponse:     true,
+	PartialFailureInformationSessionModificationResponse:      true,
 }
 
 // IsGrouped reports whether an IE is grouped type or not.
