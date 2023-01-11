@@ -45,3 +45,23 @@ func (i *IE) HasPMFI() bool {
 
 	return has1stBit(v)
 }
+
+// HasDRTTI reports whether an IE has DRTTI bit.
+func (i *IE) HasDRTTI() bool {
+	v, err := i.PMFControlInformation()
+	if err != nil {
+		return false
+	}
+
+	return has2ndBit(v)
+}
+
+// HasPQPM reports whether an IE has PQPM bit.
+func (i *IE) HasPQPM() bool {
+	v, err := i.PMFControlInformation()
+	if err != nil {
+		return false
+	}
+
+	return has3rdBit(v)
+}
