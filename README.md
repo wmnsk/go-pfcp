@@ -209,7 +209,7 @@ v, err := createPDR.PDRID()
 
 #### List of implemented IEs
 
-IEs are (basically) implemented in conformance with TS29.244 V16.3.1(2020-04).
+IEs are (basically) implemented in conformance with TS29.244 V16.4.0 (2020-06).
 
 | IE Type        | Information elements                                                       | Supported? |
 |----------------|----------------------------------------------------------------------------|------------|
@@ -485,7 +485,11 @@ IEs are (basically) implemented in conformance with TS29.244 V16.3.1(2020-04).
 | 269            | Validity Timer                                                             | Yes        |
 | 270            | Redundant Transmission Forwarding Parameters                               | Yes        |
 | 271            | Transport Delay Reporting                                                  | Yes        |
-| 272 to 32767   | _(For future use)_                                                         | -          |
+| 272            | Partial Failure Information                                                | Yes        |
+| 273            | Spare                                                                      | -          |
+| 275            | RAT Type                                                                   | Yes        |
+| 274            | Offending IE Information                                                   | Yes        |
+| 276 to 32767   | _(For future use)_                                                         | -          |
 | 32768 to 65535 | Reserved for vendor specific IEs                                           | -          |
 
 ## Author(s)
