@@ -257,6 +257,11 @@ func (i *IE) HasQUVTI() bool {
 		if err != nil {
 			return false
 		}
+		if len(v) < 3 {
+			// The 3rd byte only appears in R16 or newer R15
+			// This is for backward-compatibility with older R15
+			return false
+		}
 		return has4thBit(v[2])
 	default:
 		return false
@@ -280,6 +285,11 @@ func (i *IE) HasIPMJL() bool {
 		if err != nil {
 			return false
 		}
+		if len(v) < 3 {
+			// The 3rd byte only appears in R16 or newer R15
+			// This is for backward-compatibility with older R15
+			return false
+		}
 		return has3rdBit(v[2])
 	default:
 		return false
@@ -301,6 +311,11 @@ func (i *IE) HasEVEQU() bool {
 		UsageReportTrigger:
 		v, err := i.UsageReportTrigger()
 		if err != nil {
+			return false
+		}
+		if len(v) < 3 {
+			// The 3rd byte only appears in R16 or newer R15
+			// This is for backward-compatibility with older R15
 			return false
 		}
 		return has1stBit(v[2])
@@ -444,6 +459,11 @@ func (i *IE) HasUPINT() bool {
 		UsageReportTrigger:
 		v, err := i.UsageReportTrigger()
 		if err != nil {
+			return false
+		}
+		if len(v) < 3 {
+			// The 3rd byte only appears in R16 or newer R15
+			// This is for backward-compatibility with older R15
 			return false
 		}
 		return has6thBit(v[2])

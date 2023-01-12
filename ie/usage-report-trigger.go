@@ -15,7 +15,7 @@ func NewUsageReportTrigger(triggerOctets ...uint8) *IE {
 
 // UsageReportTrigger returns UsageReportTrigger in []byte if the type of IE matches.
 func (i *IE) UsageReportTrigger() ([]byte, error) {
-	if len(i.Payload) < 3 {
+	if len(i.Payload) < 2 {
 		return nil, io.ErrUnexpectedEOF
 	}
 
@@ -102,6 +102,11 @@ func (i *IE) HasEMRRE() bool {
 		if err != nil {
 			return false
 		}
+		if len(v) < 3 {
+			// The 3rd byte only appears in R16 or newer R15
+			// This is for backward-compatibility with older R15
+			return false
+		}
 		return has5thBit(v[2])
 	default:
 		return false
@@ -117,6 +122,11 @@ func (i *IE) HasTEBUR() bool {
 		UsageReportTrigger:
 		v, err := i.UsageReportTrigger()
 		if err != nil {
+			return false
+		}
+		if len(v) < 3 {
+			// The 3rd byte only appears in R16 or newer R15
+			// This is for backward-compatibility with older R15
 			return false
 		}
 		return has2ndBit(v[2])
