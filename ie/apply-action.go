@@ -13,12 +13,11 @@ func NewApplyAction(flagsOctets ...uint8) *IE {
 
 // ApplyAction returns ApplyAction in []byte if the type of IE matches.
 func (i *IE) ApplyAction() ([]byte, error) {
-	if len(i.Payload) < 1 {
-		return nil, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case ApplyAction:
+		if len(i.Payload) < 1 {
+			return nil, io.ErrUnexpectedEOF
+		}
 		return i.Payload, nil
 	case CreateFAR:
 		ies, err := i.CreateFAR()
@@ -47,6 +46,49 @@ func (i *IE) ApplyAction() ([]byte, error) {
 	}
 }
 
+// ValidateApplyAction can be used to facilitate the detection of some inconsistencies in Apply Action flags.
+// Its use is optional because validation could also be done on upper layers, or completely skipped for testing purposes.
+func (i *IE) ValidateApplyAction() error {
+	if i.Type != ApplyAction {
+		return &InvalidTypeError{Type: i.Type}
+	}
+	// One and only one of the DROP, FORW, BUFF, IPMA and IPMD flags shall be set to "1".
+	flags := []bool{i.HasDROP(), i.HasFORW(), i.HasBUFF(), i.HasIPMA(), i.HasIPMD()}
+	counter := 0
+	for _, v := range flags {
+		if v {
+			counter++
+		}
+	}
+	if counter != 1 {
+		return ErrMalformed
+	}
+	// The NOCP flag and BDPN flag may only be set if the BUFF flag is set.
+	if (i.HasNOCP() || i.HasBDPN()) && !i.HasBUFF() {
+		return ErrMalformed
+	}
+	// The DUPL flag may be set with any of the DROP, FORW, BUFF and NOCP flags.
+	if i.HasDUPL() && !(i.HasDROP() || i.HasFORW() || i.HasBUFF() || i.HasNOCP()) {
+		return ErrMalformed
+	}
+	// The DFRT flag may only be set if the FORW flag is set.
+	// Note: in TS 29.244 V18.0.1 (most recent as of writing), there is a typo and DFRN is stated instead of DFRT
+	if i.HasDFRT() && !i.HasFORW() {
+		return ErrMalformed
+	}
+	// The DDPN flag may be set with any of the DROP and BUFF flags.
+	if i.HasDDPN() && !(i.HasDROP() || i.HasBUFF()) {
+		return ErrMalformed
+	}
+
+	// Note: The following is also stated in TS 29.244 section 8.2.26 V18.0.1,
+	// but since "may" is used and not "may only"
+	// it cannot be used to check for inconsistent IEs:
+	// - The EDRT flag may be set if the FORW flag is set.
+	// - Both the MBSU flag and the FSSM flag may be set […]
+	return nil
+}
+
 // HasDROP reports whether an IE has DROP bit.
 func (i *IE) HasDROP() bool {
 	if len(i.Payload) < 1 {
@@ -65,9 +107,6 @@ func (i *IE) HasDROP() bool {
 func (i *IE) HasFORW() bool {
 	v, err := i.ApplyAction()
 	if err != nil {
-		return false
-	}
-	if len(v) < 1 {
 		return false
 	}
 	return has2ndBit(v[0])
@@ -95,9 +134,6 @@ func (i *IE) HasNOCP() bool {
 	if err != nil {
 		return false
 	}
-	if len(v) < 1 {
-		return false
-	}
 	return has4thBit(v[0])
 }
 
@@ -105,9 +141,6 @@ func (i *IE) HasNOCP() bool {
 func (i *IE) HasDUPL() bool {
 	v, err := i.ApplyAction()
 	if err != nil {
-		return false
-	}
-	if len(v) < 1 {
 		return false
 	}
 	return has5thBit(v[0])
@@ -120,9 +153,6 @@ func (i *IE) HasIPMA() bool {
 	if err != nil {
 		return false
 	}
-	if len(v) < 1 {
-		return false
-	}
 	return has6thBit(v[0])
 }
 
@@ -133,9 +163,6 @@ func (i *IE) HasIPMD() bool {
 	if err != nil {
 		return false
 	}
-	if len(v) < 1 {
-		return false
-	}
 	return has7thBit(v[0])
 }
 
@@ -144,9 +171,6 @@ func (i *IE) HasIPMD() bool {
 func (i *IE) HasDFRT() bool {
 	v, err := i.ApplyAction()
 	if err != nil {
-		return false
-	}
-	if len(v) < 1 {
 		return false
 	}
 	return has8thBit(v[0])
