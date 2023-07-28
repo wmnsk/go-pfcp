@@ -72,3 +72,13 @@ func (i *IE) GateStatusDL() (uint8, error) {
 
 	return v & 0x03, nil
 }
+
+// GateStatusULDL returns GateStatusUL and GateStatusDL in uint8 if the type of IE matches.
+func (i *IE) GateStatusULDL() (uint8, uint8, error) {
+	v, err := i.GateStatus()
+	if err != nil {
+		return 0, 0, err
+	}
+
+	return (v >> 2) & 0x03, v & 0x03, nil
+}
