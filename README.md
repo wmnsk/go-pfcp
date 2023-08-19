@@ -8,7 +8,7 @@ PFCP implementation in Golang.
 
 ## What is PFCP?
 
-PFCP(Packet Forwarding Control Protocol) is a signaling protocol used in mobile networking infrastructure(LTE EPC, 5GC) to realize CUPS architecture(Control and User Plane Separation, not a printing system) defined in 3GPP TS29.244.
+PFCP (Packet Forwarding Control Protocol) is a signaling protocol used in mobile networking infrastructure (LTE EPC, 5GC) to realize CUPS architecture (Control and User Plane Separation, not a printing system) defined in 3GPP TS29.244.
 
 Are you looking for a GTP implementation in Golang? [go-gtp](https://github.com/wmnsk/go-gtp) would be the right choice for you :P
 
@@ -167,7 +167,7 @@ createPDR := ie.NewCreatePDR(
 )
 ```
 
-Or just use `ie.New()` to create an arbitrary IE(when you don't need constructors or you need to create an enterprise-specific one).
+Or just use `ie.New()` to create an arbitrary IE (when you don't need constructors or you need to create an enterprise-specific one).
 
 ```go
 ie := ie.New(ieType, enterpriseID, payload)
@@ -490,7 +490,7 @@ IEs are (basically) implemented in conformance with TS29.244 V16.3.1(2020-04).
 
 ## Author(s)
 
-Yoshiyuki Kurauchi ([Website](https://wmnsk.com/) / [LinkedIn](https://www.linkedin.com/in/yoshiyuki-kurauchi/))
+Yoshiyuki Kurauchi ([Website](https://wmnsk.com/))
 
 _I'm always open to welcome co-authors! Please feel free to talk to me._
 
