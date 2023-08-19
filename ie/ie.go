@@ -354,7 +354,14 @@ func (i *IE) UnmarshalBinary(b []byte) error {
 
 	offset := 4
 	end := int(i.Length)
-	if i.IsVendorSpecific() && l >= 6 {
+	if i.IsVendorSpecific() {
+		if l < 6 {
+			return io.ErrUnexpectedEOF
+		}
+		if end < 2 {
+			return ErrInvalidLength
+		}
+
 		i.EnterpriseID = binary.BigEndian.Uint16(b[4:6])
 		offset += 2
 		end -= 2
@@ -367,7 +374,6 @@ func (i *IE) UnmarshalBinary(b []byte) error {
 	if l < offset+end {
 		return io.ErrUnexpectedEOF
 	}
-
 	i.Payload = b[offset : offset+end]
 
 	if i.IsGrouped() {
@@ -459,6 +465,7 @@ func (i *IE) IsVendorSpecific() bool {
 
 // We're using map to avoid iterating over a list.
 // The value is not actually used.
+// TODO: consider using a slice with utils in slices package introduced in Go 1.21.
 var groupedMap = map[uint16]bool{
 	CreatePDR:                            true,
 	PDI:                                  true,
