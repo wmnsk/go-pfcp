@@ -333,6 +333,36 @@ func NewVendorSpecificGroupedIE(itype, eid uint16, ies ...*IE) *IE {
 	return newGroupedIE(itype, eid, ies...)
 }
 
+// NewUint8ValIE creates a new IE with uint8 value.
+func NewUint8IE(itype uint16, v uint8) *IE {
+	return newUint8ValIE(itype, v)
+}
+
+// NewUint16ValIE creates a new IE with uint16 value.
+func NewUint16IE(itype uint16, v uint16) *IE {
+	return newUint16ValIE(itype, v)
+}
+
+// NewUint32ValIE creates a new IE with uint32 value.
+func NewUint32IE(itype uint16, v uint32) *IE {
+	return newUint32ValIE(itype, v)
+}
+
+// NewUint64ValIE creates a new IE with uint64 value.
+func NewUint64IE(itype uint16, v uint64) *IE {
+	return newUint64ValIE(itype, v)
+}
+
+// NewStringIE creates a new IE with string value.
+func NewStringIE(itype uint16, v string) *IE {
+	return newStringIE(itype, v)
+}
+
+// NewFQDNIE creates a new IE with FQDN value.
+func NewFQDNIE(itype uint16, v string) *IE {
+	return newFQDNIE(itype, v)
+}
+
 // Parse parses b into IE.
 func Parse(b []byte) (*IE, error) {
 	i := &IE{}
