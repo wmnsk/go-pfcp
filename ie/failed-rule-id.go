@@ -16,12 +16,14 @@ const (
 	RuleIDTypeQER uint8 = 2 // 32
 	RuleIDTypeURR uint8 = 3 // 32
 	RuleIDTypeBAR uint8 = 4 // 8
+	RuleIDTypeMAR uint8 = 5 // 16
+	RuleIDTypeSRR uint8 = 6 // 8
 )
 
 // NewFailedRuleID creates a new FailedRuleID IE.
 func NewFailedRuleID(typ uint8, id uint32) *IE {
 	switch typ {
-	case RuleIDTypePDR:
+	case RuleIDTypePDR, RuleIDTypeMAR:
 		b := make([]byte, 3)
 		b[0] = typ
 		binary.BigEndian.PutUint16(b[1:3], uint16(id))
@@ -31,7 +33,7 @@ func NewFailedRuleID(typ uint8, id uint32) *IE {
 		b[0] = typ
 		binary.BigEndian.PutUint32(b[1:5], id)
 		return New(FailedRuleID, b)
-	case RuleIDTypeBAR:
+	case RuleIDTypeBAR, RuleIDTypeSRR:
 		return New(FailedRuleID, []byte{typ, uint8(id)})
 	default:
 		return New(FailedRuleID, []byte{typ})
@@ -60,7 +62,7 @@ func (i *IE) FailedRuleID() (uint32, error) {
 	}
 
 	switch i.Payload[0] {
-	case RuleIDTypePDR:
+	case RuleIDTypePDR, RuleIDTypeMAR:
 		if len(i.Payload) < 3 {
 			return 0, io.ErrUnexpectedEOF
 		}
@@ -70,7 +72,7 @@ func (i *IE) FailedRuleID() (uint32, error) {
 			return 0, io.ErrUnexpectedEOF
 		}
 		return binary.BigEndian.Uint32(i.Payload[1:5]), nil
-	case RuleIDTypeBAR:
+	case RuleIDTypeBAR, RuleIDTypeSRR:
 		if len(i.Payload) < 2 {
 			return 0, io.ErrUnexpectedEOF
 		}

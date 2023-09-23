@@ -142,14 +142,20 @@ func (i *IE) HasCHV6() bool {
 // HasIP6PL reports whether an IE has IP6PL bit.
 // This bit has been introduced in release 16.2
 func (i *IE) HasIP6PL() bool {
-	if i.Type != UEIPAddress {
+	switch i.Type {
+	case UEIPAddress:
+		if len(i.Payload) < 1 {
+			return false
+		}
+		return has7thBit(i.Payload[0])
+	case UPFunctionFeatures:
+		if len(i.Payload) < 4 {
+			return false
+		}
+		return has6thBit(i.Payload[3])
+	default:
 		return false
 	}
-	if len(i.Payload) < 1 {
-		return false
-	}
-
-	return has7thBit(i.Payload[0])
 }
 
 // HasIPv6D reports whether an IE has IPv6D bit.

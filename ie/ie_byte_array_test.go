@@ -81,6 +81,11 @@ func TestByteArrayIEs(t *testing.T) {
 			),
 			decoded:     []byte{0x04, 0x02},
 			decoderFunc: func(i *ie.IE) ([]byte, error) { return i.ApplyAction() },
+		}, {
+			description: "CPFunctionFeatures",
+			structured:  ie.NewCPFunctionFeatures(0x3f),
+			decoded:     []byte{0x3f},
+			decoderFunc: func(i *ie.IE) ([]byte, error) { return i.CPFunctionFeatures() },
 		},
 	}
 

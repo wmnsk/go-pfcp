@@ -45,6 +45,14 @@ func (i *IE) HasRDS() bool {
 		}
 
 		return has1stBit(i.Payload[0])
+
+	case UPFunctionFeatures:
+		if len(i.Payload) < 5 {
+			return false
+		}
+
+		return has8thBit(i.Payload[4])
+
 	default:
 		return false
 	}

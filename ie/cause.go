@@ -8,23 +8,36 @@ import "io"
 
 // Cause definitions.
 const (
-	_                                    uint8 = 0
-	CauseRequestAccepted                 uint8 = 1
-	CauseRequestRejected                 uint8 = 64
-	CauseSessionContextNotFound          uint8 = 65
-	CauseMandatoryIEMissing              uint8 = 66
-	CauseConditionalIEMissing            uint8 = 67
-	CauseInvalidLength                   uint8 = 68
-	CauseMandatoryIEIncorrect            uint8 = 69
-	CauseInvalidForwardingPolicy         uint8 = 70
-	CauseInvalidFTEIDAllocationOption    uint8 = 71
-	CauseNoEstablishedPFCPAssociation    uint8 = 72
-	CauseRuleCreationModificationFailure uint8 = 73
-	CausePFCPEntityInCongestion          uint8 = 74
-	CauseNoResourcesAvailable            uint8 = 75
-	CauseServiceNotSupported             uint8 = 76
-	CauseSystemFailure                   uint8 = 77
-	CauseRedirectionRequested            uint8 = 78
+	_                                                                    uint8 = 0
+	CauseRequestAccepted                                                 uint8 = 1
+	CauseMoreUsageReportToSend                                           uint8 = 2
+	CauseRequestPartiallyAccepted                                              = 3
+	CauseRequestRejected                                                 uint8 = 64
+	CauseSessionContextNotFound                                          uint8 = 65
+	CauseMandatoryIEMissing                                              uint8 = 66
+	CauseConditionalIEMissing                                            uint8 = 67
+	CauseInvalidLength                                                   uint8 = 68
+	CauseMandatoryIEIncorrect                                            uint8 = 69
+	CauseInvalidForwardingPolicy                                         uint8 = 70
+	CauseInvalidFTEIDAllocationOption                                    uint8 = 71
+	CauseNoEstablishedPFCPAssociation                                    uint8 = 72
+	CauseRuleCreationModificationFailure                                 uint8 = 73
+	CausePFCPEntityInCongestion                                          uint8 = 74
+	CauseNoResourcesAvailable                                            uint8 = 75
+	CauseServiceNotSupported                                             uint8 = 76
+	CauseSystemFailure                                                   uint8 = 77
+	CauseRedirectionRequested                                            uint8 = 78
+	CauseAllDynamicAddressesAreOccupied                                  uint8 = 79
+	CauseUnknownPredefinedRule                                           uint8 = 80
+	CauseUnknownApplicationID                                            uint8 = 81
+	CauseL2TPTunnelEstablishmentFailure                                  uint8 = 82
+	CauseL2TPSessionEstablishmentFailure                                 uint8 = 83
+	CauseL2TPTunnelRelease                                               uint8 = 84
+	CauseL2TPSessionRelease                                              uint8 = 85
+	CausePFCPSessionRestorationFailureDueToRequestedResourceNotAvailable uint8 = 86
+	CauseL2TPTunnelEstablishmentFailureTunnelAuthFailure                 uint8 = 87
+	CauseL2TPSessionEstablihmentFailureSessionAuthFailure                uint8 = 88
+	CauseL2TPTunnelEstablishmentFailureLNSNotReachable                   uint8 = 89
 )
 
 // NewCause creates a new Cause IE.

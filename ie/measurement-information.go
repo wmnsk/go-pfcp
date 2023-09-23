@@ -49,6 +49,42 @@ func (i *IE) MeasurementInformation() (uint8, error) {
 	}
 }
 
+// HasCIAM reports whether an IE has CIAM bit.
+func (i *IE) HasCIAM() bool {
+	if i.Type != MeasurementInformation {
+		return false
+	}
+	if len(i.Payload) < 1 {
+		return false
+	}
+
+	return has8thBit(i.Payload[0])
+}
+
+// HasASPOC reports whether an IE has ASPOC bit.
+func (i *IE) HasASPOC() bool {
+	if i.Type != MeasurementInformation {
+		return false
+	}
+	if len(i.Payload) < 1 {
+		return false
+	}
+
+	return has7thBit(i.Payload[0])
+}
+
+// HasSSPOC reports whether an IE has SSPOC bit.
+func (i *IE) HasSSPOC() bool {
+	if i.Type != MeasurementInformation {
+		return false
+	}
+	if len(i.Payload) < 1 {
+		return false
+	}
+
+	return has6thBit(i.Payload[0])
+}
+
 // HasISTM reports whether an IE has ISTM bit.
 func (i *IE) HasISTM() bool {
 	if i.Type != MeasurementInformation {

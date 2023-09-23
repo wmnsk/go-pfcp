@@ -48,7 +48,8 @@ func (i *IE) QERControlIndications() (uint8, error) {
 
 }
 
-// HasNORD reports whether an IE has NORD bit.
+// HasNORD reports whether an IE has NORD (Normal Data) bit.
+// Note: NORD bit is added in 29.244 v16.3.0 and removed in v16.4.0
 func (i *IE) HasNORD() bool {
 	v, err := i.QERControlIndications()
 	if err != nil {
@@ -58,8 +59,9 @@ func (i *IE) HasNORD() bool {
 	return has3rdBit(v)
 }
 
-// HasMODE reports whether an IE has MODE bit.
-func (i *IE) HasMODE() bool {
+// HasMOED reports whether an IE has MOED (MO Exception Data) bit.
+// Note: MOED bit is added in 29.244 v16.3.0 and removed in v16.4.0
+func (i *IE) HasMOED() bool {
 	v, err := i.QERControlIndications()
 	if err != nil {
 		return false

@@ -21,14 +21,21 @@ func NewTSNBridgeID(mac net.HardwareAddr) *IE {
 	return New(TSNBridgeID, b)
 }
 
-// HasMAC reports whether an IE has MAC bit.
-func (i *IE) HasMAC() bool {
+// HasBID reports whether an IE has BID bit.
+// Until 29.244 version 16.4, this bit was known as MAC bit.
+func (i *IE) HasBID() bool {
 	switch i.Type {
 	case TSNBridgeID:
 		return has1stBit(i.Payload[0])
 	default:
 		return false
 	}
+}
+
+// HasMAC reports whether an IE has MAC bit.
+// Since 29.244 version 16.4, this bit is renamed BID bit.
+func (i *IE) HasMAC() bool {
+	return i.HasBID()
 }
 
 // TSNBridgeID returns TSNBridgeID in net.HardwareAddr if the type of IE matches.

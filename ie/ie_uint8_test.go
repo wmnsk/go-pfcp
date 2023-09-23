@@ -141,11 +141,6 @@ func TestUint8IEs(t *testing.T) {
 			decoded:     ie.CauseRequestAccepted,
 			decoderFunc: func(i *ie.IE) (uint8, error) { return i.Cause() },
 		}, {
-			description: "CPFunctionFeatures",
-			structured:  ie.NewCPFunctionFeatures(0x3f),
-			decoded:     0x3f,
-			decoderFunc: func(i *ie.IE) (uint8, error) { return i.CPFunctionFeatures() },
-		}, {
 			description: "CreateBridgeInfoForTSC",
 			structured:  ie.NewCreateBridgeInfoForTSC(1),
 			decoded:     1,
