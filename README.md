@@ -8,14 +8,14 @@ PFCP implementation in Golang.
 
 ## What is PFCP?
 
-PFCP (Packet Forwarding Control Protocol) is a signaling protocol used in mobile networking infrastructure (LTE EPC, 5GC) to realize CUPS architecture (Control and User Plane Separation, not a printing system) defined in 3GPP TS29.244.
+PFCP (Packet Forwarding Control Protocol) is a signaling protocol used in mobile networking infrastructure (LTE EPC, 5GC) to realize CUPS architecture (Control and User Plane Separation, not a printing system) defined in 3GPP TS 29.244.
 
-Are you looking for a GTP implementation in Golang? [go-gtp](https://github.com/wmnsk/go-gtp) would be the right choice for you :P
+Are you also searching for a GTP implementation in Go? If so, [go-gtp](https://github.com/wmnsk/go-gtp) is the perfect choice for you! :p
 
 ## Project Status
 
 This project is still WIP.  
-Implementation of all the messages and IEs defined in TS29.244 V16.7.0(2021-04) has been done, but the exported APIs may still be updated in the future, as they are not tested enough (we add a new tag in that case).
+Implementation of all the messages and IEs defined in TS 29.244 V16.7.0 (2021-04) has been done, but the exported APIs may still be updated in the future, as they are not tested enough (we add a new tag in that case).
 
 We are now working on implementing networking functionalities (like setting up associations, establish sessions with easy & quick APIs), as well as updating the messages and IE definitions according to the latest specifications.
 
@@ -25,18 +25,14 @@ We are now working on implementing networking functionalities (like setting up a
 
 go-pfcp supports Go Modules. Just run `go mod tidy` in your project's directory to collect the required packages automatically.
 
-```shell-session
-go mod tidy
-```
-
 ### Running examples
 
 #### Exchanging Heartbeat
 
 Small heartbeat client and server examples are available under [examples/heartheat](./examples/heartheat/).
-The client sends HeartbeatRequest, and the server responds with HeartbeatResponse.
+The client sends HeartbeatRequest, and the server responds to it with HeartbeatResponse.
 
-1. run server first,
+1. Run the server
 
 By default, the server listens on loopback. It can be specified explicitly by the `-s` flag.
 
@@ -45,10 +41,12 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 2019/12/22 20:03:31 waiting for messages to come on: 127.0.0.2:8805
 ```
 
-2. then run client,
+2. Run the client
 
 By default, the client sends a Heartbeat to loopback. It can be specified explicitly by the `-s` flag.
 It exits after printing the timestamp in Heartbeat Response from the server.
+
+The output is like below on the client side:
 
 ```shell-session
 go-pfcp/examples/heartbeat/hb-client$ go run main.go
@@ -60,9 +58,7 @@ go-pfcp/examples/heartbeat/hb-client$ go run main.go
 2019/12/22 20:03:40 got Heartbeat Response with TS: 2019-12-22 20:03:40 +0900 JST, from: 127.0.0.2:8805
 ```
 
-3. and see the outcome on server
-
-It starts listening again after responding to the client.
+On the server side, the output should be like below:
 
 ```shell-session
 go-pfcp/examples/heartbeat/hb-server$ go run main.go
@@ -75,6 +71,8 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 2019/12/22 20:03:40 waiting for messages to come on: 127.0.0.2:8805
 ^Csignal: interrupt
 ```
+
+_The server continues to listen on the same port until it is terminated by Ctrl-C or something._
 
 ## Supported Features
 
@@ -119,8 +117,10 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 
 All the IEs are of the same type: `ie.IE`.
 
-Constructors are available for every type of IEs.  
-To create `CreatePDR` IE, use `NewCreatePDR()`. Parameters for those constructors are implemented as friendly for Gophers as possible. See `ie/ie_test.go` for detailed (and working) usage.
+#### Creating IEs
+
+Constructors are available for every type of _supported_ IEs.  
+To create `CreatePDR` IE, use `NewCreatePDR()`. Parameters for those "named" constructors are implemented as friendly for the built-in Go types.
 
 ```go
 // returned type and parameters in NewCreatePDR() are all *ie.IE.
@@ -167,47 +167,117 @@ createPDR := ie.NewCreatePDR(
 )
 ```
 
-Or just use `ie.New()` to create an arbitrary IE (when you don't need constructors or you need to create an enterprise-specific one).
+Instead of using the named constructors, you can also use `ie.NewXxTypeIE()` to create an arbitrary IE of any type with the `XxType` value. This is useful when you don't want to use constructors which requires the specific type of parameters, or when you want to create an IE that is not supported in this library.
+
+For example, the following two codes will create the same IE.
 
 ```go
-ie := ie.New(ieType, enterpriseID, payload)
+qvTime := ie.NewQuotaValidityTime(10*time.Second)
 ```
 
+```go
+qvTime := ie.NewUint32(ie.QuotaValidityTime, 0x0000000a)
+```
+
+Sometimes you already have a value passed from somewhere which is already in `uint32`. In that case, the latter way is preferable, as converting the `uint32` value to `time.Duration` is not very efficient (compiler optimization possibly helps in the former case? I don't know, but it doesn't _look_ good for humans anyway).
+
+Or, you may even want to create an PFCP IE with the undecoded binary (`[]byte`), which can be done by `ie.New()`.
+
+```go
+ie := ie.New(ie.QuotaValidityTime, payload)
+```
+
+When you want to create an unsupported IE whose type is 999 and value is of `uint16` type, you can do like below.
+
+```go
+ie999 := ie.NewUint8(999, 0x0102)
+```
+
+To handle the vendor-specific IEs, you can use `ie.NewVendorSpecificIE()`.
+
+
+```go
+ie999 := ie.NewVendorSpecificIE(999, 0x1234, []byte{0x01, 0x02})
+```
+
+This results in the same as the following code.
+
+```go
+ie999 := ie.NewUint8(999, 0x0102)
+ie.EnterpriseID = 0x1234
+```
+
+#### Retrieving values from IEs
+
 Values can be retrieved by calling helper methods on `*ie.IE`.
-For instance, you can immediately get the value in a string by calling `NetworkInstance()`.
+For instance, you can get the value in `string` by calling `NetworkInstance()`.
 
 ```go
 ni := ie.NewNetworkInstance("some.instance.example")
-
 v, err := ni.NetworkInstance()
-// returns "some.instance.example" if ni is valid. Otherwise it returns error.
 ```
 
-For complex IEs like F-TEID, `<IE-name>` method returns `<IE-name>Fields` structure.
+The above example returns `"some.instance.example", nil` if `ni` is of type `ie.NetworkInstance`. Otherwise, it returns `"", SomeError`. Remember to always check the returned error, as the value may be _expectedly_ empty.
+
+For more complex IEs like F-TEID, `<IE-name>` method returns `<IE-name>Fields` structure containing the values in its fields.
 
 ```go
 fteid := ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, nil)
+f, err := fteid.FTEID() // `FTEIDFields` structure
 
-f, err := fteid.FTEID()
-// returns FTEIDFields struct which contains values in its fields.
-
-teid := f.TEID // has TEID as uint32
-v4 := f.IPv4Address // has IPv4 address as net.IP
+teid := f.TEID // TEID as uint32
+v4 := f.IPv4Address // IPv4 address as net.IP
 ```
 
 On grouped IEs, the value (or custom fields) can be retrieved by directly calling such methods.
 
 ```go
-createPDR := ie.NewCreatePDR(
+ie := ie.NewCreatePDR(
     ie.NewPDRID(0xffff),
     // ...
 )
 
-v, err := createPDR.PDRID()
-// returns 0xffff if createPDR contains PDRID and it is valid. Otherwise it returns error.
+pdrIEs, err := ie.CreatePDR()
+pdrID, err := ie.PDRID()
 ```
 
-#### List of implemented IEs
+In this example, `pdrIEs` is a list of IEs contained in CreatePDR IE, and `pdrID` is the value of PDRID IE. The latter is useful when you want a small number of IEs within a grouped IE. Since it calls `CreatePDR()` internally, retrieving everything using this kind of method is very inefficient (iterates over all the IEs in the grouped IE each time). When you need to check the value of many IEs, it is recommended to use the former method iterate over the list of IEs in your own code.
+
+```go
+cpdrIEs, err := cpdr.CreatePDR()
+
+var (
+    pdrID uint16
+    farID uint32
+)
+
+for _, i := range cpdrIEs {
+	switch i.Type {
+	case ie.PDRID:
+		v, err = i.PDRID()
+        if err != nil {
+            // handle error
+        }
+        pdrID = v
+	case ie.FARID:
+		v, err = i.FARID()
+        if err != nil {
+            // handle error
+        }
+        farID = v
+    case ...:
+        // ...
+    }
+}
+```
+
+Instead of calling the helper methods, you can get the value and convert to the desired type by yourself. This is more efficient, but do this at your own risk, as it may cause panic if the payload is not assuemed to have enough length.
+
+```go
+pdrID = binary.BigEndian.Uint16(i.Payload[0:2]) 
+```
+
+#### List of supported IEs
 
 IEs are (basically) implemented in conformance with TS29.244 V16.3.1(2020-04).
 

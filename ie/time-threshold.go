@@ -7,22 +7,24 @@ package ie
 import (
 	"encoding/binary"
 	"io"
+	"time"
 )
 
 // NewTimeThreshold creates a new TimeThreshold IE.
-func NewTimeThreshold(threshold uint32) *IE {
-	return newUint32ValIE(TimeThreshold, threshold)
+func NewTimeThreshold(t time.Duration) *IE {
+	return newUint32ValIE(TimeThreshold, uint32(t.Seconds()))
 }
 
-// TimeThreshold returns TimeThreshold in uint32 if the type of IE matches.
-func (i *IE) TimeThreshold() (uint32, error) {
+// TimeThreshold returns TimeThreshold in time.Duration if the type of IE matches.
+func (i *IE) TimeThreshold() (time.Duration, error) {
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
 	switch i.Type {
 	case TimeThreshold:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		t := binary.BigEndian.Uint32(i.Payload[0:4])
+		return time.Duration(t) * time.Second, nil
 	case CreateURR:
 		ies, err := i.CreateURR()
 		if err != nil {

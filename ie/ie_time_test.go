@@ -157,27 +157,6 @@ func TestTimeIEs(t *testing.T) {
 			decoded:     time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC),
 			decoderFunc: func(i *ie.IE) (time.Time, error) { return i.MonitoringTime() },
 		}, {
-			description: "QuotaValidityTime",
-			structured:  ie.NewQuotaValidityTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
-			decoded:     time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC),
-			decoderFunc: func(i *ie.IE) (time.Time, error) { return i.QuotaValidityTime() },
-		}, {
-			description: "QuotaValidityTime/CreateURR",
-			structured: ie.NewCreateURR(
-				ie.NewURRID(0xffffffff),
-				ie.NewQuotaValidityTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
-			),
-			decoded:     time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC),
-			decoderFunc: func(i *ie.IE) (time.Time, error) { return i.QuotaValidityTime() },
-		}, {
-			description: "QuotaValidityTime/UpdateURR",
-			structured: ie.NewUpdateURR(
-				ie.NewURRID(0xffffffff),
-				ie.NewQuotaValidityTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
-			),
-			decoded:     time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC),
-			decoderFunc: func(i *ie.IE) (time.Time, error) { return i.QuotaValidityTime() },
-		}, {
 			description: "RecoveryTimeStamp",
 			structured:  ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
 			decoded:     time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC),
