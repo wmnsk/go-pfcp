@@ -7,22 +7,24 @@ package ie
 import (
 	"encoding/binary"
 	"io"
+	"time"
 )
 
 // NewSubsequentTimeThreshold creates a new SubsequentTimeThreshold IE.
-func NewSubsequentTimeThreshold(threshold uint32) *IE {
-	return newUint32ValIE(SubsequentTimeThreshold, threshold)
+func NewSubsequentTimeThreshold(t time.Duration) *IE {
+	return newUint32ValIE(SubsequentTimeThreshold, uint32(t.Seconds()))
 }
 
-// SubsequentTimeThreshold returns SubsequentTimeThreshold in uint32 if the type of IE matches.
-func (i *IE) SubsequentTimeThreshold() (uint32, error) {
+// SubsequentTimeThreshold returns SubsequentTimeThreshold in time.Duration if the type of IE matches.
+func (i *IE) SubsequentTimeThreshold() (time.Duration, error) {
 	if len(i.Payload) < 4 {
 		return 0, io.ErrUnexpectedEOF
 	}
 
 	switch i.Type {
 	case SubsequentTimeThreshold:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		t := binary.BigEndian.Uint32(i.Payload[0:4])
+		return time.Duration(t) * time.Second, nil
 	case CreateURR:
 		ies, err := i.CreateURR()
 		if err != nil {

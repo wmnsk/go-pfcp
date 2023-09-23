@@ -11,43 +11,43 @@ import (
 )
 
 // NewQuotaValidityTime creates a new QuotaValidityTime IE.
-func NewQuotaValidityTime(ts time.Time) *IE {
-	u64sec := uint64(ts.Sub(time.Date(1900, time.January, 1, 0, 0, 0, 0, time.UTC))) / 1000000000
-	return newUint32ValIE(QuotaValidityTime, uint32(u64sec))
+func NewQuotaValidityTime(t time.Duration) *IE {
+	return newUint32ValIE(QuotaValidityTime, uint32(t.Seconds()))
 }
 
 // QuotaValidityTime returns QuotaValidityTime in time.Time if the type of IE matches.
-func (i *IE) QuotaValidityTime() (time.Time, error) {
+func (i *IE) QuotaValidityTime() (time.Duration, error) {
 	if len(i.Payload) < 4 {
-		return time.Time{}, io.ErrUnexpectedEOF
+		return 0, io.ErrUnexpectedEOF
 	}
 
 	switch i.Type {
 	case QuotaValidityTime:
-		return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+		t := binary.BigEndian.Uint32(i.Payload[0:4])
+		return time.Duration(t) * time.Second, nil
 	case CreateURR:
 		ies, err := i.CreateURR()
 		if err != nil {
-			return time.Time{}, err
+			return 0, err
 		}
 		for _, x := range ies {
 			if x.Type == QuotaValidityTime {
 				return x.QuotaValidityTime()
 			}
 		}
-		return time.Time{}, ErrIENotFound
+		return 0, ErrIENotFound
 	case UpdateURR:
 		ies, err := i.UpdateURR()
 		if err != nil {
-			return time.Time{}, err
+			return 0, err
 		}
 		for _, x := range ies {
 			if x.Type == QuotaValidityTime {
 				return x.QuotaValidityTime()
 			}
 		}
-		return time.Time{}, ErrIENotFound
+		return 0, ErrIENotFound
 	default:
-		return time.Time{}, &InvalidTypeError{Type: i.Type}
+		return 0, &InvalidTypeError{Type: i.Type}
 	}
 }
