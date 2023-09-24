@@ -88,7 +88,7 @@ _Handling of IEs is described in the [Information Elements](#information-element
 
 ```go
 assocSetupReq := message.NewAssociationSetupRequest(
-    sequenceNumber,
+	sequenceNumber,
 	ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
 	ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
 	ie.NewUPFunctionFeatures(0x01, 0x02),
@@ -151,22 +151,22 @@ All the `<MessageName>` struct, or the `message.Message` interface, has the `Mar
 // serialize the message
 b, err := assocSetupReq.Marshal()
 if err != nil {
-    // handle error
+	// handle error
 }
 
 // send `b` to "127.0.0.1:8805"
 raddr, err := net.ResolveUDPAddr("udp", "127.0.0.1:8805")
 if err != nil {
-    // handle error
+	// handle error
 }
 
 conn, err := net.DialUDP("udp", nil, raddr)
 if err != nil {
-    // handle error
+	// handle error
 }
 
 if _, err := conn.Write(b); err != nil {
-    // handle error
+	// handle error
 }
 
 log.Printf("sent %s to %s", assocSetupReq.MessageTypeName(), raddr)
@@ -177,12 +177,12 @@ Is the message type you want to create not supported in this library? No problem
 ```go
 // create a message of type 0x64
 yourMessage := message.NewGeneric(
-    0x64,
-    sequenceNumber,
-    seid,
-    ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
-    ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
-    // ...
+	0x64,
+	sequenceNumber,
+	seid,
+	ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
+	ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
+	// ...
 )
 ```
 
@@ -197,13 +197,13 @@ To decode a received message, use `message.Parse()` function. This returns a mes
 b := make([]byte, 1500)
 n, raddr, err := conn.ReadFromUDP(b)
 if err != nil {
-    // handle error
+	// handle error
 }
 
 // decode the message
 msg, err := message.Parse(b[:n])
 if err != nil {
-    // handle error
+	// handle error
 }
 
 log.Printf("got %s from %s", msg.MessageTypeName(), raddr)
@@ -216,14 +216,14 @@ To access the fields of the message, you need to assert the type of the message 
 // assert the type of the message
 assocSetupRes, ok := msg.(*message.AssociationSetupResponse)
 if !ok {
-    // handle error
+	// handle error
 }
 
 // get the value of NodeID IE
 // see the Information Elements section for what `NodeID()` method does
 nodeID, err := assocSetupRes.NodeID.NodeID()
 if err != nil {
-    // handle error
+	// handle error
 }
 ```
 
@@ -233,20 +233,20 @@ If the message type is not supported in this library, it can still be asserted t
 // assert the type of the message
 unknownMsg, ok := msg.(*message.Generic)
 if !ok {
-    // handle error
+	// handle error
 }
 
 // iterate over the IEs to get the value of NodeID IE
 for _, i := range unknownMsg.IEs {
-    switch i.Type {
-    case ie.NodeID:
-        nodeID, err := i.NodeID()
-        if err != nil {
-            // handle error
-        }
-    case ...:
-        // ...
-    }
+	switch i.Type {
+	case ie.NodeID:
+		nodeID, err := i.NodeID()
+		if err != nil {
+			// handle error
+		}
+	case ie.SomeOtherIE:
+		// ...
+	}
 }
 ```
 
@@ -255,44 +255,44 @@ So, what you will be likely to do is to check the type of the message and handle
 ```go
 switch m := msg.(type) {
 case *message.AssociationSetupRequest:
-    // handle AssociationSetupRequest
+	// handle AssociationSetupRequest
 case *message.AssociationSetupResponse:
-    // handle AssociationSetupResponse
-case ...:
-    // ...
+	// handle AssociationSetupResponse
+case *message.SomeOtherMessage:
+	// ...
 }
 
 // alternatively, you can use the `MessageType()` method
 switch msg.MessageType() {
 case message.MsgTypeAssociationSetupRequest:
-    // handle AssociationSetupRequest
+	// handle AssociationSetupRequest
 case message.MsgTypeAssociationSetupResponse:
-    // handle AssociationSetupResponse
-case ...:
-    // ...
+	// handle AssociationSetupResponse
+case message.MsgTypeSomeOtherMessage:
+	// ...
 }
 
 // using a map containing the handlers for each message type may also be a good idea
 // NOTE: use with care, as there may be a race condition when accessing the map
 handlers := map[uint8]func(message.Message) error{
-    message.MsgTypeAssociationSetupRequest: func(m message.Message) error {
-        assocSetupReq := m.(*message.AssociationSetupRequest)
-        // handle AssociationSetupRequest
-    },
-    message.MsgTypeAssociationSetupResponse: func(m message.Message) error {
-        assocSetupRes := m.(*message.AssociationSetupResponse)
-        // handle AssociationSetupResponse
-    },
-    // ...
+	message.MsgTypeAssociationSetupRequest: func(m message.Message) error {
+		assocSetupReq := m.(*message.AssociationSetupRequest)
+		// handle AssociationSetupRequest
+	},
+	message.MsgTypeAssociationSetupResponse: func(m message.Message) error {
+		assocSetupRes := m.(*message.AssociationSetupResponse)
+		// handle AssociationSetupResponse
+	},
+	// ...
 }
 
 handle, ok := handlers[msg.MessageType()]
 if !ok {
-    // handle unsupported message type
+	// handle unsupported message type
 } else {
-    if err := handle(msg); err != nil {
-        // handle error
-    }
+	if err := handle(msg); err != nil {
+		// handle error
+	}
 }
 ```
 
@@ -302,38 +302,38 @@ Messages are implemented in conformance with TS 29.244 V16.7.0 (2021-04). The wo
 
 ##### PFCP Node related messages
 
-| Message Type | Message                        | Sxa | Sxb | Sxc | N4 | Supported? |
-|--------------|--------------------------------|-----|-----|-----|----|------------|
-| 1            | Heartbeat Request              | X   | X   | X   | X  | Yes        |
-| 2            | Heartbeat Response             | X   | X   | X   | X  | Yes        |
-| 3            | PFD Management Request         | -   | X   | X   | X  | Yes        |
-| 4            | PFD Management Response        | -   | X   | X   | X  | Yes        |
-| 5            | Association Setup Request      | X   | X   | X   | X  | Yes        |
-| 6            | Association Setup Response     | X   | X   | X   | X  | Yes        |
-| 7            | Association Update Request     | X   | X   | X   | X  | Yes        |
-| 8            | Association Update Response    | X   | X   | X   | X  | Yes        |
-| 9            | Association Release Request    | X   | X   | X   | X  | Yes        |
-| 10           | Association Release Response   | X   | X   | X   | X  | Yes        |
-| 11           | Version Not Supported Response | X   | X   | X   | X  | Yes        |
-| 12           | Node Report Request            | X   | X   | X   | X  | Yes        |
-| 13           | Node Report Response           | X   | X   | X   | X  | Yes        |
-| 14           | Session Set Deletion Request   | X   | X   | -   |    | Yes        |
-| 15           | Session Set Deletion Response  | X   | X   | -   |    | Yes        |
-| 16 to 49     | _(For future use)_             |     |     |     |    | -          |
+| Message Type | Message                        | Sxa | Sxb | Sxc | N4  | Supported? |
+| ------------ | ------------------------------ | --- | --- | --- | --- | ---------- |
+| 1            | Heartbeat Request              | X   | X   | X   | X   | Yes        |
+| 2            | Heartbeat Response             | X   | X   | X   | X   | Yes        |
+| 3            | PFD Management Request         | -   | X   | X   | X   | Yes        |
+| 4            | PFD Management Response        | -   | X   | X   | X   | Yes        |
+| 5            | Association Setup Request      | X   | X   | X   | X   | Yes        |
+| 6            | Association Setup Response     | X   | X   | X   | X   | Yes        |
+| 7            | Association Update Request     | X   | X   | X   | X   | Yes        |
+| 8            | Association Update Response    | X   | X   | X   | X   | Yes        |
+| 9            | Association Release Request    | X   | X   | X   | X   | Yes        |
+| 10           | Association Release Response   | X   | X   | X   | X   | Yes        |
+| 11           | Version Not Supported Response | X   | X   | X   | X   | Yes        |
+| 12           | Node Report Request            | X   | X   | X   | X   | Yes        |
+| 13           | Node Report Response           | X   | X   | X   | X   | Yes        |
+| 14           | Session Set Deletion Request   | X   | X   | -   |     | Yes        |
+| 15           | Session Set Deletion Response  | X   | X   | -   |     | Yes        |
+| 16 to 49     | _(For future use)_             |     |     |     |     | -          |
 
 ##### PFCP Session related messages
 
-| Message Type | Message                        | Sxa | Sxb | Sxc | N4 | Supported? |
-|--------------|--------------------------------|-----|-----|-----|----|------------|
-| 50           | Session Establishment Request  | X   | X   | X   | X  | Yes        |
-| 51           | Session Establishment Response | X   | X   | X   | X  | Yes        |
-| 52           | Session Modification Request   | X   | X   | X   | X  | Yes        |
-| 53           | Session Modification Response  | X   | X   | X   | X  | Yes        |
-| 54           | Session Deletion Request       | X   | X   | X   | X  | Yes        |
-| 55           | Session Deletion Response      | X   | X   | X   | X  | Yes        |
-| 56           | Session Report Request         | X   | X   | X   | X  | Yes        |
-| 57           | Session Report Response        | X   | X   | X   | X  | Yes        |
-| 58 to 99     | _(For future use)_             |     |     |     |    | -          |
+| Message Type | Message                        | Sxa | Sxb | Sxc | N4  | Supported? |
+| ------------ | ------------------------------ | --- | --- | --- | --- | ---------- |
+| 50           | Session Establishment Request  | X   | X   | X   | X   | Yes        |
+| 51           | Session Establishment Response | X   | X   | X   | X   | Yes        |
+| 52           | Session Modification Request   | X   | X   | X   | X   | Yes        |
+| 53           | Session Modification Response  | X   | X   | X   | X   | Yes        |
+| 54           | Session Deletion Request       | X   | X   | X   | X   | Yes        |
+| 55           | Session Deletion Response      | X   | X   | X   | X   | Yes        |
+| 56           | Session Report Request         | X   | X   | X   | X   | Yes        |
+| 57           | Session Report Response        | X   | X   | X   | X   | Yes        |
+| 58 to 99     | _(For future use)_             |     |     |     |     | -          |
 
 ### Information Elements
 
@@ -347,45 +347,45 @@ To create a `CreatePDR` IE, use `NewCreatePDR()`. Parameters for those "named" c
 ```go
 // returned type and parameters in NewCreatePDR() are all *ie.IE.
 createPDR := ie.NewCreatePDR(
-    ie.NewPDRID(0xffff),
-    ie.NewPrecedence(0x11111111),
-    ie.NewPDI(
-        ie.NewSourceInterface(ie.SrcInterfaceAccess),
-        ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
-        ie.NewNetworkInstance("some.instance.example"),
-        ie.NewRedundantTransmissionParametersInPDI(
-            ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
-            ie.NewNetworkInstance("some.instance.example"),
-        ),
-        ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0),
-        ie.NewTrafficEndpointID(0x01),
-        ie.NewSDFFilter("aaaaaaaa", "bb", "cccc", "ddd", 0xffffffff),
-        ie.NewApplicationID("https://github.com/wmnsk/go-pfcp/"),
-        ie.NewEthernetPDUSessionInformation(0x01),
-        ie.NewEthernetPacketFilter(
-            ie.NewEthernetFilterID(0xffffffff),
-            ie.NewEthernetFilterProperties(0x01),
-            ie.NewMACAddress(mac1, mac2, mac3, mac4),
-            ie.NewEthertype(0xffff),
-            ie.NewCTAG(0x07, 1, 1, 4095),
-            ie.NewSTAG(0x07, 1, 1, 4095),
-            ie.NewSDFFilter("aaaaaaaa", "bb", "cccc", "ddd", 0xffffffff),
-        ),
-    ),
-    ie.NewOuterHeaderRemoval(0x01, 0x02),
-    ie.NewFARID(0xffffffff),
-    ie.NewURRID(0xffffffff),
-    ie.NewQERID(0xffffffff),
-    ie.NewActivatePredefinedRules("go-pfcp"),
-    ie.NewActivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
-    ie.NewDeactivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
-    ie.NewMARID(0x1111),
-    ie.NewPacketReplicationAndDetectionCarryOnInformation(0x0f),
-    ie.NewIPMulticastAddressingInfo(
-        ie.NewIPMulticastAddress(net.ParseIP("127.0.0.1"), nil, net.ParseIP("127.0.0.1"), nil),
-        ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), nil, 24),
-    ),
-    ie.NewUEIPAddressPoolIdentity("go-pfcp"),
+	ie.NewPDRID(0xffff),
+	ie.NewPrecedence(0x11111111),
+	ie.NewPDI(
+		ie.NewSourceInterface(ie.SrcInterfaceAccess),
+		ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
+		ie.NewNetworkInstance("some.instance.example"),
+		ie.NewRedundantTransmissionParametersInPDI(
+			ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
+			ie.NewNetworkInstance("some.instance.example"),
+		),
+		ie.NewUEIPAddress(0x02, "127.0.0.1", "", 0),
+		ie.NewTrafficEndpointID(0x01),
+		ie.NewSDFFilter("aaaaaaaa", "bb", "cccc", "ddd", 0xffffffff),
+		ie.NewApplicationID("https://github.com/wmnsk/go-pfcp/"),
+		ie.NewEthernetPDUSessionInformation(0x01),
+		ie.NewEthernetPacketFilter(
+			ie.NewEthernetFilterID(0xffffffff),
+			ie.NewEthernetFilterProperties(0x01),
+			ie.NewMACAddress(mac1, mac2, mac3, mac4),
+			ie.NewEthertype(0xffff),
+			ie.NewCTAG(0x07, 1, 1, 4095),
+			ie.NewSTAG(0x07, 1, 1, 4095),
+			ie.NewSDFFilter("aaaaaaaa", "bb", "cccc", "ddd", 0xffffffff),
+		),
+	),
+	ie.NewOuterHeaderRemoval(0x01, 0x02),
+	ie.NewFARID(0xffffffff),
+	ie.NewURRID(0xffffffff),
+	ie.NewQERID(0xffffffff),
+	ie.NewActivatePredefinedRules("go-pfcp"),
+	ie.NewActivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
+	ie.NewDeactivationTime(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
+	ie.NewMARID(0x1111),
+	ie.NewPacketReplicationAndDetectionCarryOnInformation(0x0f),
+	ie.NewIPMulticastAddressingInfo(
+		ie.NewIPMulticastAddress(net.ParseIP("127.0.0.1"), nil, net.ParseIP("127.0.0.1"), nil),
+		ie.NewSourceIPAddress(net.ParseIP("127.0.0.1"), nil, 24),
+	),
+	ie.NewUEIPAddressPoolIdentity("go-pfcp"),
 )
 ```
 
@@ -394,7 +394,7 @@ Instead of using the named constructors, you can also create an arbitrary IE of 
 For example, the following two codes will create the same `*ie.IE` instance.
 
 ```go
-qvTime := ie.NewQuotaValidityTime(10*time.Second)
+qvTime := ie.NewQuotaValidityTime(10 * time.Second)
 ```
 
 ```go
@@ -440,7 +440,7 @@ For IEs with more complex payloads, such as F-TEID, calling the `<IE-name>` meth
 fteid := ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, nil)
 fteidFields, err := fteid.FTEID() // `FTEIDFields` struct
 
-teid := fteidFields.TEID // TEID as uint32
+teid := fteidFields.TEID      // TEID as uint32
 v4 := fteidFields.IPv4Address // IPv4 address as net.IP
 ```
 
@@ -448,8 +448,8 @@ For grouped IEs, calling `<IE-name>` method returns a list of IEs contained in t
 
 ```go
 cpdrIE := ie.NewCreatePDR(
-    ie.NewPDRID(0xffff),
-    // ...
+	ie.NewPDRID(0xffff),
+	// ...
 )
 
 cpdrChildren, err := cpdrIE.CreatePDR() // `[]*IE` containing IEs in CreatePDR IE
@@ -467,28 +467,28 @@ This is useful when you only need a small number of IEs within a grouped IE. Sin
 cpdrChildren, err := cpdr.CreatePDR()
 
 var (
-    pdrID uint16
-    farID uint32
-    // ...
+	pdrID uint16
+	farID uint32
+	// ...
 )
 
 for _, i := range cpdrChildren {
 	switch i.Type {
 	case ie.PDRID:
 		v, err = i.PDRID()
-        if err != nil {
-            // handle error
-        }
-        pdrID = v
+		if err != nil {
+			// handle error
+		}
+		pdrID = v
 	case ie.FARID:
 		v, err = i.FARID()
-        if err != nil {
-            // handle error
-        }
-        farID = v
-    case ...:
-        // ...
-    }
+		if err != nil {
+			// handle error
+		}
+		farID = v
+	case ie.SomeOtherIE:
+		// ...
+	}
 }
 ```
 
@@ -497,7 +497,7 @@ for _, i := range cpdrChildren {
 IEs are implemented in conformance with TS 29.244 V16.7.0 (2021-04). The word "supported" in the table below means that the constructor and helper method for the IE are implemented in this library. As described in the previous section, you can still create an IE of any type even if it is not supported or missing in the table.
 
 | IE Type        | Information elements                                                       | Supported? |
-|----------------|----------------------------------------------------------------------------|------------|
+| -------------- | -------------------------------------------------------------------------- | ---------- |
 | 0              | _(Reserved)_                                                               | -          |
 | 1              | Create PDR                                                                 | Yes        |
 | 2              | PDI                                                                        | Yes        |
