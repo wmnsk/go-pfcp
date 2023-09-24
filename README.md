@@ -1,6 +1,6 @@
 # go-pfcp
 
-PFCP implementation in Golang.
+A comprehensive PFCP implementation in the Go programming language.
 
 ![CI status](https://github.com/wmnsk/go-pfcp/actions/workflows/go.yml/badge.svg)
 [![GoDoc](https://godoc.org/github.com/wmnsk/go-pfcp?status.svg)](https://godoc.org/github.com/wmnsk/go-pfcp)
@@ -8,14 +8,14 @@ PFCP implementation in Golang.
 
 ## What is PFCP?
 
-PFCP (Packet Forwarding Control Protocol) is a signaling protocol used in mobile networking infrastructure (LTE EPC, 5GC) to realize CUPS architecture (Control and User Plane Separation, not a printing system) defined in 3GPP TS 29.244.
+PFCP (Packet Forwarding Control Protocol) is a signaling protocol used in mobile networking infrastruct, such as EPC and 5GC, to implement the CUPS architecture (Control and User Plane Separation, not a printing system). This architecture and the protocol detail is defined in 3GPP TS 29.244.
 
 Are you also searching for a GTP implementation in Go? If so, [go-gtp](https://github.com/wmnsk/go-gtp) is the perfect choice for you! :p
 
 ## Project Status
 
 This project is still WIP.  
-Implementation of all the messages and IEs defined in TS 29.244 V16.7.0 (2021-04) has been done, but the exported APIs may still be updated in the future, as they are not tested enough (we add a new tag in that case).
+Implementation of all the messages and IEs defined in TS 29.244 V16.7.0 (2021-04) has been done, but the exported APIs may still be updated in the future (we add a new tag in that case).
 
 We are now working on implementing networking functionalities (like setting up associations, establish sessions with easy & quick APIs), as well as updating the messages and IE definitions according to the latest specifications.
 
@@ -23,18 +23,18 @@ We are now working on implementing networking functionalities (like setting up a
 
 ### Installation
 
-go-pfcp supports Go Modules. Just run `go mod tidy` in your project's directory to collect the required packages automatically.
+go-pfcp supports Go Modules. Run `go mod tidy` in your project's directory to collect the required packages automatically. See [Features](#features) for how to handle messages and IEs, and what is supported.
 
 ### Running examples
 
 #### Exchanging Heartbeat
 
 Small heartbeat client and server examples are available under [examples/heartheat](./examples/heartheat/).
-The client sends HeartbeatRequest, and the server responds to it with HeartbeatResponse.
+The client sends a Heartbeat Request, and the server responds to it with a Heartbeat Response.
 
 1. Run the server
 
-By default, the server listens on loopback. It can be specified explicitly by the `-s` flag.
+By default, the server listens on loopback. The address/port can be specified explicitly by the `-s` flag.
 
 ```shell-session
 go-pfcp/examples/heartbeat/hb-server$ go run main.go
@@ -43,10 +43,10 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 
 2. Run the client
 
-By default, the client sends a Heartbeat to loopback. It can be specified explicitly by the `-s` flag.
-It exits after printing the timestamp in Heartbeat Response from the server.
+By default, the client sends a Heartbeat to loopback. The address/port can be specified explicitly by the `-s` flag.
+It exits after printing the timestamp in the received Heartbeat Response.
 
-The output is like below on the client side:
+The output should look like below on the client side:
 
 ```shell-session
 go-pfcp/examples/heartbeat/hb-client$ go run main.go
@@ -58,7 +58,7 @@ go-pfcp/examples/heartbeat/hb-client$ go run main.go
 2019/12/22 20:03:40 got Heartbeat Response with TS: 2019-12-22 20:03:40 +0900 JST, from: 127.0.0.2:8805
 ```
 
-On the server side, the output should be like below:
+On the server side, the output should look like below:
 
 ```shell-session
 go-pfcp/examples/heartbeat/hb-server$ go run main.go
@@ -72,13 +72,235 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 ^Csignal: interrupt
 ```
 
-_The server continues to listen on the same port until it is terminated by Ctrl-C or something._
+_The server continues to listen on the same port until it is terminated (by Ctrl-C or something)._
 
-## Supported Features
+## Features
 
 ### Messages
 
-#### PFCP Node related messages
+All the messages implements the same interface: `message.Message`, and have their own structs named `<MessageName>`.
+
+#### Creating a message and encoding it
+
+To create a message and encode it into binary, use `New<MessageName>()` function, which returns a `*<MessageName>` struct. The parameters for each constructor varies depending on the message type, but in general the first parameter is the sequence number, the second parameter is a SEID the message is session-related one, and the rest are the IEs contained in the message. See the godoc for the details.
+
+_Handling of IEs is described in the [Information Elements](#information-elements) section._
+
+```go
+assocSetupReq := message.NewAssociationSetupRequest(
+    sequenceNumber,
+	ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
+	ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
+	ie.NewUPFunctionFeatures(0x01, 0x02),
+	ie.NewCPFunctionFeatures(0x3f),
+	ie.NewAlternativeSMFIPAddress(net.ParseIP("127.0.0.1"), net.ParseIP("2001::1")),
+	ie.NewSMFSetID("go-pfcp.epc.3gppnetwork.org"),
+	ie.NewPFCPSessionRetentionInformation(
+		ie.NewCPPFCPEntityIPAddress(net.ParseIP("127.0.0.1"), nil),
+	),
+	ie.NewUEIPAddressPoolInformation(
+		ie.NewUEIPAddressPoolIdentity("go-pfcp"),
+		ie.NewNetworkInstance("some.instance.example"),
+	),
+	ie.NewGTPUPathQoSControlInformation(
+		ie.NewRemoteGTPUPeer(0x0e, "127.0.0.1", "", ie.DstInterfaceAccess, "some.instance.example"),
+		ie.NewGTPUPathInterfaceType(1, 1),
+		ie.NewQoSReportTrigger(1, 1, 1),
+		ie.NewTransportLevelMarking(0x1111),
+		ie.NewMeasurementMethod(1, 1, 1),
+		ie.NewAveragePacketDelay(10*time.Second),
+		ie.NewMinimumPacketDelay(10*time.Second),
+		ie.NewMaximumPacketDelay(10*time.Second),
+		ie.NewTimer(20*time.Hour),
+	),
+	ie.NewClockDriftControlInformation(
+		ie.NewRequestedClockDriftInformation(1, 1),
+		ie.NewTSNTimeDomainNumber(255),
+		ie.NewTimeOffsetThreshold(10*time.Second),
+		ie.NewCumulativeRateRatioThreshold(0xffffffff),
+	),
+	ie.NewNFInstanceID([]byte{0x11, 0x11, 0x11, 0x11, 0x22, 0x22, 0x22, 0x22, 0x33, 0x33, 0x33, 0x33, 0x44, 0x44, 0x44, 0x44}),
+)
+```
+
+This will create a `*AssociationSetupRequest` struct with the given sequence number and IEs. The fields of the struct vary depending on the message type, but in general it has a common `*Header` at the top, and the list of IEs that have no explicit field at the bottom. This means that you can add any type of IEs to any type of messages, even if it is not supported in this library.
+
+```go
+type AssociationSetupRequest struct {
+	*Header
+	NodeID                          *ie.IE
+	RecoveryTimeStamp               *ie.IE
+	UPFunctionFeatures              *ie.IE
+	CPFunctionFeatures              *ie.IE
+	UserPlaneIPResourceInformation  []*ie.IE
+	AlternativeSMFIPAddress         []*ie.IE
+	SMFSetID                        *ie.IE
+	PFCPSessionRetentionInformation *ie.IE
+	UEIPAddressPoolInformation      []*ie.IE
+	GTPUPathQoSControlInformation   []*ie.IE
+	ClockDriftControlInformation    []*ie.IE
+	UPFInstanceID                   *ie.IE
+	PFCPASReqFlags                  *ie.IE
+	IEs                             []*ie.IE
+}
+```
+
+All the `<MessageName>` struct, or the `message.Message` interface, has the `Marshal()` method which returns the binary in `[]byte`. This can be used to send the message to the peer on top of any transport protocol (typically UDP) using the Go's standard `net` library.
+
+```go
+// serialize the message
+b, err := assocSetupReq.Marshal()
+if err != nil {
+    // handle error
+}
+
+// send `b` to "127.0.0.1:8805"
+raddr, err := net.ResolveUDPAddr("udp", "127.0.0.1:8805")
+if err != nil {
+    // handle error
+}
+
+conn, err := net.DialUDP("udp", nil, raddr)
+if err != nil {
+    // handle error
+}
+
+if _, err := conn.Write(b); err != nil {
+    // handle error
+}
+
+log.Printf("sent %s to %s", assocSetupReq.MessageTypeName(), raddr)
+```
+
+Is the message type you want to create not supported in this library? No problem. You can still create a message of any type by using `NewGeneric()` function. This function takes the message type as the first parameter, and the rest are the same as the `New<MessageName>()` function.
+
+```go
+// create a message of type 0x64
+yourMessage := message.NewGeneric(
+    0x64,
+    sequenceNumber,
+    seid,
+    ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
+    ie.NewRecoveryTimeStamp(time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)),
+    // ...
+)
+```
+
+The created `yourMessage` is of type `*message.Generic`, which is a struct that implements the `message.Message` interface and has the common `*Header` and the list of IEs. You can still call the `Marshal()` method on this struct to get the binary.
+
+#### Decoding a received message
+
+To decode a received message, use `message.Parse()` function. This returns a message in the `message.Message` interface and an error.
+
+```go
+// receive a message on a UDP connection
+b := make([]byte, 1500)
+n, raddr, err := conn.ReadFromUDP(b)
+if err != nil {
+    // handle error
+}
+
+// decode the message
+msg, err := message.Parse(b[:n])
+if err != nil {
+    // handle error
+}
+
+log.Printf("got %s from %s", msg.MessageTypeName(), raddr)
+```
+
+To access the fields of the message, you need to assert the type of the message to the corresponding struct. For example, to access IEs in the `AssociationSetupResponse` message, you need to assert the type of the message to `*AssociationSetupResponse` first.
+
+
+```go
+// assert the type of the message
+assocSetupRes, ok := msg.(*message.AssociationSetupResponse)
+if !ok {
+    // handle error
+}
+
+// get the value of NodeID IE
+// see the Information Elements section for what `NodeID()` method does
+nodeID, err := assocSetupRes.NodeID.NodeID()
+if err != nil {
+    // handle error
+}
+```
+
+If the message type is not supported in this library, it can still be asserted to `*Generic` whose header and IEs are accessible through the `Header` and `IEs` fields.
+
+```go
+// assert the type of the message
+unknownMsg, ok := msg.(*message.Generic)
+if !ok {
+    // handle error
+}
+
+// iterate over the IEs to get the value of NodeID IE
+for _, i := range unknownMsg.IEs {
+    switch i.Type {
+    case ie.NodeID:
+        nodeID, err := i.NodeID()
+        if err != nil {
+            // handle error
+        }
+    case ...:
+        // ...
+    }
+}
+```
+
+So, what you will be likely to do is to check the type of the message and handle it accordingly using the `switch` statement.
+
+```go
+switch m := msg.(type) {
+case *message.AssociationSetupRequest:
+    // handle AssociationSetupRequest
+case *message.AssociationSetupResponse:
+    // handle AssociationSetupResponse
+case ...:
+    // ...
+}
+
+// alternatively, you can use the `MessageType()` method
+switch msg.MessageType() {
+case message.MsgTypeAssociationSetupRequest:
+    // handle AssociationSetupRequest
+case message.MsgTypeAssociationSetupResponse:
+    // handle AssociationSetupResponse
+case ...:
+    // ...
+}
+
+// using a map containing the handlers for each message type may also be a good idea
+// NOTE: use with care, as there may be a race condition when accessing the map
+handlers := map[uint8]func(message.Message) error{
+    message.MsgTypeAssociationSetupRequest: func(m message.Message) error {
+        assocSetupReq := m.(*message.AssociationSetupRequest)
+        // handle AssociationSetupRequest
+    },
+    message.MsgTypeAssociationSetupResponse: func(m message.Message) error {
+        assocSetupRes := m.(*message.AssociationSetupResponse)
+        // handle AssociationSetupResponse
+    },
+    // ...
+}
+
+handle, ok := handlers[msg.MessageType()]
+if !ok {
+    // handle unsupported message type
+} else {
+    if err := handle(msg); err != nil {
+        // handle error
+    }
+}
+```
+
+#### List of supported messages
+
+Messages are implemented in conformance with TS 29.244 V16.7.0 (2021-04). The word "supported" in the table below means that the struct and the constructor for the message are implemented in this library. As described in the previous section, you can still create a message of any type eve if it is not supported or missing in the table.
+
+##### PFCP Node related messages
 
 | Message Type | Message                        | Sxa | Sxb | Sxc | N4 | Supported? |
 |--------------|--------------------------------|-----|-----|-----|----|------------|
@@ -99,7 +321,7 @@ _The server continues to listen on the same port until it is terminated by Ctrl-
 | 15           | Session Set Deletion Response  | X   | X   | -   |    | Yes        |
 | 16 to 49     | _(For future use)_             |     |     |     |    | -          |
 
-#### PFCP Session related messages
+##### PFCP Session related messages
 
 | Message Type | Message                        | Sxa | Sxb | Sxc | N4 | Supported? |
 |--------------|--------------------------------|-----|-----|-----|----|------------|
@@ -119,8 +341,8 @@ All the IEs are of the same type: `ie.IE`.
 
 #### Creating IEs
 
-Constructors are available for every type of _supported_ IEs.  
-To create `CreatePDR` IE, use `NewCreatePDR()`. Parameters for those "named" constructors are implemented as friendly for the built-in Go types.
+Constructors are available for every type of _supported_ IEs (see [Supported IEs](#list-of-supported-ies) for which are supported).  
+To create a `CreatePDR` IE, use `NewCreatePDR()`. Parameters for those "named" constructors are implemented as friendly as possible for the built-in Go types.
 
 ```go
 // returned type and parameters in NewCreatePDR() are all *ie.IE.
@@ -167,9 +389,9 @@ createPDR := ie.NewCreatePDR(
 )
 ```
 
-Instead of using the named constructors, you can also use `ie.NewXxTypeIE()` to create an arbitrary IE of any type with the `XxType` value. This is useful when you don't want to use constructors which requires the specific type of parameters, or when you want to create an IE that is not supported in this library.
+Instead of using the named constructors, you can also create an arbitrary IE of any type with the `SomeType` value where `SomeType` is any of the `Uint8`, `Uint16`, `Uint32`, `Uint64`, `String`, or `FQDN`. This is useful when you don't want to use the named constructors which require the specific type of parameters, or when you want to create an IE that is not supported in this library.
 
-For example, the following two codes will create the same IE.
+For example, the following two codes will create the same `*ie.IE` instance.
 
 ```go
 qvTime := ie.NewQuotaValidityTime(10*time.Second)
@@ -179,79 +401,78 @@ qvTime := ie.NewQuotaValidityTime(10*time.Second)
 qvTime := ie.NewUint32(ie.QuotaValidityTime, 0x0000000a)
 ```
 
-Sometimes you already have a value passed from somewhere which is already in `uint32`. In that case, the latter way is preferable, as converting the `uint32` value to `time.Duration` is not very efficient (compiler optimization possibly helps in the former case? I don't know, but it doesn't _look_ good for humans anyway).
+Sometimes you may have a value that is already in `uint32` format. In that case, the latter way of creating an IE is preferable, as converting the `uint32` value to `time.Duration` is not very efficient (compiler optimization possibly helps in the former case? I don't know, but it doesn't _look_ good for humans anyway).
 
-Or, you may even want to create an PFCP IE with the undecoded binary (`[]byte`), which can be done by `ie.New()`.
-
-```go
-ie := ie.New(ie.QuotaValidityTime, payload)
-```
-
-When you want to create an unsupported IE whose type is 999 and value is of `uint16` type, you can do like below.
+Alternatively, you may want to create an IE with the undecoded or already encoded binary (in `[]byte`), which can be done using `ie.New()`.
 
 ```go
-ie999 := ie.NewUint8(999, 0x0102)
+qvTime := ie.New(ie.QuotaValidityTime, []byte{0x00, 0x00, 0x00, 0x0a})
 ```
 
-To handle the vendor-specific IEs, you can use `ie.NewVendorSpecificIE()`.
+When you want to create an unsupported IE whose IE type is 999 and the value is of `uint16` type, you can do like below.
+If it is vendor-specific, you can also specify the enterprise ID.
 
+```go
+ie999 := ie.NewUint16(999, 0x0102)
+ie999.EnterpriseID = 0x1234
+```
+
+This can instead be done using `ie.NewUint16VendorSpecific()`. There are no type-specific constructors for vendor-specific IEs.
 
 ```go
 ie999 := ie.NewVendorSpecificIE(999, 0x1234, []byte{0x01, 0x02})
 ```
 
-This results in the same as the following code.
-
-```go
-ie999 := ie.NewUint8(999, 0x0102)
-ie.EnterpriseID = 0x1234
-```
-
 #### Retrieving values from IEs
 
-Values can be retrieved by calling helper methods on `*ie.IE`.
-For instance, you can get the value in `string` by calling `NetworkInstance()`.
+To retrieve values from an IE, you can call helper methods that have the same name as the IE itself on an `*ie.IE`. For example, you can get the value of a `NetworkInstance` IE by calling the `NetworkInstance()` method.
 
 ```go
 ni := ie.NewNetworkInstance("some.instance.example")
 v, err := ni.NetworkInstance()
 ```
 
-The above example returns `"some.instance.example", nil` if `ni` is of type `ie.NetworkInstance`. Otherwise, it returns `"", SomeError`. Remember to always check the returned error, as the value may be _expectedly_ empty.
+In the example above, calling the `NetworkInstance()` method returns `"some.instance.example", nil`. However, if `ni` is not of type `ie.NetworkInstance` or the payload is not in right format, it returns `"", SomeError`. It's important to always check the returned error, as the value may be empty _as expected_.
 
-For more complex IEs like F-TEID, `<IE-name>` method returns `<IE-name>Fields` structure containing the values in its fields.
+For IEs with more complex payloads, such as F-TEID, calling the `<IE-name>` method returns a `<IE-name>Fields` struct containing the values in its fields.
 
 ```go
 fteid := ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, nil)
-f, err := fteid.FTEID() // `FTEIDFields` structure
+fteidFields, err := fteid.FTEID() // `FTEIDFields` struct
 
-teid := f.TEID // TEID as uint32
-v4 := f.IPv4Address // IPv4 address as net.IP
+teid := fteidFields.TEID // TEID as uint32
+v4 := fteidFields.IPv4Address // IPv4 address as net.IP
 ```
 
-On grouped IEs, the value (or custom fields) can be retrieved by directly calling such methods.
+For grouped IEs, calling `<IE-name>` method returns a list of IEs contained in the grouped IE.
 
 ```go
-ie := ie.NewCreatePDR(
+cpdrIE := ie.NewCreatePDR(
     ie.NewPDRID(0xffff),
     // ...
 )
 
-pdrIEs, err := ie.CreatePDR()
-pdrID, err := ie.PDRID()
+cpdrChildren, err := cpdrIE.CreatePDR() // `[]*IE` containing IEs in CreatePDR IE
 ```
 
-In this example, `pdrIEs` is a list of IEs contained in CreatePDR IE, and `pdrID` is the value of PDRID IE. The latter is useful when you want a small number of IEs within a grouped IE. Since it calls `CreatePDR()` internally, retrieving everything using this kind of method is very inefficient (iterates over all the IEs in the grouped IE each time). When you need to check the value of many IEs, it is recommended to use the former method iterate over the list of IEs in your own code.
+For convenience, helper methods of the child IEs can be called directly on the grouped IE.
 
 ```go
-cpdrIEs, err := cpdr.CreatePDR()
+pdrID, err := cpdrIE.PDRID()
+```
+
+This is useful when you only need a small number of IEs within a grouped IE. Since it calls `CreatePDR()` internally, retrieving everything using the child IE's method is very inefficient. When you need to check the value of many IEs, it is recommended to use the former method and iterate over the list of IEs in your own code.
+
+```go
+cpdrChildren, err := cpdr.CreatePDR()
 
 var (
     pdrID uint16
     farID uint32
+    // ...
 )
 
-for _, i := range cpdrIEs {
+for _, i := range cpdrChildren {
 	switch i.Type {
 	case ie.PDRID:
 		v, err = i.PDRID()
@@ -271,15 +492,9 @@ for _, i := range cpdrIEs {
 }
 ```
 
-Instead of calling the helper methods, you can get the value and convert to the desired type by yourself. This is more efficient, but do this at your own risk, as it may cause panic if the payload is not assuemed to have enough length.
-
-```go
-pdrID = binary.BigEndian.Uint16(i.Payload[0:2]) 
-```
-
 #### List of supported IEs
 
-IEs are (basically) implemented in conformance with TS29.244 V16.3.1(2020-04).
+IEs are implemented in conformance with TS 29.244 V16.7.0 (2021-04). The word "supported" in the table below means that the constructor and helper method for the IE are implemented in this library. As described in the previous section, you can still create an IE of any type even if it is not supported or missing in the table.
 
 | IE Type        | Information elements                                                       | Supported? |
 |----------------|----------------------------------------------------------------------------|------------|
