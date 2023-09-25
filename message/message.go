@@ -119,3 +119,15 @@ func Parse(b []byte) (Message, error) {
 	}
 	return m, nil
 }
+
+// ParseSafe safely parses the given bytes as Message by not using the given buffer as it is.
+//
+// When you read messages continuously from the same buffer and parse them in another
+// goroutine, this should be used instead of Parse.
+//
+// This might become a default behavior of Parse in the future.
+func ParseSafe(b []byte) (Message, error) {
+	buf := make([]byte, len(b))
+	copy(buf, b)
+	return Parse(buf)
+}
