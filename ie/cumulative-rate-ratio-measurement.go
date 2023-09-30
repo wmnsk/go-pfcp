@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewCumulativeRateRatioMeasurement creates a new CumulativeRateRatioMeasurement IE.
 func NewCumulativeRateRatioMeasurement(measurement uint32) *IE {
 	return newUint32ValIE(CumulativeRateRatioMeasurement, measurement)
@@ -16,13 +11,9 @@ func NewCumulativeRateRatioMeasurement(measurement uint32) *IE {
 
 // CumulativeRateRatioMeasurement returns CumulativeRateRatioMeasurement in uint32 if the type of IE matches.
 func (i *IE) CumulativeRateRatioMeasurement() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case CumulativeRateRatioMeasurement:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

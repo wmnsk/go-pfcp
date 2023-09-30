@@ -15,7 +15,7 @@ func (i *IE) ReportType() (uint8, error) {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
 
-	return i.Payload[0], nil
+	return i.ValueAsUint8()
 }
 
 // HasUPIR reports whether an IE has UPIR bit.

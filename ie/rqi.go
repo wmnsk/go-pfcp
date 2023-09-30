@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewRQI creates a new RQI IE.
 func NewRQI(rqi uint8) *IE {
 	return newUint8ValIE(RQI, rqi)
@@ -13,13 +11,9 @@ func NewRQI(rqi uint8) *IE {
 
 // RQI returns RQI in uint8 if the type of IE matches.
 func (i *IE) RQI() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case RQI:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreateQER:
 		ies, err := i.CreateQER()
 		if err != nil {

@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewRDSConfigurationInformation creates a new RDSConfigurationInformation IE.
 func NewRDSConfigurationInformation(rds uint8) *IE {
 	return newUint8ValIE(RDSConfigurationInformation, rds&0x01)
@@ -13,13 +11,9 @@ func NewRDSConfigurationInformation(rds uint8) *IE {
 
 // RDSConfigurationInformation returns RDSConfigurationInformation in uint8 if the type of IE matches.
 func (i *IE) RDSConfigurationInformation() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case RDSConfigurationInformation:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case ProvideRDSConfigurationInformation:
 		ies, err := i.ProvideRDSConfigurationInformation()
 		if err != nil {

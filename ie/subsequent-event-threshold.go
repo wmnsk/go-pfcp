@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewSubsequentEventThreshold creates a new SubsequentEventThreshold IE.
 func NewSubsequentEventThreshold(quota uint32) *IE {
 	return newUint32ValIE(SubsequentEventThreshold, quota)
@@ -16,13 +11,9 @@ func NewSubsequentEventThreshold(quota uint32) *IE {
 
 // SubsequentEventThreshold returns SubsequentEventThreshold in uint32 if the type of IE matches.
 func (i *IE) SubsequentEventThreshold() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case SubsequentEventThreshold:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case CreateURR:
 		ies, err := i.CreateURR()
 		if err != nil {

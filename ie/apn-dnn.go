@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"github.com/wmnsk/go-pfcp/internal/utils"
-)
-
 // NewAPNDNN creates a new APNDNN IE.
 func NewAPNDNN(apn string) *IE {
 	return newFQDNIE(APNDNN, apn)
@@ -19,7 +15,7 @@ func (i *IE) APNDNN() (string, error) {
 		return "", &InvalidTypeError{Type: i.Type}
 	}
 
-	return utils.DecodeFQDN(i.Payload), nil
+	return i.ValueAsFQDN()
 }
 
 // MustAPNDNN returns APNDNN in string, ignoring errors.

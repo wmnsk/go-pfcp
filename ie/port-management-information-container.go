@@ -13,7 +13,7 @@ func NewPortManagementInformationContainer(info string) *IE {
 func (i *IE) PortManagementInformationContainer() (string, error) {
 	switch i.Type {
 	case PortManagementInformationContainer:
-		return string(i.Payload), nil
+		return i.ValueAsString()
 	case TSCManagementInformationWithinSessionModificationRequest,
 		TSCManagementInformationWithinSessionModificationResponse,
 		TSCManagementInformationWithinSessionReportRequest:

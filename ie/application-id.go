@@ -13,7 +13,7 @@ func NewApplicationID(instance string) *IE {
 func (i *IE) ApplicationID() (string, error) {
 	switch i.Type {
 	case ApplicationID:
-		return string(i.Payload), nil
+		return i.ValueAsString()
 	case CreatePDR:
 		ies, err := i.CreatePDR()
 		if err != nil {

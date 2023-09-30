@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-)
-
 // NewQERCorrelationID creates a new QERCorrelationID IE.
 func NewQERCorrelationID(id uint32) *IE {
 	return newUint32ValIE(QERCorrelationID, id)
@@ -15,13 +11,9 @@ func NewQERCorrelationID(id uint32) *IE {
 
 // QERCorrelationID returns QERCorrelationID in uint32 if the type of IE matches.
 func (i *IE) QERCorrelationID() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-
 	switch i.Type {
 	case QERCorrelationID:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case CreateQER:
 		ies, err := i.CreateQER()
 		if err != nil {

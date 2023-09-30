@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewCumulativeRateRatioThreshold creates a new CumulativeRateRatioThreshold IE.
 func NewCumulativeRateRatioThreshold(threshold uint32) *IE {
 	return newUint32ValIE(CumulativeRateRatioThreshold, threshold)
@@ -16,13 +11,9 @@ func NewCumulativeRateRatioThreshold(threshold uint32) *IE {
 
 // CumulativeRateRatioThreshold returns CumulativeRateRatioThreshold in uint32 if the type of IE matches.
 func (i *IE) CumulativeRateRatioThreshold() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case CumulativeRateRatioThreshold:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case ClockDriftControlInformation:
 		ies, err := i.ClockDriftControlInformation()
 		if err != nil {

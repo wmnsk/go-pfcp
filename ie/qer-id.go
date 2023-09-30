@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewQERID creates a new QERID IE.
 func NewQERID(id uint32) *IE {
 	return newUint32ValIE(QERID, id)
@@ -16,13 +11,9 @@ func NewQERID(id uint32) *IE {
 
 // QERID returns QERID in uint32 if the type of IE matches.
 func (i *IE) QERID() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case QERID:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case CreatePDR:
 		ies, err := i.CreatePDR()
 		if err != nil {

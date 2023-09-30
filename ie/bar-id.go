@@ -21,7 +21,7 @@ func (i *IE) BARID() (uint8, error) {
 			return 0, io.ErrUnexpectedEOF
 		}
 
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreateFAR:
 		ies, err := i.CreateFAR()
 		if err != nil {

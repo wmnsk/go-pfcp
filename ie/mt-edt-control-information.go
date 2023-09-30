@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewMTEDTControlInformation creates a new MTEDTControlInformation IE.
 func NewMTEDTControlInformation(rdsi uint8) *IE {
 	return newUint8ValIE(MTEDTControlInformation, rdsi&0x01)
@@ -13,13 +11,9 @@ func NewMTEDTControlInformation(rdsi uint8) *IE {
 
 // MTEDTControlInformation returns MTEDTControlInformation in uint8 if the type of IE matches.
 func (i *IE) MTEDTControlInformation() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case MTEDTControlInformation:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreateBAR:
 		ies, err := i.CreateBAR()
 		if err != nil {

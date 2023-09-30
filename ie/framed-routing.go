@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // Framed-Routing definitions.
 //
 // Ref: https://tools.ietf.org/html/rfc2865#section-5.10
@@ -26,13 +21,9 @@ func NewFramedRouting(routing uint32) *IE {
 
 // FramedRouting returns FramedRouting in uint32 if the type of IE matches.
 func (i *IE) FramedRouting() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case FramedRouting:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case CreateTrafficEndpoint:
 		ies, err := i.CreateTrafficEndpoint()
 		if err != nil {

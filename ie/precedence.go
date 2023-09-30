@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-)
-
 // NewPrecedence creates a new Precedence IE.
 func NewPrecedence(id uint32) *IE {
 	return newUint32ValIE(Precedence, id)
@@ -15,13 +11,9 @@ func NewPrecedence(id uint32) *IE {
 
 // Precedence returns Precedence in uint32 if the type of IE matches.
 func (i *IE) Precedence() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-
 	switch i.Type {
 	case Precedence:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case CreatePDR:
 		ies, err := i.CreatePDR()
 		if err != nil {

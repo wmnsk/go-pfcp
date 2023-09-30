@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // GateStatus definitions.
 const (
 	GateStatusOpen   uint8 = 0
@@ -19,13 +17,9 @@ func NewGateStatus(ul, dl uint8) *IE {
 
 // GateStatus returns GateStatus in uint8 if the type of IE matches.
 func (i *IE) GateStatus() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case GateStatus:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreateQER:
 		ies, err := i.CreateQER()
 		if err != nil {

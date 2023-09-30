@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewURSEQN creates a new URSEQN IE.
 func NewURSEQN(seq uint32) *IE {
 	return newUint32ValIE(URSEQN, seq)
@@ -16,13 +11,9 @@ func NewURSEQN(seq uint32) *IE {
 
 // URSEQN returns URSEQN in uint32 if the type of IE matches.
 func (i *IE) URSEQN() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case URSEQN:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case UsageReportWithinSessionModificationResponse,
 		UsageReportWithinSessionDeletionResponse,
 		UsageReportWithinSessionReportRequest:

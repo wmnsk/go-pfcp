@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"io"
-)
-
 // NewTrafficEndpointID creates a new TrafficEndpointID IE.
 func NewTrafficEndpointID(id uint8) *IE {
 	return newUint8ValIE(TrafficEndpointID, id)
@@ -15,13 +11,9 @@ func NewTrafficEndpointID(id uint8) *IE {
 
 // TrafficEndpointID returns TrafficEndpointID in uint8 if the type of IE matches.
 func (i *IE) TrafficEndpointID() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case TrafficEndpointID:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreatePDR:
 		ies, err := i.CreatePDR()
 		if err != nil {

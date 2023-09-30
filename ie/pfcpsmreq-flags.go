@@ -13,7 +13,7 @@ func NewPFCPSMReqFlags(flag uint8) *IE {
 func (i *IE) PFCPSMReqFlags() (uint8, error) {
 	switch i.Type {
 	case PFCPSMReqFlags:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case ForwardingParameters:
 		ies, err := i.ForwardingParameters()
 		if err != nil {

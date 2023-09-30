@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewMPTCPControlInformation creates a new MPTCPControlInformation IE.
 func NewMPTCPControlInformation(tci uint8) *IE {
 	return newUint8ValIE(MPTCPControlInformation, tci&0x01)
@@ -13,13 +11,9 @@ func NewMPTCPControlInformation(tci uint8) *IE {
 
 // MPTCPControlInformation returns MPTCPControlInformation in uint8 if the type of IE matches.
 func (i *IE) MPTCPControlInformation() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case MPTCPControlInformation:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case ProvideATSSSControlInformation:
 		ies, err := i.ProvideATSSSControlInformation()
 		if err != nil {

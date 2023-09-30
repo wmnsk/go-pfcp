@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewDSTTPortNumber creates a new DSTTPortNumber IE.
 func NewDSTTPortNumber(port uint32) *IE {
 	return newUint32ValIE(DSTTPortNumber, port)
@@ -16,13 +11,9 @@ func NewDSTTPortNumber(port uint32) *IE {
 
 // DSTTPortNumber returns DSTTPortNumber in uint32 if the type of IE matches.
 func (i *IE) DSTTPortNumber() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case DSTTPortNumber:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case CreatedBridgeInfoForTSC:
 		ies, err := i.CreatedBridgeInfoForTSC()
 		if err != nil {

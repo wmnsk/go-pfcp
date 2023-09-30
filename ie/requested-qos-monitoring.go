@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewRequestedQoSMonitoring creates a new RequestedQoSMonitoring IE.
 func NewRequestedQoSMonitoring(rp, ul, dl int) *IE {
 	return newUint8ValIE(RequestedQoSMonitoring, uint8((rp<<2)|(ul<<1)|(dl)))
@@ -13,13 +11,9 @@ func NewRequestedQoSMonitoring(rp, ul, dl int) *IE {
 
 // RequestedQoSMonitoring returns RequestedQoSMonitoring in uint8 if the type of IE matches.
 func (i *IE) RequestedQoSMonitoring() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case RequestedQoSMonitoring:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case QoSMonitoringPerQoSFlowControlInformation:
 		ies, err := i.QoSMonitoringPerQoSFlowControlInformation()
 		if err != nil {

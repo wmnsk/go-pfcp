@@ -5,8 +5,6 @@
 package ie
 
 import (
-	"encoding/binary"
-	"io"
 	"time"
 )
 
@@ -18,13 +16,9 @@ func NewDeactivationTime(ts time.Time) *IE {
 
 // DeactivationTime returns DeactivationTime in time.Time if the type of IE matches.
 func (i *IE) DeactivationTime() (time.Time, error) {
-	if len(i.Payload) < 4 {
-		return time.Time{}, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case DeactivationTime:
-		return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+		return i.valueAs3GPPTimestamp()
 	case CreatePDR:
 		ies, err := i.CreatePDR()
 		if err != nil {

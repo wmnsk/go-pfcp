@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"io"
-)
-
 // NewMetric creates a new Metric IE.
 func NewMetric(metric uint8) *IE {
 	return newUint8ValIE(Metric, metric)
@@ -15,14 +11,9 @@ func NewMetric(metric uint8) *IE {
 
 // Metric returns Metric in uint8 if the type of IE matches.
 func (i *IE) Metric() (uint8, error) {
-
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case Metric:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case LoadControlInformation:
 		ies, err := i.LoadControlInformation()
 		if err != nil {

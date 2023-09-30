@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"io"
-)
-
 // NewWeight creates a new Weight IE.
 func NewWeight(weight uint8) *IE {
 	return newUint8ValIE(Weight, weight)
@@ -15,13 +11,9 @@ func NewWeight(weight uint8) *IE {
 
 // Weight returns Weight in uint8 if the type of IE matches.
 func (i *IE) Weight() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case Weight:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreateMAR:
 		ies, err := i.CreateMAR()
 		if err != nil {

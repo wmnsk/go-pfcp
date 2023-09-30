@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewRequestedClockDriftInformation creates a new RequestedClockDriftInformation IE.
 func NewRequestedClockDriftInformation(rrcr, rrto uint8) *IE {
 	return newUint8ValIE(RequestedClockDriftInformation, (rrcr<<1)|rrto)
@@ -13,13 +11,9 @@ func NewRequestedClockDriftInformation(rrcr, rrto uint8) *IE {
 
 // RequestedClockDriftInformation returns RequestedClockDriftInformation in uint8 if the type of IE matches.
 func (i *IE) RequestedClockDriftInformation() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case RequestedClockDriftInformation:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case ClockDriftControlInformation:
 		ies, err := i.ClockDriftControlInformation()
 		if err != nil {

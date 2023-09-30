@@ -434,6 +434,15 @@ v, err := ni.NetworkInstance()
 
 In the example above, calling the `NetworkInstance()` method returns `"some.instance.example", nil`. However, if `ni` is not of type `ie.NetworkInstance` or the payload is not in right format, it returns `"", SomeError`. It's important to always check the returned error, as the value may be empty _as expected_.
 
+The type of returned values are determined as friendly as possible for the built-in Go types. For example, `QuotaValidityTime()` returns the value as `time.Duration`. In the cases that this is undesirable, such as when you need to pass the raw value to another node, you can use `ValueAsUint32()` method instead, which returns the value as `uint32`. This could also be useful for handling vendor-specific IEs whose value retrieval methods are not available in this package. Available `ValueAs`-methods are `ValueAsUin8()`, `ValueAsUint16()`, `ValueAsUint32()`, `ValueAsUint64()`, `ValueAsString()`, and `ValueAsFQDN()`.
+
+```go
+qvTime := ie.NewQuotaValidityTime(10 * time.Second)
+
+vDuration, err := qvTime.QuotaValidityTime()
+vUint32, err := qvTime.ValueAsUint32()
+```
+
 For IEs with more complex payloads, such as F-TEID, calling the `<IE-name>` method returns a `<IE-name>Fields` struct containing the values in its fields.
 
 ```go
@@ -444,7 +453,7 @@ teid := fteidFields.TEID      // TEID as uint32
 v4 := fteidFields.IPv4Address // IPv4 address as net.IP
 ```
 
-For grouped IEs, calling `<IE-name>` method returns a list of IEs contained in the grouped IE.
+For grouped IEs, accesing the `ChildIEs` field is the best way to retrieve the list of IEs contained. If you are not sure that the IE is already parsed, you can use `ValueAsGrouped()` method instead, which parses the payload into `[]*IE` and returns it if the `ChildIEs` field is empty.
 
 ```go
 cpdrIE := ie.NewCreatePDR(
@@ -452,27 +461,41 @@ cpdrIE := ie.NewCreatePDR(
 	// ...
 )
 
-cpdrChildren, err := cpdrIE.CreatePDR() // `[]*IE` containing IEs in CreatePDR IE
+// most efficient way
+cpdrChildren := cpdrIE.ChildIEs
+// or use this if you are not sure that the IE is already parsed
+cpdrChildren, err := cpdrIE.ValueAsGrouped()
 ```
 
-For convenience, helper methods of the child IEs can be called directly on the grouped IE.
+_NOTE: if you have called `ie.Parse`, the child IEs are already parsed._
+
+_To determine if an IE is grouped or not, this package uses the `defaultGroupedIEMap` in `ie_grouped.go`, which contains the list of grouped IEs. You can add your own IE type to this map using `ie.AddGroupedIEType()` function, or you can change the entire logic to determine if an IE is grouped or not by setting your own function to `ie.SetIsGroupedFun` function._
+
+`<IE-name>` method is also available for consistency with non-grouped IEs, but it is not recommended to use it as it always parses the payload into `[]*IE` and returns it though the `ChildIEs` field is already populated. In the rare case that the payload can be modified after the IE is created or parsed, this method could be useful.
+
+```go
+cpdrChildren, err := cpdrIE.CreatePDR()
+```
+
+For convenience, helper methods of the child IEs can be called directly on the grouped IE, or you can call `FindByType()` method to get the child IE of the specified type.
 
 ```go
 pdrID, err := cpdrIE.PDRID()
+
+// or
+pdrID, err := cpdrIE.FindByType(ie.PDRID)
 ```
 
-This is useful when you only need a small number of IEs within a grouped IE. Since it calls `CreatePDR()` internally, retrieving everything using the child IE's method is very inefficient. When you need to check the value of many IEs, it is recommended to use the former method and iterate over the list of IEs in your own code.
+This is useful when you only need a small number of IEs within a grouped IE. Since it iterates over all child IEs internally, retrieving everything using these method is very inefficient. When you need to retrieve the value of multiple IEs, it is recommended to iterate over the list of child IEs in your own code.
 
 ```go
-cpdrChildren, err := cpdr.CreatePDR()
-
 var (
 	pdrID uint16
 	farID uint32
 	// ...
 )
 
-for _, i := range cpdrChildren {
+for _, i := range cpdrIE.ChildIEs {
 	switch i.Type {
 	case ie.PDRID:
 		v, err = i.PDRID()

@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // Priority definitions.
 const (
 	PriorityActive    uint8 = 0
@@ -22,13 +20,9 @@ func NewPriority(priority uint8) *IE {
 
 // Priority returns Priority in uint8 if the type of IE matches.
 func (i *IE) Priority() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case Priority:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreateMAR:
 		ies, err := i.CreateMAR()
 		if err != nil {

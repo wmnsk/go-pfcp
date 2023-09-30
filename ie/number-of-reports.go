@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-)
-
 // NewNumberOfReports creates a new NumberOfReports IE.
 func NewNumberOfReports(num uint16) *IE {
 	return newUint16ValIE(NumberOfReports, num)
@@ -15,13 +11,9 @@ func NewNumberOfReports(num uint16) *IE {
 
 // NumberOfReports returns NumberOfReports in uint16 if the type of IE matches.
 func (i *IE) NumberOfReports() (uint16, error) {
-	if len(i.Payload) < 2 {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-
 	switch i.Type {
 	case NumberOfReports:
-		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+		return i.ValueAsUint16()
 	case CreateURR:
 		ies, err := i.CreateURR()
 		if err != nil {

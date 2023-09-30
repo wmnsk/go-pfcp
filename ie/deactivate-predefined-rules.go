@@ -13,7 +13,7 @@ func NewDeactivatePredefinedRules(name string) *IE {
 func (i *IE) DeactivatePredefinedRules() (string, error) {
 	switch i.Type {
 	case DeactivatePredefinedRules:
-		return string(i.Payload), nil
+		return i.ValueAsString()
 	case UpdatePDR:
 		ies, err := i.UpdatePDR()
 		if err != nil {

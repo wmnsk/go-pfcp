@@ -13,7 +13,7 @@ func NewDataNetworkAccessIdentifier(id string) *IE {
 func (i *IE) DataNetworkAccessIdentifier() (string, error) {
 	switch i.Type {
 	case DataNetworkAccessIdentifier:
-		return string(i.Payload), nil
+		return i.ValueAsString()
 	case ForwardingParameters:
 		ies, err := i.ForwardingParameters()
 		if err != nil {

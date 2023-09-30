@@ -13,7 +13,7 @@ func NewFramedIPv6Route(name string) *IE {
 func (i *IE) FramedIPv6Route() (string, error) {
 	switch i.Type {
 	case FramedIPv6Route:
-		return string(i.Payload), nil
+		return i.ValueAsString()
 	case CreateTrafficEndpoint:
 		ies, err := i.CreateTrafficEndpoint()
 		if err != nil {

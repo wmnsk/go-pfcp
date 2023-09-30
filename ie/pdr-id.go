@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewPDRID creates a new PDRID IE.
 func NewPDRID(id uint16) *IE {
 	return newUint16ValIE(PDRID, id)
@@ -18,10 +13,7 @@ func NewPDRID(id uint16) *IE {
 func (i *IE) PDRID() (uint16, error) {
 	switch i.Type {
 	case PDRID:
-		if len(i.Payload) < 2 {
-			return 0, io.ErrUnexpectedEOF
-		}
-		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+		return i.ValueAsUint16()
 	case CreatePDR:
 		ies, err := i.CreatePDR()
 		if err != nil {

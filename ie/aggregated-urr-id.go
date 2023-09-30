@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewAggregatedURRID creates a new AggregatedURRID IE.
 func NewAggregatedURRID(id uint32) *IE {
 	return newUint32ValIE(AggregatedURRID, id)
@@ -18,11 +13,7 @@ func NewAggregatedURRID(id uint32) *IE {
 func (i *IE) AggregatedURRID() (uint32, error) {
 	switch i.Type {
 	case AggregatedURRID:
-		if len(i.Payload) < 4 {
-			return 0, io.ErrUnexpectedEOF
-		}
-
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case AggregatedURRs:
 		ies, err := i.AggregatedURRs()
 		if err != nil {
