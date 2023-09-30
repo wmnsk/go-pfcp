@@ -470,6 +470,10 @@ func (i *IE) valueAs3GPPTimestamp() (time.Time, error) {
 }
 
 // Parse parses b into IE.
+//
+// Note that this function uses the given buffer directly, so not safe to use
+// the buffer after calling this function. When you use the buffer somewhere
+// else, use ParseSafe instead.
 func Parse(b []byte) (*IE, error) {
 	i := &IE{}
 	if err := i.UnmarshalBinary(b); err != nil {
@@ -478,9 +482,21 @@ func Parse(b []byte) (*IE, error) {
 	return i, nil
 }
 
+// ParseSafe safely parses b into IE by not using the given buffer directly.
+func ParseSafe(b []byte) (*IE, error) {
+	buf := make([]byte, len(b))
+	copy(buf, b)
+	return Parse(buf)
+}
+
 // ParseMultiIEs decodes multiple IEs at a time.
 // This is easy and useful but slower than decoding one by one.
 // When you don't know the number of IEs, this is the only way to decode them.
+// See benchmarks in diameter_test.go for the detail.
+//
+// Note that this function uses the given buffer directly, so not safe to use
+// the buffer after calling this function. When you use the buffer somewhere
+// else, use ParseMultiIEsSafe instead.
 func ParseMultiIEs(b []byte) ([]*IE, error) {
 	var ies []*IE
 	for {
@@ -496,6 +512,14 @@ func ParseMultiIEs(b []byte) ([]*IE, error) {
 		b = b[i.MarshalLen():]
 	}
 	return ies, nil
+}
+
+// ParseMultiIEsSafe safely decodes multiple IEs at a time by not using the
+// given buffer directly.
+func ParseMultiIEsSafe(b []byte) ([]*IE, error) {
+	buf := make([]byte, len(b))
+	copy(buf, b)
+	return ParseMultiIEs(buf)
 }
 
 // UnmarshalBinary parses b into IE.

@@ -201,6 +201,7 @@ if err != nil {
 }
 
 // decode the message
+// NOTE: when you do this in another goroutine, use ParseSafe() instead
 msg, err := message.Parse(b[:n])
 if err != nil {
 	// handle error
