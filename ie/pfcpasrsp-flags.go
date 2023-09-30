@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewPFCPASRspFlags creates a new PFCPASRspFlags IE.
 func NewPFCPASRspFlags(flag uint8) *IE {
 	return newUint8ValIE(PFCPASRspFlags, flag)
@@ -16,11 +14,8 @@ func (i *IE) PFCPASRspFlags() (uint8, error) {
 	if i.Type != PFCPASRspFlags {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
 
-	return i.Payload[0], nil
+	return i.ValueAsUint8()
 }
 
 // HasPSREI reports whether an IE has PSREI bit.

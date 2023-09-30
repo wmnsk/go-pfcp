@@ -6,7 +6,6 @@ package ie
 
 import (
 	"encoding/binary"
-	"io"
 )
 
 // NewDroppedDLTrafficThreshold creates a new DroppedDLTrafficThreshold IE.
@@ -43,13 +42,9 @@ func NewDroppedDLTrafficThreshold(dlpa, dlby bool, packets, bytes uint64) *IE {
 //
 // TODO: implement!
 func (i *IE) DroppedDLTrafficThreshold() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case DroppedDLTrafficThreshold:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreateURR:
 		ies, err := i.CreateURR()
 		if err != nil {

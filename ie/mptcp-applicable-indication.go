@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewMPTCPApplicableIndication creates a new MPTCPApplicableIndication IE.
 func NewMPTCPApplicableIndication(flag uint8) *IE {
 	return newUint8ValIE(MPTCPApplicableIndication, flag)
@@ -13,13 +11,9 @@ func NewMPTCPApplicableIndication(flag uint8) *IE {
 
 // MPTCPApplicableIndication returns MPTCPApplicableIndication in uint8 if the type of IE matches.
 func (i *IE) MPTCPApplicableIndication() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case MPTCPApplicableIndication:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreatePDR:
 		ies, err := i.CreatePDR()
 		if err != nil {

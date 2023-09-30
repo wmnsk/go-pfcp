@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-)
-
 // NewDLDataPacketsSize creates a new DLDataPacketsSize IE.
 func NewDLDataPacketsSize(size uint16) *IE {
 	return newUint16ValIE(DLDataPacketsSize, size)
@@ -15,13 +11,9 @@ func NewDLDataPacketsSize(size uint16) *IE {
 
 // DLDataPacketsSize returns DLDataPacketsSize in uint16 if the type of IE matches.
 func (i *IE) DLDataPacketsSize() (uint16, error) {
-	if len(i.Payload) < 2 {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-
 	switch i.Type {
 	case DLDataPacketsSize:
-		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+		return i.ValueAsUint16()
 	case DownlinkDataReport:
 		ies, err := i.DownlinkDataReport()
 		if err != nil {

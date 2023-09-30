@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewSequenceNumber creates a new SequenceNumber IE.
 func NewSequenceNumber(seq uint32) *IE {
 	return newUint32ValIE(SequenceNumber, seq)
@@ -16,13 +11,9 @@ func NewSequenceNumber(seq uint32) *IE {
 
 // SequenceNumber returns SequenceNumber in uint32 if the type of IE matches.
 func (i *IE) SequenceNumber() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case SequenceNumber:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case LoadControlInformation:
 		ies, err := i.LoadControlInformation()
 		if err != nil {

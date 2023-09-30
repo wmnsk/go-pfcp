@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewPacketReplicationAndDetectionCarryOnInformation creates a new PacketReplicationAndDetectionCarryOnInformation IE.
 func NewPacketReplicationAndDetectionCarryOnInformation(flag uint8) *IE {
 	return newUint8ValIE(PacketReplicationAndDetectionCarryOnInformation, flag)
@@ -13,13 +11,9 @@ func NewPacketReplicationAndDetectionCarryOnInformation(flag uint8) *IE {
 
 // PacketReplicationAndDetectionCarryOnInformation returns PacketReplicationAndDetectionCarryOnInformation in uint8 if the type of IE matches.
 func (i *IE) PacketReplicationAndDetectionCarryOnInformation() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case PacketReplicationAndDetectionCarryOnInformation:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreatePDR:
 		ies, err := i.CreatePDR()
 		if err != nil {

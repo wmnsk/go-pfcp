@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-)
-
 // NewTransportLevelMarking creates a new TransportLevelMarking IE.
 func NewTransportLevelMarking(tos uint16) *IE {
 	return newUint16ValIE(TransportLevelMarking, tos)
@@ -15,13 +11,9 @@ func NewTransportLevelMarking(tos uint16) *IE {
 
 // TransportLevelMarking returns TransportLevelMarking in uint16 if the type of IE matches.
 func (i *IE) TransportLevelMarking() (uint16, error) {
-	if len(i.Payload) < 2 {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-
 	switch i.Type {
 	case TransportLevelMarking:
-		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+		return i.ValueAsUint16()
 	case ForwardingParameters:
 		ies, err := i.ForwardingParameters()
 		if err != nil {

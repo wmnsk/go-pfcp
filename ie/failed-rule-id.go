@@ -43,11 +43,8 @@ func (i *IE) RuleIDType() (uint8, error) {
 	if i.Type != FailedRuleID {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
 
-	return i.Payload[0], nil
+	return i.ValueAsUint8()
 }
 
 // FailedRuleID returns FailedRuleID in uint32 if the type of IE matches.

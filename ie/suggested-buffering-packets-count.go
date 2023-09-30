@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"io"
-)
-
 // NewSuggestedBufferingPacketsCount creates a new SuggestedBufferingPacketsCount IE.
 func NewSuggestedBufferingPacketsCount(count uint8) *IE {
 	return newUint8ValIE(SuggestedBufferingPacketsCount, count)
@@ -15,13 +11,9 @@ func NewSuggestedBufferingPacketsCount(count uint8) *IE {
 
 // SuggestedBufferingPacketsCount returns SuggestedBufferingPacketsCount in uint8 if the type of IE matches.
 func (i *IE) SuggestedBufferingPacketsCount() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case SuggestedBufferingPacketsCount:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreateBAR:
 		ies, err := i.CreateBAR()
 		if err != nil {

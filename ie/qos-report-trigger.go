@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewQoSReportTrigger creates a new QoSReportTrigger IE.
 func NewQoSReportTrigger(ire, thr, per int) *IE {
 	return newUint8ValIE(QoSReportTrigger, uint8((ire<<2)|(thr<<1)|(per)))
@@ -13,13 +11,9 @@ func NewQoSReportTrigger(ire, thr, per int) *IE {
 
 // QoSReportTrigger returns QoSReportTrigger in uint8 if the type of IE matches.
 func (i *IE) QoSReportTrigger() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case QoSReportTrigger:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case GTPUPathQoSControlInformation:
 		ies, err := i.GTPUPathQoSControlInformation()
 		if err != nil {

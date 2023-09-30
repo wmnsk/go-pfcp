@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // AccessType definitions.
 const (
 	AccessType3GPP    uint8 = 0
@@ -25,13 +23,9 @@ func NewAccessAvailabilityInformation(status, atype uint8) *IE {
 
 // AccessAvailabilityInformation returns AccessAvailabilityInformation in uint8 if the type of IE matches.
 func (i *IE) AccessAvailabilityInformation() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case AccessAvailabilityInformation:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case AccessAvailabilityReport:
 		ies, err := i.AccessAvailabilityReport()
 		if err != nil {

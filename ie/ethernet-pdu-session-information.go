@@ -13,7 +13,7 @@ func NewEthernetPDUSessionInformation(info uint8) *IE {
 func (i *IE) EthernetPDUSessionInformation() (uint8, error) {
 	switch i.Type {
 	case EthernetPDUSessionInformation:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreatePDR:
 		ies, err := i.CreatePDR()
 		if err != nil {

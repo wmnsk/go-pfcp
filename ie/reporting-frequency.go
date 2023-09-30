@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewReportingFrequency creates a new ReportingFrequency IE.
 func NewReportingFrequency(sesrl, perio, evett int) *IE {
 	return newUint8ValIE(ReportingFrequency, uint8((sesrl<<2)|(perio<<1)|(evett)))
@@ -13,13 +11,9 @@ func NewReportingFrequency(sesrl, perio, evett int) *IE {
 
 // ReportingFrequency returns ReportingFrequency in uint8 if the type of IE matches.
 func (i *IE) ReportingFrequency() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case ReportingFrequency:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case QoSMonitoringPerQoSFlowControlInformation:
 		ies, err := i.QoSMonitoringPerQoSFlowControlInformation()
 		if err != nil {

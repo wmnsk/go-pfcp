@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewSubsequentEventQuota creates a new SubsequentEventQuota IE.
 func NewSubsequentEventQuota(quota uint32) *IE {
 	return newUint32ValIE(SubsequentEventQuota, quota)
@@ -16,13 +11,9 @@ func NewSubsequentEventQuota(quota uint32) *IE {
 
 // SubsequentEventQuota returns SubsequentEventQuota in uint32 if the type of IE matches.
 func (i *IE) SubsequentEventQuota() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case SubsequentEventQuota:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case CreateURR:
 		ies, err := i.CreateURR()
 		if err != nil {

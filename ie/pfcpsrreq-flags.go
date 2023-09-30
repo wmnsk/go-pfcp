@@ -15,7 +15,7 @@ func (i *IE) PFCPSRReqFlags() (uint8, error) {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
 
-	return i.Payload[0], nil
+	return i.ValueAsUint8()
 }
 
 // HasPSDBU reports whether an IE has PSDBU bit.

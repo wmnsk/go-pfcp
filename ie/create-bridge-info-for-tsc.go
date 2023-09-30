@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewCreateBridgeInfoForTSC creates a new CreateBridgeInfoForTSC IE.
 func NewCreateBridgeInfoForTSC(bii uint8) *IE {
 	return newUint8ValIE(CreateBridgeInfoForTSC, bii&0x01)
@@ -13,13 +11,9 @@ func NewCreateBridgeInfoForTSC(bii uint8) *IE {
 
 // CreateBridgeInfoForTSC returns CreateBridgeInfoForTSC in uint8 if the type of IE matches.
 func (i *IE) CreateBridgeInfoForTSC() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case CreateBridgeInfoForTSC:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	default:
 		return 0, &InvalidTypeError{Type: i.Type}
 	}

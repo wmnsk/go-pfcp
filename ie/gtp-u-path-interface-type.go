@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewGTPUPathInterfaceType creates a new GTPUPathInterfaceType IE.
 func NewGTPUPathInterfaceType(n3, n9 int) *IE {
 	return newUint8ValIE(GTPUPathInterfaceType, uint8((n3<<1)|n9))
@@ -13,13 +11,9 @@ func NewGTPUPathInterfaceType(n3, n9 int) *IE {
 
 // GTPUPathInterfaceType returns GTPUPathInterfaceType in uint8 if the type of IE matches.
 func (i *IE) GTPUPathInterfaceType() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case GTPUPathInterfaceType:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case GTPUPathQoSControlInformation:
 		ies, err := i.GTPUPathQoSControlInformation()
 		if err != nil {

@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewPMFControlInformation creates a new PMFControlInformation IE.
 func NewPMFControlInformation(pmfi uint8) *IE {
 	return newUint8ValIE(PMFControlInformation, pmfi&0x01)
@@ -13,13 +11,9 @@ func NewPMFControlInformation(pmfi uint8) *IE {
 
 // PMFControlInformation returns PMFControlInformation in uint8 if the type of IE matches.
 func (i *IE) PMFControlInformation() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case PMFControlInformation:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case ProvideATSSSControlInformation:
 		ies, err := i.ProvideATSSSControlInformation()
 		if err != nil {

@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"io"
-)
-
 // NewNodeReportType creates a new NodeReportType IE.
 func NewNodeReportType(flags uint8) *IE {
 	return newUint8ValIE(NodeReportType, flags)
@@ -18,11 +14,8 @@ func (i *IE) NodeReportType() (uint8, error) {
 	if i.Type != NodeReportType {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
 
-	return i.Payload[0], nil
+	return i.ValueAsUint8()
 }
 
 // HasUPFR reports whether an IE has UPFR bit.

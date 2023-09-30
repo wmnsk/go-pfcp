@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"io"
-)
-
 // NewOCIFlags creates a new OCIFlags IE.
 func NewOCIFlags(flags uint8) *IE {
 	return newUint8ValIE(OCIFlags, flags)
@@ -15,13 +11,9 @@ func NewOCIFlags(flags uint8) *IE {
 
 // OCIFlags returns OCIFlags in uint8 if the type of IE matches.
 func (i *IE) OCIFlags() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case OCIFlags:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case OverloadControlInformation:
 		ies, err := i.OverloadControlInformation()
 		if err != nil {

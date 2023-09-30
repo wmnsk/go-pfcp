@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewEthertype creates a new Ethertype IE.
 func NewEthertype(typ uint16) *IE {
 	return newUint16ValIE(Ethertype, typ)
@@ -16,13 +11,9 @@ func NewEthertype(typ uint16) *IE {
 
 // Ethertype returns Ethertype in uint16 if the type of IE matches.
 func (i *IE) Ethertype() (uint16, error) {
-	if len(i.Payload) < 2 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case Ethertype:
-		return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+		return i.ValueAsUint16()
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {

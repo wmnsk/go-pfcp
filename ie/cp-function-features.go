@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"io"
-)
-
 // NewCPFunctionFeatures creates a new CPFunctionFeatures IE.
 func NewCPFunctionFeatures(features uint8) *IE {
 	return newUint8ValIE(CPFunctionFeatures, features)
@@ -18,11 +14,8 @@ func (i *IE) CPFunctionFeatures() (uint8, error) {
 	if i.Type != CPFunctionFeatures {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
 
-	return i.Payload[0], nil
+	return i.ValueAsUint8()
 }
 
 // HasLOAD reports whether an IE has LOAD bit.

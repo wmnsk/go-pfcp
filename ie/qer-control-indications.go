@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewQERControlIndications creates a new QERControlIndications IE.
 func NewQERControlIndications(nord, mode, rcsr int) *IE {
 	return newUint8ValIE(QERControlIndications, uint8((nord<<2)|(mode<<1)|(rcsr)))
@@ -13,13 +11,9 @@ func NewQERControlIndications(nord, mode, rcsr int) *IE {
 
 // QERControlIndications returns QERControlIndications in uint8 if the type of IE matches.
 func (i *IE) QERControlIndications() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case QERControlIndications:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreateQER:
 		ies, err := i.CreateQER()
 		if err != nil {

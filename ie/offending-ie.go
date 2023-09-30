@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewOffendingIE creates a new OffendingIE IE.
 func NewOffendingIE(itype uint16) *IE {
 	return newUint16ValIE(OffendingIE, itype)
@@ -20,9 +15,5 @@ func (i *IE) OffendingIE() (uint16, error) {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
 
-	if len(i.Payload) < 2 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
-	return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+	return i.ValueAsUint16()
 }

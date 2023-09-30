@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewATSSSLLControlInformation creates a new ATSSSLLControlInformation IE.
 func NewATSSSLLControlInformation(lli uint8) *IE {
 	return newUint8ValIE(ATSSSLLControlInformation, lli&0x01)
@@ -13,13 +11,9 @@ func NewATSSSLLControlInformation(lli uint8) *IE {
 
 // ATSSSLLControlInformation returns ATSSSLLControlInformation in uint8 if the type of IE matches.
 func (i *IE) ATSSSLLControlInformation() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case ATSSSLLControlInformation:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case ProvideATSSSControlInformation:
 		ies, err := i.ProvideATSSSControlInformation()
 		if err != nil {

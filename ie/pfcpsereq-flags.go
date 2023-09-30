@@ -15,7 +15,7 @@ func (i *IE) PFCPSEReqFlags() (uint8, error) {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
 
-	return i.Payload[0], nil
+	return i.ValueAsUint8()
 }
 
 // HasRESTI reports whether an IE has RESTI bit.

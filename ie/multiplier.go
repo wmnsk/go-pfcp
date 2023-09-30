@@ -41,13 +41,9 @@ func (i *IE) Multiplier() ([]byte, error) {
 
 // ValueDigits returns ValueDigits in uint64 if the type of IE matches.
 func (i *IE) ValueDigits() (uint64, error) {
-	if len(i.Payload) < 8 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case Multiplier:
-		return binary.BigEndian.Uint64(i.Payload[0:8]), nil
+		return i.ValueAsUint64()
 	case AggregatedURRs:
 		ies, err := i.AggregatedURRs()
 		if err != nil {

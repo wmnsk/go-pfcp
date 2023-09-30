@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewNWTTPortNumber creates a new NWTTPortNumber IE.
 func NewNWTTPortNumber(port uint32) *IE {
 	return newUint32ValIE(NWTTPortNumber, port)
@@ -16,13 +11,9 @@ func NewNWTTPortNumber(port uint32) *IE {
 
 // NWTTPortNumber returns NWTTPortNumber in uint32 if the type of IE matches.
 func (i *IE) NWTTPortNumber() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case NWTTPortNumber:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case CreatedBridgeInfoForTSC:
 		ies, err := i.CreatedBridgeInfoForTSC()
 		if err != nil {

@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewEthernetFilterID creates a new EthernetFilterID IE.
 func NewEthernetFilterID(id uint32) *IE {
 	return newUint32ValIE(EthernetFilterID, id)
@@ -16,13 +11,9 @@ func NewEthernetFilterID(id uint32) *IE {
 
 // EthernetFilterID returns EthernetFilterID in uint32 if the type of IE matches.
 func (i *IE) EthernetFilterID() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case EthernetFilterID:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {

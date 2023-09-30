@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewEthernetFilterProperties creates a new EthernetFilterProperties IE.
 func NewEthernetFilterProperties(props uint8) *IE {
 	return newUint8ValIE(EthernetFilterProperties, props)
@@ -13,13 +11,9 @@ func NewEthernetFilterProperties(props uint8) *IE {
 
 // EthernetFilterProperties returns EthernetFilterProperties in uint8 if the type of IE matches.
 func (i *IE) EthernetFilterProperties() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case EthernetFilterProperties:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {

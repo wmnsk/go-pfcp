@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewDataStatus creates a new DataStatus IE.
 func NewDataStatus(flag uint8) *IE {
 	return newUint8ValIE(DataStatus, flag)
@@ -13,13 +11,9 @@ func NewDataStatus(flag uint8) *IE {
 
 // DataStatus returns DataStatus in uint8 if the type of IE matches.
 func (i *IE) DataStatus() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case DataStatus:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case DownlinkDataReport:
 		ies, err := i.DownlinkDataReport()
 		if err != nil {

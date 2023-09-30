@@ -13,7 +13,7 @@ func NewBridgeManagementInformationContainer(info string) *IE {
 func (i *IE) BridgeManagementInformationContainer() (string, error) {
 	switch i.Type {
 	case BridgeManagementInformationContainer:
-		return string(i.Payload), nil
+		return i.ValueAsString()
 	case TSCManagementInformationWithinSessionModificationRequest,
 		TSCManagementInformationWithinSessionModificationResponse,
 		TSCManagementInformationWithinSessionReportRequest:

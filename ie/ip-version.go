@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewIPVersion creates a new IPVersion IE.
 func NewIPVersion(v4, v6 bool) *IE {
 	i := New(IPVersion, make([]byte, 1))
@@ -20,13 +18,9 @@ func NewIPVersion(v4, v6 bool) *IE {
 
 // IPVersion returns IPVersion in uint8 if the type of IE matches.
 func (i *IE) IPVersion() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case IPVersion:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case UEIPAddressPoolInformation:
 		ies, err := i.UEIPAddressPoolInformation()
 		if err != nil {

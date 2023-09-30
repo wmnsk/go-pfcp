@@ -4,10 +4,6 @@
 
 package ie
 
-import (
-	"io"
-)
-
 // NewBARID creates a new BARID IE.
 func NewBARID(id uint8) *IE {
 	return newUint8ValIE(BARID, id)
@@ -17,11 +13,7 @@ func NewBARID(id uint8) *IE {
 func (i *IE) BARID() (uint8, error) {
 	switch i.Type {
 	case BARID:
-		if len(i.Payload) < 1 {
-			return 0, io.ErrUnexpectedEOF
-		}
-
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case CreateFAR:
 		ies, err := i.CreateFAR()
 		if err != nil {

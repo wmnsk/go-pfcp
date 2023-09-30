@@ -21,7 +21,7 @@ func NewNetworkInstanceFQDN(fqdn string) *IE {
 func (i *IE) NetworkInstance() (string, error) {
 	switch i.Type {
 	case NetworkInstance:
-		return string(i.Payload), nil
+		return i.ValueAsString()
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {

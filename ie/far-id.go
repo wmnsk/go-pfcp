@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewFARID creates a new FARID IE.
 func NewFARID(id uint32) *IE {
 	return newUint32ValIE(FARID, id)
@@ -16,13 +11,9 @@ func NewFARID(id uint32) *IE {
 
 // FARID returns FARID in uint32 if the type of IE matches.
 func (i *IE) FARID() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case FARID:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case CreatePDR:
 		ies, err := i.CreatePDR()
 		if err != nil {

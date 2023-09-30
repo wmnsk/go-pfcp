@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewProxying creates a new Proxying IE.
 func NewProxying(ins, arp uint8) *IE {
 	return newUint8ValIE(Proxying, (ins<<1)|arp)
@@ -13,13 +11,9 @@ func NewProxying(ins, arp uint8) *IE {
 
 // Proxying returns Proxying in uint8 if the type of IE matches.
 func (i *IE) Proxying() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case Proxying:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case ForwardingParameters:
 		ies, err := i.ForwardingParameters()
 		if err != nil {

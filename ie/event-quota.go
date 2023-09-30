@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewEventQuota creates a new EventQuota IE.
 func NewEventQuota(quota uint32) *IE {
 	return newUint32ValIE(EventQuota, quota)
@@ -16,13 +11,9 @@ func NewEventQuota(quota uint32) *IE {
 
 // EventQuota returns EventQuota in uint32 if the type of IE matches.
 func (i *IE) EventQuota() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case EventQuota:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case CreateURR:
 		ies, err := i.CreateURR()
 		if err != nil {

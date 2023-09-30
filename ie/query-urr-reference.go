@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewQueryURRReference creates a new QueryURRReference IE.
 func NewQueryURRReference(id uint32) *IE {
 	return newUint32ValIE(QueryURRReference, id)
@@ -16,13 +11,9 @@ func NewQueryURRReference(id uint32) *IE {
 
 // QueryURRReference returns QueryURRReference in uint32 if the type of IE matches.
 func (i *IE) QueryURRReference() (uint32, error) {
-	if len(i.Payload) < 4 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case QueryURRReference:
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case UsageReportWithinSessionModificationResponse,
 		UsageReportWithinSessionReportRequest:
 		ies, err := i.UsageReport()

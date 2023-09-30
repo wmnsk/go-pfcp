@@ -7,6 +7,7 @@ package ie
 import (
 	"encoding/binary"
 	"io"
+	"time"
 
 	"github.com/wmnsk/go-pfcp/internal/logger"
 	"github.com/wmnsk/go-pfcp/internal/utils"
@@ -363,6 +364,111 @@ func NewFQDNIE(itype uint16, v string) *IE {
 	return newFQDNIE(itype, v)
 }
 
+// ValueAsUint8 returns the value of IE as uint8.
+func (i *IE) ValueAsUint8() (uint8, error) {
+	if i.IsGrouped() {
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
+	if len(i.Payload) < 1 {
+		return 0, io.ErrUnexpectedEOF
+	}
+
+	return i.Payload[0], nil
+}
+
+// ValueAsUint16 returns the value of IE as uint16.
+func (i *IE) ValueAsUint16() (uint16, error) {
+	if i.IsGrouped() {
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
+	if len(i.Payload) < 2 {
+		return 0, io.ErrUnexpectedEOF
+	}
+
+	return binary.BigEndian.Uint16(i.Payload[0:2]), nil
+}
+
+// ValueAsUint32 returns the value of IE as uint32.
+func (i *IE) ValueAsUint32() (uint32, error) {
+	if i.IsGrouped() {
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
+	if len(i.Payload) < 4 {
+		return 0, io.ErrUnexpectedEOF
+	}
+
+	return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+}
+
+// ValueAsUint64 returns the value of IE as uint64.
+func (i *IE) ValueAsUint64() (uint64, error) {
+	if i.IsGrouped() {
+		return 0, &InvalidTypeError{Type: i.Type}
+	}
+	if len(i.Payload) < 8 {
+		return 0, io.ErrUnexpectedEOF
+	}
+
+	return binary.BigEndian.Uint64(i.Payload[0:8]), nil
+}
+
+// ValueAsString returns the value of IE as string.
+func (i *IE) ValueAsString() (string, error) {
+	if i.IsGrouped() {
+		return "", &InvalidTypeError{Type: i.Type}
+	}
+
+	return string(i.Payload), nil
+}
+
+// ValueAsFQDN returns the value of IE as FQDN.
+func (i *IE) ValueAsFQDN() (string, error) {
+	if i.IsGrouped() {
+		return "", &InvalidTypeError{Type: i.Type}
+	}
+
+	return utils.DecodeFQDN(i.Payload), nil
+}
+
+// ValueAsGrouped returns the value of IE as grouped IE.
+//
+// This method returns the ChildIEs field if it is already parsed.
+// Otherwise, it parses the Payload field and returns the result.
+//
+// It is recommended to access the ChildIEs field directly if you know the payload is
+// already parsed and not modified. If you need to parse the payload anyway, use the
+// `<IE-Name>()` method instead, which disregards the ChildIEs field.
+//
+// For vendor-specific IE, this method tries to parse as grouped IE. If it fails, it
+// returns error.
+func (i *IE) ValueAsGrouped() ([]*IE, error) {
+	if !(i.IsGrouped() || i.IsVendorSpecific()) {
+		return nil, &InvalidTypeError{Type: i.Type}
+	}
+
+	if len(i.ChildIEs) < 1 {
+		return ParseMultiIEs(i.Payload)
+	}
+	return i.ChildIEs, nil
+}
+
+// valueAs3GPPTimestamp returns the value of IE as time.Time, in the format of
+// timestamp IEs defined in 3GPP TS 29.244 as follows:
+//
+// "a UTC time. Octets 5 to 8 shall be encoded in the same format as the first four octets
+// of the 64-bit timestamp format as defined in clause 6 of IETF RFC 5905 [12].
+// NOTE: The encoding is defined as the time in seconds relative to 00:00:00 on 1 January 1900."
+func (i *IE) valueAs3GPPTimestamp() (time.Time, error) {
+	if i.IsGrouped() {
+		return time.Time{}, &InvalidTypeError{Type: i.Type}
+	}
+	if len(i.Payload) < 4 {
+		return time.Time{}, io.ErrUnexpectedEOF
+	}
+
+	return time.Unix(int64(binary.BigEndian.Uint32(i.Payload[0:4])-2208988800), 0), nil
+}
+
 // Parse parses b into IE.
 //
 // Note that this function uses the given buffer directly, so not safe to use
@@ -535,168 +641,6 @@ func (i *IE) IsVendorSpecific() bool {
 	// and the EnterpriseID is absent. If Bit 8 of Octet 1 is set, this indicates that the
 	// IE is defined by a vendor and the Enterprise ID is present identified by the Enterprise ID.
 	return i.Type&0x8000 != 0
-}
-
-// We're using map to avoid iterating over a list.
-// The value is not actually used.
-// TODO: consider using a slice with utils in slices package introduced in Go 1.21.
-var groupedMap = map[uint16]bool{
-	CreatePDR:                            true,
-	PDI:                                  true,
-	CreateFAR:                            true,
-	ForwardingParameters:                 true,
-	DuplicatingParameters:                true,
-	CreateURR:                            true,
-	CreateQER:                            true,
-	CreatedPDR:                           true,
-	UpdatePDR:                            true,
-	UpdateFAR:                            true,
-	UpdateForwardingParameters:           true,
-	UpdateBARWithinSessionReportResponse: true,
-	UpdateURR:                            true,
-	UpdateQER:                            true,
-	RemovePDR:                            true,
-	RemoveFAR:                            true,
-	RemoveURR:                            true,
-	RemoveQER:                            true,
-	LoadControlInformation:               true,
-	OverloadControlInformation:           true,
-	ApplicationIDsPFDs:                   true,
-	PFDContext:                           true,
-	ApplicationDetectionInformation:      true,
-	QueryURR:                             true,
-	UsageReportWithinSessionModificationResponse: true,
-	UsageReportWithinSessionDeletionResponse:     true,
-	UsageReportWithinSessionReportRequest:        true,
-	DownlinkDataReport:                           true,
-	CreateBAR:                                    true,
-	UpdateBARWithinSessionModificationRequest:    true,
-	RemoveBAR:                                                 true,
-	ErrorIndicationReport:                                     true,
-	UserPlanePathFailureReport:                                true,
-	UpdateDuplicatingParameters:                               true,
-	AggregatedURRs:                                            true,
-	CreateTrafficEndpoint:                                     true,
-	CreatedTrafficEndpoint:                                    true,
-	UpdateTrafficEndpoint:                                     true,
-	RemoveTrafficEndpoint:                                     true,
-	EthernetPacketFilter:                                      true,
-	EthernetTrafficInformation:                                true,
-	AdditionalMonitoringTime:                                  true,
-	CreateMAR:                                                 true,
-	TGPPAccessForwardingActionInformation:                     true,
-	NonTGPPAccessForwardingActionInformation:                  true,
-	RemoveMAR:                                                 true,
-	UpdateMAR:                                                 true,
-	UpdateTGPPAccessForwardingActionInformation:               true,
-	UpdateNonTGPPAccessForwardingActionInformation:            true,
-	PFCPSessionRetentionInformation:                           true,
-	UserPlanePathRecoveryReport:                               true,
-	IPMulticastAddressingInfo:                                 true,
-	JoinIPMulticastInformationWithinUsageReport:               true,
-	LeaveIPMulticastInformationWithinUsageReport:              true,
-	CreatedBridgeInfoForTSC:                                   true,
-	TSCManagementInformationWithinSessionModificationRequest:  true,
-	TSCManagementInformationWithinSessionModificationResponse: true,
-	TSCManagementInformationWithinSessionReportRequest:        true,
-	ClockDriftControlInformation:                              true,
-	ClockDriftReport:                                          true,
-	RemoveSRR:                                                 true,
-	CreateSRR:                                                 true,
-	UpdateSRR:                                                 true,
-	SessionReport:                                             true,
-	AccessAvailabilityControlInformation:                      true,
-	AccessAvailabilityReport:                                  true,
-	ProvideATSSSControlInformation:                            true,
-	ATSSSControlParameters:                                    true,
-	MPTCPParameters:                                           true,
-	ATSSSLLParameters:                                         true,
-	PMFParameters:                                             true,
-	UEIPAddressPoolInformation:                                true,
-	GTPUPathQoSControlInformation:                             true,
-	GTPUPathQoSReport:                                         true,
-	QoSInformationInGTPUPathQoSReport:                         true,
-	QoSMonitoringPerQoSFlowControlInformation:                 true,
-	QoSMonitoringReport:                                       true,
-	PacketRateStatusReport:                                    true,
-	EthernetContextInformation:                                true,
-	RedundantTransmissionParameters:                           true,
-	UpdatedPDR:                                                true,
-	ProvideRDSConfigurationInformation:                        true,
-	QueryPacketRateStatusWithinSessionModificationRequest:     true,
-	PacketRateStatusReportWithinSessionModificationResponse:   true,
-	UEIPAddressUsageInformation:                               true,
-	RedundantTransmissionForwardingParameters:                 true,
-	TransportDelayReporting:                                   true,
-}
-
-// IsGrouped reports whether an IE is grouped type or not.
-func (i *IE) IsGrouped() bool {
-	_, ok := groupedMap[i.Type]
-	return ok
-}
-
-// Add adds variable number of IEs to a IE if the IE is grouped type and update length.
-// Otherwise, this does nothing(no errors).
-func (i *IE) Add(ies ...*IE) {
-	if !i.IsGrouped() {
-		return
-	}
-
-	i.Payload = nil
-	i.ChildIEs = append(i.ChildIEs, ies...)
-	for _, ie := range i.ChildIEs {
-		serialized, err := ie.Marshal()
-		if err != nil {
-			continue
-		}
-		i.Payload = append(i.Payload, serialized...)
-	}
-	i.SetLength()
-}
-
-// Remove removes an IE looked up by type and instance.
-func (i *IE) Remove(typ uint16) {
-	if !i.IsGrouped() {
-		return
-	}
-
-	i.Payload = nil
-	newChildren := make([]*IE, len(i.ChildIEs))
-	idx := 0
-	for _, ie := range i.ChildIEs {
-		if ie.Type == typ {
-			newChildren = newChildren[:len(newChildren)-1]
-			continue
-		}
-		newChildren[idx] = ie
-		idx++
-
-		serialized, err := ie.Marshal()
-		if err != nil {
-			continue
-		}
-		i.Payload = append(i.Payload, serialized...)
-	}
-	i.ChildIEs = newChildren
-	i.SetLength()
-}
-
-// FindByType returns IE looked up by type and instance.
-//
-// The program may be slower when calling this method multiple times
-// because this ranges over a ChildIEs each time it is called.
-func (i *IE) FindByType(typ uint16) (*IE, error) {
-	if !i.IsGrouped() {
-		return nil, ErrInvalidType
-	}
-
-	for _, ie := range i.ChildIEs {
-		if ie.Type == typ {
-			return ie, nil
-		}
-	}
-	return nil, ErrIENotFound
 }
 
 func newUint8ValIE(t uint16, v uint8) *IE {

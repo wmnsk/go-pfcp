@@ -4,11 +4,6 @@
 
 package ie
 
-import (
-	"encoding/binary"
-	"io"
-)
-
 // NewURRID creates a new URRID IE.
 func NewURRID(id uint32) *IE {
 	return newUint32ValIE(URRID, id)
@@ -18,11 +13,7 @@ func NewURRID(id uint32) *IE {
 func (i *IE) URRID() (uint32, error) {
 	switch i.Type {
 	case URRID:
-		if len(i.Payload) < 4 {
-			return 0, io.ErrUnexpectedEOF
-		}
-
-		return binary.BigEndian.Uint32(i.Payload[0:4]), nil
+		return i.ValueAsUint32()
 	case CreatePDR:
 		ies, err := i.CreatePDR()
 		if err != nil {

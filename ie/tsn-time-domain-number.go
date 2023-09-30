@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // NewTSNTimeDomainNumber creates a new TSNTimeDomainNumber IE.
 func NewTSNTimeDomainNumber(num uint8) *IE {
 	return newUint8ValIE(TSNTimeDomainNumber, num)
@@ -13,13 +11,9 @@ func NewTSNTimeDomainNumber(num uint8) *IE {
 
 // TSNTimeDomainNumber returns TSNTimeDomainNumber in uint8 if the type of IE matches.
 func (i *IE) TSNTimeDomainNumber() (uint8, error) {
-	if len(i.Payload) < 1 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	switch i.Type {
 	case TSNTimeDomainNumber:
-		return i.Payload[0], nil
+		return i.ValueAsUint8()
 	case ClockDriftControlInformation:
 		ies, err := i.ClockDriftControlInformation()
 		if err != nil {

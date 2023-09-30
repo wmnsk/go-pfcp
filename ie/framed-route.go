@@ -13,7 +13,7 @@ func NewFramedRoute(name string) *IE {
 func (i *IE) FramedRoute() (string, error) {
 	switch i.Type {
 	case FramedRoute:
-		return string(i.Payload), nil
+		return i.ValueAsString()
 	case CreateTrafficEndpoint:
 		ies, err := i.CreateTrafficEndpoint()
 		if err != nil {
