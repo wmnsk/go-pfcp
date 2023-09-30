@@ -435,7 +435,7 @@ v, err := ni.NetworkInstance()
 
 In the example above, calling the `NetworkInstance()` method returns `"some.instance.example", nil`. However, if `ni` is not of type `ie.NetworkInstance` or the payload is not in right format, it returns `"", SomeError`. It's important to always check the returned error, as the value may be empty _as expected_.
 
-The type of returned values are determined as friendly as possible for the built-in Go types. For example, `QuotaValidityTime()` returns the value as `time.Duration`. In the cases that this is undesirable, such as when you need to pass the raw value to another node, you can use `ValueAsUint32()` method instead, which returns the value as `uint32`. This could also be useful for handling vendor-specific IEs whose value retrieval methods are not available in this package. Available `ValueAs`-methods are `ValueAsUin8()`, `ValueAsUint16()`, `ValueAsUint32()`, `ValueAsUint64()`, `ValueAsString()`, and `ValueAsFQDN()`.
+The type of returned values are determined as friendly as possible for the built-in Go types. For example, `QuotaValidityTime()` returns the value as `time.Duration`. In the cases that this is undesirable, such as when you need to pass the raw value to another node, you can use `ValueAsUint32()` method instead, which returns the value as `uint32`. This could also be useful for handling vendor-specific IEs whose value retrieval methods are not available in this library. Available `ValueAs`-methods are `ValueAsUin8()`, `ValueAsUint16()`, `ValueAsUint32()`, `ValueAsUint64()`, `ValueAsString()`, and `ValueAsFQDN()`.
 
 ```go
 qvTime := ie.NewQuotaValidityTime(10 * time.Second)
@@ -470,7 +470,7 @@ cpdrChildren, err := cpdrIE.ValueAsGrouped()
 
 _NOTE: if you have called `ie.Parse`, the child IEs are already parsed._
 
-_To determine if an IE is grouped or not, this package uses the `defaultGroupedIEMap` in `ie_grouped.go`, which contains the list of grouped IEs. You can add your own IE type to this map using `ie.AddGroupedIEType()` function, or you can change the entire logic to determine if an IE is grouped or not by setting your own function to `ie.SetIsGroupedFun` function._
+_To determine if an IE is grouped or not, this library uses the `defaultGroupedIEMap` in `ie_grouped.go`, which contains the list of grouped IEs. You can add your own IE type to this map using `ie.AddGroupedIEType()` function, or you can change the entire logic to determine if an IE is grouped or not by setting your own function to `ie.SetIsGroupedFun` function._
 
 `<IE-name>` method is also available for consistency with non-grouped IEs, but it is not recommended to use it as it always parses the payload into `[]*IE` and returns it though the `ChildIEs` field is already populated. In the rare case that the payload can be modified after the IE is created or parsed, this method could be useful.
 

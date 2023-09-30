@@ -4,8 +4,6 @@
 
 package ie
 
-import "io"
-
 // Cause definitions.
 const (
 	_                                    uint8 = 0
@@ -37,9 +35,5 @@ func (i *IE) Cause() (uint8, error) {
 	if i.Type != Cause {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
-	if len(i.Payload) == 0 {
-		return 0, io.ErrUnexpectedEOF
-	}
-
 	return i.ValueAsUint8()
 }

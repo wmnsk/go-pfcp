@@ -11,10 +11,6 @@ func NewDLDataPacketsSize(size uint16) *IE {
 
 // DLDataPacketsSize returns DLDataPacketsSize in uint16 if the type of IE matches.
 func (i *IE) DLDataPacketsSize() (uint16, error) {
-	if len(i.Payload) < 2 {
-		return 0, &InvalidTypeError{Type: i.Type}
-	}
-
 	switch i.Type {
 	case DLDataPacketsSize:
 		return i.ValueAsUint16()
