@@ -201,7 +201,8 @@ if err != nil {
 }
 
 // decode the message
-// NOTE: when you do this in another goroutine, use ParseSafe() instead
+// NOTE: when you do this in another goroutine, copy the `b` to another slice
+// as the `b` will be overwritten by the next `ReadFromUDP()` call.
 msg, err := message.Parse(b[:n])
 if err != nil {
 	// handle error
