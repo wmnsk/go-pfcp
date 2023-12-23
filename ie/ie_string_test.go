@@ -180,7 +180,7 @@ func TestStringIEs(t *testing.T) {
 			description: "SMFSetID",
 			structured:  ie.NewSMFSetID("go-pfcp"),
 			decoded:     "go-pfcp",
-			decoderFunc: func(i *ie.IE) (string, error) { return i.SMFSetIDString() },
+			decoderFunc: func(i *ie.IE) (string, error) { return i.SMFSetID() },
 		}, {
 			description: "UEIPAddressPoolIdentity",
 			structured:  ie.NewUEIPAddressPoolIdentity("go-pfcp"),
