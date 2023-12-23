@@ -421,7 +421,7 @@ func (i *IE) ValueAsString() (string, error) {
 	return string(i.Payload), nil
 }
 
-// ValueAsFQDN returns the value of IE as FQDN.
+// ValueAsFQDN returns the value of IE as string, decoded as FQDN.
 func (i *IE) ValueAsFQDN() (string, error) {
 	if i.IsGrouped() {
 		return "", &InvalidTypeError{Type: i.Type}
