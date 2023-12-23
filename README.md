@@ -8,16 +8,16 @@ A comprehensive PFCP implementation in the Go programming language.
 
 ## What is PFCP?
 
-PFCP (Packet Forwarding Control Protocol) is a signaling protocol used in mobile networking infrastruct, such as EPC and 5GC, to implement the CUPS architecture (Control and User Plane Separation, not a printing system). This architecture and the protocol detail is defined in 3GPP TS 29.244.
+PFCP (Packet Forwarding Control Protocol) is a signaling protocol used in mobile core network, such as EPC and 5GC, to implement the CUPS architecture (Control and User Plane Separation, not a printing system). The architecture and the protocol detail is defined in 3GPP TS 29.244.
 
 Are you also searching for a GTP implementation in Go? If so, [go-gtp](https://github.com/wmnsk/go-gtp) is the perfect choice for you! :p
 
 ## Project Status
 
-This project is still WIP.  
-Implementation of all the messages and IEs defined in TS 29.244 V16.7.0 (2021-04) has been done, but the exported APIs may still be updated in the future (we add a new tag in that case).
+This project is EXPERIMENTAL.  
+Implementation of most of the messages and IEs defined in TS 29.244 V16.7.0 (2021-04) has been done, but the exported APIs may still be updated in the future (we add a new tag in that case).
 
-We are now working on implementing networking functionalities (like setting up associations, establish sessions with easy & quick APIs), as well as updating the messages and IE definitions according to the latest specifications.
+This library does not include the networking functionalities such as association setup, message delivery, and session management. We noticed that there are many ways to implement those functionalities depending on the use cases, so we decided to leave them to the users. [louisroyer/go-pfcp-networking](https://github.com/louisroyer/go-pfcp-networking) is a good example of how to implement those functionalities.
 
 ## Getting Started
 
@@ -31,6 +31,9 @@ go-pfcp supports Go Modules. Run `go mod tidy` in your project's directory to co
 
 Small heartbeat client and server examples are available under [examples/heartheat](./examples/heartheat/).
 The client sends a Heartbeat Request, and the server responds to it with a Heartbeat Response.
+
+<details>
+  <summary>Click here to see details</summary>
 
 1. Run the server
 
@@ -73,6 +76,8 @@ go-pfcp/examples/heartbeat/hb-server$ go run main.go
 ```
 
 _The server continues to listen on the same port until it is terminated (by Ctrl-C or something)._
+
+</details>
 
 ## Features
 
@@ -800,7 +805,7 @@ IEs are implemented in conformance with TS 29.244 V16.7.0 (2021-04). The word "s
 
 ## Author(s)
 
-Yoshiyuki Kurauchi ([Website](https://wmnsk.com/))
+[Yoshiyuki Kurauchi](https://wmnsk.com/) and [contributors](https://github.com/wmnsk/go-pfcp/graphs/contributors).
 
 _I'm always open to welcome co-authors! Please feel free to talk to me._
 
