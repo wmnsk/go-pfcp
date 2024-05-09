@@ -1,4 +1,4 @@
-// Copyright 2019-2023 go-pfcp authors. All rights reserved.
+// Copyright 2019-2024 go-pfcp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -8,7 +8,7 @@ package testutil
 import (
 	"testing"
 
-	"github.com/pascaldekloe/goe/verify"
+	"github.com/google/go-cmp/cmp"
 	"github.com/wmnsk/go-pfcp/message"
 )
 
@@ -46,7 +46,7 @@ func Run(t *testing.T, cases []TestCase, decode ParseFunc) {
 					t.Fatal(err)
 				}
 
-				if got, want := v, c.Structured; !verify.Values(t, "", got, want) {
+				if got, want := v, c.Structured; !cmp.Equal(got, want) {
 					t.Fail()
 				}
 			})
@@ -57,7 +57,7 @@ func Run(t *testing.T, cases []TestCase, decode ParseFunc) {
 					t.Fatal(err)
 				}
 
-				if got, want := b, c.Serialized; !verify.Values(t, "", got, want) {
+				if got, want := b, c.Serialized; !cmp.Equal(got, want) {
 					t.Fail()
 				}
 			})
