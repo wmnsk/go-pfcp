@@ -21,7 +21,6 @@ linters:
     - nakedret
     - prealloc
     - rowserrcheck
-    - staticcheck
     - unconvert
     - unparam
     - unused
@@ -29,11 +28,6 @@ linters:
     gosec:
       excludes:
         - G115
-    staticcheck:
-      excludes:
-        - QF1001
-        - QF1006
-        - QF1008
   exclusions:
     generated: lax
     presets:
