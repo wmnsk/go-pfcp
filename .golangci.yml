@@ -25,6 +25,10 @@ linters:
     - unconvert
     - unparam
     - unused
+  settings:
+    gosec:
+      excludes:
+        - G115
   exclusions:
     generated: lax
     presets:
