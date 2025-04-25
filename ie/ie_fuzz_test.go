@@ -25,7 +25,7 @@ func FuzzParseMultiIEs(f *testing.F) {
 
 func FuzzValueAs(f *testing.F) {
 	f.Fuzz(func(t *testing.T, b []byte) {
-		for typ := uint16(0); typ <= 65535; typ++ {
+		for typ := uint16(0); ; typ++ {
 			i := ie.New(typ, b)
 			if _, err := i.ValueAsUint8(); err != nil {
 				t.Skip()
