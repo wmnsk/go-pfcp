@@ -302,3 +302,8 @@ func (m *SessionEstablishmentResponse) MessageTypeName() string {
 func (m *SessionEstablishmentResponse) SEID() uint64 {
 	return m.Header.seid()
 }
+
+// IsRequest returns true if the message is a request.
+func (m *SessionEstablishmentResponse) IsRequest() bool {
+	return false
+}

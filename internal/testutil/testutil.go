@@ -98,6 +98,9 @@ func Run(t *testing.T, cases []TestCase, decode ParseFunc) {
 				if got, want := decoded.Sequence(), c.Structured.(message.Message).Sequence(); got != want {
 					t.Fatalf("got %v want %v", got, want)
 				}
+				if got, want := decoded.IsRequest(), c.Structured.(message.Message).IsRequest(); got != want {
+					t.Fatalf("got %v want %v", got, want)
+				}
 			})
 		})
 	}

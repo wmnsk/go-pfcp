@@ -300,3 +300,8 @@ func (m *AssociationSetupResponse) MessageTypeName() string {
 func (m *AssociationSetupResponse) SEID() uint64 {
 	return m.Header.seid()
 }
+
+// IsRequest returns true if the message is a request.
+func (m *AssociationSetupResponse) IsRequest() bool {
+	return false
+}

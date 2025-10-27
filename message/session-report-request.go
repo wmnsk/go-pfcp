@@ -302,3 +302,8 @@ func (m *SessionReportRequest) MessageTypeName() string {
 func (m *SessionReportRequest) SEID() uint64 {
 	return m.Header.seid()
 }
+
+// IsRequest returns true if the message is a request.
+func (m *SessionReportRequest) IsRequest() bool {
+	return true
+}

@@ -143,3 +143,8 @@ func (m *Generic) AddIE(ies ...*ie.IE) {
 	m.IEs = append(m.IEs, ies...)
 	m.SetLength()
 }
+
+// IsRequest returns true if the message is a request.
+func (m *Generic) IsRequest() bool {
+	return false
+}
