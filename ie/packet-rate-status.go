@@ -19,7 +19,7 @@ func NewPacketRateStatus(flags uint8, ul, aul, dl, adl uint16, vtime time.Time) 
 		return nil
 	}
 
-	return New(PacketRateStatus, b)
+	return New(uint16(PacketRateStatus), b)
 }
 
 // PacketRateStatus returns PacketRateStatus in structured format if the type of IE matches.

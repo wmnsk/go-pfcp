@@ -18,7 +18,7 @@ func NewMACAddressesDetected(ctag, stag *IE, macs ...net.HardwareAddr) *IE {
 		return nil
 	}
 
-	return New(MACAddressesDetected, b)
+	return New(uint16(MACAddressesDetected), b)
 }
 
 // MACAddressesDetected returns MACAddressesDetected in structured format if the type of IE matches.

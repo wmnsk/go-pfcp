@@ -18,7 +18,7 @@ func NewOuterHeaderCreation(desc uint16, teid uint32, v4, v6 string, port uint16
 		return nil
 	}
 
-	return New(OuterHeaderCreation, b)
+	return New(uint16(OuterHeaderCreation), b)
 }
 
 // OuterHeaderCreation returns OuterHeaderCreation in *OuterHeaderCreationFields if the type of IE matches.

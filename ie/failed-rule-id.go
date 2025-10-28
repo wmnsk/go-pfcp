@@ -25,16 +25,16 @@ func NewFailedRuleID(typ uint8, id uint32) *IE {
 		b := make([]byte, 3)
 		b[0] = typ
 		binary.BigEndian.PutUint16(b[1:3], uint16(id))
-		return New(FailedRuleID, b)
+		return New(uint16(FailedRuleID), b)
 	case RuleIDTypeFAR, RuleIDTypeQER, RuleIDTypeURR:
 		b := make([]byte, 5)
 		b[0] = typ
 		binary.BigEndian.PutUint32(b[1:5], id)
-		return New(FailedRuleID, b)
+		return New(uint16(FailedRuleID), b)
 	case RuleIDTypeBAR:
-		return New(FailedRuleID, []byte{typ, uint8(id)})
+		return New(uint16(FailedRuleID), []byte{typ, uint8(id)}) // #nosec G115
 	default:
-		return New(FailedRuleID, []byte{typ})
+		return New(uint16(FailedRuleID), []byte{typ})
 	}
 }
 

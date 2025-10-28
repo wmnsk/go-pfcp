@@ -18,7 +18,7 @@ func NewSTAG(flags, pcp, deiFlag uint8, cvid uint16) *IE {
 		return nil
 	}
 
-	return New(STAG, b)
+	return New(uint16(STAG), b)
 }
 
 // STAG returns STAG in structured format if the type of IE matches.

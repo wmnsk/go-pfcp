@@ -18,7 +18,7 @@ func NewRedirectInformation(addrType uint8, addrs ...string) *IE {
 		return nil
 	}
 
-	return New(RedirectInformation, b)
+	return New(uint16(RedirectInformation), b)
 }
 
 // RedirectInformation returns RedirectInformation in structured format if the type of IE matches.

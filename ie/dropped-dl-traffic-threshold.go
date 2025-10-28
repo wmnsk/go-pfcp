@@ -14,7 +14,7 @@ import (
 func NewDroppedDLTrafficThreshold(dlpa, dlby bool, packets, bytes uint64) *IE {
 	if dlpa {
 		if dlby { // has both
-			i := New(DroppedDLTrafficThreshold, make([]byte, 17))
+			i := New(uint16(DroppedDLTrafficThreshold), make([]byte, 17))
 			i.Payload[0] = 0x03
 			binary.BigEndian.PutUint64(i.Payload[1:9], packets)
 			binary.BigEndian.PutUint64(i.Payload[9:17], bytes)
@@ -22,20 +22,20 @@ func NewDroppedDLTrafficThreshold(dlpa, dlby bool, packets, bytes uint64) *IE {
 		}
 
 		// has DLPA only
-		i := New(DroppedDLTrafficThreshold, make([]byte, 9))
+		i := New(uint16(DroppedDLTrafficThreshold), make([]byte, 9))
 		i.Payload[0] = 0x01
 		binary.BigEndian.PutUint64(i.Payload[1:9], packets)
 		return i
 	}
 
 	if dlby { // has DLBY only
-		i := New(DroppedDLTrafficThreshold, make([]byte, 9))
+		i := New(uint16(DroppedDLTrafficThreshold), make([]byte, 9))
 		i.Payload[0] = 0x02
 		binary.BigEndian.PutUint64(i.Payload[1:9], bytes)
 		return i
 	}
 
-	return New(DroppedDLTrafficThreshold, []byte{0x00})
+	return New(uint16(DroppedDLTrafficThreshold), []byte{0x00})
 }
 
 // DroppedDLTrafficThreshold returns DroppedDLTrafficThreshold in uint8 if the type of IE matches.

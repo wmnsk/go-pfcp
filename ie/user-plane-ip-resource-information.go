@@ -17,7 +17,7 @@ func NewUserPlaneIPResourceInformation(flags uint8, tRange uint8, v4, v6, ni str
 		return nil
 	}
 
-	return New(UserPlaneIPResourceInformation, b)
+	return New(uint16(UserPlaneIPResourceInformation), b)
 }
 
 // UserPlaneIPResourceInformation returns UserPlaneIPResourceInformation in

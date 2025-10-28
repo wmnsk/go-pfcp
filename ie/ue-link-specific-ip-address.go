@@ -18,7 +18,7 @@ func NewUELinkSpecificIPAddress(v4, v6, nv4, nv6 net.IP) *IE {
 		return nil
 	}
 
-	return New(UELinkSpecificIPAddress, b)
+	return New(uint16(UELinkSpecificIPAddress), b)
 }
 
 // UELinkSpecificIPAddress returns UELinkSpecificIPAddress in structured format if the type of IE matches.

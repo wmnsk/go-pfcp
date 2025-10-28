@@ -9,7 +9,7 @@ import "io"
 // NewUEIPAddressPoolIdentity creates a new UEIPAddressPoolIdentity IE.
 func NewUEIPAddressPoolIdentity(id string) *IE {
 	l := len([]byte(id))
-	i := New(UEIPAddressPoolIdentity, make([]byte, 1+l))
+	i := New(uint16(UEIPAddressPoolIdentity), make([]byte, 1+l))
 
 	i.Payload[0] = uint8(l)
 	copy(i.Payload[1:], id)

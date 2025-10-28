@@ -12,7 +12,7 @@ import (
 
 // NewGBR creates a new GBR IE.
 func NewGBR(ul, dl uint64) *IE {
-	i := New(GBR, make([]byte, 10))
+	i := New(uint16(GBR), make([]byte, 10))
 	copy(i.Payload[0:5], utils.Uint64To40(ul))
 	copy(i.Payload[5:10], utils.Uint64To40(dl))
 	return i

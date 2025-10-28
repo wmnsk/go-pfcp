@@ -24,7 +24,7 @@ func NewMPTCPAddressInformation(ptype uint8, port uint16, v4, v6 net.IP) *IE {
 		return nil
 	}
 
-	return New(MPTCPAddressInformation, b)
+	return New(uint16(MPTCPAddressInformation), b)
 }
 
 // MPTCPAddressInformation returns MPTCPAddressInformation in structured format if the type of IE matches.

@@ -1035,7 +1035,7 @@ func TestIEs(t *testing.T) {
 			[]byte{0x00, 0x27, 0x00, 0x01, 0x0f},
 		}, {
 			"OffendingIE",
-			ie.NewOffendingIE(ie.Cause),
+			ie.NewOffendingIE(uint16(ie.Cause)),
 			[]byte{0x00, 0x28, 0x00, 0x02, 0x00, 0x13},
 		}, {
 			"ForwardingPolicy",
@@ -3634,7 +3634,7 @@ func TestIEAddRemove(t *testing.T) {
 		t.Error(diff)
 	}
 
-	i.Remove(ie.NodeID)
+	i.Remove(uint16(ie.NodeID))
 
 	removed := ie.NewCreatePDR(
 		ie.NewPDRID(1),

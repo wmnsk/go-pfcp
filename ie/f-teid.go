@@ -20,7 +20,7 @@ func NewFTEID(flags uint8, teid uint32, v4, v6 net.IP, chid uint8) *IE {
 		return nil
 	}
 
-	return New(FTEID, b)
+	return New(uint16(FTEID), b)
 }
 
 // FTEID returns FTEID in structured format if the type of IE matches.

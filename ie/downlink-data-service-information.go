@@ -20,7 +20,7 @@ func NewDownlinkDataServiceInformation(hasPPI, hasQFI bool, ppi, qfi uint8) *IE 
 		payload = append(payload, qfi)
 	}
 
-	return New(DownlinkDataServiceInformation, payload)
+	return New(uint16(DownlinkDataServiceInformation), payload)
 }
 
 // DownlinkDataServiceInformation returns DownlinkDataServiceInformation in []byte if the type of IE matches.

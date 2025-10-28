@@ -18,7 +18,7 @@ func NewIPMulticastAddress(sv4, sv6, ev4, ev6 net.IP) *IE {
 		return nil
 	}
 
-	return New(IPMulticastAddress, b)
+	return New(uint16(IPMulticastAddress), b)
 }
 
 // IPMulticastAddress returns IPMulticastAddress in structured format if the type of IE matches.

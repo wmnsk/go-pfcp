@@ -18,7 +18,7 @@ func NewAlternativeSMFIPAddress(v4, v6 net.IP) *IE {
 		return nil
 	}
 
-	return New(AlternativeSMFIPAddress, b)
+	return New(uint16(AlternativeSMFIPAddress), b)
 }
 
 // AlternativeSMFIPAddress returns AlternativeSMFIPAddress in structured format if the type of IE matches.

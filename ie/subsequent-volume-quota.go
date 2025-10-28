@@ -18,7 +18,7 @@ func NewSubsequentVolumeQuota(flags uint8, tvol, uvol, dvol uint64) *IE {
 		return nil
 	}
 
-	return New(SubsequentVolumeQuota, b)
+	return New(uint16(SubsequentVolumeQuota), b)
 }
 
 // SubsequentVolumeQuota returns SubsequentVolumeQuota in structured format if the type of IE matches.

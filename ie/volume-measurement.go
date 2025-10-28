@@ -18,7 +18,7 @@ func NewVolumeMeasurement(flags uint8, tvol, uvol, dvol, tpkt, upkt, dpkt uint64
 		return nil
 	}
 
-	return New(VolumeMeasurement, b)
+	return New(uint16(VolumeMeasurement), b)
 }
 
 // VolumeMeasurement returns VolumeMeasurement in structured format if the type of IE matches.

@@ -19,7 +19,7 @@ func NewUserID(flags uint8, imsi, imei, msisdn, nai string) *IE {
 		return nil
 	}
 
-	return New(UserID, b)
+	return New(uint16(UserID), b)
 }
 
 // UserID returns UserID in structured format if the type of IE matches.

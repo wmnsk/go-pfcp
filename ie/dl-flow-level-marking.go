@@ -17,7 +17,7 @@ func NewDLFlowLevelMarking(flags uint8, ttc, sci uint16) *IE {
 		return nil
 	}
 
-	return New(DLFlowLevelMarking, b)
+	return New(uint16(DLFlowLevelMarking), b)
 }
 
 // DLFlowLevelMarking returns DLFlowLevelMarking in *DLFlowLevelMarkingFields if the type of IE matches.

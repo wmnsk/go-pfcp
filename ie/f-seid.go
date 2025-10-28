@@ -19,7 +19,7 @@ func NewFSEID(seid uint64, v4, v6 net.IP) *IE {
 		return nil
 	}
 
-	return New(FSEID, b)
+	return New(uint16(FSEID), b)
 }
 
 // FSEID returns FSEID in structured format if the type of IE matches.

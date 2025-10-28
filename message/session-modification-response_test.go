@@ -22,7 +22,7 @@ func TestSessionModificationResponse(t *testing.T) {
 			Structured: message.NewSessionModificationResponse(
 				mp, fo, seid, seq, pri,
 				ie.NewCause(ie.CauseRequestAccepted),
-				ie.NewOffendingIE(ie.Cause),
+				ie.NewOffendingIE(uint16(ie.Cause)),
 				ie.NewCreatedPDR(
 					ie.NewPDRID(0xffff),
 					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),
@@ -194,7 +194,7 @@ func TestSessionModificationResponse(t *testing.T) {
 			Structured: message.NewSessionModificationResponse(
 				mp, fo, seid, seq, pri,
 				ie.NewCause(ie.CauseRequestAccepted),
-				ie.NewOffendingIE(ie.Cause),
+				ie.NewOffendingIE(uint16(ie.Cause)),
 				ie.NewCreatedPDR(
 					ie.NewPDRID(0xffff),
 					ie.NewFTEID(0x01, 0x11111111, net.ParseIP("127.0.0.1"), nil, 0),

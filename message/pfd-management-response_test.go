@@ -20,7 +20,7 @@ func TestPFDManagementResponse(t *testing.T) {
 			Structured: message.NewPFDManagementResponse(
 				seq,
 				ie.NewCause(ie.CauseRequestAccepted),
-				ie.NewOffendingIE(ie.Cause),
+				ie.NewOffendingIE(uint16(ie.Cause)),
 			),
 			Serialized: []byte{
 				0x20, 0x04, 0x00, 0x0f, 0x11, 0x22, 0x33, 0x00,

@@ -17,7 +17,7 @@ func NewSDFFilter(fd, ttc, spi, fl string, fid uint32) *IE {
 		return nil
 	}
 
-	return New(SDFFilter, b)
+	return New(uint16(SDFFilter), b)
 }
 
 // SDFFilter returns SDFFilter in structured format if the type of IE matches.

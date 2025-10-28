@@ -18,7 +18,7 @@ func NewSourceIPAddress(v4, v6 net.IP, mpl uint8) *IE {
 		return nil
 	}
 
-	return New(SourceIPAddress, b)
+	return New(uint16(SourceIPAddress), b)
 }
 
 // SourceIPAddress returns SourceIPAddress in structured format if the type of IE matches.

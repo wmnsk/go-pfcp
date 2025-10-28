@@ -8,10 +8,10 @@ import (
 	"testing"
 )
 
-func TestTypeName(t *testing.T) {
+func TestIETypeString(t *testing.T) {
 	cases := []struct {
 		typeName string
-		ieType   uint16
+		ieType   IEType
 	}{
 		{typeName: "CreatePDR", ieType: CreatePDR},
 		{typeName: "PDI", ieType: PDI},
@@ -284,15 +284,14 @@ func TestTypeName(t *testing.T) {
 		{typeName: "ValidityTimer", ieType: ValidityTimer},
 		{typeName: "RedundantTransmissionForwardingParameters", ieType: RedundantTransmissionForwardingParameters},
 		{typeName: "TransportDelayReporting", ieType: TransportDelayReporting},
-		{typeName: "Unknown", ieType: 9999},
+		{typeName: "IEType(9999)", ieType: 9999},
 	}
 
 	for _, c := range cases {
 		t.Run(c.typeName, func(t *testing.T) {
-			ie := &IE{Type: c.ieType}
-			result := ie.TypeName()
+			result := c.ieType.String()
 			if result != c.typeName {
-				t.Errorf("TypeName() for %s, but got %s", c.typeName, result)
+				t.Errorf("IEType.String() for %s, but got %s", c.typeName, result)
 			}
 		})
 	}

@@ -18,7 +18,7 @@ func NewCPPFCPEntityIPAddress(v4, v6 net.IP) *IE {
 		return nil
 	}
 
-	return New(CPPFCPEntityIPAddress, b)
+	return New(uint16(CPPFCPEntityIPAddress), b)
 }
 
 // CPPFCPEntityIPAddress returns CPPFCPEntityIPAddress in structured format if the type of IE matches.

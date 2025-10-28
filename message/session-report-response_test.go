@@ -22,7 +22,7 @@ func TestSessionReportResponse(t *testing.T) {
 			Structured: message.NewSessionReportResponse(
 				mp, fo, seid, seq, pri,
 				ie.NewCause(ie.CauseRequestAccepted),
-				ie.NewOffendingIE(ie.Cause),
+				ie.NewOffendingIE(uint16(ie.Cause)),
 				ie.NewUpdateBARWithinSessionReportResponse(
 					ie.NewBARID(0xff),
 					ie.NewDownlinkDataNotificationDelay(100*time.Millisecond),

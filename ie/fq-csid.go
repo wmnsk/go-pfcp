@@ -40,7 +40,7 @@ func NewFQCSID(nodeAddr string, csIDs ...uint16) *IE {
 		ntype = nodeIDIPv6
 	}
 
-	i := New(FQCSID, make([]byte, 1+len(nid)+len(csIDs)*2))
+	i := New(uint16(FQCSID), make([]byte, 1+len(nid)+len(csIDs)*2))
 	i.Payload[0] = ((ntype << 4) & 0xf0) | uint8(len(csIDs)&0x0f)
 
 	offset := len(nid) + 1

@@ -18,7 +18,7 @@ func NewVolumeQuota(flags uint8, tvol, uvol, dvol uint64) *IE {
 		return nil
 	}
 
-	return New(VolumeQuota, b)
+	return New(uint16(VolumeQuota), b)
 }
 
 // VolumeQuota returns VolumeQuota in structured format if the type of IE matches.

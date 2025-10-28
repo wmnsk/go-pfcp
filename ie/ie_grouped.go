@@ -7,7 +7,7 @@ import "sync"
 // TODO: consider using a slice with utils in slices package introduced in Go 1.21.
 var (
 	mu                  sync.RWMutex
-	defaultGroupedIEMap = map[uint16]bool{
+	defaultGroupedIEMap = map[IEType]bool{
 		CreatePDR:                            true,
 		PDI:                                  true,
 		CreateFAR:                            true,
@@ -99,7 +99,7 @@ var (
 	isGroupedFun = func(t uint16) bool {
 		mu.RLock()
 		defer mu.RUnlock()
-		_, ok := defaultGroupedIEMap[t]
+		_, ok := defaultGroupedIEMap[IEType(t)]
 		return ok
 	}
 )
@@ -118,7 +118,7 @@ func AddGroupedIEType(ts ...uint16) {
 	mu.Lock()
 	defer mu.Unlock()
 	for _, t := range ts {
-		defaultGroupedIEMap[t] = true
+		defaultGroupedIEMap[IEType(t)] = true
 	}
 }
 
@@ -129,7 +129,7 @@ func AddGroupedIEType(ts ...uint16) {
 // You can change this entire behavior by calling SetIsGroupedFun(), or you can add
 // new IE types to the defaultGroupedIEMap by calling AddGroupedIEType().
 func (i *IE) IsGrouped() bool {
-	return isGroupedFun(i.Type)
+	return isGroupedFun(uint16(i.Type))
 }
 
 // Add adds variable number of IEs to a IE if the IE is grouped type and update length.
@@ -161,7 +161,7 @@ func (i *IE) Remove(typ uint16) {
 	newChildren := make([]*IE, len(i.ChildIEs))
 	idx := 0
 	for _, ie := range i.ChildIEs {
-		if ie.Type == typ {
+		if ie.Type == IEType(typ) {
 			newChildren = newChildren[:len(newChildren)-1]
 			continue
 		}
@@ -188,7 +188,7 @@ func (i *IE) FindByType(typ uint16) (*IE, error) {
 	}
 
 	for _, ie := range i.ChildIEs {
-		if ie.Type == typ {
+		if ie.Type == IEType(typ) {
 			return ie, nil
 		}
 	}
