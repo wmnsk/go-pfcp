@@ -11,7 +11,7 @@ import (
 
 // NewMultiplier creates a new Multiplier IE.
 func NewMultiplier(val uint64, exp uint32) *IE {
-	i := New(uint16(Multiplier), make([]byte, 12))
+	i := New(Multiplier, make([]byte, 12))
 	binary.BigEndian.PutUint64(i.Payload[0:8], val)
 	binary.BigEndian.PutUint32(i.Payload[8:12], exp)
 

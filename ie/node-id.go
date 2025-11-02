@@ -43,7 +43,7 @@ func NewNodeID(ipv4, ipv6, fqdn string) *IE {
 		return nil
 	}
 
-	return New(uint16(NodeID), p)
+	return New(NodeID, p)
 }
 
 // NewNodeIDHeuristic creates a new NodeID IE.
@@ -70,7 +70,7 @@ func NewNodeIDHeuristic(nodeID string) *IE {
 		copy(p[1:], utils.EncodeFQDN(nodeID))
 	}
 
-	return New(uint16(NodeID), p)
+	return New(NodeID, p)
 }
 
 // NodeID returns NodeID in string if the type of IE matches.

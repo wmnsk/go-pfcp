@@ -18,7 +18,7 @@ func NewPacketDelayThresholds(flags uint8, dl, ul, rp uint32) *IE {
 		return nil
 	}
 
-	return New(uint16(PacketDelayThresholds), b)
+	return New(PacketDelayThresholds, b)
 }
 
 // PacketDelayThresholds returns PacketDelayThresholds in structured format if the type of IE matches.

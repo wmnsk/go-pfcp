@@ -19,7 +19,7 @@ func NewPMFAddressInformation(v4, v6 net.IP, port1, port2 uint16, mac1, mac2 net
 		return nil
 	}
 
-	return New(uint16(PMFAddressInformation), b)
+	return New(PMFAddressInformation, b)
 }
 
 // PMFAddressInformation returns PMFAddressInformation in structured format if the type of IE matches.

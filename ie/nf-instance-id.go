@@ -10,7 +10,7 @@ import (
 
 // NewNFInstanceID creates a new NFInstanceID IE.
 func NewNFInstanceID(id []byte) *IE {
-	return New(uint16(NFInstanceID), id[:16])
+	return New(NFInstanceID, id[:16])
 }
 
 // NFInstanceID returns NFInstanceID in []byte if the type of IE matches.

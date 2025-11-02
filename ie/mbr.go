@@ -12,7 +12,7 @@ import (
 
 // NewMBR creates a new MBR IE.
 func NewMBR(ul, dl uint64) *IE {
-	i := New(uint16(MBR), make([]byte, 10))
+	i := New(MBR, make([]byte, 10))
 	copy(i.Payload[0:5], utils.Uint64To40(ul))
 	copy(i.Payload[5:10], utils.Uint64To40(dl))
 	return i

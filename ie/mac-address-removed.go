@@ -18,7 +18,7 @@ func NewMACAddressesRemoved(ctag, stag *IE, macs ...net.HardwareAddr) *IE {
 		return nil
 	}
 
-	return New(uint16(MACAddressesRemoved), b)
+	return New(MACAddressesRemoved, b)
 }
 
 // MACAddressesRemoved returns MACAddressesRemoved in structured format if the type of IE matches.

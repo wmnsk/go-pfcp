@@ -15,7 +15,7 @@ func NewUPFunctionFeatures(features ...uint8) *IE {
 		l = 2
 	}
 
-	ie := New(uint16(UPFunctionFeatures), make([]byte, l))
+	ie := New(UPFunctionFeatures, make([]byte, l))
 	for i, feature := range features {
 		if i > 3 {
 			break

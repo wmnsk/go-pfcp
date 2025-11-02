@@ -26,7 +26,7 @@ func NewPacketRate(flags uint8, ulunit uint8, ulpackets uint16, dlunit uint8, dl
 		return nil
 	}
 
-	return New(uint16(PacketRate), b)
+	return New(PacketRate, b)
 }
 
 // PacketRate returns PacketRate in *PacketRateFields if the type of IE matches.

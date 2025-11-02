@@ -18,7 +18,7 @@ func NewVolumeThreshold(flags uint8, tvol, uvol, dvol uint64) *IE {
 		return nil
 	}
 
-	return New(uint16(VolumeThreshold), b)
+	return New(VolumeThreshold, b)
 }
 
 // VolumeThreshold returns VolumeThreshold in structured format if the type of IE matches.

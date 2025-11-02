@@ -8,7 +8,7 @@ import "io"
 
 // NewCPFunctionFeatures creates a new CPFunctionFeatures IE.
 func NewCPFunctionFeatures(features ...uint8) *IE {
-	return New(uint16(CPFunctionFeatures), features)
+	return New(CPFunctionFeatures, features)
 }
 
 // CPFunctionFeatures returns CPFunctionFeatures in []byte if the type of IE matches.

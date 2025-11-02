@@ -5,18 +5,18 @@
 package ie
 
 // NewUpdateBAR creates a new UpdateBAR IE.
-func NewUpdateBAR(typ uint16, ies ...*IE) *IE {
-	return newGroupedIE(IEType(typ), 0, ies...)
+func NewUpdateBAR(typ IEType, ies ...*IE) *IE {
+	return newGroupedIE(typ, 0, ies...)
 }
 
 // NewUpdateBARWithinSessionModificationRequest creates a new UpdateBARWithinSessionModificationRequest IE.
 func NewUpdateBARWithinSessionModificationRequest(ies ...*IE) *IE {
-	return NewUpdateBAR(uint16(UpdateBARWithinSessionModificationRequest), ies...)
+	return NewUpdateBAR(UpdateBARWithinSessionModificationRequest, ies...)
 }
 
 // NewUpdateBARWithinSessionReportResponse creates a new UpdateBARWithinSessionReportResponse IE.
 func NewUpdateBARWithinSessionReportResponse(ies ...*IE) *IE {
-	return NewUpdateBAR(uint16(UpdateBARWithinSessionReportResponse), ies...)
+	return NewUpdateBAR(UpdateBARWithinSessionReportResponse, ies...)
 }
 
 // UpdateBAR returns the IEs above UpdateBAR if the type of IE matches.

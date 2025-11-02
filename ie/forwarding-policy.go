@@ -9,7 +9,7 @@ import "io"
 // NewForwardingPolicy creates a new ForwardingPolicy IE.
 func NewForwardingPolicy(id string) *IE {
 	l := len([]byte(id))
-	i := New(uint16(ForwardingPolicy), make([]byte, 1+l))
+	i := New(ForwardingPolicy, make([]byte, 1+l))
 
 	i.Payload[0] = uint8(l)
 	copy(i.Payload[1:], id)

@@ -17,7 +17,7 @@ func NewPFDContents(fd, url, dn, cp, dnp string, afd, aurl, adnp []string) *IE {
 		return nil
 	}
 
-	return New(uint16(PFDContents), b)
+	return New(PFDContents, b)
 }
 
 // PFDContents returns PFDContents in structured format if the type of IE matches.

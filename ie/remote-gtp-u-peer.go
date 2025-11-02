@@ -18,7 +18,7 @@ func NewRemoteGTPUPeer(flags uint8, v4, v6 string, di uint8, ni string) *IE {
 		return nil
 	}
 
-	return New(uint16(RemoteGTPUPeer), b)
+	return New(RemoteGTPUPeer, b)
 }
 
 // RemoteGTPUPeer returns RemoteGTPUPeer in *RemoteGTPUPeerFields if the type of IE matches.

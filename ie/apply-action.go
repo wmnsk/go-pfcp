@@ -8,7 +8,7 @@ import "io"
 
 // NewApplyAction creates a new ApplyAction IE.
 func NewApplyAction(flagsOctets ...uint8) *IE {
-	return New(uint16(ApplyAction), flagsOctets)
+	return New(ApplyAction, flagsOctets)
 }
 
 // ApplyAction returns ApplyAction in []byte if the type of IE matches.

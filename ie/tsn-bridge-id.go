@@ -12,13 +12,13 @@ import (
 // NewTSNBridgeID creates a new TSNBridgeID IE.
 func NewTSNBridgeID(mac net.HardwareAddr) *IE {
 	if mac == nil {
-		return New(uint16(TSNBridgeID), []byte{0x00})
+		return New(TSNBridgeID, []byte{0x00})
 	}
 	l := len(mac) + 1
 	b := make([]byte, l)
 	b[0] = 0x01
 	copy(b[1:l], mac)
-	return New(uint16(TSNBridgeID), b)
+	return New(TSNBridgeID, b)
 }
 
 // HasMAC reports whether an IE has MAC bit.

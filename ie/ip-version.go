@@ -6,7 +6,7 @@ package ie
 
 // NewIPVersion creates a new IPVersion IE.
 func NewIPVersion(v4, v6 bool) *IE {
-	i := New(uint16(IPVersion), make([]byte, 1))
+	i := New(IPVersion, make([]byte, 1))
 	if v4 {
 		i.Payload[0] |= 0x01
 	}

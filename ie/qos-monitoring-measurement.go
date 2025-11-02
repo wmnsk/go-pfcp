@@ -18,7 +18,7 @@ func NewQoSMonitoringMeasurement(flags uint8, dl, ul, rp uint32) *IE {
 		return nil
 	}
 
-	return New(uint16(QoSMonitoringMeasurement), b)
+	return New(QoSMonitoringMeasurement, b)
 }
 
 // QoSMonitoringMeasurement returns QoSMonitoringMeasurement in structured format if the type of IE matches.

@@ -5,23 +5,23 @@
 package ie
 
 // NewUsageReport creates a new UsageReport IE.
-func NewUsageReport(typ uint16, ies ...*IE) *IE {
-	return newGroupedIE(IEType(typ), 0, ies...)
+func NewUsageReport(typ IEType, ies ...*IE) *IE {
+	return newGroupedIE(typ, 0, ies...)
 }
 
 // NewUsageReportWithinSessionModificationResponse creates a new UsageReportWithinSessionModificationResponse IE.
 func NewUsageReportWithinSessionModificationResponse(ies ...*IE) *IE {
-	return NewUsageReport(uint16(UsageReportWithinSessionModificationResponse), ies...)
+	return NewUsageReport(UsageReportWithinSessionModificationResponse, ies...)
 }
 
 // NewUsageReportWithinSessionDeletionResponse creates a new UsageReportWithinSessionDeletionResponse IE.
 func NewUsageReportWithinSessionDeletionResponse(ies ...*IE) *IE {
-	return NewUsageReport(uint16(UsageReportWithinSessionDeletionResponse), ies...)
+	return NewUsageReport(UsageReportWithinSessionDeletionResponse, ies...)
 }
 
 // NewUsageReportWithinSessionReportRequest creates a new UsageReportWithinSessionReportRequest IE.
 func NewUsageReportWithinSessionReportRequest(ies ...*IE) *IE {
-	return NewUsageReport(uint16(UsageReportWithinSessionReportRequest), ies...)
+	return NewUsageReport(UsageReportWithinSessionReportRequest, ies...)
 }
 
 // UsageReport returns the IEs above UsageReport if the type of IE matches.

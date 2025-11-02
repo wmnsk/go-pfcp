@@ -21,7 +21,7 @@ func TestSessionDeletionResponse(t *testing.T) {
 			Structured: message.NewSessionDeletionResponse(
 				mp, fo, seid, seq, pri,
 				ie.NewCause(ie.CauseRequestAccepted),
-				ie.NewOffendingIE(uint16(ie.Cause)),
+				ie.NewOffendingIE(ie.Cause),
 				ie.NewLoadControlInformation(ie.NewSequenceNumber(0xffffffff), ie.NewMetric(0x01)),
 				ie.NewOverloadControlInformation(
 					ie.NewSequenceNumber(0xffffffff),
@@ -99,7 +99,7 @@ func TestSessionDeletionResponse(t *testing.T) {
 			Structured: message.NewSessionDeletionResponse(
 				mp, fo, seid, seq, pri,
 				ie.NewCause(ie.CauseRequestAccepted),
-				ie.NewOffendingIE(uint16(ie.Cause)),
+				ie.NewOffendingIE(ie.Cause),
 				ie.NewLoadControlInformation(ie.NewSequenceNumber(0xffffffff), ie.NewMetric(0x01)),
 				ie.NewOverloadControlInformation(
 					ie.NewSequenceNumber(0xffffffff),

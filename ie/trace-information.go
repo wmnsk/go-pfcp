@@ -20,7 +20,7 @@ func NewTraceInformation(mcc, mnc, id string, events []byte, depth uint8, interf
 		return nil
 	}
 
-	return New(uint16(TraceInformation), b)
+	return New(TraceInformation, b)
 }
 
 // TraceInformation returns TraceInformation in structured format if the type of IE matches.

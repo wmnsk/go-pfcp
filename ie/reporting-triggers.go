@@ -10,7 +10,7 @@ import (
 
 // NewReportingTriggers creates a new ReportingTriggers IE.
 func NewReportingTriggers(triggersOctets ...uint8) *IE {
-	return New(uint16(ReportingTriggers), triggersOctets)
+	return New(ReportingTriggers, triggersOctets)
 }
 
 // ReportingTriggers returns ReportingTriggers in []byte if the type of IE matches.

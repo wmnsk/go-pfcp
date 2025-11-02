@@ -21,7 +21,7 @@ func NewTimeQuotaMechanism(btit uint8, bti time.Duration) *IE {
 	b[0] = btit & 0x03
 	binary.BigEndian.PutUint32(b[1:5], uint32(bti.Seconds()))
 
-	return New(uint16(TimeQuotaMechanism), b)
+	return New(TimeQuotaMechanism, b)
 }
 
 // TimeQuotaMechanism returns TimeQuotaMechanism in []byte if the type of IE matches.

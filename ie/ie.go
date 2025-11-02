@@ -305,7 +305,7 @@ type IE struct {
 }
 
 // New creates a new IE.
-func New(itype uint16, data []byte) *IE {
+func New(itype IEType, data []byte) *IE {
 	i := &IE{
 		Type:    IEType(itype),
 		Payload: data,
@@ -316,7 +316,7 @@ func New(itype uint16, data []byte) *IE {
 }
 
 // NewVendorSpecificIE creates a new vendor-specific IE.
-func NewVendorSpecificIE(itype, eid uint16, data []byte) *IE {
+func NewVendorSpecificIE(itype IEType, eid uint16, data []byte) *IE {
 	i := &IE{
 		Type:         IEType(itype),
 		EnterpriseID: eid,
@@ -328,43 +328,43 @@ func NewVendorSpecificIE(itype, eid uint16, data []byte) *IE {
 }
 
 // NewGroupedIE creates a new grouped IE.
-func NewGroupedIE(itype uint16, ies ...*IE) *IE {
-	return newGroupedIE(IEType(itype), 0, ies...)
+func NewGroupedIE(itype IEType, ies ...*IE) *IE {
+	return newGroupedIE(itype, 0, ies...)
 }
 
 // NewVendorSpecificGroupedIE creates a new grouped IE.
-func NewVendorSpecificGroupedIE(itype, eid uint16, ies ...*IE) *IE {
-	return newGroupedIE(IEType(itype), eid, ies...)
+func NewVendorSpecificGroupedIE(itype IEType, eid uint16, ies ...*IE) *IE {
+	return newGroupedIE(itype, eid, ies...)
 }
 
 // NewUint8ValIE creates a new IE with uint8 value.
-func NewUint8IE(itype uint16, v uint8) *IE {
-	return newUint8ValIE(IEType(itype), v)
+func NewUint8IE(itype IEType, v uint8) *IE {
+	return newUint8ValIE(itype, v)
 }
 
 // NewUint16ValIE creates a new IE with uint16 value.
-func NewUint16IE(itype uint16, v uint16) *IE {
-	return newUint16ValIE(IEType(itype), v)
+func NewUint16IE(itype IEType, v uint16) *IE {
+	return newUint16ValIE(itype, v)
 }
 
 // NewUint32ValIE creates a new IE with uint32 value.
-func NewUint32IE(itype uint16, v uint32) *IE {
-	return newUint32ValIE(IEType(itype), v)
+func NewUint32IE(itype IEType, v uint32) *IE {
+	return newUint32ValIE(itype, v)
 }
 
 // NewUint64ValIE creates a new IE with uint64 value.
-func NewUint64IE(itype uint16, v uint64) *IE {
-	return newUint64ValIE(IEType(itype), v)
+func NewUint64IE(itype IEType, v uint64) *IE {
+	return newUint64ValIE(itype, v)
 }
 
 // NewStringIE creates a new IE with string value.
-func NewStringIE(itype uint16, v string) *IE {
-	return newStringIE(IEType(itype), v)
+func NewStringIE(itype IEType, v string) *IE {
+	return newStringIE(itype, v)
 }
 
 // NewFQDNIE creates a new IE with FQDN value.
-func NewFQDNIE(itype uint16, v string) *IE {
-	return newFQDNIE(IEType(itype), v)
+func NewFQDNIE(itype IEType, v string) *IE {
+	return newFQDNIE(itype, v)
 }
 
 // ValueAsUint8 returns the value of IE as uint8.
@@ -632,37 +632,37 @@ func (i *IE) IsVendorSpecific() bool {
 }
 
 func newUint8ValIE(t IEType, v uint8) *IE {
-	return New(uint16(t), []byte{v})
+	return New(t, []byte{v})
 }
 
 func newUint16ValIE(t IEType, v uint16) *IE {
-	i := New(uint16(t), make([]byte, 2))
+	i := New(t, make([]byte, 2))
 	binary.BigEndian.PutUint16(i.Payload, v)
 	return i
 }
 
 func newUint32ValIE(t IEType, v uint32) *IE {
-	i := New(uint16(t), make([]byte, 4))
+	i := New(t, make([]byte, 4))
 	binary.BigEndian.PutUint32(i.Payload, v)
 	return i
 }
 
 func newUint64ValIE(t IEType, v uint64) *IE {
-	i := New(uint16(t), make([]byte, 8))
+	i := New(t, make([]byte, 8))
 	binary.BigEndian.PutUint64(i.Payload, v)
 	return i
 }
 
 func newStringIE(t IEType, v string) *IE {
-	return New(uint16(t), []byte(v))
+	return New(t, []byte(v))
 }
 
 func newFQDNIE(t IEType, v string) *IE {
-	return New(uint16(t), utils.EncodeFQDN(v))
+	return New(t, utils.EncodeFQDN(v))
 }
 
 func newGroupedIE(itype IEType, eid uint16, ies ...*IE) *IE {
-	i := NewVendorSpecificIE(uint16(itype), eid, make([]byte, 0))
+	i := NewVendorSpecificIE(itype, eid, make([]byte, 0))
 
 	for _, ie := range ies {
 		if ie == nil {

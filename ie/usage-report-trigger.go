@@ -10,7 +10,7 @@ import (
 
 // NewUsageReportTrigger creates a new UsageReportTrigger IE.
 func NewUsageReportTrigger(triggerOctets ...uint8) *IE {
-	return New(uint16(UsageReportTrigger), triggerOctets)
+	return New(UsageReportTrigger, triggerOctets)
 }
 
 // UsageReportTrigger returns UsageReportTrigger in []byte if the type of IE matches.

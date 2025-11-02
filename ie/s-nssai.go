@@ -12,7 +12,7 @@ import (
 
 // NewSNSSAI creates a new SNSSAI IE.
 func NewSNSSAI(sst uint8, sd uint32) *IE {
-	i := New(uint16(SNSSAI), make([]byte, 4))
+	i := New(SNSSAI, make([]byte, 4))
 	i.Payload[0] = sst
 	copy(i.Payload[1:4], utils.Uint32To24(sd))
 	return i

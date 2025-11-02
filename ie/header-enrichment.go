@@ -21,7 +21,7 @@ func NewHeaderEnrichment(typ uint8, name, value string) *IE {
 		return nil
 	}
 
-	return New(uint16(HeaderEnrichment), b)
+	return New(HeaderEnrichment, b)
 }
 
 // HeaderEnrichment returns HeaderEnrichment in *HeaderEnrichmentFields if the type of IE matches.

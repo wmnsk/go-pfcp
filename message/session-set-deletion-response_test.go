@@ -21,7 +21,7 @@ func TestSessionSetDeletionResponse(t *testing.T) {
 				seq,
 				ie.NewNodeID("", "", "go-pfcp.epc.3gppnetwork.org"),
 				ie.NewCause(ie.CauseRequestAccepted),
-				ie.NewOffendingIE(uint16(ie.Cause)),
+				ie.NewOffendingIE(ie.Cause),
 			),
 			Serialized: []byte{
 				0x20, 0x0f, 0x00, 0x30, 0x11, 0x22, 0x33, 0x00,

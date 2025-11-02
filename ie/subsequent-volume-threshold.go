@@ -18,7 +18,7 @@ func NewSubsequentVolumeThreshold(flags uint8, tvol, uvol, dvol uint64) *IE {
 		return nil
 	}
 
-	return New(uint16(SubsequentVolumeThreshold), b)
+	return New(SubsequentVolumeThreshold, b)
 }
 
 // SubsequentVolumeThreshold returns SubsequentVolumeThreshold in structured format if the type of IE matches.

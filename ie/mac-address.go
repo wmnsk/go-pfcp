@@ -18,7 +18,7 @@ func NewMACAddress(src, dst, upperSrc, upperDst net.HardwareAddr) *IE {
 		return nil
 	}
 
-	return New(uint16(MACAddress), b)
+	return New(MACAddress, b)
 }
 
 // MACAddress returns MACAddress in structured format if the type of IE matches.

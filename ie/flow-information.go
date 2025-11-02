@@ -22,7 +22,7 @@ func NewFlowInformation(dir uint8, desc string) *IE {
 	d := []byte(desc)
 	l := len(d)
 
-	i := New(uint16(FlowInformation), make([]byte, 3+l))
+	i := New(FlowInformation, make([]byte, 3+l))
 	i.Payload[0] = dir
 	binary.BigEndian.PutUint16(i.Payload[1:3], uint16(l))
 	copy(i.Payload[3:], d)

@@ -18,7 +18,7 @@ func NewNumberOfUEIPAddresses(flags uint8, v4, v6 uint32) *IE {
 		return nil
 	}
 
-	return New(uint16(NumberOfUEIPAddresses), b)
+	return New(NumberOfUEIPAddresses, b)
 }
 
 // NumberOfUEIPAddresses returns NumberOfUEIPAddresses in structured format if the type of IE matches.

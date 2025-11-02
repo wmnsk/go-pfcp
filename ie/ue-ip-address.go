@@ -17,7 +17,7 @@ func NewUEIPAddress(flags uint8, v4, v6 string, v6d, v6pl uint8) *IE {
 		return nil
 	}
 
-	return New(uint16(UEIPAddress), b)
+	return New(UEIPAddress, b)
 }
 
 // UEIPAddress returns UEIPAddress in *UEIPAddressFields if the type of IE matches.
