@@ -13,288 +13,291 @@ import (
 	"github.com/wmnsk/go-pfcp/internal/utils"
 )
 
+// IE Type.
+type IEType uint16
+
 // IE Type definitions.
 const (
-	_                                                                uint16 = 0
-	CreatePDR                                                        uint16 = 1
-	PDI                                                              uint16 = 2
-	CreateFAR                                                        uint16 = 3
-	ForwardingParameters                                             uint16 = 4
-	DuplicatingParameters                                            uint16 = 5
-	CreateURR                                                        uint16 = 6
-	CreateQER                                                        uint16 = 7
-	CreatedPDR                                                       uint16 = 8
-	UpdatePDR                                                        uint16 = 9
-	UpdateFAR                                                        uint16 = 10
-	UpdateForwardingParameters                                       uint16 = 11
-	UpdateBARWithinSessionReportResponse                             uint16 = 12
-	UpdateURR                                                        uint16 = 13
-	UpdateQER                                                        uint16 = 14
-	RemovePDR                                                        uint16 = 15
-	RemoveFAR                                                        uint16 = 16
-	RemoveURR                                                        uint16 = 17
-	RemoveQER                                                        uint16 = 18
-	Cause                                                            uint16 = 19
-	SourceInterface                                                  uint16 = 20
-	FTEID                                                            uint16 = 21
-	NetworkInstance                                                  uint16 = 22
-	SDFFilter                                                        uint16 = 23
-	ApplicationID                                                    uint16 = 24
-	GateStatus                                                       uint16 = 25
-	MBR                                                              uint16 = 26
-	GBR                                                              uint16 = 27
-	QERCorrelationID                                                 uint16 = 28
-	Precedence                                                       uint16 = 29
-	TransportLevelMarking                                            uint16 = 30
-	VolumeThreshold                                                  uint16 = 31
-	TimeThreshold                                                    uint16 = 32
-	MonitoringTime                                                   uint16 = 33
-	SubsequentVolumeThreshold                                        uint16 = 34
-	SubsequentTimeThreshold                                          uint16 = 35
-	InactivityDetectionTime                                          uint16 = 36
-	ReportingTriggers                                                uint16 = 37
-	RedirectInformation                                              uint16 = 38
-	ReportType                                                       uint16 = 39
-	OffendingIE                                                      uint16 = 40
-	ForwardingPolicy                                                 uint16 = 41
-	DestinationInterface                                             uint16 = 42
-	UPFunctionFeatures                                               uint16 = 43
-	ApplyAction                                                      uint16 = 44
-	DownlinkDataServiceInformation                                   uint16 = 45
-	DownlinkDataNotificationDelay                                    uint16 = 46
-	DLBufferingDuration                                              uint16 = 47
-	DLBufferingSuggestedPacketCount                                  uint16 = 48
-	PFCPSMReqFlags                                                   uint16 = 49
-	PFCPSRRspFlags                                                   uint16 = 50
-	LoadControlInformation                                           uint16 = 51
-	SequenceNumber                                                   uint16 = 52
-	Metric                                                           uint16 = 53
-	OverloadControlInformation                                       uint16 = 54
-	Timer                                                            uint16 = 55
-	PDRID                                                            uint16 = 56
-	FSEID                                                            uint16 = 57
-	ApplicationIDsPFDs                                               uint16 = 58
-	PFDContext                                                       uint16 = 59
-	NodeID                                                           uint16 = 60
-	PFDContents                                                      uint16 = 61
-	MeasurementMethod                                                uint16 = 62
-	UsageReportTrigger                                               uint16 = 63
-	MeasurementPeriod                                                uint16 = 64
-	FQCSID                                                           uint16 = 65
-	VolumeMeasurement                                                uint16 = 66
-	DurationMeasurement                                              uint16 = 67
-	ApplicationDetectionInformation                                  uint16 = 68
-	TimeOfFirstPacket                                                uint16 = 69
-	TimeOfLastPacket                                                 uint16 = 70
-	QuotaHoldingTime                                                 uint16 = 71
-	DroppedDLTrafficThreshold                                        uint16 = 72
-	VolumeQuota                                                      uint16 = 73
-	TimeQuota                                                        uint16 = 74
-	StartTime                                                        uint16 = 75
-	EndTime                                                          uint16 = 76
-	QueryURR                                                         uint16 = 77
-	UsageReportWithinSessionModificationResponse                     uint16 = 78
-	UsageReportWithinSessionDeletionResponse                         uint16 = 79
-	UsageReportWithinSessionReportRequest                            uint16 = 80
-	URRID                                                            uint16 = 81
-	LinkedURRID                                                      uint16 = 82
-	DownlinkDataReport                                               uint16 = 83
-	OuterHeaderCreation                                              uint16 = 84
-	CreateBAR                                                        uint16 = 85
-	UpdateBARWithinSessionModificationRequest                        uint16 = 86
-	RemoveBAR                                                        uint16 = 87
-	BARID                                                            uint16 = 88
-	CPFunctionFeatures                                               uint16 = 89
-	UsageInformation                                                 uint16 = 90
-	ApplicationInstanceID                                            uint16 = 91
-	FlowInformation                                                  uint16 = 92
-	UEIPAddress                                                      uint16 = 93
-	PacketRate                                                       uint16 = 94
-	OuterHeaderRemoval                                               uint16 = 95
-	RecoveryTimeStamp                                                uint16 = 96
-	DLFlowLevelMarking                                               uint16 = 97
-	HeaderEnrichment                                                 uint16 = 98
-	ErrorIndicationReport                                            uint16 = 99
-	MeasurementInformation                                           uint16 = 100
-	NodeReportType                                                   uint16 = 101
-	UserPlanePathFailureReport                                       uint16 = 102
-	RemoteGTPUPeer                                                   uint16 = 103
-	URSEQN                                                           uint16 = 104
-	UpdateDuplicatingParameters                                      uint16 = 105
-	ActivatePredefinedRules                                          uint16 = 106
-	DeactivatePredefinedRules                                        uint16 = 107
-	FARID                                                            uint16 = 108
-	QERID                                                            uint16 = 109
-	OCIFlags                                                         uint16 = 110
-	PFCPAssociationReleaseRequest                                    uint16 = 111
-	GracefulReleasePeriod                                            uint16 = 112
-	PDNType                                                          uint16 = 113
-	FailedRuleID                                                     uint16 = 114
-	TimeQuotaMechanism                                               uint16 = 115
-	UserPlaneIPResourceInformation                                   uint16 = 116
-	UserPlaneInactivityTimer                                         uint16 = 117
-	AggregatedURRs                                                   uint16 = 118
-	Multiplier                                                       uint16 = 119
-	AggregatedURRID                                                  uint16 = 120
-	SubsequentVolumeQuota                                            uint16 = 121
-	SubsequentTimeQuota                                              uint16 = 122
-	RQI                                                              uint16 = 123
-	QFI                                                              uint16 = 124
-	QueryURRReference                                                uint16 = 125
-	AdditionalUsageReportsInformation                                uint16 = 126
-	CreateTrafficEndpoint                                            uint16 = 127
-	CreatedTrafficEndpoint                                           uint16 = 128
-	UpdateTrafficEndpoint                                            uint16 = 129
-	RemoveTrafficEndpoint                                            uint16 = 130
-	TrafficEndpointID                                                uint16 = 131
-	EthernetPacketFilter                                             uint16 = 132
-	MACAddress                                                       uint16 = 133
-	CTAG                                                             uint16 = 134
-	STAG                                                             uint16 = 135
-	Ethertype                                                        uint16 = 136
-	Proxying                                                         uint16 = 137
-	EthernetFilterID                                                 uint16 = 138
-	EthernetFilterProperties                                         uint16 = 139
-	SuggestedBufferingPacketsCount                                   uint16 = 140
-	UserID                                                           uint16 = 141
-	EthernetPDUSessionInformation                                    uint16 = 142
-	EthernetTrafficInformation                                       uint16 = 143
-	MACAddressesDetected                                             uint16 = 144
-	MACAddressesRemoved                                              uint16 = 145
-	EthernetInactivityTimer                                          uint16 = 146
-	AdditionalMonitoringTime                                         uint16 = 147
-	EventQuota                                                       uint16 = 148
-	EventThreshold                                                   uint16 = 149
-	SubsequentEventQuota                                             uint16 = 150
-	SubsequentEventThreshold                                         uint16 = 151
-	TraceInformation                                                 uint16 = 152
-	FramedRoute                                                      uint16 = 153
-	FramedRouting                                                    uint16 = 154
-	FramedIPv6Route                                                  uint16 = 155
-	EventTimeStamp                                                   uint16 = 156
-	AveragingWindow                                                  uint16 = 157
-	PagingPolicyIndicator                                            uint16 = 158
-	APNDNN                                                           uint16 = 159
-	TGPPInterfaceType                                                uint16 = 160
-	PFCPSRReqFlags                                                   uint16 = 161
-	PFCPAUReqFlags                                                   uint16 = 162
-	ActivationTime                                                   uint16 = 163
-	DeactivationTime                                                 uint16 = 164
-	CreateMAR                                                        uint16 = 165
-	TGPPAccessForwardingActionInformation                            uint16 = 166
-	NonTGPPAccessForwardingActionInformation                         uint16 = 167
-	RemoveMAR                                                        uint16 = 168
-	UpdateMAR                                                        uint16 = 169
-	MARID                                                            uint16 = 170
-	SteeringFunctionality                                            uint16 = 171
-	SteeringMode                                                     uint16 = 172
-	Weight                                                           uint16 = 173
-	Priority                                                         uint16 = 174
-	UpdateTGPPAccessForwardingActionInformation                      uint16 = 175
-	UpdateNonTGPPAccessForwardingActionInformation                   uint16 = 176
-	UEIPAddressPoolIdentity                                          uint16 = 177
-	AlternativeSMFIPAddress                                          uint16 = 178
-	PacketReplicationAndDetectionCarryOnInformation                  uint16 = 179
-	SMFSetID                                                         uint16 = 180
-	QuotaValidityTime                                                uint16 = 181
-	NumberOfReports                                                  uint16 = 182
-	PFCPSessionRetentionInformation                                  uint16 = 183
-	PFCPASRspFlags                                                   uint16 = 184
-	CPPFCPEntityIPAddress                                            uint16 = 185
-	PFCPSEReqFlags                                                   uint16 = 186
-	UserPlanePathRecoveryReport                                      uint16 = 187
-	IPMulticastAddressingInfo                                        uint16 = 188
-	JoinIPMulticastInformationWithinUsageReport                      uint16 = 189
-	LeaveIPMulticastInformationWithinUsageReport                     uint16 = 190
-	IPMulticastAddress                                               uint16 = 191
-	SourceIPAddress                                                  uint16 = 192
-	PacketRateStatus                                                 uint16 = 193
-	CreateBridgeInfoForTSC                                           uint16 = 194
-	CreatedBridgeInfoForTSC                                          uint16 = 195
-	DSTTPortNumber                                                   uint16 = 196
-	NWTTPortNumber                                                   uint16 = 197
-	TSNBridgeID                                                      uint16 = 198
-	TSCManagementInformationWithinSessionModificationRequest         uint16 = 199
-	TSCManagementInformationWithinSessionModificationResponse        uint16 = 200
-	TSCManagementInformationWithinSessionReportRequest               uint16 = 201
-	PortManagementInformationForTSCWithinSessionModificationRequest  uint16 = 199 // Deprecated
-	PortManagementInformationForTSCWithinSessionModificationResponse uint16 = 200 // Deprecated
-	PortManagementInformationForTSCWithinSessionReportRequest        uint16 = 201 // Deprecated
-	PortManagementInformationContainer                               uint16 = 202
-	ClockDriftControlInformation                                     uint16 = 203
-	RequestedClockDriftInformation                                   uint16 = 204
-	ClockDriftReport                                                 uint16 = 205
-	TSNTimeDomainNumber                                              uint16 = 206
-	TimeOffsetThreshold                                              uint16 = 207
-	CumulativeRateRatioThreshold                                     uint16 = 208
-	TimeOffsetMeasurement                                            uint16 = 209
-	CumulativeRateRatioMeasurement                                   uint16 = 210
-	RemoveSRR                                                        uint16 = 211
-	CreateSRR                                                        uint16 = 212
-	UpdateSRR                                                        uint16 = 213
-	SessionReport                                                    uint16 = 214
-	SRRID                                                            uint16 = 215
-	AccessAvailabilityControlInformation                             uint16 = 216
-	RequestedAccessAvailabilityInformation                           uint16 = 217
-	AccessAvailabilityReport                                         uint16 = 218
-	AccessAvailabilityInformation                                    uint16 = 219
-	ProvideATSSSControlInformation                                   uint16 = 220
-	ATSSSControlParameters                                           uint16 = 221
-	MPTCPControlInformation                                          uint16 = 222
-	ATSSSLLControlInformation                                        uint16 = 223
-	PMFControlInformation                                            uint16 = 224
-	MPTCPParameters                                                  uint16 = 225
-	ATSSSLLParameters                                                uint16 = 226
-	PMFParameters                                                    uint16 = 227
-	MPTCPAddressInformation                                          uint16 = 228
-	UELinkSpecificIPAddress                                          uint16 = 229
-	PMFAddressInformation                                            uint16 = 230
-	ATSSSLLInformation                                               uint16 = 231
-	DataNetworkAccessIdentifier                                      uint16 = 232
-	UEIPAddressPoolInformation                                       uint16 = 233
-	AveragePacketDelay                                               uint16 = 234
-	MinimumPacketDelay                                               uint16 = 235
-	MaximumPacketDelay                                               uint16 = 236
-	QoSReportTrigger                                                 uint16 = 237
-	GTPUPathQoSControlInformation                                    uint16 = 238
-	GTPUPathQoSReport                                                uint16 = 239
-	QoSInformationInGTPUPathQoSReport                                uint16 = 240
-	GTPUPathInterfaceType                                            uint16 = 241
-	QoSMonitoringPerQoSFlowControlInformation                        uint16 = 242
-	RequestedQoSMonitoring                                           uint16 = 243
-	ReportingFrequency                                               uint16 = 244
-	PacketDelayThresholds                                            uint16 = 245
-	MinimumWaitTime                                                  uint16 = 246
-	QoSMonitoringReport                                              uint16 = 247
-	QoSMonitoringMeasurement                                         uint16 = 248
-	MTEDTControlInformation                                          uint16 = 249
-	DLDataPacketsSize                                                uint16 = 250
-	QERControlIndications                                            uint16 = 251
-	PacketRateStatusReport                                           uint16 = 252
-	NFInstanceID                                                     uint16 = 253
-	EthernetContextInformation                                       uint16 = 254
-	RedundantTransmissionParameters                                  uint16 = 255
-	UpdatedPDR                                                       uint16 = 256
-	SNSSAI                                                           uint16 = 257
-	IPVersion                                                        uint16 = 258
-	PFCPASReqFlags                                                   uint16 = 259
-	DataStatus                                                       uint16 = 260
-	ProvideRDSConfigurationInformation                               uint16 = 261
-	RDSConfigurationInformation                                      uint16 = 262
-	QueryPacketRateStatusWithinSessionModificationRequest            uint16 = 263
-	PacketRateStatusReportWithinSessionModificationResponse          uint16 = 264
-	MPTCPApplicableIndication                                        uint16 = 265
-	BridgeManagementInformationContainer                             uint16 = 266
-	UEIPAddressUsageInformation                                      uint16 = 267
-	NumberOfUEIPAddresses                                            uint16 = 268
-	ValidityTimer                                                    uint16 = 269
-	RedundantTransmissionForwardingParameters                        uint16 = 270
-	TransportDelayReporting                                          uint16 = 271
+	_                                                                IEType = 0
+	CreatePDR                                                        IEType = 1
+	PDI                                                              IEType = 2
+	CreateFAR                                                        IEType = 3
+	ForwardingParameters                                             IEType = 4
+	DuplicatingParameters                                            IEType = 5
+	CreateURR                                                        IEType = 6
+	CreateQER                                                        IEType = 7
+	CreatedPDR                                                       IEType = 8
+	UpdatePDR                                                        IEType = 9
+	UpdateFAR                                                        IEType = 10
+	UpdateForwardingParameters                                       IEType = 11
+	UpdateBARWithinSessionReportResponse                             IEType = 12
+	UpdateURR                                                        IEType = 13
+	UpdateQER                                                        IEType = 14
+	RemovePDR                                                        IEType = 15
+	RemoveFAR                                                        IEType = 16
+	RemoveURR                                                        IEType = 17
+	RemoveQER                                                        IEType = 18
+	Cause                                                            IEType = 19
+	SourceInterface                                                  IEType = 20
+	FTEID                                                            IEType = 21
+	NetworkInstance                                                  IEType = 22
+	SDFFilter                                                        IEType = 23
+	ApplicationID                                                    IEType = 24
+	GateStatus                                                       IEType = 25
+	MBR                                                              IEType = 26
+	GBR                                                              IEType = 27
+	QERCorrelationID                                                 IEType = 28
+	Precedence                                                       IEType = 29
+	TransportLevelMarking                                            IEType = 30
+	VolumeThreshold                                                  IEType = 31
+	TimeThreshold                                                    IEType = 32
+	MonitoringTime                                                   IEType = 33
+	SubsequentVolumeThreshold                                        IEType = 34
+	SubsequentTimeThreshold                                          IEType = 35
+	InactivityDetectionTime                                          IEType = 36
+	ReportingTriggers                                                IEType = 37
+	RedirectInformation                                              IEType = 38
+	ReportType                                                       IEType = 39
+	OffendingIE                                                      IEType = 40
+	ForwardingPolicy                                                 IEType = 41
+	DestinationInterface                                             IEType = 42
+	UPFunctionFeatures                                               IEType = 43
+	ApplyAction                                                      IEType = 44
+	DownlinkDataServiceInformation                                   IEType = 45
+	DownlinkDataNotificationDelay                                    IEType = 46
+	DLBufferingDuration                                              IEType = 47
+	DLBufferingSuggestedPacketCount                                  IEType = 48
+	PFCPSMReqFlags                                                   IEType = 49
+	PFCPSRRspFlags                                                   IEType = 50
+	LoadControlInformation                                           IEType = 51
+	SequenceNumber                                                   IEType = 52
+	Metric                                                           IEType = 53
+	OverloadControlInformation                                       IEType = 54
+	Timer                                                            IEType = 55
+	PDRID                                                            IEType = 56
+	FSEID                                                            IEType = 57
+	ApplicationIDsPFDs                                               IEType = 58
+	PFDContext                                                       IEType = 59
+	NodeID                                                           IEType = 60
+	PFDContents                                                      IEType = 61
+	MeasurementMethod                                                IEType = 62
+	UsageReportTrigger                                               IEType = 63
+	MeasurementPeriod                                                IEType = 64
+	FQCSID                                                           IEType = 65
+	VolumeMeasurement                                                IEType = 66
+	DurationMeasurement                                              IEType = 67
+	ApplicationDetectionInformation                                  IEType = 68
+	TimeOfFirstPacket                                                IEType = 69
+	TimeOfLastPacket                                                 IEType = 70
+	QuotaHoldingTime                                                 IEType = 71
+	DroppedDLTrafficThreshold                                        IEType = 72
+	VolumeQuota                                                      IEType = 73
+	TimeQuota                                                        IEType = 74
+	StartTime                                                        IEType = 75
+	EndTime                                                          IEType = 76
+	QueryURR                                                         IEType = 77
+	UsageReportWithinSessionModificationResponse                     IEType = 78
+	UsageReportWithinSessionDeletionResponse                         IEType = 79
+	UsageReportWithinSessionReportRequest                            IEType = 80
+	URRID                                                            IEType = 81
+	LinkedURRID                                                      IEType = 82
+	DownlinkDataReport                                               IEType = 83
+	OuterHeaderCreation                                              IEType = 84
+	CreateBAR                                                        IEType = 85
+	UpdateBARWithinSessionModificationRequest                        IEType = 86
+	RemoveBAR                                                        IEType = 87
+	BARID                                                            IEType = 88
+	CPFunctionFeatures                                               IEType = 89
+	UsageInformation                                                 IEType = 90
+	ApplicationInstanceID                                            IEType = 91
+	FlowInformation                                                  IEType = 92
+	UEIPAddress                                                      IEType = 93
+	PacketRate                                                       IEType = 94
+	OuterHeaderRemoval                                               IEType = 95
+	RecoveryTimeStamp                                                IEType = 96
+	DLFlowLevelMarking                                               IEType = 97
+	HeaderEnrichment                                                 IEType = 98
+	ErrorIndicationReport                                            IEType = 99
+	MeasurementInformation                                           IEType = 100
+	NodeReportType                                                   IEType = 101
+	UserPlanePathFailureReport                                       IEType = 102
+	RemoteGTPUPeer                                                   IEType = 103
+	URSEQN                                                           IEType = 104
+	UpdateDuplicatingParameters                                      IEType = 105
+	ActivatePredefinedRules                                          IEType = 106
+	DeactivatePredefinedRules                                        IEType = 107
+	FARID                                                            IEType = 108
+	QERID                                                            IEType = 109
+	OCIFlags                                                         IEType = 110
+	PFCPAssociationReleaseRequest                                    IEType = 111
+	GracefulReleasePeriod                                            IEType = 112
+	PDNType                                                          IEType = 113
+	FailedRuleID                                                     IEType = 114
+	TimeQuotaMechanism                                               IEType = 115
+	UserPlaneIPResourceInformation                                   IEType = 116
+	UserPlaneInactivityTimer                                         IEType = 117
+	AggregatedURRs                                                   IEType = 118
+	Multiplier                                                       IEType = 119
+	AggregatedURRID                                                  IEType = 120
+	SubsequentVolumeQuota                                            IEType = 121
+	SubsequentTimeQuota                                              IEType = 122
+	RQI                                                              IEType = 123
+	QFI                                                              IEType = 124
+	QueryURRReference                                                IEType = 125
+	AdditionalUsageReportsInformation                                IEType = 126
+	CreateTrafficEndpoint                                            IEType = 127
+	CreatedTrafficEndpoint                                           IEType = 128
+	UpdateTrafficEndpoint                                            IEType = 129
+	RemoveTrafficEndpoint                                            IEType = 130
+	TrafficEndpointID                                                IEType = 131
+	EthernetPacketFilter                                             IEType = 132
+	MACAddress                                                       IEType = 133
+	CTAG                                                             IEType = 134
+	STAG                                                             IEType = 135
+	Ethertype                                                        IEType = 136
+	Proxying                                                         IEType = 137
+	EthernetFilterID                                                 IEType = 138
+	EthernetFilterProperties                                         IEType = 139
+	SuggestedBufferingPacketsCount                                   IEType = 140
+	UserID                                                           IEType = 141
+	EthernetPDUSessionInformation                                    IEType = 142
+	EthernetTrafficInformation                                       IEType = 143
+	MACAddressesDetected                                             IEType = 144
+	MACAddressesRemoved                                              IEType = 145
+	EthernetInactivityTimer                                          IEType = 146
+	AdditionalMonitoringTime                                         IEType = 147
+	EventQuota                                                       IEType = 148
+	EventThreshold                                                   IEType = 149
+	SubsequentEventQuota                                             IEType = 150
+	SubsequentEventThreshold                                         IEType = 151
+	TraceInformation                                                 IEType = 152
+	FramedRoute                                                      IEType = 153
+	FramedRouting                                                    IEType = 154
+	FramedIPv6Route                                                  IEType = 155
+	EventTimeStamp                                                   IEType = 156
+	AveragingWindow                                                  IEType = 157
+	PagingPolicyIndicator                                            IEType = 158
+	APNDNN                                                           IEType = 159
+	TGPPInterfaceType                                                IEType = 160
+	PFCPSRReqFlags                                                   IEType = 161
+	PFCPAUReqFlags                                                   IEType = 162
+	ActivationTime                                                   IEType = 163
+	DeactivationTime                                                 IEType = 164
+	CreateMAR                                                        IEType = 165
+	TGPPAccessForwardingActionInformation                            IEType = 166
+	NonTGPPAccessForwardingActionInformation                         IEType = 167
+	RemoveMAR                                                        IEType = 168
+	UpdateMAR                                                        IEType = 169
+	MARID                                                            IEType = 170
+	SteeringFunctionality                                            IEType = 171
+	SteeringMode                                                     IEType = 172
+	Weight                                                           IEType = 173
+	Priority                                                         IEType = 174
+	UpdateTGPPAccessForwardingActionInformation                      IEType = 175
+	UpdateNonTGPPAccessForwardingActionInformation                   IEType = 176
+	UEIPAddressPoolIdentity                                          IEType = 177
+	AlternativeSMFIPAddress                                          IEType = 178
+	PacketReplicationAndDetectionCarryOnInformation                  IEType = 179
+	SMFSetID                                                         IEType = 180
+	QuotaValidityTime                                                IEType = 181
+	NumberOfReports                                                  IEType = 182
+	PFCPSessionRetentionInformation                                  IEType = 183
+	PFCPASRspFlags                                                   IEType = 184
+	CPPFCPEntityIPAddress                                            IEType = 185
+	PFCPSEReqFlags                                                   IEType = 186
+	UserPlanePathRecoveryReport                                      IEType = 187
+	IPMulticastAddressingInfo                                        IEType = 188
+	JoinIPMulticastInformationWithinUsageReport                      IEType = 189
+	LeaveIPMulticastInformationWithinUsageReport                     IEType = 190
+	IPMulticastAddress                                               IEType = 191
+	SourceIPAddress                                                  IEType = 192
+	PacketRateStatus                                                 IEType = 193
+	CreateBridgeInfoForTSC                                           IEType = 194
+	CreatedBridgeInfoForTSC                                          IEType = 195
+	DSTTPortNumber                                                   IEType = 196
+	NWTTPortNumber                                                   IEType = 197
+	TSNBridgeID                                                      IEType = 198
+	TSCManagementInformationWithinSessionModificationRequest         IEType = 199
+	TSCManagementInformationWithinSessionModificationResponse        IEType = 200
+	TSCManagementInformationWithinSessionReportRequest               IEType = 201
+	PortManagementInformationForTSCWithinSessionModificationRequest  IEType = 199 // Deprecated
+	PortManagementInformationForTSCWithinSessionModificationResponse IEType = 200 // Deprecated
+	PortManagementInformationForTSCWithinSessionReportRequest        IEType = 201 // Deprecated
+	PortManagementInformationContainer                               IEType = 202
+	ClockDriftControlInformation                                     IEType = 203
+	RequestedClockDriftInformation                                   IEType = 204
+	ClockDriftReport                                                 IEType = 205
+	TSNTimeDomainNumber                                              IEType = 206
+	TimeOffsetThreshold                                              IEType = 207
+	CumulativeRateRatioThreshold                                     IEType = 208
+	TimeOffsetMeasurement                                            IEType = 209
+	CumulativeRateRatioMeasurement                                   IEType = 210
+	RemoveSRR                                                        IEType = 211
+	CreateSRR                                                        IEType = 212
+	UpdateSRR                                                        IEType = 213
+	SessionReport                                                    IEType = 214
+	SRRID                                                            IEType = 215
+	AccessAvailabilityControlInformation                             IEType = 216
+	RequestedAccessAvailabilityInformation                           IEType = 217
+	AccessAvailabilityReport                                         IEType = 218
+	AccessAvailabilityInformation                                    IEType = 219
+	ProvideATSSSControlInformation                                   IEType = 220
+	ATSSSControlParameters                                           IEType = 221
+	MPTCPControlInformation                                          IEType = 222
+	ATSSSLLControlInformation                                        IEType = 223
+	PMFControlInformation                                            IEType = 224
+	MPTCPParameters                                                  IEType = 225
+	ATSSSLLParameters                                                IEType = 226
+	PMFParameters                                                    IEType = 227
+	MPTCPAddressInformation                                          IEType = 228
+	UELinkSpecificIPAddress                                          IEType = 229
+	PMFAddressInformation                                            IEType = 230
+	ATSSSLLInformation                                               IEType = 231
+	DataNetworkAccessIdentifier                                      IEType = 232
+	UEIPAddressPoolInformation                                       IEType = 233
+	AveragePacketDelay                                               IEType = 234
+	MinimumPacketDelay                                               IEType = 235
+	MaximumPacketDelay                                               IEType = 236
+	QoSReportTrigger                                                 IEType = 237
+	GTPUPathQoSControlInformation                                    IEType = 238
+	GTPUPathQoSReport                                                IEType = 239
+	QoSInformationInGTPUPathQoSReport                                IEType = 240
+	GTPUPathInterfaceType                                            IEType = 241
+	QoSMonitoringPerQoSFlowControlInformation                        IEType = 242
+	RequestedQoSMonitoring                                           IEType = 243
+	ReportingFrequency                                               IEType = 244
+	PacketDelayThresholds                                            IEType = 245
+	MinimumWaitTime                                                  IEType = 246
+	QoSMonitoringReport                                              IEType = 247
+	QoSMonitoringMeasurement                                         IEType = 248
+	MTEDTControlInformation                                          IEType = 249
+	DLDataPacketsSize                                                IEType = 250
+	QERControlIndications                                            IEType = 251
+	PacketRateStatusReport                                           IEType = 252
+	NFInstanceID                                                     IEType = 253
+	EthernetContextInformation                                       IEType = 254
+	RedundantTransmissionParameters                                  IEType = 255
+	UpdatedPDR                                                       IEType = 256
+	SNSSAI                                                           IEType = 257
+	IPVersion                                                        IEType = 258
+	PFCPASReqFlags                                                   IEType = 259
+	DataStatus                                                       IEType = 260
+	ProvideRDSConfigurationInformation                               IEType = 261
+	RDSConfigurationInformation                                      IEType = 262
+	QueryPacketRateStatusWithinSessionModificationRequest            IEType = 263
+	PacketRateStatusReportWithinSessionModificationResponse          IEType = 264
+	MPTCPApplicableIndication                                        IEType = 265
+	BridgeManagementInformationContainer                             IEType = 266
+	UEIPAddressUsageInformation                                      IEType = 267
+	NumberOfUEIPAddresses                                            IEType = 268
+	ValidityTimer                                                    IEType = 269
+	RedundantTransmissionForwardingParameters                        IEType = 270
+	TransportDelayReporting                                          IEType = 271
 )
 
 // IE represents an Information Element of PFCP messages.
 type IE struct {
-	Type         uint16
+	Type         IEType
 	Length       uint16
 	EnterpriseID uint16
 	Payload      []byte
@@ -302,7 +305,7 @@ type IE struct {
 }
 
 // New creates a new IE.
-func New(itype uint16, data []byte) *IE {
+func New(itype IEType, data []byte) *IE {
 	i := &IE{
 		Type:    itype,
 		Payload: data,
@@ -313,7 +316,7 @@ func New(itype uint16, data []byte) *IE {
 }
 
 // NewVendorSpecificIE creates a new vendor-specific IE.
-func NewVendorSpecificIE(itype, eid uint16, data []byte) *IE {
+func NewVendorSpecificIE(itype IEType, eid uint16, data []byte) *IE {
 	i := &IE{
 		Type:         itype,
 		EnterpriseID: eid,
@@ -325,42 +328,42 @@ func NewVendorSpecificIE(itype, eid uint16, data []byte) *IE {
 }
 
 // NewGroupedIE creates a new grouped IE.
-func NewGroupedIE(itype uint16, ies ...*IE) *IE {
+func NewGroupedIE(itype IEType, ies ...*IE) *IE {
 	return newGroupedIE(itype, 0, ies...)
 }
 
 // NewVendorSpecificGroupedIE creates a new grouped IE.
-func NewVendorSpecificGroupedIE(itype, eid uint16, ies ...*IE) *IE {
+func NewVendorSpecificGroupedIE(itype IEType, eid uint16, ies ...*IE) *IE {
 	return newGroupedIE(itype, eid, ies...)
 }
 
 // NewUint8ValIE creates a new IE with uint8 value.
-func NewUint8IE(itype uint16, v uint8) *IE {
+func NewUint8IE(itype IEType, v uint8) *IE {
 	return newUint8ValIE(itype, v)
 }
 
 // NewUint16ValIE creates a new IE with uint16 value.
-func NewUint16IE(itype uint16, v uint16) *IE {
+func NewUint16IE(itype IEType, v uint16) *IE {
 	return newUint16ValIE(itype, v)
 }
 
 // NewUint32ValIE creates a new IE with uint32 value.
-func NewUint32IE(itype uint16, v uint32) *IE {
+func NewUint32IE(itype IEType, v uint32) *IE {
 	return newUint32ValIE(itype, v)
 }
 
 // NewUint64ValIE creates a new IE with uint64 value.
-func NewUint64IE(itype uint16, v uint64) *IE {
+func NewUint64IE(itype IEType, v uint64) *IE {
 	return newUint64ValIE(itype, v)
 }
 
 // NewStringIE creates a new IE with string value.
-func NewStringIE(itype uint16, v string) *IE {
+func NewStringIE(itype IEType, v string) *IE {
 	return newStringIE(itype, v)
 }
 
 // NewFQDNIE creates a new IE with FQDN value.
-func NewFQDNIE(itype uint16, v string) *IE {
+func NewFQDNIE(itype IEType, v string) *IE {
 	return newFQDNIE(itype, v)
 }
 
@@ -514,7 +517,7 @@ func (i *IE) UnmarshalBinary(b []byte) error {
 		return io.ErrUnexpectedEOF
 	}
 
-	i.Type = binary.BigEndian.Uint16(b[0:2])
+	i.Type = IEType(binary.BigEndian.Uint16(b[0:2]))
 	i.Length = binary.BigEndian.Uint16(b[2:4])
 
 	offset := 4
@@ -568,7 +571,7 @@ func (i *IE) MarshalTo(b []byte) error {
 		return ErrInvalidLength
 	}
 
-	binary.BigEndian.PutUint16(b[:2], i.Type)
+	binary.BigEndian.PutUint16(b[:2], uint16(i.Type))
 	binary.BigEndian.PutUint16(b[2:4], i.Length)
 
 	offset := 4
@@ -628,37 +631,37 @@ func (i *IE) IsVendorSpecific() bool {
 	return i.Type&0x8000 != 0
 }
 
-func newUint8ValIE(t uint16, v uint8) *IE {
+func newUint8ValIE(t IEType, v uint8) *IE {
 	return New(t, []byte{v})
 }
 
-func newUint16ValIE(t uint16, v uint16) *IE {
+func newUint16ValIE(t IEType, v uint16) *IE {
 	i := New(t, make([]byte, 2))
 	binary.BigEndian.PutUint16(i.Payload, v)
 	return i
 }
 
-func newUint32ValIE(t uint16, v uint32) *IE {
+func newUint32ValIE(t IEType, v uint32) *IE {
 	i := New(t, make([]byte, 4))
 	binary.BigEndian.PutUint32(i.Payload, v)
 	return i
 }
 
-func newUint64ValIE(t uint16, v uint64) *IE {
+func newUint64ValIE(t IEType, v uint64) *IE {
 	i := New(t, make([]byte, 8))
 	binary.BigEndian.PutUint64(i.Payload, v)
 	return i
 }
 
-func newStringIE(t uint16, v string) *IE {
+func newStringIE(t IEType, v string) *IE {
 	return New(t, []byte(v))
 }
 
-func newFQDNIE(t uint16, v string) *IE {
+func newFQDNIE(t IEType, v string) *IE {
 	return New(t, utils.EncodeFQDN(v))
 }
 
-func newGroupedIE(itype, eid uint16, ies ...*IE) *IE {
+func newGroupedIE(itype IEType, eid uint16, ies ...*IE) *IE {
 	i := NewVendorSpecificIE(itype, eid, make([]byte, 0))
 
 	for _, ie := range ies {

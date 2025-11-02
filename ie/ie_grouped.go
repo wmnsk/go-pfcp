@@ -7,7 +7,7 @@ import "sync"
 // TODO: consider using a slice with utils in slices package introduced in Go 1.21.
 var (
 	mu                  sync.RWMutex
-	defaultGroupedIEMap = map[uint16]bool{
+	defaultGroupedIEMap = map[IEType]bool{
 		CreatePDR:                            true,
 		PDI:                                  true,
 		CreateFAR:                            true,
@@ -96,7 +96,7 @@ var (
 		RedundantTransmissionForwardingParameters:                 true,
 		TransportDelayReporting:                                   true,
 	}
-	isGroupedFun = func(t uint16) bool {
+	isGroupedFun = func(t IEType) bool {
 		mu.RLock()
 		defer mu.RUnlock()
 		_, ok := defaultGroupedIEMap[t]
@@ -105,7 +105,7 @@ var (
 )
 
 // SetIsGroupedFun sets a function to check if an IE is grouped type or not.
-func SetIsGroupedFun(fun func(t uint16) bool) {
+func SetIsGroupedFun(fun func(t IEType) bool) {
 	mu.Lock()
 	defer mu.Unlock()
 	isGroupedFun = fun
@@ -114,7 +114,7 @@ func SetIsGroupedFun(fun func(t uint16) bool) {
 // AddGroupedIEType adds IE type(s) to the defaultGroupedIEMap.
 // This is useful when you want to add new IE types to the defaultGroupedIEMap,
 // e.g., to handle vendor-specific IEs as grouped type.
-func AddGroupedIEType(ts ...uint16) {
+func AddGroupedIEType(ts ...IEType) {
 	mu.Lock()
 	defer mu.Unlock()
 	for _, t := range ts {
@@ -152,7 +152,7 @@ func (i *IE) Add(ies ...*IE) {
 }
 
 // Remove removes an IE looked up by type.
-func (i *IE) Remove(typ uint16) {
+func (i *IE) Remove(typ IEType) {
 	if !i.IsGrouped() {
 		return
 	}
@@ -182,7 +182,7 @@ func (i *IE) Remove(typ uint16) {
 //
 // The program may be slower when calling this method multiple times
 // because this ranges over a ChildIEs each time it is called.
-func (i *IE) FindByType(typ uint16) (*IE, error) {
+func (i *IE) FindByType(typ IEType) (*IE, error) {
 	if !i.IsGrouped() {
 		return nil, ErrInvalidType
 	}
