@@ -307,7 +307,7 @@ type IE struct {
 // New creates a new IE.
 func New(itype IEType, data []byte) *IE {
 	i := &IE{
-		Type:    IEType(itype),
+		Type:    itype,
 		Payload: data,
 	}
 	i.SetLength()
@@ -318,7 +318,7 @@ func New(itype IEType, data []byte) *IE {
 // NewVendorSpecificIE creates a new vendor-specific IE.
 func NewVendorSpecificIE(itype IEType, eid uint16, data []byte) *IE {
 	i := &IE{
-		Type:         IEType(itype),
+		Type:         itype,
 		EnterpriseID: eid,
 		Payload:      data,
 	}

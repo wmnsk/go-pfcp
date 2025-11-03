@@ -99,7 +99,7 @@ var (
 	isGroupedFun = func(t IEType) bool {
 		mu.RLock()
 		defer mu.RUnlock()
-		_, ok := defaultGroupedIEMap[IEType(t)]
+		_, ok := defaultGroupedIEMap[t]
 		return ok
 	}
 )
@@ -118,7 +118,7 @@ func AddGroupedIEType(ts ...IEType) {
 	mu.Lock()
 	defer mu.Unlock()
 	for _, t := range ts {
-		defaultGroupedIEMap[IEType(t)] = true
+		defaultGroupedIEMap[t] = true
 	}
 }
 
@@ -161,7 +161,7 @@ func (i *IE) Remove(typ IEType) {
 	newChildren := make([]*IE, len(i.ChildIEs))
 	idx := 0
 	for _, ie := range i.ChildIEs {
-		if ie.Type == IEType(typ) {
+		if ie.Type == typ {
 			newChildren = newChildren[:len(newChildren)-1]
 			continue
 		}
@@ -188,7 +188,7 @@ func (i *IE) FindByType(typ IEType) (*IE, error) {
 	}
 
 	for _, ie := range i.ChildIEs {
-		if ie.Type == IEType(typ) {
+		if ie.Type == typ {
 			return ie, nil
 		}
 	}
