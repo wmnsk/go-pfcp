@@ -287,7 +287,7 @@ func (m *AssociationUpdateRequest) SEID() uint64 {
 	return m.Header.seid()
 }
 
-// IsRequest returns true if the message is a request.
+// IsRequest reports whether the message is a request.
 func (m *AssociationUpdateRequest) IsRequest() bool {
 	return true
 }

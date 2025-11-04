@@ -217,7 +217,7 @@ func (m *NodeReportRequest) SEID() uint64 {
 	return m.Header.seid()
 }
 
-// IsRequest returns true if the message is a request.
+// IsRequest reports whether the message is a request.
 func (m *NodeReportRequest) IsRequest() bool {
 	return true
 }
