@@ -32,7 +32,7 @@ func NewFailedRuleID(typ uint8, id uint32) *IE {
 		binary.BigEndian.PutUint32(b[1:5], id)
 		return New(FailedRuleID, b)
 	case RuleIDTypeBAR:
-		return New(FailedRuleID, []byte{typ, uint8(id)}) // #nosec G115
+		return New(FailedRuleID, []byte{typ, uint8(id)})
 	default:
 		return New(FailedRuleID, []byte{typ})
 	}
