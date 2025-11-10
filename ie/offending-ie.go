@@ -5,15 +5,19 @@
 package ie
 
 // NewOffendingIE creates a new OffendingIE IE.
-func NewOffendingIE(itype uint16) *IE {
-	return newUint16ValIE(OffendingIE, itype)
+func NewOffendingIE(itype IEType) *IE {
+	return newUint16ValIE(OffendingIE, uint16(itype))
 }
 
-// OffendingIE returns OffendingIE in uint16 if the type of IE matches.
-func (i *IE) OffendingIE() (uint16, error) {
+// OffendingIE returns OffendingIE in IEType if the type of IE matches.
+func (i *IE) OffendingIE() (IEType, error) {
 	if i.Type != OffendingIE {
 		return 0, &InvalidTypeError{Type: i.Type}
 	}
 
-	return i.ValueAsUint16()
+	n, err := i.ValueAsUint16()
+	if err != nil {
+		return 0, err
+	}
+	return IEType(n), nil
 }

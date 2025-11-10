@@ -152,3 +152,8 @@ func (m *AssociationReleaseResponse) MessageTypeName() string {
 func (m *AssociationReleaseResponse) SEID() uint64 {
 	return m.Header.seid()
 }
+
+// IsRequest reports whether the message is a request.
+func (m *AssociationReleaseResponse) IsRequest() bool {
+	return false
+}

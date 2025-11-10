@@ -133,11 +133,6 @@ func TestUint16IEs(t *testing.T) {
 			decoded:     0x1111,
 			decoderFunc: func(i *ie.IE) (uint16, error) { return i.NumberOfReports() },
 		}, {
-			description: "OffendingIE",
-			structured:  ie.NewOffendingIE(ie.Cause),
-			decoded:     ie.Cause,
-			decoderFunc: func(i *ie.IE) (uint16, error) { return i.OffendingIE() },
-		}, {
 			description: "PDRID",
 			structured:  ie.NewPDRID(0xffff),
 			decoded:     0xffff,

@@ -318,3 +318,8 @@ func (m *SessionModificationResponse) MessageTypeName() string {
 func (m *SessionModificationResponse) SEID() uint64 {
 	return m.Header.seid()
 }
+
+// IsRequest reports whether the message is a request.
+func (m *SessionModificationResponse) IsRequest() bool {
+	return false
+}

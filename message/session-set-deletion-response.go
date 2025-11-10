@@ -165,3 +165,8 @@ func (m *SessionSetDeletionResponse) MessageTypeName() string {
 func (m *SessionSetDeletionResponse) SEID() uint64 {
 	return m.Header.seid()
 }
+
+// IsRequest reports whether the message is a request.
+func (m *SessionSetDeletionResponse) IsRequest() bool {
+	return false
+}

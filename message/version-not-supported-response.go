@@ -119,3 +119,8 @@ func (m *VersionNotSupportedResponse) MessageTypeName() string {
 func (m *VersionNotSupportedResponse) SEID() uint64 {
 	return m.Header.seid()
 }
+
+// IsRequest reports whether the message is a request.
+func (m *VersionNotSupportedResponse) IsRequest() bool {
+	return false
+}

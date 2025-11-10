@@ -5,7 +5,7 @@
 package ie
 
 // NewUpdateBAR creates a new UpdateBAR IE.
-func NewUpdateBAR(typ uint16, ies ...*IE) *IE {
+func NewUpdateBAR(typ IEType, ies ...*IE) *IE {
 	return newGroupedIE(typ, 0, ies...)
 }
 

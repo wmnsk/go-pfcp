@@ -24,7 +24,7 @@ var (
 
 // InvalidTypeError indicates the type of IE is invalid.
 type InvalidTypeError struct {
-	Type uint16
+	Type IEType
 }
 
 // Error returns message with the invalid type given.

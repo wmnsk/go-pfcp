@@ -166,3 +166,8 @@ func (m *PFDManagementResponse) MessageTypeName() string {
 func (m *PFDManagementResponse) SEID() uint64 {
 	return m.Header.seid()
 }
+
+// IsRequest reports whether the message is a request.
+func (m *PFDManagementResponse) IsRequest() bool {
+	return false
+}

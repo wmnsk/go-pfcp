@@ -165,3 +165,8 @@ func (m *NodeReportResponse) MessageTypeName() string {
 func (m *NodeReportResponse) SEID() uint64 {
 	return m.Header.seid()
 }
+
+// IsRequest reports whether the message is a request.
+func (m *NodeReportResponse) IsRequest() bool {
+	return false
+}

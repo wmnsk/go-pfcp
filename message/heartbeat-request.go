@@ -164,3 +164,8 @@ func (m *HeartbeatRequest) MessageTypeName() string {
 func (m *HeartbeatRequest) SEID() uint64 {
 	return m.Header.seid()
 }
+
+// IsRequest reports whether the message is a request.
+func (m *HeartbeatRequest) IsRequest() bool {
+	return true
+}

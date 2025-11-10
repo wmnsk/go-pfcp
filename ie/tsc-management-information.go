@@ -5,7 +5,7 @@
 package ie
 
 // NewTSCManagementInformation creates a new TSCManagementInformation IE.
-func NewTSCManagementInformation(typ uint16, ies ...*IE) *IE {
+func NewTSCManagementInformation(typ IEType, ies ...*IE) *IE {
 	return newGroupedIE(typ, 0, ies...)
 }
 
@@ -38,7 +38,7 @@ func (i *IE) TSCManagementInformation() ([]*IE, error) {
 }
 
 // NewPortManagementInformationForTSC creates a new PortManagementInformationForTSC IE.
-func NewPortManagementInformationForTSC(typ uint16, info *IE) *IE {
+func NewPortManagementInformationForTSC(typ IEType, info *IE) *IE {
 	return newGroupedIE(typ, 0, info)
 }
 

@@ -5,7 +5,7 @@
 package ie
 
 // NewUsageReport creates a new UsageReport IE.
-func NewUsageReport(typ uint16, ies ...*IE) *IE {
+func NewUsageReport(typ IEType, ies ...*IE) *IE {
 	return newGroupedIE(typ, 0, ies...)
 }
 
