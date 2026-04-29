@@ -4,15 +4,18 @@
 
 package ie
 
-import "io"
+import (
+	"encoding/binary"
+	"io"
+)
 
 // NewUEIPAddressPoolIdentity creates a new UEIPAddressPoolIdentity IE.
 func NewUEIPAddressPoolIdentity(id string) *IE {
 	l := len([]byte(id))
-	i := New(UEIPAddressPoolIdentity, make([]byte, 1+l))
+	i := New(UEIPAddressPoolIdentity, make([]byte, 2+l))
 
-	i.Payload[0] = uint8(l)
-	copy(i.Payload[1:], id)
+	binary.BigEndian.PutUint16(i.Payload[0:2], uint16(l))
+	copy(i.Payload[2:], id)
 
 	return i
 }
@@ -60,10 +63,14 @@ func (i *IE) UEIPAddressPoolIdentityString() (string, error) {
 		return "", err
 	}
 
-	idlen := int(v[0])
-	if len(v) < idlen+1 {
+	if len(v) < 2 {
 		return "", io.ErrUnexpectedEOF
 	}
 
-	return string(v[1 : idlen+1]), nil
+	idlen := int(binary.BigEndian.Uint16(v[0:2]))
+	if len(v) < idlen+2 {
+		return "", io.ErrUnexpectedEOF
+	}
+
+	return string(v[2 : idlen+2]), nil
 }
