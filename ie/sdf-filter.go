@@ -187,6 +187,9 @@ func (f *SDFFilterFields) UnmarshalBinary(b []byte) error {
 			return io.ErrUnexpectedEOF
 		}
 		f.FDLength = binary.BigEndian.Uint16(b[offset : offset+2])
+		if len(b) < offset+2+int(f.FDLength) {
+			return io.ErrUnexpectedEOF
+		}
 		f.FlowDescription = string(b[offset+2 : offset+2+int(f.FDLength)])
 		offset += 2 + int(f.FDLength)
 	}

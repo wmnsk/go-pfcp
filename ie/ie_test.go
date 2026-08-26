@@ -3654,3 +3654,11 @@ func TestMalformedIEs(t *testing.T) {
 		t.Fatal("Expected EOF error when parsing too short IE, but got", err, got)
 	}
 }
+
+func TestSDFFilterFieldsTruncatedFlowDescription(t *testing.T) {
+	// FD flag set, FDLength claims 0xfffe bytes but only a few follow.
+	serialized := []byte{0x01, 0x00, 0xff, 0xfe, 0x61, 0x62}
+	if _, err := ie.ParseSDFFilterFields(serialized); err != io.ErrUnexpectedEOF {
+		t.Fatal("Expected EOF error for truncated Flow-Description, but got", err)
+	}
+}
