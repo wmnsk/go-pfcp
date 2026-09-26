@@ -5,6 +5,7 @@
 package ie
 
 import (
+	"bytes"
 	"io"
 	"net"
 )
@@ -113,7 +114,7 @@ func (f *MACAddressesDetectedFields) UnmarshalBinary(b []byte) error {
 	f.NumberOfMACAddresses = b[0]
 	offset := 1
 
-	for i := 0; i <= int(f.NumberOfMACAddresses); i++ {
+	for range int(f.NumberOfMACAddresses) {
 		if l < offset+6 {
 			return io.ErrUnexpectedEOF
 		}
@@ -121,25 +122,31 @@ func (f *MACAddressesDetectedFields) UnmarshalBinary(b []byte) error {
 		offset += 6
 	}
 
-	if l < offset {
-		return io.ErrUnexpectedEOF
+	// C-TAG and S-TAG came with TS 29.244 V16.3.0; earlier peers omit them.
+	if l == offset {
+		return nil
 	}
 	f.CTAGLength = b[offset]
-
+	offset++
 	if l < offset+int(f.CTAGLength) {
 		return io.ErrUnexpectedEOF
 	}
-	copy(f.CTAG, b[offset:offset+int(f.CTAGLength)])
+	if f.CTAGLength > 0 {
+		f.CTAG = bytes.Clone(b[offset : offset+int(f.CTAGLength)])
+	}
+	offset += int(f.CTAGLength)
 
-	if l < offset {
-		return io.ErrUnexpectedEOF
+	if l == offset {
+		return nil
 	}
 	f.STAGLength = b[offset]
-
+	offset++
 	if l < offset+int(f.STAGLength) {
 		return io.ErrUnexpectedEOF
 	}
-	copy(f.STAG, b[offset:offset+int(f.STAGLength)])
+	if f.STAGLength > 0 {
+		f.STAG = bytes.Clone(b[offset : offset+int(f.STAGLength)])
+	}
 
 	return nil
 }
