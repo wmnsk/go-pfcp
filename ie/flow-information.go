@@ -90,8 +90,11 @@ func (i *IE) FlowDirection() (uint8, error) {
 func (i *IE) FlowDescription() (string, error) {
 	switch i.Type {
 	case FlowInformation:
-		l := binary.BigEndian.Uint16(i.Payload[1:3])
-		if len(i.Payload) < int(l) {
+		if len(i.Payload) < 3 {
+			return "", io.ErrUnexpectedEOF
+		}
+		l := int(binary.BigEndian.Uint16(i.Payload[1:3]))
+		if len(i.Payload) < 3+l {
 			return "", io.ErrUnexpectedEOF
 		}
 
