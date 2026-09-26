@@ -121,9 +121,12 @@ func (i *IE) CSIDs() ([]uint16, error) {
 		default:
 			return nil, ErrMalformed
 		}
+		if len(i.Payload) < offset {
+			return nil, io.ErrUnexpectedEOF
+		}
 
 		var csids []uint16
-		for offset+2 > len(i.Payload) {
+		for offset+2 <= len(i.Payload) {
 			csids = append(csids, binary.BigEndian.Uint16(i.Payload[offset:offset+2]))
 			offset += 2
 		}
