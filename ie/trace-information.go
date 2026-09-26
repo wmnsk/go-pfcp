@@ -5,6 +5,7 @@
 package ie
 
 import (
+	"bytes"
 	"io"
 	"net"
 
@@ -99,7 +100,7 @@ func (f *TraceInformationFields) UnmarshalBinary(b []byte) error {
 	f.TraceID = string(b[3:6])
 	offset := 6
 
-	if l < offset {
+	if l < offset+1 {
 		return io.ErrUnexpectedEOF
 	}
 	f.TriggeringEventsLength = b[offset]
@@ -108,16 +109,18 @@ func (f *TraceInformationFields) UnmarshalBinary(b []byte) error {
 	if l < offset+int(f.TriggeringEventsLength) {
 		return io.ErrUnexpectedEOF
 	}
-	copy(f.TriggeringEvents, b[offset:offset+int(f.TriggeringEventsLength)])
+	if f.TriggeringEventsLength > 0 {
+		f.TriggeringEvents = bytes.Clone(b[offset : offset+int(f.TriggeringEventsLength)])
+	}
 	offset += int(f.TriggeringEventsLength)
 
-	if l < offset {
+	if l < offset+1 {
 		return io.ErrUnexpectedEOF
 	}
 	f.SessionTraceDepth = b[offset]
 	offset++
 
-	if l < offset {
+	if l < offset+1 {
 		return io.ErrUnexpectedEOF
 	}
 	f.ListOfInterfacesLength = b[offset]
@@ -126,10 +129,12 @@ func (f *TraceInformationFields) UnmarshalBinary(b []byte) error {
 	if l < offset+int(f.ListOfInterfacesLength) {
 		return io.ErrUnexpectedEOF
 	}
-	copy(f.ListOfInterfaces, b[offset:offset+int(f.ListOfInterfacesLength)])
+	if f.ListOfInterfacesLength > 0 {
+		f.ListOfInterfaces = bytes.Clone(b[offset : offset+int(f.ListOfInterfacesLength)])
+	}
 	offset += int(f.ListOfInterfacesLength)
 
-	if l < offset {
+	if l < offset+1 {
 		return io.ErrUnexpectedEOF
 	}
 	f.IPAddressOfTraceCollectionEntityLength = b[offset]
@@ -138,7 +143,9 @@ func (f *TraceInformationFields) UnmarshalBinary(b []byte) error {
 	if l < offset+int(f.IPAddressOfTraceCollectionEntityLength) {
 		return io.ErrUnexpectedEOF
 	}
-	copy(f.IPAddressOfTraceCollectionEntity, b[offset:offset+int(f.IPAddressOfTraceCollectionEntityLength)])
+	if f.IPAddressOfTraceCollectionEntityLength > 0 {
+		f.IPAddressOfTraceCollectionEntity = net.IP(bytes.Clone(b[offset : offset+int(f.IPAddressOfTraceCollectionEntityLength)]))
+	}
 
 	return nil
 }
@@ -167,7 +174,7 @@ func (f *TraceInformationFields) MarshalTo(b []byte) error {
 	copy(b[3:6], f.TraceID)
 	offset := 6
 
-	if l < offset {
+	if l < offset+1 {
 		return io.ErrUnexpectedEOF
 	}
 	b[offset] = f.TriggeringEventsLength
@@ -179,13 +186,13 @@ func (f *TraceInformationFields) MarshalTo(b []byte) error {
 	copy(b[offset:offset+int(f.TriggeringEventsLength)], f.TriggeringEvents)
 	offset += int(f.TriggeringEventsLength)
 
-	if l < offset {
+	if l < offset+1 {
 		return io.ErrUnexpectedEOF
 	}
 	b[offset] = f.SessionTraceDepth
 	offset++
 
-	if l < offset {
+	if l < offset+1 {
 		return io.ErrUnexpectedEOF
 	}
 	b[offset] = f.ListOfInterfacesLength
@@ -197,7 +204,7 @@ func (f *TraceInformationFields) MarshalTo(b []byte) error {
 	copy(b[offset:offset+int(f.ListOfInterfacesLength)], f.ListOfInterfaces)
 	offset += int(f.ListOfInterfacesLength)
 
-	if l < offset {
+	if l < offset+1 {
 		return io.ErrUnexpectedEOF
 	}
 	b[offset] = f.IPAddressOfTraceCollectionEntityLength
