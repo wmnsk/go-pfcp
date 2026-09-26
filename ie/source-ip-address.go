@@ -175,7 +175,7 @@ func (f *SourceIPAddressFields) UnmarshalBinary(b []byte) error {
 	}
 
 	if f.HasMPL() {
-		if l < offset {
+		if l < offset+1 {
 			return io.ErrUnexpectedEOF
 		}
 		f.MaskPrefixLength = b[offset]
@@ -220,7 +220,7 @@ func (f *SourceIPAddressFields) MarshalTo(b []byte) error {
 	}
 
 	if f.HasMPL() {
-		if l < offset {
+		if l < offset+1 {
 			return io.ErrUnexpectedEOF
 		}
 		b[offset] = f.MaskPrefixLength
