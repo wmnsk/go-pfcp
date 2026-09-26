@@ -8,6 +8,8 @@ import (
 	"encoding/binary"
 	"io"
 	"net"
+
+	"github.com/wmnsk/go-pfcp/internal/utils"
 )
 
 // NewOuterHeaderCreation creates a new OuterHeaderCreation IE.
@@ -394,19 +396,19 @@ func (f *OuterHeaderCreationFields) UnmarshalBinary(b []byte) error {
 		offset += 2
 	}
 
-	if has7thBit(uint8(f.OuterHeaderCreationDescription & 0xff)) {
+	if has7thBit(oct5) {
 		if l < offset+3 {
 			return io.ErrUnexpectedEOF
 		}
-		f.CTag = binary.BigEndian.Uint32(b[offset : offset+3])
+		f.CTag = utils.Uint24To32(b[offset : offset+3])
 		offset += 3
 	}
 
-	if has8thBit(uint8(f.OuterHeaderCreationDescription & 0xff)) {
+	if has8thBit(oct5) {
 		if l < offset+3 {
 			return io.ErrUnexpectedEOF
 		}
-		f.STag = binary.BigEndian.Uint32(b[offset : offset+3])
+		f.STag = utils.Uint24To32(b[offset : offset+3])
 	}
 
 	return nil
