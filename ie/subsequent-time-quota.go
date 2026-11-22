@@ -6,6 +6,7 @@ package ie
 
 import (
 	"encoding/binary"
+	"io"
 	"time"
 )
 
@@ -20,6 +21,9 @@ func NewSubsequentTimeQuota(period time.Duration) *IE {
 func (i *IE) SubsequentTimeQuota() (time.Duration, error) {
 	switch i.Type {
 	case SubsequentTimeQuota:
+		if len(i.Payload) < 4 {
+			return 0, io.ErrUnexpectedEOF
+		}
 		return time.Duration(binary.BigEndian.Uint32(i.Payload[0:4])) * time.Second, nil
 	case CreateURR:
 		ies, err := i.CreateURR()

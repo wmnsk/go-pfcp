@@ -248,55 +248,73 @@ func (f *PFDContentsFields) UnmarshalBinary(b []byte) error {
 	offset := 2 // 2nd octet is spare
 
 	if f.HasFD() {
-		if len(b[offset:]) < offset+2+int(f.FDLength) {
+		if l < offset+2 {
 			return io.ErrUnexpectedEOF
 		}
 		f.FDLength = binary.BigEndian.Uint16(b[offset : offset+2])
+		if l < offset+2+int(f.FDLength) {
+			return io.ErrUnexpectedEOF
+		}
 		f.FlowDescription = string(b[offset+2 : offset+2+int(f.FDLength)])
 		offset += 2 + int(f.FDLength)
 	}
 
 	if f.HasURL() {
-		if len(b[offset:]) < offset+2+int(f.URLLength) {
+		if l < offset+2 {
 			return io.ErrUnexpectedEOF
 		}
 		f.URLLength = binary.BigEndian.Uint16(b[offset : offset+2])
+		if l < offset+2+int(f.URLLength) {
+			return io.ErrUnexpectedEOF
+		}
 		f.URL = string(b[offset+2 : offset+2+int(f.URLLength)])
 		offset += 2 + int(f.URLLength)
 	}
 
 	if f.HasDN() {
-		if len(b[offset:]) < offset+2+int(f.DNLength) {
+		if l < offset+2 {
 			return io.ErrUnexpectedEOF
 		}
 		f.DNLength = binary.BigEndian.Uint16(b[offset : offset+2])
+		if l < offset+2+int(f.DNLength) {
+			return io.ErrUnexpectedEOF
+		}
 		f.DomainName = string(b[offset+2 : offset+2+int(f.DNLength)])
 		offset += 2 + int(f.DNLength)
 	}
 
 	if f.HasCP() {
-		if len(b[offset:]) < offset+2+int(f.CPLength) {
+		if l < offset+2 {
 			return io.ErrUnexpectedEOF
 		}
 		f.CPLength = binary.BigEndian.Uint16(b[offset : offset+2])
+		if l < offset+2+int(f.CPLength) {
+			return io.ErrUnexpectedEOF
+		}
 		f.CustomPFDContent = string(b[offset+2 : offset+2+int(f.CPLength)])
 		offset += 2 + int(f.CPLength)
 	}
 
 	if f.HasDNP() {
-		if len(b[offset:]) < offset+2+int(f.DNPLength) {
+		if l < offset+2 {
 			return io.ErrUnexpectedEOF
 		}
 		f.DNPLength = binary.BigEndian.Uint16(b[offset : offset+2])
+		if l < offset+2+int(f.DNPLength) {
+			return io.ErrUnexpectedEOF
+		}
 		f.DomainNameProtocol = string(b[offset+2 : offset+2+int(f.DNPLength)])
 		offset += 2 + int(f.DNPLength)
 	}
 
 	if f.HasAFD() {
-		if len(b[offset:]) < 2+int(f.AFDLength) {
+		if l < offset+2 {
 			return io.ErrUnexpectedEOF
 		}
 		f.AFDLength = binary.BigEndian.Uint16(b[offset : offset+2])
+		if l < offset+2+int(f.AFDLength) {
+			return io.ErrUnexpectedEOF
+		}
 
 		p := b[offset+2 : offset+2+int(f.AFDLength)]
 		s := 0
@@ -317,10 +335,13 @@ func (f *PFDContentsFields) UnmarshalBinary(b []byte) error {
 	}
 
 	if f.HasAURL() {
-		if len(b[offset:]) < 2+int(f.AURLLength) {
+		if l < offset+2 {
 			return io.ErrUnexpectedEOF
 		}
 		f.AURLLength = binary.BigEndian.Uint16(b[offset : offset+2])
+		if l < offset+2+int(f.AURLLength) {
+			return io.ErrUnexpectedEOF
+		}
 		offset += 2
 
 		p := b[offset : offset+int(f.AURLLength)]
@@ -343,10 +364,13 @@ func (f *PFDContentsFields) UnmarshalBinary(b []byte) error {
 	}
 
 	if f.HasADNP() {
-		if len(b[offset:]) < 2+int(f.ADNPLength) {
+		if l < offset+2 {
 			return io.ErrUnexpectedEOF
 		}
 		f.ADNPLength = binary.BigEndian.Uint16(b[offset : offset+2])
+		if l < offset+2+int(f.ADNPLength) {
+			return io.ErrUnexpectedEOF
+		}
 		offset += 2
 
 		p := b[offset : offset+int(f.ADNPLength)]

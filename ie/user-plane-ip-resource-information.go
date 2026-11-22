@@ -36,7 +36,7 @@ func (i *IE) UserPlaneIPResourceInformation() (*UserPlaneIPResourceInformationFi
 
 // TEIDRI returns the number of bits that are used to partition the TEID range.
 func (i *IE) TEIDRI() int {
-	if i.Type != UserPlaneIPResourceInformation {
+	if i.Type != UserPlaneIPResourceInformation || len(i.Payload) < 1 {
 		return 0
 	}
 
@@ -148,20 +148,25 @@ func (f *UserPlaneIPResourceInformationFields) UnmarshalBinary(b []byte) error {
 	}
 
 	if has6thBit(f.Flags) {
+		// The Network Instance runs to the end, or to the Source Interface octet.
 		n := l
 		if has7thBit(f.Flags) {
-			f.SourceInterface = b[n] & 0x0f
 			n--
 		}
-
-		if l < offset+n {
+		if n < offset {
 			return io.ErrUnexpectedEOF
 		}
 		f.NetworkInstance = string(b[offset:n])
+		if has7thBit(f.Flags) {
+			f.SourceInterface = b[n] & 0x0f
+		}
 		return nil
 	}
 
 	if has7thBit(f.Flags) {
+		if l < offset+1 {
+			return io.ErrUnexpectedEOF
+		}
 		f.SourceInterface = b[offset] & 0x0f
 	}
 

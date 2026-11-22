@@ -17,11 +17,19 @@ func (i *IE) QFI() (uint8, error) {
 	case QFI:
 		return i.ValueAsUint8()
 	case DownlinkDataServiceInformation:
-		if len(i.Payload) < 2 {
+		if len(i.Payload) < 1 {
+			return 0, io.ErrUnexpectedEOF
+		}
+		// The QFI follows the PPI octet only when PPI is present.
+		offset := 1
+		if has1stBit(i.Payload[0]) {
+			offset++
+		}
+		if len(i.Payload) <= offset {
 			return 0, io.ErrUnexpectedEOF
 		}
 
-		return i.Payload[2], nil
+		return i.Payload[offset], nil
 	case CreateQER:
 		ies, err := i.CreateQER()
 		if err != nil {

@@ -182,7 +182,7 @@ func (f *RemoteGTPUPeerFields) UnmarshalBinary(b []byte) error {
 		f.DILength = binary.BigEndian.Uint16(b[offset : offset+2])
 		offset += 2
 
-		if l < offset+int(f.DILength) {
+		if f.DILength == 0 || l < offset+int(f.DILength) {
 			return io.ErrUnexpectedEOF
 		}
 		f.DestinationInterface = b[offset]

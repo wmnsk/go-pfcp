@@ -25,6 +25,9 @@ func NewTSNBridgeID(mac net.HardwareAddr) *IE {
 func (i *IE) HasMAC() bool {
 	switch i.Type {
 	case TSNBridgeID:
+		if len(i.Payload) < 1 {
+			return false
+		}
 		return has1stBit(i.Payload[0])
 	default:
 		return false
